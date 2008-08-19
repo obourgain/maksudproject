@@ -5,6 +5,7 @@
 import sys, string
 from xml.dom import minidom, Node
 
+
 try:
     import pygtk
     pygtk.require("2.0")
@@ -42,7 +43,7 @@ class XMLTree:
         #self.treestore.append(howw,['what'])
            
         outFile = sys.stdout
-        doc = minidom.parse('binary.xml')
+        doc = minidom.parse('DPF.xml')
         rootNode = doc.documentElement
         level = 0
         self.walk(rootNode, outFile, None)
@@ -54,8 +55,8 @@ class XMLTree:
                 # Write out the element name.
                 children = self.treestore.append(level,[node.nodeName])
                 # printLevel(outFile, level)
-                
-                outFile.write('Element: %s\n' % node.nodeName)
+
+                ##outFile.write('Element: %s\n' % node.nodeName)
                 # Write out the attributes.
                 attrs = node.attributes                             # [2]
                 for attrName in attrs.keys():
@@ -63,8 +64,7 @@ class XMLTree:
                     attrValue = attrNode.nodeValue
                     #self.treestore.append(children, [attrName])
                     #printLevel(outFile, level + 2)
-                    outFile.write('Attribute -- Name: %s  Value: %s\n' % \
-                        (attrName, attrValue))
+                    ##outFile.write('Attribute -- Name: %s  Value: %s\n' % (attrName, attrValue))
                 # Walk over any text nodes in the current node.
                 content = []                                        # [3]
                 for child in node.childNodes:
@@ -73,9 +73,9 @@ class XMLTree:
                 if content:
                     strContent = string.join(content)
                     #printLevel(outFile, level)
-                    outFile.write('Content: "')
-                    outFile.write(strContent)
-                    outFile.write('"\n')
+                    ##outFile.write('Content: "')
+                    ##outFile.write(strContent)
+                    ##outFile.write('"\n')
                 # Walk the child nodes.
                 children
                 self.walk(node, outFile, children)
@@ -92,6 +92,6 @@ class XMLTree:
         return False
     
 if __name__ == "__main__":
-	print "Hello World!"
-    #hwg = XMLTree()
+    print "Hello World!"
+    hwg = XMLTree()
     gtk.main()
