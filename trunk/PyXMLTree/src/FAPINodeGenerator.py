@@ -9,11 +9,8 @@ class FAPINodeGenerator:
         self.treestore = tree
         pass
         
-    def generate(self, fout):
-        #fout.write(self.handleApi())
-        
+    def generate(self):
         self.handleApi()
-        
         pass
 
     def handleApi(self):
@@ -22,105 +19,73 @@ class FAPINodeGenerator:
         #Get first "api" node
         api = self.fapiDef.getElementsByTagName("api")[0]
         self.apiName = api.getAttribute("name")
+        present = self.treestore.append(None, [self.apiName])
         #now create the nodes
         for node in api.childNodes:
             if node.nodeType == node.ELEMENT_NODE:
                 if (node.nodeName == "preamble"):
                     pass
-                    #ignore
-                    #preamble = self.handlePreamble(node)
                 elif (node.nodeName == "section"):
-                    #sections = sections + self.handleSection(node)
-                    self.handleSection(node)
+                    children = self.treestore.append(present, [node.nodeName])
+                    self.handleSection(node, children)
                 elif node.nodeName == "optional":
-                    #sections = sections + self.handleOptionalTop(node)
-                    self.handleOptionalTop(node)
+                    children = self.treestore.append(present, [node.nodeName])
+                    self.handleOptionalTop(node, children)
                 elif node.nodeName == "oem":
-                    #sections = sections + self.handleOemTop(node)
-                    self.handleOemTop(node)
+                    children = self.treestore.append(present, [node.nodeName])
+                    self.handleOemTop(node, children)
                 else:
-                    self.handleElem(node, ":")
-                    #sections = sections + self.handleElem(node, ELEM_SEPAR)
+                    children = self.treestore.append(present, [node.nodeName])
+                    self.handleElem(node, ":", children)
                     pass
                 pass
             pass
-        #result = preamble + "\n"
-        #result = result + includes + "\n"
-        #result = result + self.declarationsFront() + "\n"
-        #result = result + sections + "\n"
-        #result = result + self.declarationsBack() + "\n"
-        #result = result + self.generateOptionalFuncsDecls()
-        #return result
 
-    def declarationsFront(self):
-        #decls = ""
-        #decls = decls + "/*****************************************************/\n"
-        #decls = decls + "/*   DO NOT TOUCH                                    */\n"
-        #decls = decls + "/*   THIS FILE IS AUTOMAGICALLY GENERATED            */\n"
-        #decls = decls + "/*****************************************************/\n"
-        #decls = decls + "\n"
-        #decls = decls + "#ifndef __%s_debug_h__\n" % self.apiName
-        #decls = decls + "#define __%s_debug_h__\n\n" % self.apiName
-        #decls = decls + "#include \"fapi/%s.h\"\n" % self.apiName
-        #decls = decls + "#include \"../include/npfdebug.h\"\n\n\n"
-        #decls = decls + "#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n"
-        #return decls
-        pass
-
-    def declarationsBack(self):
-        #decls = ""
-        #decls = decls + "\n#ifdef __cplusplus\n}//extern \"C\"\n#endif\n\n"
-        #return decls
-        pass
-
-    def handlePreamble(self, node):
-        #preamble = cmntHeadLine
-        #preamble = preamble + getText(node) + "\n\n";
-        #preamble = preamble + cmntFootLine
-        #return preamble
-        pass
-
-    def handleSection(self, node):
+    def handleSection(self, node, present):
         section = ""
         for n in node.childNodes:
             if n.nodeType == n.ELEMENT_NODE:
                 if (n.nodeName == "section"):
-                    self.handleSection(n)
+                    children = self.treestore.append(present, [n.nodeName])
+                    self.handleSection(n, children)
                 elif node.nodeName == "optional":
-                    self.handleOptionalTop(n)
+                    children = self.treestore.append(present, [n.nodeName])
+                    self.handleOptionalTop(n, children)
                 elif node.nodeName == "oem":
-                    self.handleOemTop(n)
+                    children = self.treestore.append(present, [n.nodeName])
+                    self.handleOemTop(n, children)
                 else:
-                    self.handleElem(n, "")
+                    children = self.treestore.append(present, [n.nodeName])
+                    self.handleElem(n, "", children)
                     pass
                 pass
             pass
         return section
             
 
-    def handleElem(self, node, embed):
+    def handleElem(self, node, embed, present):
         elem = ""
         if node.nodeType == node.ELEMENT_NODE:
             if (node.nodeName == "func"):
-                elem = self.handleFunc(node)
+                self.handleFunc(node, present)
             elif (node.nodeName == "functype"):
-                elem = self.handleFuncType(node)
+                self.handleFuncType(node, present)
             elif node.nodeName == "section":
-                elem = self.handleSection(node)
+                self.handleSection(node, present)
             elif node.nodeName == "optional":
-                elem = self.handleOptionlTop(node)
+                self.handleOptionlTop(node, present)
             elif (node.nodeName == "struct"):
                 self.structs = self.structs + [node]
             elif (node.nodeName == "enum"):
                 self.enums = self.enums + [node]
             elif node.nodeName == "oem":
-                elem = self.handleOemTop(node)
+                elem = self.handleOemTop(node, present)
                 pass
             pass
         return elem
 
 
-    def handleOptionalTop(self, node):
+    def handleOptionalTop(self, node, present):
         name = node.getAttribute("name")
         sections = "#ifdef %s" % name
         for n in node.childNodes:
@@ -136,7 +101,7 @@ class FAPINodeGenerator:
         endif = "#endif /* %s */" % name 
         return sections + endif
 
-    def handleOemTop(self, node):
+    def handleOemTop(self, node, present):
         if string.find(node.getAttribute("name"), self.oem) == -1:
             return ""
 
@@ -152,24 +117,24 @@ class FAPINodeGenerator:
             pass
         return sections
 
-    def handleFunc(self, node):
+    def handleFunc(self, node, present):
         if node.hasAttribute("impl") and node.getAttribute("impl") == "no":
             return ""
 
         name = node.getAttribute("name")
-        result = self.handleFuncGeneral(node, name, "NPF_DEBUG_PROTOTYPE(" + name + ")")
+        result = self.handleFuncGeneral(node, name, "NPF_DEBUG_PROTOTYPE(" + name + ")", None)
         self.funcs = self.funcs + [name]
         return result
 
-    def handleFuncType(self, node):
+    def handleFuncType(self, node, present):
         if node.hasAttribute("impl") and node.getAttribute("impl") == "no":
             return ""
 
         name = node.getAttribute("name")[:-2] + "_Debug"
-        result = self.handleFuncGeneral(node, name, name)
+        result = self.handleFuncGeneral(node, name, name, present)
         return result
 
-    def handleFuncGeneral(self, node, name, funcName):
+    def handleFuncGeneral(self, node, name, funcName, present):
         
         type = node.getAttribute("type")
         if type == "string":
@@ -220,7 +185,7 @@ class FAPINodeGenerator:
 
         return fDeclar 
 
-    def generateOptionalFuncsDecls(self):
+    def generateOptionalFuncsDecls(self, present):
 
         result = "#if NPF_DEBUG_FLAG\n"
     

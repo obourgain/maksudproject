@@ -41,10 +41,14 @@ class XMLTree:
            
         #outFile = sys.stdout
         doc = minidom.parse('xml/fapi/npf_f_wmax_bscp.xml')
-        #rootNode = doc.documentElement
+        rootNode = doc.documentElement
+        
         #self.walk(rootNode, None)
         
+        
+        
         aaa = FAPINodeGenerator(doc,"generic", self.treestore)
+        aaa.generate()
         
         
     def walk(self, parent, present):                               # [1]
