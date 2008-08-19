@@ -92,5 +92,6 @@ class XMLTree:
         return False
     
 if __name__ == "__main__":
-    hwg = XMLTree()
+	print "Hello World!"
+    #hwg = XMLTree()
     gtk.main()
