@@ -40,15 +40,14 @@ class XMLTree:
         self.treeView.set_model(self.treestore) 
            
         #outFile = sys.stdout
-        doc = minidom.parse('xml/fapi/npf_f_wmax_bscp.xml')
+        #doc = minidom.parse('xml/fapi/npf_f_wmax_bscp.xml')
+        doc = minidom.parse('DPF.xml')
         rootNode = doc.documentElement
         
-        #self.walk(rootNode, None)
-        
-        
-        
-        aaa = FAPINodeGenerator(doc,"generic", self.treestore)
-        aaa.generate()
+        self.walk(rootNode, None)
+
+        #aaa = FAPINodeGenerator(doc,"generic", self.treestore)
+        #aaa.generate()
         
         
     def walk(self, parent, present):                               # [1]
@@ -56,19 +55,25 @@ class XMLTree:
             if node.nodeType == Node.ELEMENT_NODE:
                 ## Write out the element name.
                 ## Defer till Getting Node Attributes
-                ##children = self.treestore.append(present,[node.nodeName])
+                #children = self.treestore.append(present,[node.nodeName])
 
                 ##outFile.write('Element: %s\n' % node.nodeName)
                 ## Write out the attributes.
+                xmls = ''
                 attrs = node.attributes                             # [2]
                 for attrName in attrs.keys():
                     attrNode = attrs.get(attrName)
                     attrValue = attrNode.nodeValue
-                    #self.treestore.append(children, [attrName])
+                    #xmls += attrName.encode('ascii') + " " + attrValue.encode('ascii')    
+                    #attrTree = attrName, attrValue
+                    #self.treestore.append(children, [attrTree])
                     #printLevel(outFile, level + 2)
                     ##outFile.write('Attribute -- Name: %s  Value: %s\n' % (attrName, attrValue))
                     
-                children = self.treestore.append(present, [node.nodeName])
+                    
+                
+                xmls = node.attributes['name'].nodeValue + " " + node.attributes['type'].nodeValue + " " + node.attributes['length'].nodeValue + " " + node.attributes['nwg'].nodeValue     
+                children = self.treestore.append(present, [xmls])
                 #children = self.treestore.append(present, [attrs.get("name").nodeValue])
                 # Walk over any text nodes in the current node.
                 content = []                                        # [3]
@@ -82,7 +87,6 @@ class XMLTree:
                     ##outFile.write(strContent)
                     ##outFile.write('"\n')
                 # Walk the child nodes.
-                children
                 self.walk(node, children)
 
     def AddWineListColumn(self, title, columnId):      
@@ -94,10 +98,6 @@ class XMLTree:
     def delete_event(self, widget, event, data=None):
         gtk.main_quit()
         return False
-
-
-
-
     
 if __name__ == "__main__":
     hwg = XMLTree()
