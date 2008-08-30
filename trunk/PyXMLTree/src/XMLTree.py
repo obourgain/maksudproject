@@ -40,14 +40,14 @@ class XMLTree:
         self.treeView.set_model(self.treestore) 
            
         #outFile = sys.stdout
-        #doc = minidom.parse('xml/fapi/npf_f_wmax_bscp.xml')
-        doc = minidom.parse('DPF.xml')
-        rootNode = doc.documentElement
+        doc = minidom.parse('xml/fapi/npf_f_wmax_bscp.xml')
+        #doc = minidom.parse('DPF.xml')
+        #rootNode = doc.documentElement
         
-        self.walk(rootNode, None)
+        #self.walk(rootNode, None)
 
-        #aaa = FAPINodeGenerator(doc,"generic", self.treestore)
-        #aaa.generate()
+        aaa = FAPINodeGenerator(doc,"generic", self.treestore)
+        aaa.generate()
         
         
     def walk(self, parent, present):                               # [1]
