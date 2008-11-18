@@ -23,9 +23,11 @@ class TLVViewer:
     def __init__(self):
         self.wTree = gtk.glade.XML(glade_file, 'MainWindow')
         dic = {'on_MainWindow_destroy' : self.quit,
-               'on_buttonParse_clicked' : self.parsePayload,
-              'on_buttonExit_clicked' : self.quit,
-              'on_buttonClear_clicked' : self.clearTlvTree,
+               'on_tbParse_clicked' : self.parsePayload,
+              'on_tbClearTree_clicked' : self.clearTlvTree,
+              #'on_tbRemove_clicked' : self.clearTlvTree,
+              'on_tbClearAll_clicked' : self.clearAll,
+              'on_tbQuit_clicked' : self.quit,
             }
         self.wTree.signal_autoconnect (dic)
         #setup the text view to act as a log window
@@ -55,6 +57,8 @@ class TLVViewer:
         self.tlvTree.set_model(self.treestore)
 
         #children = self.treestore.append(None, ['Hi', 'There'])
+        
+        self.tlvIndex = 1
 
         
         self.childName = [None,
@@ -773,7 +777,7 @@ class TLVViewer:
                     0,
                     0,
                     0,
-                    1,
+                    0,##
                     0,
                     1,
                     0,
@@ -885,18 +889,28 @@ class TLVViewer:
         """Handles the 'destroy' signal of the window."""
         gtk.main_quit()
         sys.exit(1)
+    def removeFromTree(self, obj, data=None):
+        #self.treestore.g
+        pass
         
     def clearTlvTree(self, obj, data=None):
+        self.treestore.clear()
+        pass
+    
+    def clearAll(self, obj, data=None):
         self.textBuff.set_text("")
         self.treestore.clear()
         pass
+
     def parsePayload(self, obj, data=None):
         start, end = self.textBuff.get_bounds()
         text = self.textBuff.get_text(start, end)
         p = re.compile(r'\W+')
         s = p.split(text)
+        
         if len(s) > 1:
-            self.CreateChildNode(None, s, 0, len(s))
+            node = self.treestore.append(None, ["Tree #"+`self.tlvIndex`, "", "", ""])
+            self.CreateChildNode(node, s, 0, len(s))
         pass
     
     def CreateChildNode(self, parent, a, istart, iend):
