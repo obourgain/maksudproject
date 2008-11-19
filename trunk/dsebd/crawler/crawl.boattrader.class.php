@@ -1,5 +1,4 @@
 <?php
-
 require_once (dirname(__FILE__) . "/regexwebcrawler.class.php");
 require_once (dirname(__FILE__) . "/webutility.class.php");
 
