@@ -26,6 +26,10 @@ class CrawlBoattrader
     
     function processABoatInfo($url, $result, $index)
     {       
+    	/**
+    	 * Insert into Searches Database
+    	 */ 
+   
         $this->regexWeb->setParseData($result);
 
         echo $this->regexWeb->parseRule("Class").", ";
@@ -44,6 +48,10 @@ class CrawlBoattrader
     
     function processCrawl($baseUrl)
     {
+    	$this->cleanup();
+    	
+    	$id = $_SESSION["id"];
+    	$mode = $_SESSION["mode"];
         $j = 0;
         $url = $baseUrl;
         while ($url != "")
@@ -66,6 +74,61 @@ class CrawlBoattrader
             }
         }
         echo "Finished Processing...\n";
+    }
+    
+    function collectAllLinks($baseUrl)
+    {
+        $j = 0;
+        $url = $baseUrl;
+        while ($url != "")
+        {
+            echo "Collecting Search Results... Page #" . (++$j) . "...\n";
+            
+            $result = WebUtility::getHttpContent($url);
+            if($result==null)
+                return;
+            $this->regexWeb->setParseData($result);
+                                                      
+            $mc = $this->regexWeb->parseRuleArray("Search");
+            
+            $url = "http://www.boattrader.com" . $this->regexWeb->parseRule("Next");
+            /**
+             * Insert into PendingSearches
+             */
+            
+            for ($i = 0; $i < count($mc)-24; $i++)
+            {
+            	/**
+            	 * Insert into PendingUrls 
+            	 */
+                echo "Collecting #".($i+1)." :" . $mc[$i]."\n";
+                $itemUrl = "http://www.boattrader.com" . $mc[$i];
+                //$dataResult = WebUtility::getHttpContent($itemUrl);
+                //$this->processABoatInfo($itemUrl, $dataResult, ($j-1)*25+$i);
+            }
+        }
+        echo "Finished Processing...\n";    	
+    }
+    
+    function willCancel($id)
+    {
+    	$time = 0;	//get time for the id in database
+   		if($time < (time()-600))
+    	{
+    		return true;
+    	} 
+    	return false;
+    }
+    
+    function cleanup()
+    {
+    	
+    }
+    
+    function getSearchId()
+    {
+    	if(isset($_SESSION["sid"]))
+    	
     }
 }
 
