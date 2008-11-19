@@ -1,6 +1,6 @@
 <?php
-require_once (dirname(__FILE__) . "../regexwebcrawler.class.php");
-require_once (dirname(__FILE__) . "../util/webutility.class.php");
+require_once ("../util/regexwebcrawler.class.php");
+require_once ("../util/webutility.class.php");
 
 class MacImdb {
 	var $imdbsite;

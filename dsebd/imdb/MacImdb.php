@@ -1,6 +1,6 @@
 <?php
 //Author: Maksud, Maksud's Customized imdb fetcher
-require_once (dirname(__FILE__) . "/MacImdb.class.php");
+require_once ("MacImdb.class.php");
 
 $movie = $_GET["m"];
 $id = $_GET["id"];
