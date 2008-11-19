@@ -76,8 +76,10 @@ class MacImdb {
 		$this->fetchInformation($imdbid);
 		$this->regWeb->setParseData($this->page);
 
+		$this->information = array ();
+
 		$this->information["title"][0] = $this->regWeb->parseRule('Title');
-		$this->information["year"][0] = $this->regWeb->parseRule('year');
+		$this->information["year"][0] = $this->regWeb->parseRule('Year');
 		$this->information["cover"][0] = $this->regWeb->parseRule('Cover');
 		$this->information["rating"][0] = $this->regWeb->parseRule('Rating');
 		$this->information["genre"] = $this->regWeb->parseRule('Genre');
@@ -96,7 +98,7 @@ class MacImdb {
 		echo "</movie>";
 	}
 }
-echo "Ok";
+
 $mi = new MacImdb();
 //$mi->page = "</div>\r\n<div class=\"meta\">\r\n<b>8.6/10</b>";
 $mi->createXML("tt0133093");
