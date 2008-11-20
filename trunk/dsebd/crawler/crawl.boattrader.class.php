@@ -1,140 +1,171 @@
 <?php
 require_once ("../util/regexwebcrawler.class.php");
 require_once ("../util/webutility.class.php");
+require_once ("../db/database.class.php");
 
-class CrawlBoattrader
-{
-    var $regexWeb;
+class CrawlBoattrader {
+	var $regexWeb;
+	var $database;
 
-    public function CrawlBoattrader()
-    {
-        $this->regexWeb = new RegexWebCrawler("");
+	public function CrawlBoattrader() {
+		$this->regexWeb = new RegexWebCrawler("");
+		$this->database = new MySQLDB();
 
-        $this->regexWeb->addRegexRule("Search", '/<div class="sBar.?"><a(\s*?)href="(.+?)"(.*?)class/', "$2");
-        $this->regexWeb->addRegexRule("Next", '/<a href="([^\s]+?)" title="Next Page">/', "$1");
-        $this->regexWeb->addRegexRule("Photo", '%<img src="(.+?)"(.+?)id="largePhoto"/>%', "$1");
-        $this->regexWeb->addRegexRule("Class", '%<span class="label(Left|Right)">Class:</span>(.+?)</li>%', "$2");
-        $this->regexWeb->addRegexRule("Category", '%<span class="label(Left|Right)">Category:</span>(.+?)</li>%', "$2");
-        $this->regexWeb->addRegexRule("Year", '%<span class="label(Left|Right)">Year:</span>(.+?)</li>%', "$2");
-        $this->regexWeb->addRegexRule("Make", '%<span class="label(Left|Right)">Make:</span>(.+?)</li>%', "$2");
-        $this->regexWeb->addRegexRule("Model", '%<span class="label(Left|Right)">Model:</span>(.+?)</li>%', "$2");
-        $this->regexWeb->addRegexRule("Length", '%<span class="label(Left|Right)">Length:</span>(.+?)</li>%', "$2");
-        $this->regexWeb->addRegexRule("Fuel", '%<span class="label(Left|Right)">Fuel Type:</span>(.+?)</li>%', "$2");
-        $this->regexWeb->addRegexRule("Phone", '/<li class="slrPhn(.+?)">(.*?)\(([0-9]+)\) ([0-9]+?)-([0-9]+)/', "($3) $4-$5");
-        $this->regexWeb->addRegexRule("Zip", "/zip=([0-9]+)/", "$1");
-    }
+		$this->regexWeb->addRegexRule("Search", '/<div class="sBar.?"><a(\s*?)href="(.+?)"(.*?)class/', "$2");
+		$this->regexWeb->addRegexRule("Next", '/<a href="([^\s]+?)" title="Next Page">/', "$1");
+		$this->regexWeb->addRegexRule("Photo", '%<img src="(.+?)"(.+?)id="largePhoto"/>%', "$1");
+		$this->regexWeb->addRegexRule("Class", '%<span class="label(Left|Right)">Class:</span>(.+?)</li>%', "$2");
+		$this->regexWeb->addRegexRule("Category", '%<span class="label(Left|Right)">Category:</span>(.+?)</li>%', "$2");
+		$this->regexWeb->addRegexRule("Year", '%<span class="label(Left|Right)">Year:</span>(.+?)</li>%', "$2");
+		$this->regexWeb->addRegexRule("Make", '%<span class="label(Left|Right)">Make:</span>(.+?)</li>%', "$2");
+		$this->regexWeb->addRegexRule("Model", '%<span class="label(Left|Right)">Model:</span>(.+?)</li>%', "$2");
+		$this->regexWeb->addRegexRule("Length", '%<span class="label(Left|Right)">Length:</span>(.+?)</li>%', "$2");
+		$this->regexWeb->addRegexRule("Fuel", '%<span class="label(Left|Right)">Fuel Type:</span>(.+?)</li>%', "$2");
+		$this->regexWeb->addRegexRule("Phone", '/<li class="slrPhn(.+?)">(.*?)\(([0-9]+)\) ([0-9]+?)-([0-9]+)/', "($3) $4-$5");
+		$this->regexWeb->addRegexRule("Zip", "/zip=([0-9]+)/", "$1");
+	}
 
-    function processABoatInfo($url, $result, $index)
-    {
-    	/**
-    	 * Insert into Searches Database
-    	 */
+	function processLinks($sid, $url) {
+		$result = WebUtility :: getHttpContent($url);
+		if ($result == null)
+			return;
+		$this->regexWeb->setParseData($result);
+		$mc = $this->regexWeb->parseRuleArray("Search");
+		$url = "http://www.boattrader.com" . $this->regexWeb->parseRule("Next");
+		$newtime = time();
+		$sql = "UPDATE pendingsearch SET url='$url', timestamp=$newtime WHERE sid=$sid;"; //insert into
+		$result = $this->database->query($sql);
 
-        $this->regexWeb->setParseData($result);
+		for ($i = 0; $i < count($mc); $i++) {
+			$mm = $mc[$i];
+			$sql = "INSERT INTO pendingqueue (sid, url) VALUES ('$sid', '$mm');"; //insert into
+			$result = $this->database->query($sql);
+			echo "Collecting #" . ($i +1) . " :" . $mc[$i] . "\n";
+		}
+		return $mc;
+	}
 
-        echo $this->regexWeb->parseRule("Class").", ";
-        echo $this->regexWeb->parseRule("Category").", ";
-        echo $this->regexWeb->parseRule("Year").", ";
-        echo $this->regexWeb->parseRule("Make").", ";
-        echo $this->regexWeb->parseRule("Model").", ";
-        echo $this->regexWeb->parseRule("Length").", ";
-        echo $this->regexWeb->parseRule("Fuel").", ";
-        echo $this->regexWeb->parseRule("Zip").", ";
-        echo $this->regexWeb->parseRule("Phone").", ";
-        echo $this->regexWeb->parseRule("Photo").", ";
-        echo $url.", ";
-        echo "\n";
-    }
+	function processABoatInfo($aid, $sid, $url) {
 
-    function processCrawl($baseUrl)
-    {
-    	$this->cleanup();
+		$itemUrl = "http://www.boattrader.com" . $url;
+		$result = WebUtility :: getHttpContent($itemUrl);
 
-    	$id = $_SESSION["id"];
-    	$mode = $_SESSION["mode"];
-        $j = 0;
-        $url = $baseUrl;
-        while ($url != "")
-        {
-            echo "Collecting Search Results... Page #" . (++$j) . "...\n";
+		$this->regexWeb->setParseData($result);
 
-            $result = WebUtility::getHttpContent($url);
-            if($result==null)
-                return;
-            $this->regexWeb->setParseData($result);
+		$class = $this->regexWeb->parseRule("Class");
+		$category = $this->regexWeb->parseRule("Category");
+		$year = $this->regexWeb->parseRule("Year");
+		$make = $this->regexWeb->parseRule("Make");
+		$model = $this->regexWeb->parseRule("Model");
+		$length = $this->regexWeb->parseRule("Length");
+		$fuel = $this->regexWeb->parseRule("Fuel");
+		$zip = $this->regexWeb->parseRule("Zip");
+		$phone = $this->regexWeb->parseRule("Phone");
+		$imageurl = $this->regexWeb->parseRule("Photo");
 
-            $mc = $this->regexWeb->parseRuleArray("Search");
-            $url = "http://www.boattrader.com" . $this->regexWeb->parseRule("Next");
-            for ($i = 0; $i < count($mc)-24; $i++)
-            {
-                echo "Collecting #".($i+1)." :" . $mc[$i]."\n";
-                $itemUrl = "http://www.boattrader.com" . $mc[$i];
-                $dataResult = WebUtility::getHttpContent($itemUrl);
-                $this->processABoatInfo($itemUrl, $dataResult, ($j-1)*25+$i);
-            }
-        }
-        echo "Finished Processing...\n";
-    }
+		$sql = "INSERT INTO searchresult (`sid`, `url`, `class`, `category`, `year`, `make`, `model`, `length`, `fuel`, `phone`, `zip`, `price`, `imageurl` ) " .
+		"VALUES ( '$sid',  '$url',  '$class',  '$category',  '$year',  '$make',  '$model',  '$length',  '$fuel',  '$phone',  '$zip',  '$price',  '$imageurl');";
+		$result = $this->database->query($sql);
+		$sql = "DELETE FROM pendingqueue WHERE aid=$aid";
+		$result = $this->database->query($sql);
+	}
 
-    function collectAllLinks($baseUrl)
-    {
-        $j = 0;
-        $url = $baseUrl;
-        while ($url != "")
-        {
-            echo "Collecting Search Results... Page #" . (++$j) . "...\n";
+	function getPendingSearch($sid) {
+		$result = $this->database->query("SELECT * FROM pendingsearch WHERE sid=$sid;");
+		return mysql_fetch_array($result);
+	}
 
-            $result = WebUtility::getHttpContent($url);
-            if($result==null)
-                return;
-            $this->regexWeb->setParseData($result);
+	function getPendingLinks($sid) {
+		$result = $this->database->query("SELECT * FROM pendingqueue WHERE sid=$sid;");
+		$links = array ();
+		while ($row = mysql_fetch_array($result)) {
+			$links[0][] = $row["url"];
+			$links[1][] = $row["aid"];
+		}
+		return $links;
+	}
 
-            $mc = $this->regexWeb->parseRuleArray("Search");
+	function resumeCrawl($sid) {
+		$dbLinks = $this->getPendingLinks($sid);
+		$search = $this->getPendingSearch($sid);
 
-            $url = "http://www.boattrader.com" . $this->regexWeb->parseRule("Next");
-            /**
-             * Insert into PendingSearches
-             */
+		if ($search["mode"] == "normal") {
+			for ($i = 0; $i < count($dbLinks); $i++)
+				$this->processABoatInfo($sid, $dbLinks[$i]);
+		}
+		$url = $search["url"];
 
-            for ($i = 0; $i < count($mc)-24; $i++)
-            {
-            	/**
-            	 * Insert into PendingUrls
-            	 */
-                echo "Collecting #".($i+1)." :" . $mc[$i]."\n";
-                $itemUrl = "http://www.boattrader.com" . $mc[$i];
-                //$dataResult = WebUtility::getHttpContent($itemUrl);
-                //$this->processABoatInfo($itemUrl, $dataResult, ($j-1)*25+$i);
-            }
-        }
-        echo "Finished Processing...\n";
-    }
+		$j = 0;
+		while ($url != "") {
+			echo "Collecting Search Results... #" . (++ $j) . "...\n";
 
-    function willCancel($id)
-    {
-    	$time = 0;	//get time for the id in database
-   		if($time < (time()-600))
-    	{
-    		return true;
-    	}
-    	return false;
-    }
+			$this->processLinks($sid, $url);
 
-    function cleanup()
-    {
+			if ($search["mode"] == "normal") {
+				$result = $this->getPendingLinks($sid);
+				for ($i = 0; $i < count($result[0]); $i++) {
+					$this->processABoatInfo($result[1][$i], $sid, $result[0][$i]);
+				}
+			}
 
-    }
+			$search = $this->getPendingSearch($sid);
+			$url = $search["url"];
+		}
 
-    function getSearchId()
-    {
-    	if(isset($_SESSION["sid"]))
-    	{
+		if ($search["mode"] == "extended") {
+			$result = $this->getPendingLinks($sid);
+			for ($i = 0; $i < count($result); $i++) {
+				$this->processABoatInfo($result[1][$i], $sid, $result[0][$i]);
+			}
+		}
+	}
 
-    	}
-    }
+	function processCrawl($site, $mode, $baseUrl) {
+		$this->cleanup();
+
+		if (isset ($_SESSION["sid"])) {
+			$this->resumeCrawl($_SESSION["sid"]);
+		} else {
+			$sid = time();
+			$this->insertSearch($sid, $baseUrl, $site);
+			$this->insertpendingsearch($sid, $baseUrl, $mode);
+			$this->resumeCrawl($sid);
+		}
+	}
+
+	function willCancel($id) {
+		$time = 0; //get time for the id in database
+		if ($time < (time() - 600)) {
+			return true;
+		}
+		return false;
+	}
+
+	function cleanup() {
+
+	}
+
+	function insertSearch($sid, $url, $site) {
+		$sqlSearches = "INSERT INTO  searches (`sid` , `url` , `site` ) VALUES ( '$sid',  '$url',  '$site' );";
+		$result = $this->database->query($sqlSearches);
+	}
+
+	function insertpendingsearch($sid, $url, $mode) {
+		$id = time();
+		$sqlpendingsearch = "INSERT INTO pendingsearch ( `sid`, `url`, `mode`, `timestamp` ) VALUES ( '$sid',  '$url',  '$mode',  '$id');";
+		$result = $this->database->query($sqlpendingsearch);
+
+		$_SESSION["sid"] = $sid;
+		$_SESSION["mode"] = $mode;
+	}
+
+	function insertpendingqueue($sid, $url) {
+		$id = time();
+		$sqlpendingsearch = "INSERT INTO pendingqueue` ( `sid`, `url` ) VALUES ( '$sid',  '$url');";
+		$result = $this->database->query($sqlpendingsearch);
+	}
 }
 
 $crawler = new CrawlBoattrader();
-$crawler->processCrawl("http://www.boattrader.com/search-results/NewOrUsed-any/Type-any/State-all/Price-2500,100000/Sort-Length:DESC/");
-
+$crawler->processCrawl("boattrader", "normal", "http://www.boattrader.com/search-results/NewOrUsed-any/Type-any/State-all/Price-2500,100000/Sort-Length:DESC/");
 ?>
