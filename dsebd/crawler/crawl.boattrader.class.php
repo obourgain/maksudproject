@@ -11,7 +11,7 @@ class CrawlBoattrader {
 		$this->regexWeb = new RegexWebCrawler("");
 		$this->database = new MySQLDB();
 
-		$this->regexWeb->addRegexRule("Search", '/<div class="sBar.?"><a(\s*?)href="(.+?)"(.*?)class/', "$2");
+		$this->regexWeb->addRegexRule("Search", '%<div class="sBar.?"><a(\s*?)href="/find/listing/(.+?)"(.*?)class%', "$2");
 		$this->regexWeb->addRegexRule("Next", '/<a href="([^\s]+?)" title="Next Page">/', "$1");
 		$this->regexWeb->addRegexRule("Photo", '%<img src="(.+?)"(.+?)id="largePhoto"/>%', "$1");
 		$this->regexWeb->addRegexRule("Class", '%<span class="label(Left|Right)">Class:</span>(.+?)</li>%', "$2");
@@ -25,37 +25,8 @@ class CrawlBoattrader {
 		$this->regexWeb->addRegexRule("Zip", "/zip=([0-9]+)/", "$1");
 	}
 
-	function processLinks($sid, $url) {
-		$result = WebUtility :: getHttpContent($url);
-		if ($result == null)
-			return;
-		$this->regexWeb->setParseData($result);
-		$mc = $this->regexWeb->parseRuleArray("Search");
-		$next = $this->regexWeb->parseRule("Next");
-		if ($next == null || $next == "") {
-			//Search is finished
-			$sql = "DELETE FROM pendingsearch WHERE sid=$sid;"; //Delete Entry
-			$result = $this->database->query($sql);
-			echo "No Next found!";
-		} else {
-			$url = "http://www.boattrader.com" . $next;
-			$newtime = time();
-			$sql = "UPDATE pendingsearch SET url='$url', timestamp=$newtime WHERE sid=$sid;"; //Update Next Field
-			$result = $this->database->query($sql);
-		}
-
-		for ($i = 0; $i < count($mc); $i++) {
-			$mm = $mc[$i];
-			$sql = "INSERT INTO pendingqueue (sid, url) VALUES ('$sid', '$mm');"; //insert into
-			$result = $this->database->query($sql);
-			echo "Collecting #" . ($i +1) . " :" . $mc[$i] . "\n";
-		}
-		return $mc;
-	}
-
 	function processABoatInfo($aid, $sid, $url) {
-
-		$itemUrl = "http://www.boattrader.com" . $url;
+		$itemUrl = "http://www.boattrader.com/find/listing/" . $url;
 		$result = WebUtility :: getHttpContent($itemUrl);
 
 		$this->regexWeb->setParseData($result);
@@ -79,13 +50,8 @@ class CrawlBoattrader {
 		$result = $this->database->query($sql);
 	}
 
-	function getPendingSearch($sid) {
-		$result = $this->database->query("SELECT * FROM pendingsearch WHERE sid=$sid;");
-		return mysql_fetch_array($result);
-	}
-
 	function getPendingLinks($sid) {
-		$result = $this->database->query("SELECT * FROM pendingqueue WHERE sid=$sid;");
+		$result = $this->database->query("SELECT * FROM pendingqueue WHERE sid=$sid limit 5;");
 		$links = array ();
 		while ($row = mysql_fetch_array($result)) {
 			$links[0][] = $row["url"];
@@ -94,92 +60,125 @@ class CrawlBoattrader {
 		return $links;
 	}
 
-	function resumeCrawl($sid) {
-		$dbLinks = $this->getPendingLinks($sid);
+	function willCancel($sid) {
+
+		//If Session is cancelled stop the search
+		if (!isset ($_SESSION["sid"])) //a check...
+			return true;
+
+		$sql = "SELECT status FROM searches WHERE sid=''$sid';";
+		$result = $this->database->query($sql);
+		if ($result['status'] != 'run') {
+			unset ($_SESSION["sid"]);
+			return true;
+		}
+		return false;
+	}
+
+	function processPendingQueue($sid) {
+		while (count($result = $this->getPendingLinks($sid)) == 2) {
+			for ($i = 0; $i < count($result[0]); $i++) {
+				echo "<p>Collecting # " . ($i +1) . " :" . $result[$i] . "</p>\n";
+				$this->processABoatInfo($result[1][$i], $sid, $result[0][$i]);
+			}
+			if ($this->willCancel($sid))
+				return;
+		}
+	}
+
+	function getPendingSearch($sid) {
+		$result = $this->database->query("SELECT * FROM pendingsearch WHERE sid=$sid;");
+		return mysql_fetch_array($result);
+	}
+
+	function processLinks($sid, $url) {
+		$result = WebUtility :: getHttpContent($url);
+		if ($result == null)
+			return;
+		$this->regexWeb->setParseData($result);
+		$mc = $this->regexWeb->parseRuleArray("Search");
+		$next = $this->regexWeb->parseRule("Next");
+		if ($next == null || $next == "") {
+			//Search is finished
+			$sql = "DELETE FROM pendingsearch WHERE sid=$sid;"; //Delete Entry
+			$result = $this->database->query($sql);
+			echo "No Next found!";
+		} else {
+			$url = "http://www.boattrader.com" . $next;
+			$newtime = time();
+			$sql = "UPDATE pendingsearch SET url='$url', timestamp=$newtime WHERE sid=$sid;"; //Update Next Field
+			$result = $this->database->query($sql);
+		}
+
+		for ($i = 0; $i < count($mc); $i++) {
+			$mm = $mc[$i];
+			$sql = "INSERT INTO pendingqueue (sid, url) VALUES ('$sid', '$mm');";
+			$result = $this->database->query($sql);
+		}
+		return $mc;
+	}
+
+	function resumeCrawl($sid, $mode) {
+		$_SESSION["sid"] = $sid;
 		$search = $this->getPendingSearch($sid);
 
-		if ($search["mode"] == "normal") {
-			for ($i = 0; $i < count($dbLinks); $i++)
-				$this->processABoatInfo($sid, $dbLinks[$i]);
+		if ($mode == "normal") {
+			$this->processPendingQueue($sid);
 		}
 		$url = $search["url"];
 
 		$j = 0;
 		while ($url != null && $url != "") {
-			echo "<h1>Collecting Search Results... #" . (++ $j) . "</h1>";
+			echo "<h1>Collecting Search Results... #" . (++ $j) . "</h1>\n";
 
 			$this->processLinks($sid, $url);
 
 			// Travers for normal mode... No Graceful Exit
-			if ($search["mode"] == "normal") {
-				$result = $this->getPendingLinks($sid);
-				for ($i = 0; $i < count($result[0]); $i++) {
-					$this->processABoatInfo($result[1][$i], $sid, $result[0][$i]);
-				}
+			if ($mode == "normal") {
+				$result = $this->processPendingQueue($sid);
 			}
 
-			$search = $this->getPendingSearch($sid);//Job Pending...
+			$search = $this->getPendingSearch($sid); //Job Pending...
 			if ($url != null)
 				$url = $search["url"];
-			else
-				$url = null;
 		}
 
 		//	Traverse for extended mode.. Include Grateful Exit...
-		if ($search["mode"] == "extended") {
-			$result = $this->getPendingLinks($sid);
-			for ($i = 0; $i < count($result); $i++) {
-				$this->processABoatInfo($result[1][$i], $sid, $result[0][$i]);
-			}
+		if ($mode == "extended") {
+			$this->processPendingQueue($sid);
 		}
-	}
-
-	function processCrawl($site, $mode, $baseUrl) {
-		$this->cleanup();
-
-		if (isset ($_SESSION["sid"])) {
-			//$this->resumeCrawl($_SESSION["sid"]);// Already in session... May do nothing...
-		} else {
-			$sid = time();
-			$this->insertSearch($sid, $baseUrl, $site);
-			$this->insertpendingsearch($sid, $baseUrl, $mode);
-			$this->resumeCrawl($sid);
-		}
-	}
-
-	function willCancel($id) {
-		$time = 0; //get time for the id in database
-		if ($time < (time() - 600)) {
-			return true;
-		}
-		return false;
 	}
 
 	function cleanup() {
 
 	}
 
-	function insertSearch($sid, $url, $site) {
-		$sqlSearches = "INSERT INTO  searches (`sid` , `url` , `site` ) VALUES ( '$sid',  '$url',  '$site' );";
+	function insertSearch($sid, $url, $site, $mode) {
+		$sqlSearches = "INSERT INTO  searches (`sid` , `url` , `site`, `mode`, `status` ) VALUES ( '$sid',  '$url',  '$site', '$mode', 'run' );";
 		$result = $this->database->query($sqlSearches);
 	}
 
-	function insertpendingsearch($sid, $url, $mode) {
+	function insertPendingSearch($sid, $url) {
 		$id = time();
-		$sqlpendingsearch = "INSERT INTO pendingsearch ( `sid`, `url`, `mode`, `timestamp` ) VALUES ( '$sid',  '$url',  '$mode',  '$id');";
+		$sqlpendingsearch = "INSERT INTO pendingsearch ( `sid`, `url`, `timestamp` ) VALUES ( '$sid',  '$url',  '$id');";
 		$result = $this->database->query($sqlpendingsearch);
-
-		$_SESSION["sid"] = $sid;
-		$_SESSION["mode"] = $mode;
 	}
 
-	function insertpendingqueue($sid, $url) {
-		$id = time();
-		$sqlpendingsearch = "INSERT INTO pendingqueue` ( `sid`, `url` ) VALUES ( '$sid',  '$url');";
-		$result = $this->database->query($sqlpendingsearch);
+	function processCrawl($site, $mode, $baseUrl) {
+		$this->cleanup();
+
+		if (isset ($_SESSION["sid"])) {
+			//$this->resumeCrawl($_SESSION["sid"]);// Already in session... Do nothing...
+		} else {
+			$sid = time();
+			$this->insertSearch($sid, $baseUrl, $site, $mode);
+			$this->insertPendingSearch($sid, $baseUrl);
+			$this->resumeCrawl($sid, $mode);
+		}
 	}
 }
-
+unset ($_SESSION["sid"]);
 $crawler = new CrawlBoattrader();
-$crawler->processCrawl("boattrader", "normal", "http://www.boattrader.com/search-results/NewOrUsed-any/Type-any/State-all/Price-2500,100000/Sort-Length:DESC/");
+//$crawler->processCrawl("boattrader", "extended", "http://www.boattrader.com/search-results/NewOrUsed-any/Type-any/State-all/Price-2500,100000/Sort-Length:DESC/");
+$crawler->processCrawl("boattrader", "extended", "http://www.boattrader.com/search-results/NewOrUsed-any/Type-any/State-all/Price-2500,100000/Sort-Length:DESC/");
 ?>
