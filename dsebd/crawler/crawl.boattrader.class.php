@@ -31,10 +31,18 @@ class CrawlBoattrader {
 			return;
 		$this->regexWeb->setParseData($result);
 		$mc = $this->regexWeb->parseRuleArray("Search");
-		$url = "http://www.boattrader.com" . $this->regexWeb->parseRule("Next");
-		$newtime = time();
-		$sql = "UPDATE pendingsearch SET url='$url', timestamp=$newtime WHERE sid=$sid;"; //insert into
-		$result = $this->database->query($sql);
+		$next = $this->regexWeb->parseRule("Next");
+		if ($next == null || $next == "") {
+			//Search is finished
+			$sql = "DELETE FROM pendingsearch WHERE sid=$sid;"; //Delete Entry
+			$result = $this->database->query($sql);
+			echo "No Next found!";
+		} else {
+			$url = "http://www.boattrader.com" . $next;
+			$newtime = time();
+			$sql = "UPDATE pendingsearch SET url='$url', timestamp=$newtime WHERE sid=$sid;"; //Update Next Field
+			$result = $this->database->query($sql);
+		}
 
 		for ($i = 0; $i < count($mc); $i++) {
 			$mm = $mc[$i];
@@ -63,8 +71,9 @@ class CrawlBoattrader {
 		$phone = $this->regexWeb->parseRule("Phone");
 		$imageurl = $this->regexWeb->parseRule("Photo");
 
+		//Insert into MySQL database...
 		$sql = "INSERT INTO searchresult (`sid`, `url`, `class`, `category`, `year`, `make`, `model`, `length`, `fuel`, `phone`, `zip`, `price`, `imageurl` ) " .
-		"VALUES ( '$sid',  '$url',  '$class',  '$category',  '$year',  '$make',  '$model',  '$length',  '$fuel',  '$phone',  '$zip',  '$price',  '$imageurl');";
+		"VALUES ( '$sid',  '$itemUrl',  '$class',  '$category',  '$year',  '$make',  '$model',  '$length',  '$fuel',  '$phone',  '$zip',  '$price',  '$imageurl');";
 		$result = $this->database->query($sql);
 		$sql = "DELETE FROM pendingqueue WHERE aid=$aid";
 		$result = $this->database->query($sql);
@@ -96,11 +105,12 @@ class CrawlBoattrader {
 		$url = $search["url"];
 
 		$j = 0;
-		while ($url != "") {
-			echo "Collecting Search Results... #" . (++ $j) . "...\n";
+		while ($url != null && $url != "") {
+			echo "<h1>Collecting Search Results... #" . (++ $j) . "</h1>";
 
 			$this->processLinks($sid, $url);
 
+			// Travers for normal mode... No Graceful Exit
 			if ($search["mode"] == "normal") {
 				$result = $this->getPendingLinks($sid);
 				for ($i = 0; $i < count($result[0]); $i++) {
@@ -108,10 +118,14 @@ class CrawlBoattrader {
 				}
 			}
 
-			$search = $this->getPendingSearch($sid);
-			$url = $search["url"];
+			$search = $this->getPendingSearch($sid);//Job Pending...
+			if ($url != null)
+				$url = $search["url"];
+			else
+				$url = null;
 		}
 
+		//	Traverse for extended mode.. Include Grateful Exit...
 		if ($search["mode"] == "extended") {
 			$result = $this->getPendingLinks($sid);
 			for ($i = 0; $i < count($result); $i++) {
@@ -124,7 +138,7 @@ class CrawlBoattrader {
 		$this->cleanup();
 
 		if (isset ($_SESSION["sid"])) {
-			$this->resumeCrawl($_SESSION["sid"]);
+			//$this->resumeCrawl($_SESSION["sid"]);// Already in session... May do nothing...
 		} else {
 			$sid = time();
 			$this->insertSearch($sid, $baseUrl, $site);
