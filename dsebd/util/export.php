@@ -1,24 +1,21 @@
 <?
-
 require_once (dirname(__FILE__) . "/../db/database.class.php");
 
 $site = $_GET['site'];
 $action = $_GET['action'];
 
-
 if ($site == 'boattrader' && $action == 'export') {
 	header("Content-type: text/x-csv");
 	header("Content-Disposition: attachment; filename=search_results.csv");
 	$sid = $_GET['sid'];
-	$sql="select * from searchresult";
+	$sql = "select * from searchresult";
 	if ($sid != null)
 		$sql .= " where sid=" . $sid;
 
-	
 	$db = new MySQLDB();
 	$res = $db->query($sql);
 	$fields = array ();
-	
+
 	while ($raw = mysql_fetch_field($res))
 		$fields[] = $raw->name;
 

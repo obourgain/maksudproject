@@ -104,6 +104,7 @@ class MaxPaging {
 <!-- Print Table Columns -->
 <?
 
+
 		echo '<tr class="ResultHeader">';
 		$i = 0;
 		for ($i = 0; $i < $this->colnum; $i++) {
@@ -128,6 +129,7 @@ class MaxPaging {
 ?>
 <!-- Print Main Table	-->
 <?
+
 
 		$isOdd = true;
 		$query = $this->sql;
@@ -180,6 +182,7 @@ class MaxPaging {
 ?>
 <!-- Now Print Paging Information -->
 <?
+
 
 		echo '<tr class="Pagination"><td>';
 		if ($back >= 0) {
