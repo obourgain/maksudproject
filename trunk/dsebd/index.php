@@ -54,6 +54,7 @@ body {
     <h1><a href="index.php">Home</a></h1>
     <h1>Search</h1>
     <h3><a href="searchboattrader.php">boattrader.com</a></h3>
+    <h3><a href="searchcars.php">cars.com</a></h3>
     <br />
     <h1>Statistics</h1>
     <h3><a href="index.php?stat=boattrader">boattrader.com</a></h3>
