@@ -102,6 +102,7 @@ class CrawlCars {
 		$result = WebUtility :: getHttpContent($url);
 		if ($result == null)
 			return;
+		echo $result;
 		$this->regexWeb->setParseData($result);
 		$mc = $this->regexWeb->parseRuleArray("Search");
 		$next = $this->regexWeb->parseRule("Next");
@@ -155,7 +156,7 @@ class CrawlCars {
 
 		//Traverse for extended mode...
 		if ($mode == "extended") {
-			$this->processPendingQueue($sid);
+			//$this->processPendingQueue($sid);
 		}
 		unset ($_SESSION["sid"]);
 		echo "<h1>Finished!!!</h1>";
@@ -207,6 +208,6 @@ class CrawlCars {
 
 
 $ws = new CrawlCars();
-$ws->processCrawl("cars", "extended", "http://www.cars.com/go/search/search_results.jsp?ct=615&tracktype=usedcc&searchType=21&cid=&dlid=&dgid=&amid=&cname=&mdnm=all&mknm=Chevrolet&rd=30&ddrd=&zc=78757&makeid=9&modelid=&pageNumber=&numResultsPerPage=5&largeNumResultsPerPage=0&sortorder=descending&sortfield=PRICE%20descending&certifiedOnly=false&criteria=K-|E-|M-_9_|N-N|R-30|I-1,7|P-PRICE%20descending|Q-descending|Z-78757&aff=national");
+$ws->processCrawl("cars", "extended", "http://www.cars.com/go/search/search_results.jsp?criteria=K-|E-|M-_9_|N-N|R-30|I-1,7|P-PRICE%20descending|Q-descending|Z-78757&aff=national");
 
 ?>
