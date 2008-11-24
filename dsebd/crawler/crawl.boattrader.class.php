@@ -65,13 +65,13 @@ class CrawlBoattrader {
 
 	function willCancel($sid) {
 		//If Session is cancelled stop the search
-		if (!isset ($_SESSION["sid"]) || $_SESSION["sid"] != $sid) //a check...
-			return true;
+//		if (!isset ($_SESSION["sid"]) || $_SESSION["sid"] != $sid) //a check...
+//			return true;
 
 		$sql = "SELECT status FROM searches WHERE sid='$sid';";
 		$result = mysql_fetch_array($this->database->query($sql));
 		if ($result != FALSE && $result['status'] != 'run') {
-			unset ($_SESSION["sid"]);
+//			unset ($_SESSION["sid"]);
 			return true;
 		}
 		return false;
@@ -124,7 +124,7 @@ class CrawlBoattrader {
 	function resumeCrawl($sid, $mode) {
 		$this->cleanup();
 		$this->si = 0;
-		$_SESSION["sid"] = $sid;
+//		$_SESSION["sid"] = $sid;
 		$search = $this->getPendingSearch($sid);
 
 		if ($mode == "normal") {
@@ -152,7 +152,7 @@ class CrawlBoattrader {
 		if ($mode == "extended") {
 			$this->processPendingQueue($sid);
 		}
-		unset ($_SESSION["sid"]);
+//		unset ($_SESSION["sid"]);
 		echo "<h1>Finished!!!</h1>";
 	}
 
@@ -188,14 +188,10 @@ class CrawlBoattrader {
 	}
 
 	function processCrawl($site, $mode, $baseUrl) {
-		if (isset ($_SESSION["sid"])) {
-			//$this->resumeCrawl($_SESSION["sid"]);// Already in session... Do nothing...
-		} else {
-			$sid = time();
-			$this->insertSearch($sid, $baseUrl, $site, $mode);
-			$this->insertPendingSearch($sid, $baseUrl);
-			$this->resumeCrawl($sid, $mode);
-		}
+		$sid = time();
+		$this->insertSearch($sid, $baseUrl, $site, $mode);
+		$this->insertPendingSearch($sid, $baseUrl);
+		$this->resumeCrawl($sid, $mode);
 	}
 }
 ?>

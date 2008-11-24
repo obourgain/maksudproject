@@ -17,8 +17,6 @@ class CrawlCars {
 		$this->regexWeb->addRegexRule("Search", '/<div class="YmmHeader"><a href="([^\s]+?)"/si', "$1");
 		$this->regexWeb->addRegexRule("Next", '/<div class="next" id="nxtLower"><a href="([^\s]+?)"/si', "$1");
 
-
-
 		$this->regexWeb->addRegexRule("Mileage", '%Mileage:</span>(\s*)<span class="data">(.+?)</span>%', "$2");
 		$this->regexWeb->addRegexRule("Body", '%Body Style:</span>(\s*)<span class="data">(.+?)</span>%', "$2");
 		$this->regexWeb->addRegexRule("InteriorColor", '%Interior Color:</span>(\s*)<span class="data">(.+?)</span>%', "$2");
@@ -39,13 +37,13 @@ class CrawlCars {
 
 		$this->regexWeb->setParseData($result);
 
-//		$class = addslashes($this->regexWeb->parseRule("Class"));
-//		$category = addslashes($this->regexWeb->parseRule("Category"));
-//		$year = addslashes($this->regexWeb->parseRule("Year"));
-//		$make = addslashes($this->regexWeb->parseRule("Make"));
-//		$model = addslashes($this->regexWeb->parseRule("Model"));
-//		$length = addslashes($this->regexWeb->parseRule("Length"));
-//		$fuel = addslashes($this->regexWeb->parseRule("Fuel"));
+		//		$class = addslashes($this->regexWeb->parseRule("Class"));
+		//		$category = addslashes($this->regexWeb->parseRule("Category"));
+		//		$year = addslashes($this->regexWeb->parseRule("Year"));
+		//		$make = addslashes($this->regexWeb->parseRule("Make"));
+		//		$model = addslashes($this->regexWeb->parseRule("Model"));
+		//		$length = addslashes($this->regexWeb->parseRule("Length"));
+		//		$fuel = addslashes($this->regexWeb->parseRule("Fuel"));
 		$zip = addslashes($this->regexWeb->parseRule("Zip"));
 		$phone = addslashes($this->regexWeb->parseRule("Phone"));
 		$imageurl = addslashes($this->regexWeb->parseRule("Photo"));
@@ -102,10 +100,12 @@ class CrawlCars {
 		$result = WebUtility :: getHttpContent($url);
 		if ($result == null)
 			return;
-		echo $result;
+		//echo $result;
 		$this->regexWeb->setParseData($result);
 		$mc = $this->regexWeb->parseRuleArray("Search");
 		$next = $this->regexWeb->parseRule("Next");
+		$next = str_replace("%7c", "|", $next);
+		$next = str_replace("&amp;", "&", $next);
 		echo "<p><i>No of results found in this page: " . count($mc) . "</i></p>\n";
 		if ($next == null || $next == "") {
 			//Search is finished
@@ -194,20 +194,13 @@ class CrawlCars {
 	}
 
 	function processCrawl($site, $mode, $baseUrl) {
-		if (isset ($_SESSION["sid"])) {
-			unset($_SESSION["sid"]);
-			//$this->resumeCrawl($_SESSION["sid"]);// Already in session... Do nothing...
-		} else {
-			$sid = time();
-			$this->insertSearch($sid, $baseUrl, $site, $mode);
-			$this->insertPendingSearch($sid, $baseUrl);
-			$this->resumeCrawl($sid, $mode);
-		}
+		$sid = time();
+		$this->insertSearch($sid, $baseUrl, $site, $mode);
+		$this->insertPendingSearch($sid, $baseUrl);
+		$this->resumeCrawl($sid, $mode);
 	}
 }
 
-
 $ws = new CrawlCars();
-$ws->processCrawl("cars", "extended", "http://www.cars.com/go/search/search_results.jsp?criteria=K-|E-|M-_9_|N-N|R-30|I-1,7|P-PRICE%20descending|Q-descending|Z-78757&aff=national");
-
+$ws->processCrawl("cars", "extended", "http://www.cars.com/go/search/search_results.jsp?sortfield=PRICE+descending&certifiedOnly=false&tracktype=usedcc&sortorder=descending&inPrintMode=false&searchType=&aff=national&criteria=K-|E-|M-_9_|N-N|R-30|I-1%2c7|P-PRICE+descending|Q-descending|Z-78757&nextGroupNumber=3&total=614&results_primary_sort=PRICE&aff=national&numResultsPerPage=250&pageNumber=1");
 ?>
