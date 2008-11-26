@@ -16,6 +16,7 @@ class CrawlBoattrader {
 
 		$this->regexWeb->addRegexRule("Search", '%<div class="sBar.?"><a(\s*?)href="/find/listing/(.+?)"(.*?)class%', "$2");
 		$this->regexWeb->addRegexRule("Next", '/<a href="([^\s]+?)" title="Next Page">/', "$1");
+
 		$this->regexWeb->addRegexRule("Photo", '%<img src="(.+?)"(.+?)id="largePhoto"/>%', "$1");
 		$this->regexWeb->addRegexRule("Class", '%<span class="label(Left|Right)">Class:</span>(.+?)</li>%', "$2");
 		$this->regexWeb->addRegexRule("Category", '%<span class="label(Left|Right)">Category:</span>(.+?)</li>%', "$2");
@@ -31,7 +32,6 @@ class CrawlBoattrader {
 	function processABoatInfo($aid, $sid, $url) {
 		$itemUrl = "http://www.boattrader.com/find/listing/" . $url;
 		$result = WebUtility :: getHttpContent($itemUrl);
-
 		$this->regexWeb->setParseData($result);
 
 		$class = addslashes($this->regexWeb->parseRule("Class"));
@@ -65,13 +65,13 @@ class CrawlBoattrader {
 
 	function willCancel($sid) {
 		//If Session is cancelled stop the search
-//		if (!isset ($_SESSION["sid"]) || $_SESSION["sid"] != $sid) //a check...
-//			return true;
+		//		if (!isset ($_SESSION["sid"]) || $_SESSION["sid"] != $sid) //a check...
+		//			return true;
 
 		$sql = "SELECT status FROM searches WHERE sid='$sid';";
 		$result = mysql_fetch_array($this->database->query($sql));
 		if ($result != FALSE && $result['status'] != 'run') {
-//			unset ($_SESSION["sid"]);
+			//			unset ($_SESSION["sid"]);
 			return true;
 		}
 		return false;
@@ -124,7 +124,7 @@ class CrawlBoattrader {
 	function resumeCrawl($sid, $mode) {
 		$this->cleanup();
 		$this->si = 0;
-//		$_SESSION["sid"] = $sid;
+		//		$_SESSION["sid"] = $sid;
 		$search = $this->getPendingSearch($sid);
 
 		if ($mode == "normal") {
@@ -152,7 +152,7 @@ class CrawlBoattrader {
 		if ($mode == "extended") {
 			$this->processPendingQueue($sid);
 		}
-//		unset ($_SESSION["sid"]);
+		//		unset ($_SESSION["sid"]);
 		echo "<h1>Finished!!!</h1>";
 	}
 
