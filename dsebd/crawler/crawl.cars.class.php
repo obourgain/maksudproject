@@ -31,10 +31,9 @@ class CrawlCars {
 		$this->regexWeb->addRegexRule("Photo", '%src="(http://images\.cars\.com/(.+?))" name="chosenPhotoIMG"%', "$1");
 	}
 
-	function processABoatInfo($aid, $sid, $url) {
+	function processAnElementInfo($aid, $sid, $url) {
 		$itemUrl = "http://www.cars.com/go/search/" . $url;
 		$result = WebUtility :: getHttpContent($itemUrl);
-
 		$this->regexWeb->setParseData($result);
 
 		//		$class = addslashes($this->regexWeb->parseRule("Class"));
@@ -68,13 +67,13 @@ class CrawlCars {
 
 	function willCancel($sid) {
 		//If Session is cancelled stop the search
-		if (!isset ($_SESSION["sid"]) || $_SESSION["sid"] != $sid) //a check...
-			return true;
+		//		if (!isset ($_SESSION["sid"]) || $_SESSION["sid"] != $sid) //a check...
+		//			return true;
 
 		$sql = "SELECT status FROM searches WHERE sid='$sid';";
 		$result = mysql_fetch_array($this->database->query($sql));
 		if ($result != FALSE && $result['status'] != 'run') {
-			unset ($_SESSION["sid"]);
+			//			unset ($_SESSION["sid"]);
 			return true;
 		}
 		return false;
@@ -84,7 +83,7 @@ class CrawlCars {
 		while (count($result = $this->getPendingLinks($sid)) == 2) {
 			for ($i = 0; $i < count($result[0]); $i++) {
 				echo "<p>Collecting # " . ($this->si++ +1) . " :" . $result[0][$i] . "</p>\n";
-				$this->processABoatInfo($result[1][$i], $sid, $result[0][$i]);
+				$this->processAnElementInfo($result[1][$i], $sid, $result[0][$i]);
 			}
 			if ($this->willCancel($sid))
 				return;
@@ -100,7 +99,6 @@ class CrawlCars {
 		$result = WebUtility :: getHttpContent($url);
 		if ($result == null)
 			return;
-		//echo $result;
 		$this->regexWeb->setParseData($result);
 		$mc = $this->regexWeb->parseRuleArray("Search");
 		$next = $this->regexWeb->parseRule("Next");
@@ -156,9 +154,9 @@ class CrawlCars {
 
 		//Traverse for extended mode...
 		if ($mode == "extended") {
-			//$this->processPendingQueue($sid);
+			$this->processPendingQueue($sid);
 		}
-		unset ($_SESSION["sid"]);
+		//		unset ($_SESSION["sid"]);
 		echo "<h1>Finished!!!</h1>";
 	}
 
@@ -204,3 +202,10 @@ class CrawlCars {
 //$ws = new CrawlCars();
 //$ws->processCrawl("cars", "extended", "http://www.cars.com/go/search/search_results.jsp?sortfield=PRICE+descending&certifiedOnly=false&tracktype=usedcc&sortorder=descending&inPrintMode=false&searchType=&aff=national&criteria=K-|E-|M-_9_|N-N|R-30|I-1%2c7|P-PRICE+descending|Q-descending|Z-78757&nextGroupNumber=3&total=614&results_primary_sort=PRICE&aff=national&numResultsPerPage=250&pageNumber=1");
 ?>
+
+
+
+
+
+
+
