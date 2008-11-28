@@ -74,9 +74,9 @@ $database = new MySQLDB();
 if ($web == "boattrader") {
 	if ($_GET['r'] == "y") {
 		if (isset ($_GET['sid'])) {
-			$Obj = new MaxPaging("select * from searchresult where sid=" . $_GET['sid'], "index.php?stat=boattrader&r=y&sid=" . $_GET['sid'], 100, 20, "ASC");
+			$Obj = new MaxPaging("select * from searchresult where sid=" . $_GET['sid'], "index.php?stat=boattrader&r=y&sid=" . $_GET['sid'], 20, 20, "ASC");
 		} else {
-			$Obj = new MaxPaging("select * from searchresult", "index.php?stat=boattrader&r=y", 100, 20, "ASC");
+			$Obj = new MaxPaging("select * from searchresult", "index.php?stat=boattrader&r=y", 20, 20, "ASC");
 		}
 		$Obj->setColumnName($_GET['column_name']);
 		$Obj->setSortMode($_GET['sort']);
