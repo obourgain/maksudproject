@@ -58,7 +58,7 @@ class CrawlCars {
 		$sql = "DELETE FROM pendingqueue WHERE aid='$aid'";
 		$result = $this->database->query($sql);
 
-		usleep(500000);//0.5 Second...
+		usleep(500000); //0.5 Second...
 		//sleep(1);//1 Second...
 
 	}
@@ -213,9 +213,6 @@ class CrawlCars {
 		}
 	}
 }
-
-//$ws = new CrawlCars();
-//$ws->processCrawl("cars", "extended", "http://www.cars.com/go/search/search_results.jsp?sortfield=PRICE+descending&certifiedOnly=false&tracktype=usedcc&sortorder=descending&inPrintMode=false&searchType=&aff=national&criteria=K-|E-|M-_9_|N-N|R-30|I-1%2c7|P-PRICE+descending|Q-descending|Z-78757&nextGroupNumber=3&total=614&results_primary_sort=PRICE&aff=national&numResultsPerPage=250&pageNumber=1");
 ?>
 
 
