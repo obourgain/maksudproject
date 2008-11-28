@@ -27,6 +27,7 @@ class CrawlBoattrader {
 		$this->regexWeb->addRegexRule("Fuel", '%<span class="label(Left|Right)">Fuel Type:</span>(.+?)</li>%', "$2");
 		$this->regexWeb->addRegexRule("Phone", '/<li class="slrPhn(.+?)">(.*?)\(([0-9]+)\) ([0-9]+?)-([0-9]+)/', "($3) $4-$5");
 		$this->regexWeb->addRegexRule("Zip", "/zip=([0-9]+)/", "$1");
+		$this->regexWeb->addRegexRule("Price", '%<h2 class="rfloat lstgPrice">(\s+)([$0-9,.]+)(\s+)</h2>%', "$2");
 	}
 
 	function processABoatInfo($aid, $sid, $url) {
@@ -44,6 +45,7 @@ class CrawlBoattrader {
 		$zip = addslashes($this->regexWeb->parseRule("Zip"));
 		$phone = addslashes($this->regexWeb->parseRule("Phone"));
 		$imageurl = addslashes($this->regexWeb->parseRule("Photo"));
+		$price = addslashes($this->regexWeb->parseRule("Price"));
 
 		//Insert into MySQL database...
 		$sql = "INSERT INTO searchresult (`sid`, `url`, `class`, `category`, `year`, `make`, `model`, `length`, `fuel`, `phone`, `zip`, `price`, `imageurl` ) " .
