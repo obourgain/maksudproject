@@ -184,9 +184,9 @@ class CrawlBoattrader {
 
 	function processCrawl($site, $mode, $baseUrl) {
 		$currentTime = time() - 600; //10 minute
-		$sql = "SELECT sid FROM searches WHERE url=$baseUrl AND sid < $currentTime;";
+		$sql = "SELECT sid FROM searches WHERE url='$baseUrl' AND sid < '$currentTime';";
 		$result = $this->database->query($sql);
-		if ($result!=FALSE && mysql_num_rows($result) >= 0) {
+		if (mysql_num_rows($result) >= 0) {
 			$sid = time();
 			$this->insertSearch($sid, $baseUrl, $site, $mode);
 			$this->insertPendingSearch($sid, $baseUrl);
