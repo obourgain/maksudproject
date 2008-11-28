@@ -5,8 +5,12 @@ $site = $_GET['site'];
 $action = $_GET['action'];
 
 if ($site == 'boattrader' && $action == 'export') {
-	header("Content-type: text/x-csv");
-	header("Content-Disposition: attachment; filename=search_results.csv");
+	//header("Content-Disposition: attachment; filename=\"" . basename($file) . "\"");
+	//header("Content-Length: " . filesize($file));
+	//header("Content-Type: application/octet-stream;");
+	//header("Content-type: text/x-csv");
+	//header("Content-Disposition: attachment; filename=search_results.csv");
+
 	$sid = $_GET['sid'];
 	$sql = "select * from searchresult";
 	if ($sid != null)
@@ -34,7 +38,14 @@ if ($site == 'boattrader' && $action == 'export') {
 		$out .= "\n";
 	}
 
-	echo $out;
+	$ourFileName = $sid.".csv";
+	$fp = fopen($ourFileName, 'w') or die("can't open file");
+	fwrite($fp,$out);
+	fclose($fp);
+
+	echo "<a href='".$ourFileName."'>Download CSV File</a>";
+
+	//echo $out;
 } else {
 }
 ?>
