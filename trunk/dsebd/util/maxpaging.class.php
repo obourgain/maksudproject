@@ -103,10 +103,9 @@ class MaxPaging {
     	<table class="Result" border="1" cellspacing="1" cellpadding="1">
 <!-- Print Table Columns -->
 <?
-
-
 		echo '<tr class="ResultHeader">';
 		$i = 0;
+		echo '<th scope="col" class="Serial">Serial</th>';
 		for ($i = 0; $i < $this->colnum; $i++) {
 			echo '<th scope="col" class="' . $this->colname[$i] . '">';
 			if ($this->pageen) {
@@ -129,8 +128,6 @@ class MaxPaging {
 ?>
 <!-- Print Main Table	-->
 <?
-
-
 		$isOdd = true;
 		$query = $this->sql;
 		if ($this->pageen) {
@@ -148,6 +145,7 @@ class MaxPaging {
 		if ($result == NULL) {
 			return;
 		}
+		$ind = $eu +1;
 		//Now we will display the returned records in side the rows of the table//
 		while ($noticia = mysql_fetch_array($result)) {
 			if ($isOdd) {
@@ -158,6 +156,8 @@ class MaxPaging {
 				echo '<tr class="EvenRow">';
 			}
 
+			echo "<td>$ind</td>";
+			$ind++;
 			foreach ($this->colname as $value) {
 				echo '<td>';
 				if (array_key_exists($value, $this->modifier)) {
@@ -176,14 +176,11 @@ class MaxPaging {
 			}
 			echo "</tr>";
 		}
-
 		echo "</table>";
 		echo "</td>";
 ?>
 <!-- Now Print Paging Information -->
 <?
-
-
 		echo '<tr class="Pagination"><td>';
 		if ($back >= 0) {
 			echo "<a href='$this->page_name&start=$back&column_name=$this->column_name";
