@@ -24,7 +24,7 @@ if ($url != null && $url != "") {
 		if ($force == "force") {
 			unset ($_SESSION["sid"]);
 			$crawler = new CrawlCars();
-			$crawler->processCrawl("boattrader", $mode, $url);
+			$crawler->processCrawl("cars", $mode, $url);
 		} else {
 			echo "<h2>Another Search Session is running...</h2>";
 			$url = str_replace(" ", "%20", $url);

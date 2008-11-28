@@ -55,9 +55,14 @@ body {
     <h1>Search</h1>
     <h3><a href="searchboattrader.php">boattrader.com</a></h3>
     <h3><a href="searchcars.php">cars.com</a></h3>
+    <h3><a href="searchboats.php">boats.com</a></h3>
+    <h3><a href="searchautotrader.php">autotrader.com</a></h3>
     <br />
     <h1>Statistics</h1>
     <h3><a href="index.php?stat=boattrader">boattrader.com</a></h3>
+    <h3><a href="index.php?stat=cars">cars.com</a></h3>
+    <h3><a href="index.php?stat=boats">boats.com</a></h3>
+    <h3><a href="index.php?stat=autotrader">autotrader.com</a></h3>
   </div>
 </div>
 <div id="maincontent">
@@ -71,109 +76,189 @@ require_once (dirname(__FILE__) . "/crawler/crawl.boattrader.class.php");
 $web = $_GET["stat"];
 $database = new MySQLDB();
 
-if ($web == "boattrader") {
-	if ($_GET['r'] == "y") {
-		if (isset ($_GET['sid'])) {
-			$Obj = new MaxPaging("select * from searchresult where sid=" . $_GET['sid'], "index.php?stat=boattrader&r=y&sid=" . $_GET['sid'], 20, 20, "ASC");
-		} else {
-			$Obj = new MaxPaging("select * from searchresult", "index.php?stat=boattrader&r=y", 20, 20, "ASC");
-		}
-		$Obj->setColumnName($_GET['column_name']);
-		$Obj->setSortMode($_GET['sort']);
-		$Obj->setStart($_GET['start']);
-		$Obj->printGrid();
-	} else
-		if ($_GET['d'] == "y") {
-			if (isset ($_GET['sid'])) {
-				$database->query("delete from searchresult where sid=" . $_GET['sid']);
-				$database->query("delete from searches where sid=" . $_GET['sid']);
-				echo "<p>One Search deleted!</p>";
-			} else {
-				$database->query("delete from searchresult");
-				$database->query("delete from searches");
-				echo "<p>All Searches deleted!</p>";
-			}
-		} else
-			if ($_GET['p'] != null) {
-				if ($_GET['p'] == "y") {
-					$database->query("delete from pendingsearch where sid=" . $_GET["sid"]);
+function printStat($web) {
+	global $database;
+
+	echo "<a href='index.php?stat=$web&opt=result'>Browse All Search Data</a>";
+	echo "<br/> <a href='util/export.php?site=$web&action=export'>Export All to CSV</a>";
+
+	$result = $database->query("SELECT sid, url, mode, status FROM searches WHERE site='$web'");
+
+	$header = array ();
+	while ($raw = mysql_fetch_field($result))
+		$header[] = $raw->name;
+	$header[2] = "action";
+	unset ($header[3]);
+
+	$data = array ();
+	while ($raw = mysql_fetch_array($result))
+		$data[] = $raw;
+
+	for ($i = 0; $i < count($data); $i++) {
+		$tsid = $data[$i][0];
+		$tmode = $data[$i][2];
+		$tstat = $data[$i][3];
+		$data[$i][0] = "<a href='index.php?stat=$web&opt=result&sid=" . $tsid . "'>" . $tsid . "</a>";
+		$data[$i][2] = "<a href='index.php?stat=$web&opt=delete&sid=" . $tsid . "'>Delete</a>";
+		$data[$i][2] .= "<br/><a href='util/export.php?site=$web&action=export&sid=" . $tsid . "'>CSV</a>";
+		if ($tstat == "run")
+			$data[$i][2] .= "<br/><a href='index.php?stat=$web&opt=stop&sid=" . $tsid . "'>Stop</a>";
+		$data[$i][2] .= "<br/><a href='$web.php?resume=" . $tsid . "&mode=$tmode'>Resume</a>";
+		unset ($data[$i][3]);
+	}
+	$caption = "Searches";
+	include ("table.inc");
+
+	$result = $database->query("SELECT sid, url FROM pendingsearch");
+	$header = array ();
+	while ($raw = mysql_fetch_field($result))
+		$header[] = $raw->name;
+	$header[] = "action";
+
+	$data = array ();
+	while ($raw = mysql_fetch_array($result))
+		$data[] = $raw;
+
+	for ($i = 0; $i < count($data); $i++) {
+		$tsid = $data[$i][0];
+		$data[$i][0] = "<a href='index.php?stat=$web&opt=queue&sid=" . $tsid . "'>" . $tsid . "</a>";
+		$data[$i][] = "<a href='index.php?stat=$web&opt=pending&sid=" . $tsid . "'>Delete</a>";
+	}
+	echo "<br/><a href='index.php?stat=$web&opt=clean'>ClenupAll Pending Jobs</a>";
+	echo "<br/><a href='index.php?stat=$web&opt=pending'>Delete All Pending Jobs</a>";
+	$caption = "Pending Searches";
+	include ("table.inc");
+}
+
+function printDBGrid($query, $pagename, $limit = 10, $navlimit = 10, $sortmode = "ASC") {
+	$Obj = new MaxPaging($query, $pagename, $limit, $navlimit, $sortmode);
+	$Obj->setColumnName($_GET['column_name']);
+	$Obj->setSortMode($_GET['sort']);
+	$Obj->setStart($_GET['start']);
+	$Obj->printGrid();
+}
+
+switch ($web) {
+	case "boattrader" :
+		switch ($_GET['opt']) {
+			case "result" : //Show Results
+				if (isset ($_GET['sid'])) {
+					printDBGrid("SELECT `sid`, `url`, `class`, `category`, `year`, `make`, `model`, `length`, `fuel`, `phone`, `zip`, `price`, `imageurl` FROM searchresult WHERE sid='" . $_GET['sid'] . "'", "index.php?stat=$web&opt=result&sid=" . $_GET['sid'], 20, 20, "ASC");
+				} else {
+					printDBGrid("SELECT `sid`, `url`, `class`, `category`, `year`, `make`, `model`, `length`, `fuel`, `phone`, `zip`, `price`, `imageurl` FROM searchresult WHERE sid IN (SELECT sid FROM searches WHERE site='$web')", "index.php?stat=$web&opt=result", 20, 20, "ASC");
+				}
+				break;
+			case "delete" : //Delete result
+				if (isset ($_GET['sid'])) {
+					$database->query("DELETE FROM searchresult WHERE sid='" . $_GET['sid'] . "'");
+					$database->query("DELETE FROM pendingsearch WHERE sid='" . $_GET['sid'] . "'");
+					$database->query("DELETE FROM searches WHERE sid='" . $_GET['sid'] . "'");
+					echo "<p>One Search deleted!</p>";
+				} else {
+					$database->query("DELETE FROM searchresult WHERE sid IN (SELECT sid FROM searches WHERE site='$web')");
+					$database->query("DELETE FROM pendingsearch WHERE sid IN (SELECT sid FROM searches WHERE site='$web')");
+					$database->query("DELETE FROM searches WHERE site='$web'");
+					echo "<p>All Searches deleted!</p>";
+				}
+				printStat($web);
+				break;
+			case "pending" : //delete pending
+				if (isset ($_GET['sid'])) {
+					$database->query("DELETE FROM pendingsearch WHERE sid='" . $_GET["sid"] . "'");
 					echo "<p>One pending search deleted!</p>";
-				} else
-					if ($_GET['p'] == "a") {
-						$database->query("delete from pendingsearch");
-						echo "<p>All pending search deleted!</p>";
-					} else
-						if ($_GET['p'] == "c") {
-							$crBt = new CrawlBoattrader();
-							$crBt->cleanup();
-							echo "<p>Cleanup Performed!</p>";
-						} else
-							if ($_GET['p'] == "s") {
-								$database->query("update searches set status='stop' where sid=" . $_GET["sid"]);
-								echo "<p>One search set to stop!</p>";
-							} else {
-								if (isset ($_GET['sid'])) {
-									$Obj = new MaxPaging("select * from pendingqueue where sid=" . $_GET['sid'], "index.php?stat=boattrader&p=r&sid=" . $_GET['sid'], 100, 20, "ASC");
-								} else {
-									$Obj = new MaxPaging("select * from pendingqueue", "index.php?stat=boattrader&p=r", 100, 20, "ASC");
-								}
-								$Obj->setColumnName($_GET['column_name']);
-								$Obj->setSortMode($_GET['sort']);
-								$Obj->setStart($_GET['start']);
-								$Obj->printGrid();
-							}
-			} else {
-				$result = $database->query("select sid, url, mode, status from searches");
-
-				$header = array ();
-				while ($raw = mysql_fetch_field($result))
-					$header[] = $raw->name;
-				$header[2] = "action";
-				unset ($header[3]);
-
-				$data = array ();
-				while ($raw = mysql_fetch_array($result))
-					$data[] = $raw;
-
-				for ($i = 0; $i < count($data); $i++) {
-					$tsid = $data[$i][0];
-					$tmode = $data[$i][2];
-					$tstat = $data[$i][3];
-					$data[$i][0] = "<a href='index.php?stat=boattrader&r=y&sid=" . $tsid . "'>" . $tsid . "</a>";
-					$data[$i][2] = "<a href='index.php?stat=boattrader&d=y&sid=" . $tsid . "'>Delete</a>";
-					$data[$i][2] .= "<br/><a href='util/export.php?site=boattrader&action=export&sid=" . $tsid . "'>CSV</a>";
-					if ($tstat == "run")
-						$data[$i][2] .= "<br/><a href='index.php?stat=boattrader&p=s&sid=" . $tsid . "'>Stop</a>";
-					$data[$i][2] .= "<br/><a href='boattrader.php?resume=" . $tsid . "&mode=$tmode'>Resume</a>";
-					unset ($data[$i][3]);
+				} else {
+					$database->query("DELETE FROM pendingsearch WHERE sid IN (SELECT sid FROM searches WHERE site='$web')");
+					echo "<p>All pending search deleted!</p>";
 				}
-
-				echo "<a href='index.php?stat=boattrader&r=y'>Browse All Search Data</a>";
-				echo "<br/> <a href='util/export.php?site=boattrader&action=export'>Export All to CSV</a>";
-				$caption = "Searches";
-				include ("table.inc");
-
-				$result = $database->query("select sid, url from pendingsearch");
-
-				$header = array ();
-				while ($raw = mysql_fetch_field($result))
-					$header[] = $raw->name;
-				$header[] = "action";
-
-				$data = array ();
-				while ($raw = mysql_fetch_array($result))
-					$data[] = $raw;
-
-				for ($i = 0; $i < count($data); $i++) {
-					$tsid = $data[$i][0];
-					$data[$i][0] = "<a href='index.php?stat=boattrader&p=r&sid=" . $tsid . "'>" . $tsid . "</a>";
-					$data[$i][] = "<a href='index.php?stat=boattrader&p=y&sid=" . $tsid . "'>Delete</a>";
+				printStat($web);
+				break;
+			case "clean" : //cleanup
+				$crBt = new CrawlBoattrader();
+				$crBt->cleanup();
+				echo "<p>Cleanup Performed!</p>";
+				printStat($web);
+				break;
+			case "stop" : //Stop
+				if (isset ($_GET['sid'])) {
+					$database->query("UPDATE searches SET status='stop' WHERE sid='" . $_GET["sid"] . "'");
+					echo "<p>One search set to stop!</p>";
 				}
-				echo "<br/><a href='index.php?stat=boattrader&p=c'>ClenupAll Pending Jobs</a>";
-				echo "<br/><a href='index.php?stat=boattrader&p=a'>Delete All Pending Jobs</a>";
-				$caption = "Pending Searches";
-				include ("table.inc");
-			}
+				printStat($web);
+				break;
+			case "queue" :
+				if (isset ($_GET['sid'])) {
+					printDBGrid("SELECT * FROM pendingqueue WHERE sid='" . $_GET['sid'] . "'", "index.php?stat=$web&opt=queue&sid=" . $_GET['sid'], 10, 20, "ASC");
+				} else {
+					printDBGrid("SELECT * FROM pendingqueue", "index.php?stat=$web&opt=queue", 10, 20, "ASC");
+				}
+				break;
+			default :
+				printStat($web);
+				break;
+		}
+		break;
+	case "cars" :
+		switch ($_GET['opt']) {
+			case "result" : //Show Results
+				if (isset ($_GET['sid'])) {
+					printDBGrid("SELECT `sid`, `url`, `mileage`, `body`, `interiorcolor`, `exteriorcolor`, `stock`, `engine`, `transmission`, `doors`, `zip`, `phone`, `wheelbase`, `price`, `imageurl` FROM searchresult WHERE sid='" . $_GET['sid'] . "'", "index.php?stat=$web&opt=result&sid=" . $_GET['sid'], 20, 20, "ASC");
+				} else {
+					printDBGrid("SELECT `sid`, `url`, `class`, `category`, `year`, `make`, `model`, `length`, `fuel`, `phone`, `zip`, `price`, `imageurl` FROM searchresult WHERE sid IN (SELECT sid FROM searches WHERE site='$web')", "index.php?stat=$web&opt=result", 20, 20, "ASC");
+				}
+				break;
+			case "delete" : //Delete result
+				if (isset ($_GET['sid'])) {
+					$database->query("DELETE FROM searchresult WHERE sid='" . $_GET['sid'] . "'");
+					$database->query("DELETE FROM pendingsearch WHERE sid='" . $_GET['sid'] . "'");
+					$database->query("DELETE FROM searches WHERE sid='" . $_GET['sid'] . "'");
+					echo "<p>One Search deleted!</p>";
+				} else {
+					$database->query("DELETE FROM searchresult WHERE sid IN (SELECT sid FROM searches WHERE site='$web')");
+					$database->query("DELETE FROM pendingsearch WHERE sid IN (SELECT sid FROM searches WHERE site='$web')");
+					$database->query("DELETE FROM searches WHERE site='$web'");
+					echo "<p>All Searches deleted!</p>";
+				}
+				printStat($web);
+				break;
+			case "pending" : //delete pending
+				if (isset ($_GET['sid'])) {
+					$database->query("DELETE FROM pendingsearch WHERE sid='" . $_GET["sid"] . "'");
+					echo "<p>One pending search deleted!</p>";
+				} else {
+					$database->query("DELETE FROM pendingsearch WHERE sid IN (SELECT sid FROM searches WHERE site='$web')");
+					echo "<p>All pending search deleted!</p>";
+				}
+				printStat($web);
+				break;
+			case "clean" : //cleanup
+				$crBt = new CrawlBoattrader();
+				$crBt->cleanup();
+				echo "<p>Cleanup Performed!</p>";
+				printStat($web);
+				break;
+			case "stop" : //Stop
+				if (isset ($_GET['sid'])) {
+					$database->query("UPDATE searches SET status='stop' WHERE sid='" . $_GET["sid"] . "'");
+					echo "<p>One search set to stop!</p>";
+				}
+				printStat($web);
+				break;
+			case "queue" :
+				if (isset ($_GET['sid'])) {
+					printDBGrid("SELECT * FROM pendingqueue WHERE sid='" . $_GET['sid'] . "'", "index.php?stat=$web&opt=queue&sid=" . $_GET['sid'], 10, 20, "ASC");
+				} else {
+					printDBGrid("SELECT * FROM pendingqueue", "index.php?stat=$web&opt=queue", 10, 20, "ASC");
+				}
+				break;
+			default :
+				printStat($web);
+				break;
+		}
+		break;
+	case "autotrader" :
+		break;
+	case "boats" :
+		break;
 }
 ?>
   </div>
