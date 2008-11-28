@@ -66,14 +66,9 @@ class CrawlBoattrader {
 	}
 
 	function willCancel($sid) {
-		//If Session is cancelled stop the search
-		//		if (!isset ($_SESSION["sid"]) || $_SESSION["sid"] != $sid) //a check...
-		//			return true;
-
 		$sql = "SELECT status FROM searches WHERE sid='$sid';";
 		$result = mysql_fetch_array($this->database->query($sql));
 		if ($result != FALSE && $result['status'] != 'run') {
-			//			unset ($_SESSION["sid"]);
 			return true;
 		}
 		return false;
@@ -126,7 +121,6 @@ class CrawlBoattrader {
 	function resumeCrawl($sid, $mode) {
 		$this->cleanup();
 		$this->si = 0;
-		//		$_SESSION["sid"] = $sid;
 		$search = $this->getPendingSearch($sid);
 
 		if ($mode == "normal") {
@@ -138,13 +132,13 @@ class CrawlBoattrader {
 			echo "<h3>Collecting Search Results... </h3><p><i>" . $url . "</i></p>\n";
 			$this->processLinks($sid, $url);
 
-			// Traverse for normal mode... No Graceful Exit
+			// Traverse for normal mode...
 			if ($mode == "normal") {
 				$result = $this->processPendingQueue($sid);
 			}
 
 			$search = $this->getPendingSearch($sid);
-			if ($search == FALSE)
+			if ($search == FALSE || $this->willCancel($sid))
 				$url = null;
 			else
 				$url = $search["url"];
@@ -154,7 +148,6 @@ class CrawlBoattrader {
 		if ($mode == "extended") {
 			$this->processPendingQueue($sid);
 		}
-		//		unset ($_SESSION["sid"]);
 		echo "<h1>Finished!!!</h1>";
 	}
 
@@ -190,10 +183,19 @@ class CrawlBoattrader {
 	}
 
 	function processCrawl($site, $mode, $baseUrl) {
-		$sid = time();
-		$this->insertSearch($sid, $baseUrl, $site, $mode);
-		$this->insertPendingSearch($sid, $baseUrl);
-		$this->resumeCrawl($sid, $mode);
+		$currentTime = time() - 600; //10 minute
+		$sql = "SELECT sid FROM searches WHERE url=$baseUrl AND sid < $currentTime;";
+		$result = $this->database->query($sql);
+		if ($result!=FALSE && mysql_num_rows($result) >= 0) {
+			$sid = time();
+			$this->insertSearch($sid, $baseUrl, $site, $mode);
+			$this->insertPendingSearch($sid, $baseUrl);
+			$this->resumeCrawl($sid, $mode);
+		}
+		else
+		{
+			echo '<h4>You cannot search this too fast! A search may be already pending.</h4>';
+		}
 	}
 }
 ?>
