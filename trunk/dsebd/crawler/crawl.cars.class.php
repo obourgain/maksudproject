@@ -55,12 +55,16 @@ class CrawlCars {
 		$sql = "INSERT INTO searchresult (`sid`, `url`, `mileage`, `body`, `interiorcolor`, `exteriorcolor`, `stock`, `engine`, `transmission`, `doors`, `zip`, `phone`, `wheelbase`, `price`, `imageurl` ) " .
 		"VALUES ( '$sid',  '$itemUrl',  '$mileage',  '$body',  '$interiorcolor',  '$exteriorcolor', '$stock',  '$engine',  '$transmission',  '$doors',  '$zip',  '$phone', '$wheelbase','$price','$imageurl');";
 		$result = $this->database->query($sql);
-		$sql = "DELETE FROM pendingqueue WHERE aid=$aid";
+		$sql = "DELETE FROM pendingqueue WHERE aid='$aid'";
 		$result = $this->database->query($sql);
+
+		usleep(500000);//0.5 Second...
+		//sleep(1);//1 Second...
+
 	}
 
 	function getPendingLinks($sid) {
-		$result = $this->database->query("SELECT * FROM pendingqueue WHERE sid=$sid limit 5;");
+		$result = $this->database->query("SELECT * FROM pendingqueue WHERE sid='$sid' limit 5;");
 		$links = array ();
 		while ($row = mysql_fetch_array($result)) {
 			$links[0][] = $row["url"];
@@ -90,7 +94,7 @@ class CrawlCars {
 	}
 
 	function getPendingSearch($sid) {
-		$result = $this->database->query("SELECT * FROM pendingsearch WHERE sid=$sid;");
+		$result = $this->database->query("SELECT * FROM pendingsearch WHERE sid='$sid';");
 		return mysql_fetch_array($result);
 	}
 
@@ -106,13 +110,13 @@ class CrawlCars {
 		echo "<p><i>No of results found in this page: " . count($mc) . "</i></p>\n";
 		if ($next == null || $next == "") {
 			//Search is finished
-			$sql = "DELETE FROM pendingsearch WHERE sid=$sid;"; //Delete Entry
+			$sql = "DELETE FROM pendingsearch WHERE sid='$sid';"; //Delete Entry
 			$result = $this->database->query($sql);
 			echo "Finished Collecting URL!";
 		} else {
 			$url = "http://www.cars.com/go/search/" . $next;
 			$newtime = time();
-			$sql = "UPDATE pendingsearch SET url='$url', timestamp=$newtime WHERE sid=$sid;"; //Update Next Field
+			$sql = "UPDATE pendingsearch SET url='$url', timestamp='$newtime' WHERE sid='$sid';"; //Update Next Field
 			$result = $this->database->query($sql);
 		}
 
@@ -158,16 +162,16 @@ class CrawlCars {
 	}
 
 	function updateDatabaseStatus($sid) {
-		$this->database->query("update searches set status='run' where sid=$sid");
+		$this->database->query("update searches set status='run' where sid='$sid'");
 	}
 
 	function cleanup() {
 		$currentTime = time() - 600; //10 minute
-		$sql = "SELECT sid FROM pendingsearch WHERE timestamp < $currentTime;";
+		$sql = "SELECT sid FROM pendingsearch WHERE timestamp < '$currentTime';";
 		$result = $this->database->query($sql);
 
 		while ($row = mysql_fetch_array($result)) {
-			$tmp = $this->database->query("SELECT mode FROM searches WHERE sid=" . $row['sid'] . ";");
+			$tmp = $this->database->query("SELECT mode FROM searches WHERE sid='" . $row['sid'] . "';");
 			$tmp = mysql_fetch_array($tmp);
 			if ($tmp["mode"] == "normal")
 				$this->database->query("DELETE FROM pendingqueue WHERE sid='" . $row['sid'] . "';");
@@ -197,9 +201,9 @@ class CrawlCars {
 		}
 
 		$currentTime = time() - 600; //10 minute
-		$sql = "SELECT sid FROM searches WHERE url=$baseUrl AND sid < $currentTime;";
+		$sql = "SELECT sid FROM searches WHERE url='$baseUrl' AND sid < '$currentTime';";
 		$result = $this->database->query($sql);
-		if ($result != FALSE && mysql_num_rows($result) >= 0) {
+		if (mysql_num_rows($result) >= 0) {
 			$sid = time();
 			$this->insertSearch($sid, $baseUrl, $site, $mode);
 			$this->insertPendingSearch($sid, $baseUrl);
