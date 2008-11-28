@@ -215,28 +215,6 @@ Next = <a class="navNext" href="(.+?)">Next
 
 
 
-Phone: (888) 810-7741
-Year: 2009  Insure It
-Length: 557 ft 9 in  Survey It
-Price: EUR 420,000,000.00
-(US$533,022,000)  Finance It
-Located in: Call for Location, Ukraine  Transport It
-More Boats from this Seller
-	Print This Ad | Save This Ad | Email a Friend
-
-
-Request More Info Trade In Value Request Appointment Finance It
-Fuel: 	Diesel
-Hull Material: 	Steel
-Engine Type: 	Inboard
-Beam: 	90 ft 3 in
-Max Draft: 	23 ft
-Dry Weight 	3.74 lb
-Length at Waterline 	521 ft 8 in	Number of Engines
-
-
-
-
 
 
 

@@ -45,7 +45,7 @@ class CrawlCars {
 		$engine = addslashes($this->regexWeb->parseRule("Engine"));
 		$transmission = addslashes($this->regexWeb->parseRule("Transmission"));
 		$doors = addslashes($this->regexWeb->parseRule("Doors"));
-		$zip = addslashes($this->regexWeb->parseRule("Zip"));
+		$zip = addslashes($this->zip);
 		$phone = addslashes($this->regexWeb->parseRule("Phone"));
 		$wheelbase = addslashes($this->regexWeb->parseRule("Wheelbase"));
 		$price = addslashes($this->regexWeb->parseRule("Price"));
@@ -70,14 +70,9 @@ class CrawlCars {
 	}
 
 	function willCancel($sid) {
-		//If Session is cancelled stop the search
-		//		if (!isset ($_SESSION["sid"]) || $_SESSION["sid"] != $sid) //a check...
-		//			return true;
-
 		$sql = "SELECT status FROM searches WHERE sid='$sid';";
 		$result = mysql_fetch_array($this->database->query($sql));
 		if ($result != FALSE && $result['status'] != 'run') {
-			//			unset ($_SESSION["sid"]);
 			return true;
 		}
 		return false;
@@ -144,13 +139,12 @@ class CrawlCars {
 			echo "<h3>Collecting Search Results... </h3><p><i>" . $url . "</i></p>\n";
 			$this->processLinks($sid, $url);
 
-			// Traverse for normal mode... No Graceful Exit
 			if ($mode == "normal") {
 				$result = $this->processPendingQueue($sid);
 			}
 
 			$search = $this->getPendingSearch($sid);
-			if ($search == FALSE)
+			if ($search == FALSE || $this->willCancel($sid))
 				$url = null;
 			else
 				$url = $search["url"];
@@ -160,7 +154,6 @@ class CrawlCars {
 		if ($mode == "extended") {
 			$this->processPendingQueue($sid);
 		}
-		//		unset ($_SESSION["sid"]);
 		echo "<h1>Finished!!!</h1>";
 	}
 
@@ -196,10 +189,24 @@ class CrawlCars {
 	}
 
 	function processCrawl($site, $mode, $baseUrl) {
-		$sid = time();
-		$this->insertSearch($sid, $baseUrl, $site, $mode);
-		$this->insertPendingSearch($sid, $baseUrl);
-		$this->resumeCrawl($sid, $mode);
+
+		if (preg_match('/Z-([0-9]{5})/', $baseUrl, $regs)) {
+			$this->zip = $regs[1];
+		} else {
+			$this->zip = "";
+		}
+
+		$currentTime = time() - 600; //10 minute
+		$sql = "SELECT sid FROM searches WHERE url=$baseUrl AND sid < $currentTime;";
+		$result = $this->database->query($sql);
+		if ($result != FALSE && mysql_num_rows($result) >= 0) {
+			$sid = time();
+			$this->insertSearch($sid, $baseUrl, $site, $mode);
+			$this->insertPendingSearch($sid, $baseUrl);
+			$this->resumeCrawl($sid, $mode);
+		} else {
+			echo '<h4>You cannot search this too fast! A search may be already pending.</h4>';
+		}
 	}
 }
 
