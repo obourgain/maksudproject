@@ -14,7 +14,7 @@ class CrawlCars {
 		$this->regexWeb = new RegexWebCrawler("");
 		$this->database = new MySQLDB();
 
-		$this->regexWeb->addRegexRule("Search", '/<div class="YmmHeader"><a href="([^\s]+?)"/si', "$1");
+		$this->regexWeb->addRegexRule("Search", '/<div class="YmmHeader"><a href="([^\s]+?)(paId=[0-9]+)([^\s]+?)"/', "$2");
 		$this->regexWeb->addRegexRule("Next", '/<div class="next" id="nxtLower"><a href="([^\s]+?)"/si', "$1");
 
 		$this->regexWeb->addRegexRule("Mileage", '%Mileage:</span>(\s*)<span class="data">(.+?)</span>%', "$2");
@@ -22,6 +22,7 @@ class CrawlCars {
 		$this->regexWeb->addRegexRule("InteriorColor", '%Interior Color:</span>(\s*)<span class="data">(.+?)</span>%', "$2");
 		$this->regexWeb->addRegexRule("ExteriorColor", '%Exterior Color:</span>(\s*)<span class="data">(.+?)</span>%', "$2");
 		$this->regexWeb->addRegexRule("Stock", '%Stock #:</span>(\s*)<span class="data">(.+?)</span>%', "$2");
+		$this->regexWeb->addRegexRule("Price", '%<span class="vehiclePrice">(.+?)</span>%', "$1");
 		$this->regexWeb->addRegexRule("Engine", '%Engine:</span>(\s*)<span class="data">(.+?)</span>%', "$2");
 		$this->regexWeb->addRegexRule("Transmission", '%Transmission:</span>(\s*)<span class="data">(.+?)</span>%', "$2");
 		$this->regexWeb->addRegexRule("Doors", '%Doors:</span>(\s*)<span class="data">(.+?)</span>%', "$2");
@@ -32,24 +33,27 @@ class CrawlCars {
 	}
 
 	function processAnElementInfo($aid, $sid, $url) {
-		$itemUrl = "http://www.cars.com/go/search/" . $url;
+		$itemUrl = "http://www.cars.com/go/search/detail.jsp?" . $url;
 		$result = WebUtility :: getHttpContent($itemUrl);
 		$this->regexWeb->setParseData($result);
 
-		//		$class = addslashes($this->regexWeb->parseRule("Class"));
-		//		$category = addslashes($this->regexWeb->parseRule("Category"));
-		//		$year = addslashes($this->regexWeb->parseRule("Year"));
-		//		$make = addslashes($this->regexWeb->parseRule("Make"));
-		//		$model = addslashes($this->regexWeb->parseRule("Model"));
-		//		$length = addslashes($this->regexWeb->parseRule("Length"));
-		//		$fuel = addslashes($this->regexWeb->parseRule("Fuel"));
+		$mileage = addslashes($this->regexWeb->parseRule("Mileage"));
+		$body = addslashes($this->regexWeb->parseRule("Body"));
+		$interiorcolor = addslashes($this->regexWeb->parseRule("InteriorColor"));
+		$exteriorcolor = addslashes($this->regexWeb->parseRule("ExteriorColor"));
+		$stock = addslashes($this->regexWeb->parseRule("Stock"));
+		$engine = addslashes($this->regexWeb->parseRule("Engine"));
+		$transmission = addslashes($this->regexWeb->parseRule("Transmission"));
+		$doors = addslashes($this->regexWeb->parseRule("Doors"));
 		$zip = addslashes($this->regexWeb->parseRule("Zip"));
 		$phone = addslashes($this->regexWeb->parseRule("Phone"));
+		$wheelbase = addslashes($this->regexWeb->parseRule("Wheelbase"));
+		$price = addslashes($this->regexWeb->parseRule("Price"));
 		$imageurl = addslashes($this->regexWeb->parseRule("Photo"));
 
 		//Insert into MySQL database...
-		$sql = "INSERT INTO searchresult (`sid`, `url`, `class`, `category`, `year`, `make`, `model`, `length`, `fuel`, `phone`, `zip`, `price`, `imageurl` ) " .
-		"VALUES ( '$sid',  '$itemUrl',  '$class',  '$category',  '$year',  '$make',  '$model',  '$length',  '$fuel',  '$phone',  '$zip',  '$price',  '$imageurl');";
+		$sql = "INSERT INTO searchresult (`sid`, `url`, `mileage`, `body`, `interiorcolor`, `exteriorcolor`, `stock`, `engine`, `transmission`, `doors`, `zip`, `phone`, `wheelbase`, `price`, `imageurl` ) " .
+		"VALUES ( '$sid',  '$itemUrl',  '$mileage',  '$body',  '$interiorcolor',  '$exteriorcolor', '$stock',  '$engine',  '$transmission',  '$doors',  '$zip',  '$phone', '$wheelbase','$price','$imageurl');";
 		$result = $this->database->query($sql);
 		$sql = "DELETE FROM pendingqueue WHERE aid=$aid";
 		$result = $this->database->query($sql);
