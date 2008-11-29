@@ -10,7 +10,7 @@
 <?
 require_once ("crawler/crawl.cars.class.php");
 
-$url = $_GET["url"];
+$url = $_POST["url"];
 $mode = $_GET["mode"];
 $force = $_GET["force"];
 if ($mode != "normal" && $mode != "extended")
@@ -20,28 +20,16 @@ if ($url != null && $url != "") {
 	echo "<h2>Beginning Fetch operation:</h2>";
 	echo "<h2>Logs:</h2>";
 
-	if (isset ($_SESSION["sid"])) {
-		if ($force == "force") {
-			unset ($_SESSION["sid"]);
-			$crawler = new CrawlCars();
-			$crawler->processCrawl("cars", $mode, $url);
-		} else {
-			echo "<h2>Another Search Session is running...</h2>";
-			$url = str_replace(" ", "%20", $url);
-			echo "<h2><a href=cars.php?url=" . $url . "&mode=" . $mode . "&force=force>Click to force Search...</a></h2>";
-		}
-	} else {
-		$crawler = new CrawlCars();
-		$crawler->processCrawl("cars", $mode, $url);
-	}
-} else
-	if ($_GET["resume"] != null) {
-		$crawler = new CrawlCars();
-		$crawler->updateDatabaseStatus($_GET["resume"]);
-		$crawler->resumeCrawl($_GET["resume"], $mode);
-	} else {
-		echo "<b><em>Nothing to do.</em></b>";
-	}
+	$crawler = new CrawlCars();
+	$crawler->processCrawl("cars", $mode, $url);
+}
+elseif ($_GET["resume"] != null) {
+	$crawler = new CrawlCars();
+	$crawler->updateDatabaseStatus($_GET["resume"]);
+	$crawler->resumeCrawl($_GET["resume"], $mode);
+} else {
+	echo "<b><em>Nothing to do.</em></b>";
+}
 ?>
 </body>
 </html>

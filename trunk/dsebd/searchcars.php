@@ -2,13 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title>Search Cars.com</title>
 </head>
 
 <body>
-<form id="form1" name="form1" method="GET" action="cars.php">
+<form id="form1" name="form1" method="POST" action="cars.php">
   <label>Search Url
     <input type="text" name="url" id="url" />
+    <input type="hidden" name="mode" value="normal" id="mode" />
   </label>
     <input type="submit" name="search" id="search" value="Search" />
 
