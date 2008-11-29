@@ -20,11 +20,12 @@ class CrawlBoats {
 
 		$this->regexWeb->addRegexRule("Title", '/<title>(.+?) - Boats\.com/', "$1");
 		$this->regexWeb->addRegexRule("Engine", '%<B>Engine Type&nbsp;</B></TD><TD width=116 valign=top style=\'padding-right:50px;\'><span class=boatspecs_values>(.+?)</span>%', "$1");
+		$this->regexWeb->addRegexRule("Hull", '%<B>Hull Material&nbsp;</B></TD><TD width=116 valign=top style=\'padding-right:50px;\'><span class=boatspecs_values>(.+?)</span>%', "$1");
 		$this->regexWeb->addRegexRule("Year", '%<b>Year:</b>(\s+)([0-9]+)%', "$2");
 		$this->regexWeb->addRegexRule("Make", '%<B>Engine Make&nbsp;</B></TD><TD width=116 valign=top style=\'padding-right:50px;\'><span class=boatspecs_values>(.+?)</span>%', "$1");
 		$this->regexWeb->addRegexRule("Length", '%<b>Length:</b>(\s+)([0-9]+)%', "$2");
 		$this->regexWeb->addRegexRule("Fuel", '%<B>Fuel&nbsp;</B></TD><TD width=116 valign=top style=\'padding-right:50px;\'><span class=boatspecs_values>(.+?)</span>%', "$1");
-		$this->regexWeb->addRegexRule("Price", '%<b>Price:</b>(\s+)(.+?)&%', "$2");
+		$this->regexWeb->addRegexRule("Price", '%<b>Price:</b>(.+)(US\$.+?)\)?&nbsp;&nbsp;%s', "$2");
 		$this->regexWeb->addRegexRule("Phone", '%Call:&nbsp;([0-9]{3})-([0-9]{3})-([0-9]{4})%', "($1) $2-$3");
 		$this->regexWeb->addRegexRule("Photo", '%<a class="bodylink" href="(.+?)"><img src="(.+?)"(.+?)></a>%', "$2");
 	}
@@ -38,6 +39,7 @@ class CrawlBoats {
 		$title = addslashes($this->regexWeb->parseRule("Title"));
 		$class = addslashes($this->boatclass);
 		$engine = addslashes($this->regexWeb->parseRule("Engine"));
+		$hull = addslashes($this->regexWeb->parseRule("Hull"));
 		$year = addslashes($this->regexWeb->parseRule("Year"));
 		$make = addslashes($this->regexWeb->parseRule("Make"));
 		$length = addslashes($this->regexWeb->parseRule("Length"));
@@ -48,15 +50,14 @@ class CrawlBoats {
 		$imageurl = addslashes($this->regexWeb->parseRule("Photo"));
 
 		//Insert into MySQL database...
-		$sql = "INSERT INTO searchresult (`sid`, `url`, `mileage`, `body`, `interiorcolor`, `exteriorcolor`, `stock`, `engine`, `transmission`, `doors`, `zip`, `phone`, `wheelbase`, `price`, `imageurl` ) " .
-		"VALUES ( '$sid',  '$itemUrl',  '$mileage',  '$body',  '$interiorcolor',  '$exteriorcolor', '$stock',  '$engine',  '$transmission',  '$doors',  '$zip',  '$phone', '$wheelbase','$price','$imageurl');";
+		$sql = "INSERT INTO searchresult (`sid`, `url`, `title`, `class`, `engine`, `hull`, `year`, `make`, `length`, `fuel`, `zip`, `phone`, `price`, `imageurl` ) " .
+		"VALUES ( '$sid',  '$itemUrl',  '$title',  '$class',  '$engine',  '$hull', '$year',  '$make',  '$length',  '$fuel',  '$zip',  '$phone', '$price','$imageurl');";
 		$result = $this->database->query($sql);
 		$sql = "DELETE FROM pendingqueue WHERE aid='$aid'";
 		$result = $this->database->query($sql);
 
 		//usleep(500000); //0.5 Second...
 		//sleep(1);//1 Second...
-
 	}
 
 	function getPendingLinks($sid) {
@@ -80,7 +81,7 @@ class CrawlBoats {
 	}
 
 	function processPendingQueue($sid) {
-		while (count($result = $this->getPendingLinks($sid)) == 2) {
+		while (count($result = $this->getPendingLinks($sid)) > 1) {
 			for ($i = 0; $i < count($result[0]); $i++) {
 				echo "<p>Collecting # " . ($this->si++ +1) . " :" . $result[0][$i] . "</p>\n";
 				$this->boatclass = $result[2][$i];
@@ -103,9 +104,12 @@ class CrawlBoats {
 		$this->regexWeb->setParseData($result);
 		$mc = $this->regexWeb->parseRuleArray("Search");
 		$next = $this->regexWeb->parseRule("Next");
+		$next = str_replace("&amp;", "&", $next);
 		$classes = $this->regexWeb->parseRuleArray("InfoClass");
-
 		echo "<p><i>No of results found in this page: " . count($mc) . "</i></p>\n";
+		if (count($mc) < 10 || $url == $next)
+			$next = null;
+
 		if ($next == null || $next == "") {
 			//Search is finished
 			$sql = "DELETE FROM pendingsearch WHERE sid='$sid';"; //Delete Entry
