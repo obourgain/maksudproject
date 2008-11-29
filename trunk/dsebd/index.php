@@ -258,7 +258,64 @@ switch ($web) {
 	case "autotrader" :
 		break;
 	case "boats" :
+		switch ($_GET['opt']) {
+			case "result" : //Show Results
+				if (isset ($_GET['sid'])) {
+					printDBGrid("SELECT `sid`, `url`, `title`, `class`, `engine`, `hull`, `year`, `make`, `length`, `fuel`, `zip`, `phone`, `price`, `imageurl` FROM searchresult WHERE sid='" . $_GET['sid'] . "'", "index.php?stat=$web&opt=result&sid=" . $_GET['sid'], 20, 20, "ASC");
+				} else {
+					printDBGrid("SELECT `sid`, `url`, `title`, `class`, `engine`, `hull`, `year`, `make`, `length`, `fuel`, `zip`, `phone`, `price`, `imageurl` FROM searchresult WHERE sid IN (SELECT sid FROM searches WHERE site='$web')", "index.php?stat=$web&opt=result", 20, 20, "ASC");
+				}
+				break;
+			case "delete" : //Delete result
+				if (isset ($_GET['sid'])) {
+					$database->query("DELETE FROM searchresult WHERE sid='" . $_GET['sid'] . "'");
+					$database->query("DELETE FROM pendingsearch WHERE sid='" . $_GET['sid'] . "'");
+					$database->query("DELETE FROM searches WHERE sid='" . $_GET['sid'] . "'");
+					echo "<p>One Search deleted!</p>";
+				} else {
+					$database->query("DELETE FROM searchresult WHERE sid IN (SELECT sid FROM searches WHERE site='$web')");
+					$database->query("DELETE FROM pendingsearch WHERE sid IN (SELECT sid FROM searches WHERE site='$web')");
+					$database->query("DELETE FROM searches WHERE site='$web'");
+					echo "<p>All Searches deleted!</p>";
+				}
+				printStat($web);
+				break;
+			case "pending" : //delete pending
+				if (isset ($_GET['sid'])) {
+					$database->query("DELETE FROM pendingsearch WHERE sid='" . $_GET["sid"] . "'");
+					echo "<p>One pending search deleted!</p>";
+				} else {
+					$database->query("DELETE FROM pendingsearch WHERE sid IN (SELECT sid FROM searches WHERE site='$web')");
+					echo "<p>All pending search deleted!</p>";
+				}
+				printStat($web);
+				break;
+			case "clean" : //cleanup
+				$crBt = new CrawlBoattrader();
+				$crBt->cleanup();
+				echo "<p>Cleanup Performed!</p>";
+				printStat($web);
+				break;
+			case "stop" : //Stop
+				if (isset ($_GET['sid'])) {
+					$database->query("UPDATE searches SET status='stop' WHERE sid='" . $_GET["sid"] . "'");
+					echo "<p>One search set to stop!</p>";
+				}
+				printStat($web);
+				break;
+			case "queue" :
+				if (isset ($_GET['sid'])) {
+					printDBGrid("SELECT * FROM pendingqueue WHERE sid='" . $_GET['sid'] . "'", "index.php?stat=$web&opt=queue&sid=" . $_GET['sid'], 10, 20, "ASC");
+				} else {
+					printDBGrid("SELECT * FROM pendingqueue", "index.php?stat=$web&opt=queue", 10, 20, "ASC");
+				}
+				break;
+			default :
+				printStat($web);
+				break;
+		}
 		break;
+
 }
 ?>
   </div>
