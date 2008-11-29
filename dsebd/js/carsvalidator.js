@@ -6,10 +6,6 @@ function advanced_search(val)
 	document.getElementById("searchtype").value = val;
 }
 
-function fixUrl()
-{
-}
-
 var car_type = new Array();
 car_type["All"] = "";
 car_type["Convertibles"] = "3";
@@ -1091,9 +1087,9 @@ function updateZip()
         var zipCode = params.substring(0,5)
         var rad = params.substring(6,params.length)
         //alert('updateZip params='+params+'  zipCode='+zipCode+'  radius='+rad);
-        
+
         zipcode.value = zipCode;
-        
+
         if (rad == "10")
         {
         radius.selectedIndex = 0;
@@ -1155,7 +1151,7 @@ function fixMakeSelection(doc)
 	else
 	{
 		var models1 = car_make_model[doc[doc.selectedIndex].text];
-		
+
 		str = "<option value=''>All</option>";
 		for (x in models1)
 		{
