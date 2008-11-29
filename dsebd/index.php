@@ -203,7 +203,7 @@ switch ($web) {
 				if (isset ($_GET['sid'])) {
 					printDBGrid("SELECT `sid`, `url`, `mileage`, `body`, `interiorcolor`, `exteriorcolor`, `stock`, `engine`, `transmission`, `doors`, `zip`, `phone`, `wheelbase`, `price`, `imageurl` FROM searchresult WHERE sid='" . $_GET['sid'] . "'", "index.php?stat=$web&opt=result&sid=" . $_GET['sid'], 20, 20, "ASC");
 				} else {
-					printDBGrid("SELECT `sid`, `url`, `class`, `category`, `year`, `make`, `model`, `length`, `fuel`, `phone`, `zip`, `price`, `imageurl` FROM searchresult WHERE sid IN (SELECT sid FROM searches WHERE site='$web')", "index.php?stat=$web&opt=result", 20, 20, "ASC");
+					printDBGrid("SELECT `sid`, `url`, `mileage`, `body`, `interiorcolor`, `exteriorcolor`, `stock`, `engine`, `transmission`, `doors`, `zip`, `phone`, `wheelbase`, `price`, `imageurl` FROM searchresult WHERE sid IN (SELECT sid FROM searches WHERE site='$web')", "index.php?stat=$web&opt=result", 20, 20, "ASC");
 				}
 				break;
 			case "delete" : //Delete result
