@@ -1,0 +1,45 @@
+My work log.
+
+Today I tested the table interface for a test MIB named 'testmibTable'.
+I was able to read the values from it. But I could not set values.
+
+Previously I also created and tested some scalar function. But I was 
+unable to set values to them. I have to look what should be done.
+
+
+Task TODO:
+1. I need to print the logs from snmpd.
+2. An agentx integration must be done.
+3. A work plan need to be devised to manage such a huge code.
+4. 1/12/2008: Need to implement Table with RowStatus.
+5. How to debug the code. probably from eclipse.
+
+
+mibtestTable:
+generate the code from
+mib2c -c mib2c.mfd.conf mibtestTable
+
+
+there is a potential bug in mibtestTable supplied from Don Tu. 
+I fixed it by "netSnmpExamples 10"
+
+the changes are marked with //Max
+
+Changes are done in (as per DT) 
+1. mibtestTable_data_access.c
+2. mibtestTable_data_set.c
+3. mibtestTable.c
+3. mibtestTable.h
+
+But Set is not working. Also initial values are not working.
+It should be 
+0 	100 	200
+0 	-100 	-200
+
+but I am getting 0 1 2, 0 -1 -2.... Have to see what is wrong.
+
+I am working on 5.3.1 version. 
+May need to switch to latest 5.4.1 version.
+ 
+Probable task
+1. Add database support to snmpd
