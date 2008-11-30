@@ -43,3 +43,6 @@ May need to switch to latest 5.4.1 version.
  
 Probable task
 1. Add database support to snmpd
+
+
+Search for community option in net to set snmp value.
