@@ -44,10 +44,14 @@ handle_wmanTestDataHolder(netsnmp_mib_handler *handler,
      * we don't need to loop over a list of requests; we'll only get one.
      */
 
+    printf("handle_wmanTestDataHolder Called\n");
+
 	wmanTestDataHolder_val++;
     switch (reqinfo->mode) {
 
     case MODE_GET:
+
+    	printf("handle_wmanTestDataHolder MODE_GET...\n");
         snmp_set_var_typed_value(requests->requestvb, ASN_INTEGER,
                                  (u_char *)(&wmanTestDataHolder_val)
                                  /* XXX: a pointer to the scalar's data */
@@ -67,6 +71,7 @@ handle_wmanTestDataHolder(netsnmp_mib_handler *handler,
         /*
          * or you could use netsnmp_check_vb_type_and_size instead
          */
+    	printf("handle_wmanTestDataHolder MODE_SET_RESERVE1...\n");
     	tmp_ptr=NULL;
         ret = netsnmp_check_vb_type(requests->requestvb, ASN_INTEGER);
         if (ret != SNMP_ERR_NOERROR) {
@@ -78,6 +83,7 @@ handle_wmanTestDataHolder(netsnmp_mib_handler *handler,
         /*
          * XXX malloc "undo" storage buffer
          */
+    	printf("handle_wmanTestDataHolder MODE_SET_RESERVE2...\n");
     	tmp_ptr = (char*)malloc(requests->requestvb->val_len);
     	printf("MOD_SET_RESERVE2 [%d]\n", requests->requestvb->val_len);
     	if(tmp_ptr==NULL)
@@ -94,6 +100,7 @@ handle_wmanTestDataHolder(netsnmp_mib_handler *handler,
          * RESERVE2.  Something failed somewhere, and the states
          * below won't be called.
          */
+    	printf("handle_wmanTestDataHolder MODE_SET_FREE...\n");
     	if(tmp_ptr)
     		free(tmp_ptr);
         break;
@@ -102,6 +109,7 @@ handle_wmanTestDataHolder(netsnmp_mib_handler *handler,
         /*
          * XXX: perform the value change here
          */
+    	printf("handle_wmanTestDataHolder MODE_SET_ACTION...\n");
     	if(tmp_ptr==NULL)
     	{
     		netsnmp_set_request_error(reqinfo, requests, SNMP_ERR_RESOURCEUNAVAILABLE);
@@ -115,6 +123,7 @@ handle_wmanTestDataHolder(netsnmp_mib_handler *handler,
         /*
          * XXX: delete temporary storage
          */
+    	printf("handle_wmanTestDataHolder MODE_SET_COMMIT...\n");
     	wmanTestDataHolder_val = *(long *)tmp_ptr;
     	free(tmp_ptr);
         break;
@@ -123,6 +132,7 @@ handle_wmanTestDataHolder(netsnmp_mib_handler *handler,
         /*
          * XXX: UNDO and return to previous value for the object
          */
+    	printf("handle_wmanTestDataHolder MODE_SET_UNDO...\n");
     	free(tmp_ptr);
         break;
 
@@ -130,6 +140,7 @@ handle_wmanTestDataHolder(netsnmp_mib_handler *handler,
         /*
          * we should never get here, so this is a really bad error
          */
+    	printf("handle_wmanTestDataHolder ERROR...\n");
         snmp_log(LOG_ERR,
                  "unknown mode (%d) in handle_wmanTestDataHolder\n",
                  reqinfo->mode);
