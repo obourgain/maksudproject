@@ -242,6 +242,8 @@ mibtestTable_container_load(netsnmp_container * container)
 //    FILE           *filep;
 //    char            line[MAX_LINE_SIZE];
 
+    printf("Container Load 1002;\n");
+
     DEBUGMSGTL(("verbose:mibtestTable:mibtestTable_container_load",
                 "called\n"));
 
@@ -267,14 +269,18 @@ mibtestTable_container_load(netsnmp_container * container)
      * set the index(es) [and data, optionally] and insert into
      * the container.
      */
-    //MAx Added
+
+    printf("Cache added with 100;\n");
+    //Max Added
+    //
     for(i=0; i< mibtestTable_SIZE; i++)
     {
     	mibtestColumn1_cache[i] += 100;
-    	mibtestColumn1_cache[i] -= 100;
+    	mibtestColumn2_cache[i] -= 100;
     }
 
     while (1) {
+    	printf("in while (1)\n");
         /*
          ***************************************************
          ***             START EXAMPLE CODE              ***
