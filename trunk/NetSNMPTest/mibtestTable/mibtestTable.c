@@ -47,7 +47,7 @@ init_mibtestTable(void)
     /*
      * TODO:300:o: Perform mibtestTable one-time module initialization.
      */
-    //Max 30/11
+    //Max 30/11--- it is not necessary for this array...
     for ( i = 0; i < mibtestTable_SIZE; i++ )
     {
     	mibtestColumn1_cache[ i ] = 0;
