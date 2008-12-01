@@ -23,7 +23,7 @@ if ($action == 'export') {
 		$sql = "SELECT `sid`, `url`, `title`, `class`, `engine`, `hull`, `year`, `make`, `length`, `fuel`, `zip`, `phone`, `price`, `imageurl` FROM searchresult";
 	}
 	elseif ($site == "autotrader") {
-		$sql = "SELECT * FROM searchresult";
+		$sql = "SELECT `sid`, `url`, `title`, `fuel`, `phone`, `price`, `engine`, `mileage`, `body`, `interiorcolor`, `exteriorcolor`, `doors`, `wheelbase`, `transmission`, `imageurl` FROM searchresult";
 	} else
 		$sql = "SELECT * FROM searchresult";
 
@@ -64,13 +64,15 @@ if ($action == 'export') {
 	fwrite($fp, $out);
 	fclose($fp);
 
+/*	//GoDaddy Free Hosting problem...
 	// Force the download
 	header("Content-Disposition: attachment; filename=\"" . basename($ourFileName) . "\"");
 	header("Content-Length: " . filesize($ourFileName));
 	header("Content-Type: application/octet-stream;");
 	readfile($ourFileName);
-
-	//echo "<a href='".$ourFileName."'>Download CSV File</a>";
+*/
+	echo "<a href='".$ourFileName."'>Download CSV File</a>";
+	echo "<br/><p><em>Right click the link and select <b>save link as</b>...</em></p>";
 
 	//echo $out;
 } else {
