@@ -18,14 +18,16 @@ initialize_table_mytestTable(void)
     netsnmp_table_data_set *table_set;
 
     /*
-     * create the table structure itself 
+     * create the table structure itself
      */
     table_set = netsnmp_create_table_data_set("mytestTable");
 
     /*
-     * comment this out or delete if you don't support creation of new rows 
+     * comment this out or delete if you don't support creation of new rows
      */
     table_set->allow_creation = 1;
+
+    table_set->rowstatus_column = COLUMN_MYTESTROWSTATUS;
 
     /***************************************************
      * Adding indexes
@@ -46,11 +48,11 @@ initialize_table_mytestTable(void)
                                             ASN_INTEGER, 1, NULL, 0, 0);
 
     /*
-     * registering the table with the master agent 
+     * registering the table with the master agent
      */
     /*
      * note: if you don't need a subhandler to deal with any aspects
-     * of the request, change mytestTable_handler to "NULL" 
+     * of the request, change mytestTable_handler to "NULL"
      */
     netsnmp_register_table_data_set(netsnmp_create_handler_registration
                                     ("mytestTable", mytestTable_handler,
@@ -64,7 +66,7 @@ init_mytestTable(void)
 {
 
     /*
-     * here we initialize all the tables we're planning on supporting 
+     * here we initialize all the tables we're planning on supporting
      */
     initialize_table_mytestTable();
 }
@@ -80,7 +82,7 @@ mytestTable_handler(netsnmp_mib_handler *handler,
      * perform anything here that you need to do.  The requests have
      * already been processed by the master table_dataset handler, but
      * this gives you chance to act on the request in some other way
-     * if need be. 
+     * if need be.
      */
     return SNMP_ERR_NOERROR;
 }
