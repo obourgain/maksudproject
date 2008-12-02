@@ -58,7 +58,8 @@ class CrawlCars {
 		$sql = "DELETE FROM pendingqueue WHERE aid='$aid'";
 		$result = $this->database->query($sql);
 
-		usleep(500000); //0.5 Second...
+		set_time_limit(60);
+		usleep(5000000); //0.5 Second...
 		//sleep(1);//1 Second...
 
 	}
