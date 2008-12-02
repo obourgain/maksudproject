@@ -1,6 +1,6 @@
 
 CC=gcc
-TABLE_PREFIX=wmanTestDataHolder
+TABLE_PREFIX=mytestTable
 
 NETSNMPCONFIG=net-snmp-config
 
@@ -19,13 +19,11 @@ CFLAGS=-I. $(NETSNMPCFLAGS) $(STRICT_FLAGS)
 
 
 SRCS = 	$(TABLE_PREFIX).c \
-	$(TABLE_PREFIX)_subagent.c #\
-#	$(TABLE_PREFIX)_interface.c
+	$(TABLE_PREFIX)_subagent.c 
 
 
 OBJS =  $(TABLE_PREFIX).o \
-	$(TABLE_PREFIX)_subagent.o #\
-#	$(TABLE_PREFIX)_interface.o
+	$(TABLE_PREFIX)_subagent.o 
 
 TARGETS=$(TABLE_PREFIX)
 
