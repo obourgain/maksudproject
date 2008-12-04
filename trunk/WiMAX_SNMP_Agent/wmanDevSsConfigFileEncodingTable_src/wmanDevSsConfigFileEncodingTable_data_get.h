@@ -19,6 +19,15 @@
 extern          "C" {
 #endif
 
+
+
+#define INETADDRESSTYPE_UNKNOWN 1
+#define INETADDRESSTYPE_IPV4 2
+#define INETADDRESSTYPE_IPV6 3
+#define INETADDRESSTYPE_IPV4Z 4
+#define INETADDRESSTYPE_IPV6Z 5
+#define INETADDRESSTYPE_DNS 6
+
     /*
      *********************************************************************
      * GET function declarations
