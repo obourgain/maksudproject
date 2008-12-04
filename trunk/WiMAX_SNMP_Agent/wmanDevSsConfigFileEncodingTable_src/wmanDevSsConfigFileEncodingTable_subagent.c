@@ -12,9 +12,7 @@
 /*
  * include our parent header
  */
-#include "mibtestTable_src/mibtestTable.h"
-#include "wmanTestDataHolder_src/wmanTestDataHolder.h"
-#include "wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable.h"
+
 
 #include <signal.h>
 
@@ -30,7 +28,7 @@ static void
 usage(void)
 {
     printf
-        ("usage: mibtestTable [-D<tokens>] [-f] [-L] [-M] [-H] [LISTENING ADDRESSES]\n"
+        ("usage: wmanDevSsConfigFileEncodingTable [-D<tokens>] [-f] [-L] [-M] [-H] [LISTENING ADDRESSES]\n"
          "\t-f      Do not fork() from the calling shell.\n"
          "\t-DTOKEN[,TOKEN,...]\n"
          "\t\tTurn on debugging output for the given TOKEN(s).\n"
@@ -70,11 +68,9 @@ main(int argc, char **argv)
         case 'H':
             netsnmp_ds_set_boolean(NETSNMP_DS_APPLICATION_ID,
                                    NETSNMP_DS_AGENT_NO_ROOT_ACCESS, 1);
-
-            init_agent("mibtestTable"); /* register our .conf handlers */
-            init_mibtestTable();
-            init_snmp("mibtestTable");
-
+            init_agent("wmanDevSsConfigFileEncodingTable");     /* register our .conf handlers */
+            init_wmanDevSsConfigFileEncodingTable();
+            init_snmp("wmanDevSsConfigFileEncodingTable");
             fprintf(stderr, "Configuration directives understood:\n");
             read_config_print_usage("  ");
             exit(0);
@@ -157,24 +153,18 @@ main(int argc, char **argv)
     SOCK_STARTUP;
 
     /*
-     * initialize mibtestTable
+     * initialize the agent library
      */
-
-    init_agent("mibtestTable");
-    init_mibtestTable();
-    init_snmp("mibtestTable");
+    init_agent("wmanDevSsConfigFileEncodingTable");
 
     /*
-	 * initialize wmanTestDataHolder
-	 */
-    init_agent("wmanTestDataHolder");
-    init_wmanTestDataHolder();
-    init_snmp("wmanTestDataHolder");
-
-
-
-    init_agent("wmanDevSsConfigFileEncodingTable");
+     * init wmanDevSsConfigFileEncodingTable mib code
+     */
     init_wmanDevSsConfigFileEncodingTable();
+
+    /*
+     * read wmanDevSsConfigFileEncodingTable.conf files.
+     */
     init_snmp("wmanDevSsConfigFileEncodingTable");
 
     /*
@@ -206,8 +196,7 @@ main(int argc, char **argv)
     /*
      * at shutdown time
      */
-    snmp_shutdown("mibtestTable");
-    snmp_shutdown("wmanTestDataHolder");
+    snmp_shutdown("wmanDevSsConfigFileEncodingTable");
     SOCK_CLEANUP;
     exit(0);
 }

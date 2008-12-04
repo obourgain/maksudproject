@@ -17,9 +17,15 @@ SRCS = 	mibtestTable_src/mibtestTable_data_get.c \
 		mibtestTable_src/mibtestTable.c \
 		mibtestTable_src/mibtestTable_interface.c \
 		wmanTestDataHolder_src/wmanTestDataHolder.c \
+		wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable_data_get.c \
+		wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable_data_set.c \
+		wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable_data_access.c \
+		wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable.c \
+		wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable_subagent.c \
+		wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable_interface.c \
 		wimax_snmp_subagent.c
 
-OBJS_DIR = obj
+OBJS_DIR = .
 
 OBJS = $(foreach file,$(SRCS),$(OBJS_DIR)/$(file:.c=.o))
 
