@@ -50,12 +50,8 @@ init_wmanDevSsConfigFileEncodingTable(void)
      * TODO:300:o: Perform wmanDevSsConfigFileEncodingTable one-time module initialization.
      */
 
-    int i,j;
-    int c=1;
-    for(i=0; i<256; i++)
-    	for(j=0 ;j<9; j++)
-    		ssConfigDatabase[i][j] = c++;
-
+    //TODO:MAX:Initialization
+	//Nothing to do :D
 
     /*
      * here we initialize all the tables we're planning on supporting

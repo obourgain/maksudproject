@@ -242,8 +242,6 @@ mibtestTable_container_load(netsnmp_container * container)
 //    FILE           *filep;
 //    char            line[MAX_LINE_SIZE];
 
-    printf("Container Load 1002;\n");
-
     DEBUGMSGTL(("verbose:mibtestTable:mibtestTable_container_load",
                 "called\n"));
 

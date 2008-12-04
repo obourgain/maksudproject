@@ -225,7 +225,7 @@ config_require(WMAN-DEV-MIB/wmanDevSsConfigFileEncodingTable/wmanDevSsConfigFile
 
     //Declare Data Storage
     int ssConfigDatabase_size;
-    int ssConfigDatabase[256][8];
+    char *ssConfigDatabase[256][8];
 
 
 

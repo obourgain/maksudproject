@@ -35,24 +35,24 @@ extern          "C" {
      */
 
 
-    int            
+    int
         wmanDevSsConfigFileEncodingTable_init_data
         (wmanDevSsConfigFileEncodingTable_registration *
          wmanDevSsConfigFileEncodingTable_reg);
 
 
-    void           
+    void
         wmanDevSsConfigFileEncodingTable_container_init(netsnmp_container
                                                         **
                                                         container_ptr_ptr);
-    void           
+    void
         wmanDevSsConfigFileEncodingTable_container_shutdown
         (netsnmp_container * container_ptr);
 
-    int            
+    int
         wmanDevSsConfigFileEncodingTable_container_load(netsnmp_container *
                                                         container);
-    void           
+    void
         wmanDevSsConfigFileEncodingTable_container_free(netsnmp_container *
                                                         container);
 
@@ -70,7 +70,7 @@ extern          "C" {
      ***---------------------------------------------***
      ***              END  EXAMPLE CODE              ***
      ***************************************************/
-    int            
+    int
         wmanDevSsConfigFileEncodingTable_row_prep
         (wmanDevSsConfigFileEncodingTable_rowreq_ctx * rowreq_ctx);
 
