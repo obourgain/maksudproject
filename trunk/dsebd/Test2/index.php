@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title>Simple Webpage</title>
 
 <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
@@ -24,11 +24,31 @@
   </div>
   <div id="sidebar2">
     <h3>Sidebar2 </h3>
-    <p>Here Banner will be added. Here Banner will be added. Here Banner will be added. Here Banner will be added. Here Banner will be added.</p>
+    <p>Here Banner will be added. </p>
+    <p>Here Banner will be added. </p>
+    <p>Here Banner will be added. </p>
+    <p>Here Banner will be added. </p>
+    <p>Here Banner will be added.</p>
     <!-- end #sidebar2 -->
   </div>
   <div id="mainContent">
   <br/>
+<?
+	if($_GET["s"]=="y")
+	{
+		echo "<p>URL addded successfully.</p>";
+	}
+    elseif($_GET["s"]=="n")
+    {
+        echo "<p>URL is Empty.</p>";
+    }
+    elseif($_GET["s"]=="f")
+    {
+        echo "<p>There is a problem with url.</p>";
+    }
+?>  
+  
+  
     <form id="myform" method="GET" class="cssform" action="results.php">
       <p>
         <label for="url">Url</label>
@@ -44,12 +64,13 @@
       </p>
       <p>
         <label for="match">Match:</label>
-        <input type="radio" name="match" value="all"/>All
-        <input type="radio" name="match" value="any"/>Any
+        <input type="radio" name="match" value="all" />All
+        <input type="radio" name="match" value="any" checked/>Any
         <br />
       </p>
       <div style="margin-left: 105px;">
-        <input type="submit" value="Search" />
+        <input type="submit" name="submit" value="Search" />
+        <input type="submit" name="submit" value="Submit" />
       </div>
     </form>
     <!-- end #mainContent -->

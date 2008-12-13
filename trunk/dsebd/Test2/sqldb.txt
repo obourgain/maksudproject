@@ -1,0 +1,75 @@
+-- phpMyAdmin SQL Dump
+-- version 2.11.3
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Dec 05, 2008 at 01:57 PM
+-- Server version: 5.0.51
+-- PHP Version: 5.2.5
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Database: `webdb`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `websearch`
+--
+
+DROP TABLE IF EXISTS `websearch`;
+CREATE TABLE `websearch` (
+  `aid` int(11) NOT NULL auto_increment,
+  `url` text collate utf8_unicode_ci NOT NULL,
+  `opt1` tinyint(4) NOT NULL,
+  `opt2` tinyint(4) NOT NULL,
+  `opt3` tinyint(4) NOT NULL,
+  `opt4` tinyint(4) NOT NULL,
+  `opt5` tinyint(4) NOT NULL,
+  `timestamp` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`aid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=44 ;
+
+--
+-- Dumping data for table `websearch`
+--
+
+INSERT INTO `websearch` (`aid`, `url`, `opt1`, `opt2`, `opt3`, `opt4`, `opt5`, `timestamp`) VALUES
+(1, 'abc', 0, 1, 1, 0, 1, 0),
+(2, 'asdf', 0, 0, 0, 0, 0, 0),
+(3, 'google', 0, 0, 0, 0, 0, 0),
+(4, 'yahoo', 0, 0, 0, 0, 0, 0),
+(5, 'gmail', 0, 0, 0, 0, 0, 0),
+(6, 'live', 0, 0, 0, 0, 0, 0),
+(7, 'google', 0, 0, 0, 0, 0, 0),
+(8, 'yahoo', 0, 0, 0, 0, 0, 0),
+(9, 'gmail', 0, 0, 0, 0, 0, 0),
+(10, 'live', 0, 0, 0, 0, 0, 0),
+(11, 'msn', 0, 0, 0, 0, 0, 0),
+(12, '2008 G3 HP 200: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(13, '2008 Polar Kraft Kodiak V1910 Pro TC: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(14, '2009 Tracker Pro Team 190 TX: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(15, '2008 Tracker Pro Team 190 TX: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(16, '2009 G3 Eagle 190: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(17, '2008 G3 Eagle 190: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(18, '2008 Polar Kraft Kodiak V188 FS: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(19, '2008 Polar Kraft Kodiak V188 SC: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(20, '2008 Polar Kraft Kodiak V188 TC: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(21, '2008 Polar Kraft Outlander V186 SC: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(22, '2008 Polar Kraft Outlander V186 T: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(23, '2009 Tracker Tournament V-18: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(24, '2008 Tracker Tournament V-18: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(25, '2009 Fisher Pro Hawk 180: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(26, '2008 Fisher Pro Hawk 180: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(27, '2008 Tracker Tournament V-18 All Fish: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(28, '2008 G3 HP 180: Freshwater Fishing', 0, 0, 0, 0, 0, 0),
+(29, '2007 Ford Mustang GT Coupe', 0, 0, 0, 0, 0, 0),
+(30, '2008 Porsche Boxster', 0, 0, 0, 0, 0, 0),
+(33, 'pagla baaba', 0, 0, 0, 0, 0, 1228484198),
+(32, 'abc network', 0, 1, 0, 1, 0, 1228483840),
+(34, 'trinity ', 1, 1, 1, 0, 0, 1228484336),
+(35, 'trinity ', 1, 1, 1, 0, 0, 1228484381),
+(36, 'Google', 1, 1, 1, 1, 0, 1228484468),
+(43, 'Access Denied', 0, 1, 0, 1, 0, 1228485365);
