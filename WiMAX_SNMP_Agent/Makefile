@@ -23,6 +23,7 @@ SRCS = 	mibtestTable_src/mibtestTable_data_get.c \
 		wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable.c \
 		wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable_interface.c \
 		util/Ipc.c \
+		util/Utilities.c \
 		wimax_snmp_subagent.c
 
 OBJS_DIR = .
