@@ -38,6 +38,11 @@ SRCS = 	mibtestTable_src/mibtestTable_data_get.c \
     	wmanIfBsProvisionedSfTable_src/wmanIfBsProvisionedSfTable_data_access.c \
     	wmanIfBsProvisionedSfTable_src/wmanIfBsProvisionedSfTable.c \
         wmanIfBsProvisionedSfTable_src/wmanIfBsProvisionedSfTable_interface.c \
+        wmanIfBsClassifierRuleTable_src/wmanIfBsClassifierRuleTable_data_get.c \
+    	wmanIfBsClassifierRuleTable_src/wmanIfBsClassifierRuleTable_data_set.c \
+    	wmanIfBsClassifierRuleTable_src/wmanIfBsClassifierRuleTable_data_access.c \
+    	wmanIfBsClassifierRuleTable_src/wmanIfBsClassifierRuleTable.c \
+		wmanIfBsClassifierRuleTable_src/wmanIfBsClassifierRuleTable_interface.c \
 		wimax_snmp_subagent.c
 
 #		util/Ipc.c \
