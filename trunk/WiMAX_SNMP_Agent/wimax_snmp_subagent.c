@@ -17,6 +17,9 @@
 #include "wmanTestDataHolder_src/wmanTestDataHolder.h"
 //#include "wmanIfBsRegisteredSsTable_src/wmanIfBsRegisteredSsTable.h"
 #include "wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable.h"
+#include "wmanIfBsSsProvisionedForSfTable_src/wmanIfBsSsProvisionedForSfTable.h"
+#include "wmanIfBsProvisionedSfTable_src/wmanIfBsProvisionedSfTable.h"
+#include "wmanIfBsRegisteredSsTable_src/wmanIfBsRegisteredSsTable.h"
 
 #include <signal.h>
 
@@ -25,19 +28,18 @@ static int keep_running;
 int correlator = 0;
 
 #include "DataTypes.h"
-#include "Utilities.h"
-#include "Ipc.h"
+//#include "Utilities.h"
+//#include "Ipc.h"
 #include <stdio.h>
 
 #define MSGQ_PATH_FOR_SNMP_AGENT "/bin/agent_wimax"
 #define MSGQ_DEF_REQ_TYPE	1
 
-
 void setupMsgQueue()
 {
-	pvSt_msgQIdForSNMP = (struct struct_messageQID *) fV_allocateMemory(sizeof(struct struct_messageQID));
-	pvSt_msgQIdForSNMP->vS32_msgQIDRW = fS32_createQueue(MSGQ_PATH_FOR_SNMP_AGENT, 1, 1);
-	printf("MQ id = %d\n", pvSt_msgQIdForSNMP->vS32_msgQIDRW);
+	//	pvSt_msgQIdForSNMP = (struct struct_messageQID *) fV_allocateMemory(sizeof(struct struct_messageQID));
+	//	pvSt_msgQIdForSNMP->vS32_msgQIDRW = fS32_createQueue(MSGQ_PATH_FOR_SNMP_AGENT, 1, 1);
+	//	printf("MQ id = %d\n", pvSt_msgQIdForSNMP->vS32_msgQIDRW);
 }
 
 static RETSIGTYPE stop_server(int a)
@@ -198,7 +200,6 @@ init_snmp("wmanTestDataHolder");
 init_wmanDevSsConfigFileEncodingTable();
 init_snmp("wmanDevSsConfigFileEncodingTable");
 
-
 //init_agent("wmanDevSsConfigFileEncodingTable");
 init_wmanIfBsRegisteredSsTable();
 init_snmp("wmanIfBsRegisteredSsTable");
@@ -213,7 +214,7 @@ if (!agentx_subagent)
 init_master_agent(); /* open the port to listen on (defaults to udp:161) */
 
 /*
- * In case we recevie a request to stop (kill -TERM or kill -INT)
+ * In case we receive a request to stop (kill -TERM or kill -INT)
  */
 keep_running = 1;
 signal(SIGTERM, stop_server);
