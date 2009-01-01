@@ -38,10 +38,10 @@ SRCS = 	mibtestTable_src/mibtestTable_data_get.c \
     	wmanIfBsProvisionedSfTable_src/wmanIfBsProvisionedSfTable_data_access.c \
     	wmanIfBsProvisionedSfTable_src/wmanIfBsProvisionedSfTable.c \
         wmanIfBsProvisionedSfTable_src/wmanIfBsProvisionedSfTable_interface.c \
-		util/Ipc.c \
-		util/Utilities.c \
 		wimax_snmp_subagent.c
-		
+
+#		util/Ipc.c \
+#		util/Utilities.c \		
 #		wmanIfBsRegisteredSsTable_src/wmanIfBsRegisteredSsTable.c \		
 
 OBJS_DIR = .
