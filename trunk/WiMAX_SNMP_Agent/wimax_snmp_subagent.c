@@ -15,6 +15,7 @@
  */
 #include "mibtestTable_src/mibtestTable.h"
 #include "wmanTestDataHolder_src/wmanTestDataHolder.h"
+//#include "wmanIfBsRegisteredSsTable_src/wmanIfBsRegisteredSsTable.h"
 #include "wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable.h"
 
 #include <signal.h>
@@ -22,6 +23,23 @@
 static int keep_running;
 
 int correlator = 0;
+
+#include "DataTypes.h"
+#include "Utilities.h"
+#include "Ipc.h"
+#include <stdio.h>
+
+#define MSGQ_PATH_FOR_SNMP_AGENT "/bin/agent_wimax"
+#define MSGQ_DEF_REQ_TYPE	1
+
+
+void setupMsgQueue()
+{
+	pvSt_msgQIdForSNMP = (struct struct_messageQID *) fV_allocateMemory(sizeof(struct struct_messageQID));
+	pvSt_msgQIdForSNMP->vS32_msgQIDRW = fS32_createQueue(MSGQ_PATH_FOR_SNMP_AGENT, 1, 1);
+	printf("MQ id = %d\n", pvSt_msgQIdForSNMP->vS32_msgQIDRW);
+}
+
 static RETSIGTYPE stop_server(int a)
 {
 	keep_running = 0;
@@ -47,6 +65,9 @@ static void usage(void)
 
 int main(int argc, char **argv)
 {
+
+	setupMsgQueue();
+
 	int agentx_subagent = 1; /* change this if you want to be a SNMP master agent */
 	/*
 	 * Defs for arg-handling code: handles setting of policy-related variables
@@ -99,29 +120,29 @@ int main(int argc, char **argv)
 		 * There are optional transport addresses on the command line.
 		 */
 		DEBUGMSGTL(("snmpd/main", "optind %d, argc %d\n", optind, argc));
-		for (i = optind; i < argc; i++)
+	for (i = optind; i < argc; i++)
+	{
+		char *c, *astring;
+		if ((c = netsnmp_ds_get_string(NETSNMP_DS_APPLICATION_ID, NETSNMP_DS_AGENT_PORTS)))
 		{
-			char *c, *astring;
-			if ((c = netsnmp_ds_get_string(NETSNMP_DS_APPLICATION_ID, NETSNMP_DS_AGENT_PORTS)))
+			astring = malloc(strlen(c) + 2 + strlen(argv[i]));
+			if (astring == NULL)
 			{
-				astring = malloc(strlen(c) + 2 + strlen(argv[i]));
-				if (astring == NULL)
-				{
-					fprintf(stderr, "malloc failure processing argv[%d]\n", i);
-					exit(1);
-				}
-				sprintf(astring, "%s,%s", c, argv[i]);
-				netsnmp_ds_set_string(NETSNMP_DS_APPLICATION_ID, NETSNMP_DS_AGENT_PORTS, astring);
-				SNMP_FREE(astring);
+				fprintf(stderr, "malloc failure processing argv[%d]\n", i);
+				exit(1);
 			}
-			else
-			{
-				netsnmp_ds_set_string(NETSNMP_DS_APPLICATION_ID, NETSNMP_DS_AGENT_PORTS, argv[i]);
-			}
+			sprintf(astring, "%s,%s", c, argv[i]);
+			netsnmp_ds_set_string(NETSNMP_DS_APPLICATION_ID, NETSNMP_DS_AGENT_PORTS, astring);
+			SNMP_FREE(astring);
 		}
-		DEBUGMSGTL(("snmpd/main", "port spec: %s\n",
-						netsnmp_ds_get_string(NETSNMP_DS_APPLICATION_ID,
-								NETSNMP_DS_AGENT_PORTS)));
+		else
+		{
+			netsnmp_ds_set_string(NETSNMP_DS_APPLICATION_ID, NETSNMP_DS_AGENT_PORTS, argv[i]);
+		}
+	}
+	DEBUGMSGTL(("snmpd/main", "port spec: %s\n",
+					netsnmp_ds_get_string(NETSNMP_DS_APPLICATION_ID,
+							NETSNMP_DS_AGENT_PORTS)));
 }
 
 /*
@@ -129,28 +150,28 @@ int main(int argc, char **argv)
  */
 if (agentx_subagent)
 {
-	/*
-	 * make us a agentx client.
-	 */
-	netsnmp_enable_subagent();
-	if (NULL != agentx_socket)
-		netsnmp_ds_set_string(NETSNMP_DS_APPLICATION_ID, NETSNMP_DS_AGENT_X_SOCKET, agentx_socket);
+/*
+ * make us a agentx client.
+ */
+netsnmp_enable_subagent();
+if (NULL != agentx_socket)
+	netsnmp_ds_set_string(NETSNMP_DS_APPLICATION_ID, NETSNMP_DS_AGENT_X_SOCKET, agentx_socket);
 }
 
 snmp_disable_log();
 if (use_syslog)
-	snmp_enable_calllog();
+snmp_enable_calllog();
 else
-	snmp_enable_stderrlog();
+snmp_enable_stderrlog();
 
 /*
  * daemonize
  */
 if (!dont_fork)
 {
-	int rc = netsnmp_daemonize(1, !use_syslog);
-	if (rc)
-		exit(-1);
+int rc = netsnmp_daemonize(1, !use_syslog);
+if (rc)
+	exit(-1);
 }
 
 /*
@@ -162,26 +183,34 @@ SOCK_STARTUP;
  * initialize mibtestTable
  */
 
-init_agent("mibtestTable");
+init_agent("wimax_agent");
 init_mibtestTable();
 init_snmp("mibtestTable");
 
 /*
  * initialize wmanTestDataHolder
  */
-init_agent("wmanTestDataHolder");
+//init_agent("wmanTestDataHolder");
 init_wmanTestDataHolder();
 init_snmp("wmanTestDataHolder");
 
-init_agent("wmanDevSsConfigFileEncodingTable");
+//init_agent("wmanDevSsConfigFileEncodingTable");
 init_wmanDevSsConfigFileEncodingTable();
 init_snmp("wmanDevSsConfigFileEncodingTable");
+
+
+//init_agent("wmanDevSsConfigFileEncodingTable");
+init_wmanIfBsRegisteredSsTable();
+init_snmp("wmanIfBsRegisteredSsTable");
+
+init_wmanIfBsProvisionedSfTable();
+init_snmp("wmanIfBsProvisionedSfTable");
 
 /*
  * If we're going to be a snmp master agent, initial the ports
  */
 if (!agentx_subagent)
-	init_master_agent(); /* open the port to listen on (defaults to udp:161) */
+init_master_agent(); /* open the port to listen on (defaults to udp:161) */
 
 /*
  * In case we recevie a request to stop (kill -TERM or kill -INT)
@@ -195,13 +224,13 @@ signal(SIGINT, stop_server);
  */
 while (keep_running)
 {
-	/*
-	 * if you use select(), see snmp_select_info() in snmp_api(3)
-	 */
-	/*
-	 * --- OR ---
-	 */
-	agent_check_and_process(1); /* 0 == don't block */
+/*
+ * if you use select(), see snmp_select_info() in snmp_api(3)
+ */
+/*
+ * --- OR ---
+ */
+agent_check_and_process(1); /* 0 == don't block */
 }
 
 /*

@@ -2,9 +2,12 @@
 #define IPC_H_
 
 #include "DataTypes.h"
+#include "Utilities.h"
 
 #define MSGQ_PATH_FOR_WIMAX_SNMP_AGENT "/bin/agent_wimax"
 #define PACKET_SIZE 1024
+
+struct struct_messageQID *pvSt_msgQIdForSNMP;
 
 struct struct_message
 {
