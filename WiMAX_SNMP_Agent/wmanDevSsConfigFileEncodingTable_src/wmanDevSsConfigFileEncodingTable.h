@@ -17,7 +17,7 @@ extern          "C" {
  * @{
  */
 #include <net-snmp/library/asn1.h>
-
+#include "Ipc.h"
     /*
      * other required module components
      */

@@ -8,11 +8,23 @@
 #include <net-snmp/agent/net-snmp-agent-includes.h>
 #include "wmanTestDataHolder.h"
 
+#include "Ipc.h"
+
 /** Initializes the wmanTestDataHolder module */
 int wmanTestDataHolder_val;
 void
 init_wmanTestDataHolder(void)
 {
+
+	struct struct_message dummyMsg;
+	dummyMsg.vL_messageType = 555;
+	strcpy(dummyMsg.aS8_message, "DUMMY MESSAGE");
+
+	printf("DUMMY MESSAGE SENT\n");
+
+	//int retVal = fS32_enqueue(pvSt_msgQIdForSNMP->vS32_msgQIDRW, dummyMsg.vL_messageType, dummyMsg.aS8_message, sizeof(dummyMsg.aS8_message));
+
+
 	wmanTestDataHolder_val = 1;
     static oid      wmanTestDataHolder_oid[] = { 1, 0, 8802, 16, 3, 1 };
 

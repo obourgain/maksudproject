@@ -11,6 +11,8 @@
 #include <net-snmp/net-snmp-includes.h>
 #include <net-snmp/agent/net-snmp-agent-includes.h>
 
+#include "Ipc.h"
+
 /*
  * include our parent header
  */
@@ -63,21 +65,7 @@ mibtestTable_init_data(mibtestTable_registration * mibtestTable_reg)
     /*
      * TODO:303:o: Initialize mibtestTable data.
      */
-    /*
-     ***************************************************
-     ***             START EXAMPLE CODE              ***
-     ***---------------------------------------------***/
-    /*
-     * if you are the sole writer for the file, you could
-     * open it here. However, as stated earlier, we are assuming
-     * the worst case, which in this case means that the file is
-     * written to by someone else, and might not even exist when
-     * we start up. So we can't do anything here.
-     */
-    /*
-     ***---------------------------------------------***
-     ***              END  EXAMPLE CODE              ***
-     ***************************************************/
+
     //Max Added
     for(i=0; i< mibtestTable_SIZE; i++)
     {
@@ -234,6 +222,8 @@ mibtestTable_container_load(netsnmp_container * container)
     //MAX Added
     int i;
 
+    printf("\n\nENTER\n\n");
+
 
     /*
      * this example code is based on a data source that is a
@@ -364,17 +354,6 @@ mibtestTable_container_load(netsnmp_container * container)
         if(count >= mibtestTable_SIZE)
         	break;
     }
-
-    /*
-     ***************************************************
-     ***             START EXAMPLE CODE              ***
-     ***---------------------------------------------***/
-//    if (NULL != filep)
-//        fclose(filep);
-    /*
-     ***---------------------------------------------***
-     ***              END  EXAMPLE CODE              ***
-     ***************************************************/
 
     DEBUGMSGT(("verbose:mibtestTable:mibtestTable_container_load",
                "inserted %d records\n", count));

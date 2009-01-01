@@ -65,11 +65,11 @@ wmanDevSsConfigFileEncodingTable_init_data
     //TODO:MAX: Initialize array
 
 
-    char hwIds[2][255] = {"BNP", "AL"};
+    char hwIds[2][255] = {"BNP 2.o Unstable Revised.", "AL v.3 Current Edition."};
     char vendors[2][3] = {"KZ", "SH"};
-    char configs[20] = "Election2008";
-    char softwareVersion[] ="Unknown";
-    char fileName[] ="Bangladesh National Parliament.power";
+    char configs[20] = "Election2009";
+    char softwareVersion[] ="DinBodolv1";
+    char fileName[] ="National Parliament.power";
     char tftpServer[] ="http://bangladesh.gov";
 
 
@@ -238,6 +238,7 @@ wmanDevSsConfigFileEncodingTable_container_load(netsnmp_container *
 
     DEBUGMSGTL(("verbose:wmanDevSsConfigFileEncodingTable:wmanDevSsConfigFileEncodingTable_container_load", "called\n"));
 
+    printf("\n\nContainer Loaded for wmanDevSS\n\n");
 
     /*
      * TODO:351:M: |-> Load/update data in the wmanDevSsConfigFileEncodingTable container.
@@ -246,7 +247,7 @@ wmanDevSsConfigFileEncodingTable_container_load(netsnmp_container *
      * the container.
      */
     while (1) {
-    	printf("wmanDevSsConfigFileEncodingTable_data_access While...(1)");
+    	printf("wmanDevSsConfigFileEncodingTable_data_access While...(1)\n");
 
         /*
          * TODO:352:M: |   |-> set indexes in new wmanDevSsConfigFileEncodingTable rowreq context.
