@@ -22,27 +22,27 @@ SRCS = 	mibtestTable_src/mibtestTable_data_get.c \
        	mibtestTable_src/mibtestTable_data_access.c \
 		mibtestTable_src/mibtestTable.c \
 		mibtestTable_src/mibtestTable_interface.c \
+		\
 		wmanTestDataHolder_src/wmanTestDataHolder.c \
+		\
 		wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable_data_get.c \
 		wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable_data_set.c \
 		wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable_data_access.c \
 		wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable.c \
 		wmanDevSsConfigFileEncodingTable_src/wmanDevSsConfigFileEncodingTable_interface.c \
+		\
 		wmanIfBsRegisteredSsTable_src/wmanIfBsRegisteredSsTable_data_get.c \
 		wmanIfBsRegisteredSsTable_src/wmanIfBsRegisteredSsTable_data_set.c \
 		wmanIfBsRegisteredSsTable_src/wmanIfBsRegisteredSsTable_data_access.c \
 		wmanIfBsRegisteredSsTable_src/wmanIfBsRegisteredSsTable.c \
 		wmanIfBsRegisteredSsTable_src/wmanIfBsRegisteredSsTable_interface.c \
+		\
     	wmanIfBsProvisionedSfTable_src/wmanIfBsProvisionedSfTable_data_get.c \
     	wmanIfBsProvisionedSfTable_src/wmanIfBsProvisionedSfTable_data_set.c \
     	wmanIfBsProvisionedSfTable_src/wmanIfBsProvisionedSfTable_data_access.c \
     	wmanIfBsProvisionedSfTable_src/wmanIfBsProvisionedSfTable.c \
         wmanIfBsProvisionedSfTable_src/wmanIfBsProvisionedSfTable_interface.c \
-        wmanIfBsClassifierRuleTable_src/wmanIfBsClassifierRuleTable_data_get.c \
-    	wmanIfBsClassifierRuleTable_src/wmanIfBsClassifierRuleTable_data_set.c \
-    	wmanIfBsClassifierRuleTable_src/wmanIfBsClassifierRuleTable_data_access.c \
-    	wmanIfBsClassifierRuleTable_src/wmanIfBsClassifierRuleTable.c \
-		wmanIfBsClassifierRuleTable_src/wmanIfBsClassifierRuleTable_interface.c \
+		\
 		wimax_snmp_subagent.c
 
 #		util/Ipc.c \
