@@ -35,13 +35,6 @@ int correlator = 0;
 #define MSGQ_PATH_FOR_SNMP_AGENT "/bin/agent_wimax"
 #define MSGQ_DEF_REQ_TYPE	1
 
-void setupMsgQueue()
-{
-	//	pvSt_msgQIdForSNMP = (struct struct_messageQID *) fV_allocateMemory(sizeof(struct struct_messageQID));
-	//	pvSt_msgQIdForSNMP->vS32_msgQIDRW = fS32_createQueue(MSGQ_PATH_FOR_SNMP_AGENT, 1, 1);
-	//	printf("MQ id = %d\n", pvSt_msgQIdForSNMP->vS32_msgQIDRW);
-}
-
 static RETSIGTYPE stop_server(int a)
 {
 	keep_running = 0;
@@ -186,6 +179,7 @@ SOCK_STARTUP;
  */
 
 init_agent("wimax_agent");
+
 init_mibtestTable();
 init_snmp("mibtestTable");
 
