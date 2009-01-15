@@ -2,7 +2,7 @@
  * snmp_agent.h
  *
  *  Created on: Dec 18, 2008
- *      Author: root
+ *      Author: Maksud
  */
 
 #ifndef SNMP_AGENT_H_
