@@ -81,7 +81,7 @@ $children_query = $dbh->prepare("SELECT * FROM $clusters_table WHERE
   level <= :level_min AND NOT (
     latitude_min > :latitude_max OR
     latitude_max < :latitude_min OR
-    longitude_min > :longitude_max OR 
+    longitude_min > :longitude_max OR
     longitude_max < :longitude_min
   )
   ORDER BY level ASC, child_count DESC");
@@ -95,7 +95,7 @@ $children_query->bindParam(':longitude_max', $longitude_max);
 
 $children_query->execute();
 
-// Now we break up the flat list of fetched ids into an array structure keyed to 
+// Now we break up the flat list of fetched ids into an array structure keyed to
 // the id, with each cluster containing an array of the ids of its children.
 $clusters_by_id = array ();
 $root_cluster_id = 0;
@@ -114,7 +114,7 @@ while ($this_cluster = $children_query->fetch(PDO :: FETCH_ASSOC)) {
 //var_dump($clusters_by_id);
 
 // Finally, we have to pick out the ones we want to actually show. The basic process here
-// that we start with the base node and then iterate, each time checking if we can expand the 
+// that we start with the base node and then iterate, each time checking if we can expand the
 // next cluster while still staying under the ceiling imposed by $viewport_points_upper_limit.
 
 $total = 1;
