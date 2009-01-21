@@ -106,7 +106,7 @@ if(isset($_POST['Query']))
         $apicall = "$endpoint?callname=FindItemsAdvanced"
                  . "&version=537"
                  . "&siteid=$siteID"
-                 . "&appid=YOUR_APP_ID_HERE"
+                 . "&appid=Commlink-1427-44be-8ad5-99789cefe681"
                  . "&QueryKeywords=$safeQuery"
                  . "&MaxEntries=$itemsPerRange"
                  . "&ItemSort=BestMatch"
