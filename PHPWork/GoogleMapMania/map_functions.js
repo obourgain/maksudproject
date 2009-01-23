@@ -38,25 +38,16 @@ function newViewport() {
 	var viewport = map.getBounds();
 
 	// Extend the bounds by a proportion in each direction.
-	var extend_lat_range = (viewport.getNorthEast().lat() - viewport
-			.getSouthWest().lat())
-			* extend_proportion;
-	var extend_lng_range = (viewport.getNorthEast().lng() - viewport
-			.getSouthWest().lng())
-			* extend_proportion;
+	var extend_lat_range = (viewport.getNorthEast().lat() - viewport.getSouthWest().lat()) * extend_proportion;
+	var extend_lng_range = (viewport.getNorthEast().lng() - viewport.getSouthWest().lng()) * extend_proportion;
 
-	viewport.extend(new GLatLng(viewport.getSouthWest().lat()
-			- extend_lat_range, viewport.getSouthWest().lng()
-			- extend_lng_range));
-	viewport.extend(new GLatLng(viewport.getNorthEast().lat()
-			+ extend_lat_range, viewport.getNorthEast().lng()
-			+ extend_lng_range));
+	viewport.extend(new GLatLng(viewport.getSouthWest().lat() - extend_lat_range, viewport.getSouthWest().lng() - extend_lng_range));
+	viewport.extend(new GLatLng(viewport.getNorthEast().lat() + extend_lat_range, viewport.getNorthEast().lng() + extend_lng_range));
 
-	GDownloadUrl(data_url + 'sw=' + viewport.getSouthWest().toUrlValue()
-			+ '&ne=' + viewport.getNorthEast().toUrlValue() + '',
+	GDownloadUrl(data_url + 'sw=' + viewport.getSouthWest().toUrlValue() + '&ne=' + viewport.getNorthEast().toUrlValue() + '', 
 			function(data) {
 				initMarkers(eval('(' + data + ')'));
-			});
+	});
 }
 
 function initMarkers(markers) {
@@ -129,8 +120,7 @@ function windowHeight() {
 }
 
 function handleResize() {
-	var height = windowHeight()
-			- document.getElementById('toolbar').offsetHeight - 30;
+	var height = windowHeight()	- document.getElementById('toolbar').offsetHeight - 30;
 	document.getElementById('map').style.height = height + 'px';
 	document.getElementById('sidebar').style.height = height + 'px';
 }
