@@ -10,33 +10,66 @@ require_once ("mysqldb.php");
 	type="text/javascript"></script>
 <script
 	src="http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager/release/src/markermanager.js"></script>
+<script
+	src="http://gmaps-utility-library.googlecode.com/svn/trunk/extlargemapcontrol/1.0/src/extlargemapcontrol.js"></script>
+
 <script src="ClusterMarker.js" type="text/javascript"></script>
+<link href="style.css" rel="stylesheet" type="text/css" />
+
 <script language="javascript" type="text/javascript">
 	var map;
 	var mgr;
 	var geocoder;
 	var clickedLink = false;
 	var markers = new Array();
-	
+	var cluster;
+
+	var aaTitles = new Array();
+	var aaContents = new Array();
+
+
+			
 	function displayCenter(stuff) {
 		document.getElementById("message").innerHTML = stuff;
 	}
+
+	function testMarkers()
+	{
+		var mapMarkers = [];
+		mapMarkers = this.cluster._mapMarkers;
+
+		var stuff="";
+		for (i = mapMarkers.length - 1; i >= 0; i--) {
+			$marker = mapMarkers[i];
+			if ($marker._isVisible && this.map.getBounds().contains($marker.getLatLng()) ) {
+				stuff+=this.aaTitles[$marker._id];
+				stuff+=this.aaContents[$marker._id]+"<br/><br/>";
+				displayCenter(stuff);
+			}
+		}
+	}
+
     function initialize() {
       if (GBrowserIsCompatible()) {
         map = new GMap2(document.getElementById("map"), {logoPassive: true});
-        map.setCenter(new GLatLng(44.213709909702054, -94.04296875), 3);
-		map.addControl(new GLargeMapControl());
+        setupMarkers();
+        map.setCenter(new GLatLng(44.213709909702054, -94.04296875), 4);
+		//map.addControl(new GLargeMapControl());
+		map.addControl(new ExtLargeMapControl());
+        map.addControl(new GMapTypeControl());
+        //
+        
 		geocoder = new GClientGeocoder();
 		map.enableScrollWheelZoom();
 		var mgrOptions = { borderPadding: 50, maxZoom: 15, trackMarkers: true };
-		handleResize();
+		
 		//mgr = new MarkerManager(map,mgrOptions);
         GEvent.addListener(map, "zoomend", function(oldlevel,newlevel) {
 		  if ( ! clickedLink ) {
 			  var center = map.getCenter();
 			  var zoomLevel = map.getZoom();
-//			  GDownloadUrl("../aa/areainrange.php?lat="+center.lat()+"&lng="+center.lng(),displayCenter);			  
-//			  GDownloadUrl("meeting_finder.cfm@cmd=getgroups&center="+center.toString()+"&zoom="+zoomLevel,displayCenter);
+			  testMarkers();
+//			  GDownloadUrl("areainrange.php?lat="+center.lat()+"&lng="+center.lng(),displayCenter);			  
 		  }
 		  else {
 		  	clickedLink = false;
@@ -46,14 +79,13 @@ require_once ("mysqldb.php");
 		  if ( ! clickedLink ) {
 			  var center = map.getCenter();
 			  var zoomLevel = map.getZoom();
-//			  GDownloadUrl("../aa/areainrange.php?lat="+center.lat()+"&lng="+center.lng(),displayCenter);
-//			  GDownloadUrl("meeting_finder.cfm@cmd=getgroups&center="+center.toString()+"&zoom="+zoomLevel,displayCenter);
+			  testMarkers();
+//			  GDownloadUrl("areainrange.php?lat="+center.lat()+"&lng="+center.lng(),displayCenter);
 		  }
 		  else {
 		  	clickedLink = false;
 		  }
 		});
-		
       }
     } 
 	function createMarker(latitude,longitude,markertitle,content) {
@@ -66,19 +98,26 @@ require_once ("mysqldb.php");
 	function initMarkers() {
 		var batch = [];
 		
-<?
+<?php
+
 $db = new MySQLDB();
 $sql = "SELECT * from `geodatatable` WHERE site='aa'";
 $result = $db->query($sql);
 while ($row = mysql_fetch_array($result)) {
-    echo "marker = createMarker(" . $row['latitude'] . ", " . $row['longitude'] . ", '" . addslashes($row['name']) . "', '" . addslashes($row['content']) . "');";
+    echo "this.aaTitles['" . $row['ID'] . "'] = " . '\'<a onmouseover="centerMap(' . $row['ID'] . ',' . $row['latitude'] . ',' . $row['longitude'] . ');return false;" href="#">' . $row['name'] . '</a><br/>\';';
+    echo "this.aaContents['" . $row['ID'] . "'] = '" . $row['content'] . "';";
+
+    echo "marker = createMarker(" . $row['latitude'] . ", " . $row['longitude'] . ", '" . addslashes($row['name']) . "', '" . $row['name'] . "' +'<br/>'+ this.aaContents['" . $row['ID'] . "']);";
     echo 'markers["' . $row['ID'] . '"] = marker;';
+
+    echo 'marker._id="' . $row['ID'] . '";';
     echo 'batch.push(marker);';
 }
 ?>		
+		
 		return batch;
 	}
-	var cluster;
+	
 	function setupMarkers() {
 		cluster=new ClusterMarker(map, { markers:initMarkers() } );
 		cluster.fitMapToMarkers();
@@ -111,12 +150,11 @@ while ($row = mysql_fetch_array($result)) {
 			}
 		);
 	}
-onload = function() {
+window.onload = function() {
+	handleResize();
 	initialize();
-	setupMarkers();
-	
 }
-onunload = function() {
+window.onunload = function() {
 	GUnload();
 }
 var mapExpanded = false;
@@ -135,8 +173,7 @@ function windowHeight() {
 	return 0;
 }
 function handleResize() {
-	var height = windowHeight()
-			- document.getElementById('toolbar').offsetHeight - 30;
+	var height = windowHeight()	- document.getElementById('toolbar').offsetHeight - 30;
 	document.getElementById('map').style.height = height + 'px';
 	document.getElementById('sidebar').style.height = height + 'px';
 }
@@ -144,7 +181,7 @@ function handleResize() {
 window.onresize = handleResize; 
 
 </script>
-<link href="style.css" rel="stylesheet" type="text/css" />
+
 <script type="text/javascript">
 <?php
 switch ($_GET['data']) {
@@ -167,8 +204,9 @@ switch ($_GET['data']) {
 
 <form onsubmit="doSearch();return false;">
 Search:
-<div id="map_search"Search: <input
-	type="text" name="searchbox" id="searchbox" size="35" /></div>
+<div id="map_search" Search:
+	<input
+	type="text" name="searchbox" id="searchbox" value="enter"/></div>
 <input type="submit" />
 </form>
 </div>
@@ -178,12 +216,12 @@ Search:
 </div>
 <div id="sidebar">
 
-<div id="message" >
+<div id="message">
 <?
 $sql = "SELECT * from `geodatatable` where site ='aa'";
 $result = $db->query($sql);
 while ($row = mysql_fetch_array($result)) {
-    echo '<a onmouseover="centerMap('.$row['ID'].','.$row['latitude'].','.$row['longitude'].');return false;" href="#">'.$row['name'].'</a><br/>';
+    echo '<a onmouseover="centerMap(' . $row['ID'] . ',' . $row['latitude'] . ',' . $row['longitude'] . ');return false;" href="#">' . $row['name'] . '</a><br/>';
     echo $row['content'];
     echo '<br/><br/>';
 }
