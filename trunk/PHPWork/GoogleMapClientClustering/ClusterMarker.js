@@ -114,8 +114,7 @@ ClusterMarker.prototype._clusterMarker = function($clusterGroupIndexes) {
 };
 
 ClusterMarker.prototype.clusterMarkerClick = function($args) {
-	this._map.setCenter($args.clusterMarker.getLatLng(), this._map
-			.getBoundsZoomLevel($args.clusterMarker.clusterGroupBounds));
+	this._map.setCenter($args.clusterMarker.getLatLng(), this._map.getBoundsZoomLevel($args.clusterMarker.clusterGroupBounds));
 };
 
 ClusterMarker.prototype._filterActiveMapMarkers = function() {
