@@ -29,7 +29,7 @@ require_once 'json/JSON.php';
 // Internal program-specific Debug option.
 define ("DEBUG", false);
 // Maximum Recursion Depth that we can allow.
-define ("MAX_RECURSION_DEPTH_ALLOWED", 25);
+define ("MAX_RECURSION_DEPTH_ALLOWED", 50);
 // An empty string
 define ("EMPTY_STR", "");
 // SimpleXMLElement object property name for attributes
@@ -81,7 +81,8 @@ class xml2json {
 		contains an instance variable which itself is an associative array of 
 		several SimpleXMLElement objects.	
 		*/
-		$simpleXmlElementObject = simplexml_load_string($xmlStringContents);	
+		//$simpleXmlElementObject = simplexml_load_string($xmlStringContents);	
+        $simpleXmlElementObject = simplexml_load_file($xmlStringContents);    
 		
 		if ($simpleXmlElementObject == null) {
 			return(EMPTY_STR);
