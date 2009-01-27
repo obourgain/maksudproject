@@ -35,7 +35,7 @@ public class SMSC2ESMEExample {
     public static void main(String[] args) {
         SMPPSession session = new SMPPSession();
         try {
-            session.connectAndBind("localhost", 8056, new BindParameter(BindType.BIND_TRX, "test", "test", "cp", TypeOfNumber.UNKNOWN, NumberingPlanIndicator.UNKNOWN, null));
+            session.connectAndBind("localhost", 8056, new BindParameter(BindType.BIND_TRX, "pavel", "wpsd", "cp", TypeOfNumber.UNKNOWN, NumberingPlanIndicator.UNKNOWN, null));
         } catch (IOException e) {
             System.err.println("Failed connect and bind to host");
             e.printStackTrace();
@@ -44,14 +44,12 @@ public class SMSC2ESMEExample {
         // Set listener to receive deliver_sm
         session.setMessageReceiverListener(new MessageReceiverListenerImpl());
 
+
+/*
         try {
-            String messageId = session.submitShortMessage("CMT", TypeOfNumber.INTERNATIONAL, NumberingPlanIndicator.UNKNOWN, "1616", TypeOfNumber.INTERNATIONAL, NumberingPlanIndicator.UNKNOWN, "628176504657", new ESMClass(), (byte) 0, (byte) 1, timeFormatter.format(new Date()), null, new RegisteredDelivery(SMSCDeliveryReceipt.SUCCESS_FAILURE), (byte) 0, DataCodings.ZERO, (byte) 0, "jSMPP simplify SMPP on Java platform".getBytes());
+            //String messageId = session.submitShortMessage("CMT", TypeOfNumber.INTERNATIONAL, NumberingPlanIndicator.UNKNOWN, "1616", TypeOfNumber.INTERNATIONAL, NumberingPlanIndicator.UNKNOWN, "628176504657", new ESMClass(), (byte) 0, (byte) 1, timeFormatter.format(new Date()), null, new RegisteredDelivery(SMSCDeliveryReceipt.SUCCESS_FAILURE), (byte) 0, DataCodings.ZERO, (byte) 0, "jSMPP simplify SMPP on Java platform".getBytes());
 
-            /*
-             * you can save the submitted message to database.
-             */
-
-            System.out.println("Message submitted, message_id is " + messageId);
+            //System.out.println("Message submitted, message_id is " + messageId);
         } catch (PDUException e) {
             // Invalid PDU parameter
             System.err.println("Invalid PDU parameter");
@@ -72,6 +70,7 @@ public class SMSC2ESMEExample {
             System.err.println("IO error occur");
             e.printStackTrace();
         }
-        session.unbindAndClose();
+  */
+        //session.unbindAndClose();
     }
 }
