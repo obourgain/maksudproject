@@ -5,11 +5,8 @@ require_once ("mysqldb.php");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Clustering Demo</title>
-<script
-	src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAq-ZE2g3HsdIx_TvrRCkfTBR3IWAYz8RJWOauRf02cdleTea_OxSgCdbezrGn3MBxd-tVEXs_xkd6gQ"
-	type="text/javascript"></script>
-<script
-	src="http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager/release/src/markermanager.js"></script>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAq-ZE2g3HsdIx_TvrRCkfTBR3IWAYz8RJWOauRf02cdleTea_OxSgCdbezrGn3MBxd-tVEXs_xkd6gQ" type="text/javascript"></script>
+<script	src="http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager/release/src/markermanager.js"></script>
 <script
 	src="http://gmaps-utility-library.googlecode.com/svn/trunk/extlargemapcontrol/1.0/src/extlargemapcontrol.js"></script>
 
@@ -101,16 +98,14 @@ require_once ("mysqldb.php");
 <?php
 
 $db = new MySQLDB();
-$sql = "SELECT * from `geodatatable` WHERE site='aa'";
+$sql = "SELECT * from `geodatatable`";
 $result = $db->query($sql);
 while ($row = mysql_fetch_array($result)) {
-    echo "this.aaTitles['" . $row['ID'] . "'] = " . '\'<a onmouseover="centerMap(' . $row['ID'] . ',' . $row['latitude'] . ',' . $row['longitude'] . ');return false;" href="#">' . $row['name'] . '</a><br/>\';';
-    echo "this.aaContents['" . $row['ID'] . "'] = '" . $row['content'] . "';";
-
-    echo "marker = createMarker(" . $row['latitude'] . ", " . $row['longitude'] . ", '" . addslashes($row['name']) . "', '" . $row['name'] . "' +'<br/>'+ this.aaContents['" . $row['ID'] . "']);";
-    echo 'markers["' . $row['ID'] . '"] = marker;';
-
-    echo 'marker._id="' . $row['ID'] . '";';
+    echo "this.aaTitles['" . $row['id'] . "'] = " . '\'<a onmouseover="centerMap(' . $row['id'] . ',' . $row['latitude'] . ',' . $row['longitude'] . ');return false;" href="#">' . addslashes($row['name']) . '</a><br/>\';';
+    echo "this.aaContents['" . $row['id'] . "'] = '" . addslashes($row['content']) . "';";
+    echo "marker = createMarker(" . $row['latitude'] . ", " . $row['longitude'] . ", '" . addslashes($row['name']) . "', '" . addslashes($row['name']) . "' +'<br/>'+ this.aaContents['" . $row['id'] . "']);";
+    echo 'markers["' . $row['id'] . '"] = marker;';
+    echo 'marker._id="' . $row['id'] . '";';
     echo 'batch.push(marker);';
 }
 ?>		
@@ -218,10 +213,10 @@ Search:
 
 <div id="message">
 <?
-$sql = "SELECT * from `geodatatable` where site ='aa'";
+$sql = "SELECT * from `geodatatable`";
 $result = $db->query($sql);
 while ($row = mysql_fetch_array($result)) {
-    echo '<a onmouseover="centerMap(' . $row['ID'] . ',' . $row['latitude'] . ',' . $row['longitude'] . ');return false;" href="#">' . $row['name'] . '</a><br/>';
+    echo '<a onmouseover="centerMap(' . $row['id'] . ',' . $row['latitude'] . ',' . $row['longitude'] . ');return false;" href="#">' . $row['name'] . '</a><br/>';
     echo $row['content'];
     echo '<br/><br/>';
 }
