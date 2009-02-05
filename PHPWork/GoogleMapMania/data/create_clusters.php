@@ -2,7 +2,8 @@
 set_time_limit(200); // Give ourselves a little more time 
 // For the input table, we assume there are fields called latitude and longitude, as well
 // as a standard id field.
-$input_table = "dams_au";
+//$input_table = "dams_au";
+$input_table = "geodatatable";
 // For the output, we'll generate the table definition and full inserts.
 $cluster_table = "dams_au_clusters";
 // How much to reduce the set at each level. It's important that this be low so that we get
