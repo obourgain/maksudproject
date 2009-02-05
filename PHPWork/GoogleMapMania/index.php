@@ -1,13 +1,8 @@
-<?php
-//include '../../wp-config.php';
-?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Clustering Demo</title>
-<script
-	src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAq-ZE2g3HsdIx_TvrRCkfTBR3IWAYz8RJWOauRf02cdleTea_OxSgCdbezrGn3MBxd-tVEXs_xkd6gQ"
-	type="text/javascript"></script>
+<script	src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAq-ZE2g3HsdIx_TvrRCkfTBR3IWAYz8RJWOauRf02cdleTea_OxSgCdbezrGn3MBxd-tVEXs_xkd6gQ" 	type="text/javascript"></script>
 <script
 	src="http://gmaps-utility-library.googlecode.com/svn/trunk/labeledmarker/release/src/labeledmarker.js"
 	type="text/javascript"></script>
