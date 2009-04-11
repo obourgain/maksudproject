@@ -26,6 +26,6 @@
 
 - (IBAction)loadView;
 - (void)resetSquares;
-- (void)
+- (void)moveSquare:(UIImageView *)view toPoint:(CGRect)location;
 
 @end
