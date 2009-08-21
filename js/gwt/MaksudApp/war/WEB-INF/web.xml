@@ -5,8 +5,18 @@
 
 <web-app>
 
+	<servlet>
+		<servlet-name>sign</servlet-name>
+		<servlet-class>org.maksud.gwt.app.maksudapp.server.SignGuestbookServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>sign</servlet-name>
+		<url-pattern>/sign</url-pattern>
+	</servlet-mapping>
+
+
 	<welcome-file-list>
-		<welcome-file>MaksudApp.html</welcome-file>
+		<welcome-file>/MaksudApp.html</welcome-file>
 	</welcome-file-list>
 
 </web-app>
