@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.maksudapp.server;
+package org.maksud.gwt.app.maksudapp.server.servlets;
 
 import java.io.IOException;
 import java.util.Date;
