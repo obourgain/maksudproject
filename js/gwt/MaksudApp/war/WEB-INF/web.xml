@@ -7,7 +7,7 @@
 
 	<servlet>
 		<servlet-name>sign</servlet-name>
-		<servlet-class>org.maksud.gwt.app.maksudapp.server.SignGuestbookServlet</servlet-class>
+		<servlet-class>org.maksud.gwt.app.maksudapp.server.servlets.SignGuestbookServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>sign</servlet-name>
