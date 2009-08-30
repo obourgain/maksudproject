@@ -6,6 +6,9 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.maksud.gwt.app.maksudapp.server.utility.FetchUrlContents;
+
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -24,6 +27,9 @@ public class TestServlet extends HttpServlet {
 			throws IOException {
 
 		log.info("Got the Get..");
+		
+		
+		String str = FetchUrlContents.getContents("http://www.google.com");
 
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
