@@ -1,5 +1,7 @@
 package org.maksud.gwt.app.maksudapp.client;
 
+import org.maksud.gwt.app.maksudapp.server.BlaBlaServer;
+
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.util.Margins;
@@ -14,6 +16,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class MaksudApp implements EntryPoint {
 
 	public void onModuleLoad() {
+
+		BlaBla b = new BlaBla();
+		String name = b.getName();
 
 		BorderLayout borderLayout = new BorderLayout();
 
@@ -47,5 +52,6 @@ public class MaksudApp implements EntryPoint {
 		viewport.add(west, westData);
 
 		RootPanel.get().add(viewport);
+
 	}
 }
