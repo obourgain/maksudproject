@@ -5,7 +5,7 @@
 <%@ page import="com.google.appengine.api.users.UserService"%>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory"%>
 <%@ page import="org.maksud.gwt.app.maksudapp.entities.*"%>
-<%@ page import="org.maksud.gwt.app.maksudapp.data.PMF"%>
+<%@ page import="org.maksud.gwt.app.maksudapp.server.data.PMF"%>
 
 <html>
 <body>
@@ -32,14 +32,14 @@ in</a> to include your name with greetings you post.</p>
 	PersistenceManager pm = PMF.get().getPersistenceManager();
 	String query = "select from " + MaxDataTable.class.getName();
 	List<MaxDataTable> greetings = (List<MaxDataTable>) pm.newQuery(
-			query).execute();
+	query).execute();
 	if (greetings.isEmpty()) {
 %>
 <p>The guestbook has no messages.</p>
 <%
 	} else {
 		for (MaxDataTable g : greetings) {
-			if (g.getAuthor() == null) {
+	if (g.getAuthor() == null) {
 %>
 <p>An anonymous person wrote:</p>
 <%
