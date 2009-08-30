@@ -7,8 +7,8 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.servlet.http.*;
 
-import org.maksud.gwt.app.maksudapp.data.PMF;
-import org.maksud.gwt.app.maksudapp.entities.MaxDataTable;
+import org.maksud.gwt.app.maksudapp.server.data.PMF;
+import org.maksud.gwt.app.maksudapp.server.data.entities.MaxDataTable;
 
 import com.google.appengine.api.users.*;
 
