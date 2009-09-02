@@ -13,7 +13,7 @@
 		<servlet-name>sign</servlet-name>
 		<url-pattern>/sign</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>test</servlet-name>
 		<servlet-class>org.maksud.gwt.app.maksudapp.server.servlets.TestServlet</servlet-class>
@@ -21,6 +21,15 @@
 	<servlet-mapping>
 		<servlet-name>test</servlet-name>
 		<url-pattern>/test</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>fileupload</servlet-name>
+		<servlet-class>org.maksud.gwt.app.maksudapp.server.servlets.FileUploadServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>fileupload</servlet-name>
+		<url-pattern>/fileupload</url-pattern>
 	</servlet-mapping>
 
 
