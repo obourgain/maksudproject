@@ -29,7 +29,7 @@ public class TestServlet extends HttpServlet {
 		log.info("Got the Get..");
 		
 		
-		String str = FetchUrlContents.getContents("http://www.google.com");
+		String str = FetchUrlContents.getContents("http://admin.dsebd.org/admin-real/mst.txt");
 
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
