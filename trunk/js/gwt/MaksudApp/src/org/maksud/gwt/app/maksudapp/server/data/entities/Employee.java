@@ -34,4 +34,16 @@ public class Employee {
 	public String getLast() {
 		return last;
 	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setFirst(String first) {
+		this.first = first;
+	}
+
+	public void setLast(String last) {
+		this.last = last;
+	}
 }
