@@ -20,15 +20,12 @@ public class TestServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger log = Logger.getLogger(TestServlet.class
-			.getName());
+	private static final Logger log = Logger.getLogger(TestServlet.class.getName());
 
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
 		log.info("Got the Get..");
-		
-		
+
 		String str = FetchUrlContents.getContents("http://admin.dsebd.org/admin-real/mst.txt");
 
 		UserService userService = UserServiceFactory.getUserService();
