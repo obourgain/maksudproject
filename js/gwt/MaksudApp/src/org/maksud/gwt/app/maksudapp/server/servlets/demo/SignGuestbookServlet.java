@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.maksudapp.server.servlets;
+package org.maksud.gwt.app.maksudapp.server.servlets.demo;
 
 import java.io.IOException;
 import java.util.Date;
@@ -8,7 +8,7 @@ import javax.jdo.PersistenceManager;
 import javax.servlet.http.*;
 
 import org.maksud.gwt.app.maksudapp.server.data.PMF;
-import org.maksud.gwt.app.maksudapp.server.data.entities.MaxDataTable;
+import org.maksud.gwt.app.maksudapp.server.data.entities.demo.MaxDataTable;
 
 import com.google.appengine.api.users.*;
 
