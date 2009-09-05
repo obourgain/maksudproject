@@ -6,14 +6,16 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Key;
+
 import java.util.*;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class UserEntity {
-	
+
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long id;
+	private Key id;
 
 	@Persistent
 	private String login;
@@ -42,12 +44,10 @@ public class UserEntity {
 	@Persistent
 	private UserStatusEnum status;
 
-	
-	public UserEntity()
-	{
-		
+	public UserEntity() {
+
 	}
-	
+
 	public UserEntity(String login, String password, String name, String email, String url) {
 		super();
 		this.login = login;
@@ -61,11 +61,11 @@ public class UserEntity {
 		this.status = UserStatusEnum.Active;
 	}
 
-	public Long getId() {
+	public Key getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Key id) {
 		this.id = id;
 	}
 
@@ -140,5 +140,5 @@ public class UserEntity {
 	public void setStatus(UserStatusEnum status) {
 		this.status = status;
 	}
-	
+
 }
