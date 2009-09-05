@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.maksudapp.server.servlets;
+package org.maksud.gwt.app.maksudapp.server.servlets.demo;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.maksudapp.server.servlets.data;
+package org.maksud.gwt.app.maksudapp.server.servlets.demo;
 
 import java.io.IOException;
 
@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.maksud.gwt.app.maksudapp.server.data.PMF;
-import org.maksud.gwt.app.maksudapp.server.data.entities.ADummyEntityClass;
-import org.maksud.gwt.app.maksudapp.server.data.entities.Employee;
+import org.maksud.gwt.app.maksudapp.server.data.entities.demo.ADummyEntityClass;
+import org.maksud.gwt.app.maksudapp.server.data.entities.demo.Employee;
 
 public class JDOUseDemo extends HttpServlet {
 
