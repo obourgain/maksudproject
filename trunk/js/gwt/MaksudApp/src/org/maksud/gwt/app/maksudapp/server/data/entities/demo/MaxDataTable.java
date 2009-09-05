@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.maksudapp.server.data.entities;
+package org.maksud.gwt.app.maksudapp.server.data.entities.demo;
 
 import java.util.Date;
 import javax.jdo.annotations.IdGeneratorStrategy;
