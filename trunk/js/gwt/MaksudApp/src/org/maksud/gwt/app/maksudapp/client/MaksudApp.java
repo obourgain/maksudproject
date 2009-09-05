@@ -1,7 +1,5 @@
 package org.maksud.gwt.app.maksudapp.client;
 
-import org.maksud.gwt.app.maksudapp.server.BlaBlaServer;
-
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.util.Margins;
@@ -28,8 +26,7 @@ public class MaksudApp implements EntryPoint {
 		center.setHeading("BorderLayout Example");
 		center.setScrollMode(Scroll.AUTOX);
 
-		BorderLayoutData southData = new BorderLayoutData(LayoutRegion.SOUTH,
-				100);
+		BorderLayoutData southData = new BorderLayoutData(LayoutRegion.SOUTH, 100);
 		southData.setCollapsible(true);
 		southData.setFloatable(true);
 		southData.setHideCollapseTool(true);
