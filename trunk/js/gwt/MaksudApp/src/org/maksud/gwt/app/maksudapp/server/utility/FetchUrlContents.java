@@ -6,7 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Logger;
-import org.maksud.gwt.app.maksudapp.server.servlets.TestServlet;
+
+import org.maksud.gwt.app.maksudapp.server.servlets.demo.TestServlet;
 
 public class FetchUrlContents {
 	private static final Logger log = Logger.getLogger(TestServlet.class.getName());
