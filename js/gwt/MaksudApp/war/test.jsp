@@ -4,7 +4,7 @@
 <%@ page import="com.google.appengine.api.users.User"%>
 <%@ page import="com.google.appengine.api.users.UserService"%>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory"%>
-<%@ page import="org.maksud.gwt.app.maksudapp.entities.*"%>
+<%@ page import="org.maksud.gwt.app.maksudapp.server.data.entities.*"%>
 <%@ page import="org.maksud.gwt.app.maksudapp.server.data.PMF"%>
 
 <html>
