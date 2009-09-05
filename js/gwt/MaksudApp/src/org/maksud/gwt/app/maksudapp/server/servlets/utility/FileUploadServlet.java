@@ -4,7 +4,6 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-
 import org.apache.commons.fileupload.*;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -14,9 +13,10 @@ public class FileUploadServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		try {
+			res.setContentType("application/octet-stream");
 			ServletFileUpload upload = new ServletFileUpload();
-			upload.setSizeMax(50000);
-			res.setContentType("text/plain");
+			upload.setSizeMax(500000);
+
 			PrintWriter out = res.getWriter();
 
 			try {
@@ -26,22 +26,32 @@ public class FileUploadServlet extends HttpServlet {
 					InputStream in = item.openStream();
 
 					if (item.isFormField()) {
-						out.println("Got a form field: " + item.getFieldName());
+						// out.println("Got a form field: " +
+						// item.getFieldName());
 					} else {
 						String fieldName = item.getFieldName();
 						String fileName = item.getName();
 						String contentType = item.getContentType();
 
-						out.println("--------------");
-						out.println("fileName = " + fileName);
-						out.println("field name = " + fieldName);
-						out.println("contentType = " + contentType);
+						// out.println("--------------");
+						// out.println("fileName = " + fileName);
+						// out.println("field name = " + fieldName);
+						// out.println("contentType = " + contentType);
 
 						String fileContents = null;
 						try {
-							fileContents = IOUtils.toString(in);
-							out.println("lenght: " + fileContents.length());
-							out.println(fileContents);
+							//fileContents = IOUtils.toString(in);
+							// out.println("lenght: " + fileContents.length());
+							// out.println(fileContents);
+
+							byte[] file = IOUtils.toByteArray(in);
+							for (int i = 0; i < file.length; i++)
+							{
+								out.write((file[i] & 0xFF));
+							}
+							//out.write(fileContents);
+							//out.print(fileContents);
+							// out.print();
 						} finally {
 							IOUtils.closeQuietly(in);
 						}
@@ -49,7 +59,7 @@ public class FileUploadServlet extends HttpServlet {
 					}
 				}
 			} catch (SizeLimitExceededException e) {
-				out.println("You exceeded the maximu size (" + e.getPermittedSize() + ") of the file (" + e.getActualSize() + ")");
+				//out.println("You exceeded the maximu size (" + e.getPermittedSize() + ") of the file (" + e.getActualSize() + ")");
 			}
 		} catch (Exception ex) {
 
