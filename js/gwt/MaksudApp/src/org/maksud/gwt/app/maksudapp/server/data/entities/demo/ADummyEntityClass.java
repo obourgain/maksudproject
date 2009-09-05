@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.maksudapp.server.data.entities;
+package org.maksud.gwt.app.maksudapp.server.data.entities.demo;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -7,7 +7,6 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import org.maksud.gwt.app.maksudapp.server.data.entities.serialized.DownloadableFile;
 
 /**
  * 

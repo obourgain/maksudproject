@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.maksudapp.server.data.entities.serialized;
+package org.maksud.gwt.app.maksudapp.server.data.entities.demo;
 
 import java.io.Serializable;
 

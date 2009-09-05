@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.maksudapp.server.data.entities;
+package org.maksud.gwt.app.maksudapp.server.data.entities.demo;
 
 import javax.jdo.annotations.*;
 import com.google.appengine.api.datastore.Key;
