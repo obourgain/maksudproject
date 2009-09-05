@@ -13,6 +13,15 @@
 		<servlet-name>sign</servlet-name>
 		<url-pattern>/sign</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>mail</servlet-name>
+		<servlet-class>org.maksud.gwt.app.maksudapp.server.servlets.mail.JavaMailDemo</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mail</servlet-name>
+		<url-pattern>/mail</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>test</servlet-name>
