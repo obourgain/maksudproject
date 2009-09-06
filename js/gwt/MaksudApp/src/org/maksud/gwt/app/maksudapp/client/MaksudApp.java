@@ -1,22 +1,28 @@
 package org.maksud.gwt.app.maksudapp.client;
 
+import org.maksud.gwt.app.maksudapp.client.content.GWTFileUpload;
+
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.Style.Scroll;
+import com.extjs.gxt.ui.client.core.XDOM;
 import com.extjs.gxt.ui.client.util.Margins;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.Viewport;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.google.gwt.core.client.EntryPoint;
-
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class MaksudApp implements EntryPoint {
 
+	private Viewport viewport;
+
 	public void onModuleLoad() {
 
-		BlaBla b = new BlaBla();
-		String name = b.getName();
+		RootPanel rootPanel = RootPanel.get();
 
 		BorderLayout borderLayout = new BorderLayout();
 
@@ -48,7 +54,30 @@ public class MaksudApp implements EntryPoint {
 		viewport.add(center, centerData);
 		viewport.add(west, westData);
 
-		RootPanel.get().add(viewport);
+		String id = Window.Location.getParameter("id");
+		if (id == null) {
+			id = XDOM.getBody().getId();
+		}
 
+		if (id.equals("fileupload")) {
+			GWTFileUpload fupload = new GWTFileUpload();
+			center.add(fupload);
+		}
+
+		BasicRPC.Util.getInstance().dummy(new AsyncCallback<String>() {
+
+			@Override
+			public void onSuccess(String result) {
+				MessageBox.info("RPC Returned", result, null);
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				MessageBox.alert("RPC Failure", "Problem", null);
+
+			}
+		});
+
+		RootPanel.get().add(viewport);
 	}
 }
