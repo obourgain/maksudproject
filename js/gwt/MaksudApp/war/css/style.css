@@ -81,9 +81,19 @@ background:url(../images/top_head.gif) no-repeat right;
 background-position:-12px 12px;
 }
 
+#login_info {
+	position: absolute;
+	width: 225px;
+	top: 155px;
+	left: 500px;
+	margin: 0px;
+	padding: 0px;
+	z-index: 100;
+}
+
 #menu {
 	position: absolute;
-	width: 617px;
+	width: 417px;
 	top: 155px;
 	left: 35px;
 	margin: 0px;
