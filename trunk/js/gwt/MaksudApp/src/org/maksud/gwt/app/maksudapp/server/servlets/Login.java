@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.maksud.gwt.app.maksudapp.server.data.PMF;
 import org.maksud.gwt.app.maksudapp.server.data.entities.UserEntity;
@@ -27,6 +28,9 @@ public class Login extends HttpServlet {
 				res.getWriter().println("Password OK.");
 				if (user.getStatus() == UserStatusEnum.Active) {
 					res.getWriter().println("Login Ok.");
+
+					HttpSession ses = req.getSession(true);
+
 				} else {
 					res.getWriter().println("Inactive / Banned.");
 				}
