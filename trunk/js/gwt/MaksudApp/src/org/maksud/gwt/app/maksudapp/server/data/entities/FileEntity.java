@@ -7,6 +7,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Blob;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.users.User;
 import java.util.Date;
 
@@ -26,7 +27,7 @@ public class FileEntity {
 	private String filetype;
 
 	@Persistent
-	private UserEntity uploader;
+	private Key uploader;
 
 	@Persistent
 	private Date date;
@@ -37,7 +38,7 @@ public class FileEntity {
 	public FileEntity() {
 	}
 
-	public FileEntity(String fullname, UserEntity uploader, byte[] data) {
+	public FileEntity(String fullname, Key uploader, byte[] data) {
 		this.filename = fullname;
 		this.filesize = data.length;
 		this.filetype = "oct";
@@ -78,11 +79,11 @@ public class FileEntity {
 		this.filetype = filetype;
 	}
 
-	public UserEntity getUploader() {
+	public Key getUploader() {
 		return uploader;
 	}
 
-	public void setUploader(UserEntity uploader) {
+	public void setUploader(Key uploader) {
 		this.uploader = uploader;
 	}
 
