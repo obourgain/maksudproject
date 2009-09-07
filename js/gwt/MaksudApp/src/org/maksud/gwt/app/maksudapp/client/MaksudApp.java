@@ -63,8 +63,12 @@ public class MaksudApp implements EntryPoint {
 		} else if (id.equals("files")) {
 
 		} else if (id.equals("users")) {
-			UserGridSample ugs = new UserGridSample();
-			center.add(ugs);
+			try {
+				UserGridSample ugs = new UserGridSample();
+				center.add(ugs);
+			} catch (Exception e) {
+				MessageBox.info("Action", e.getMessage(), null);
+			}
 		}
 
 		RootPanel.get().add(viewport);

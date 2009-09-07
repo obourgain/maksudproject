@@ -48,8 +48,12 @@ public class FileUploadServlet extends HttpServlet {
 
 							UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), "maksud"));
 
+							if (user == null) {
+
+							}
+
 							FileEntity fileEntity = new FileEntity();
-							fileEntity.setUploader(user);
+							fileEntity.setUploader(user.getId());
 
 							byte[] data = IOUtils.toByteArray(in);
 							fileEntity.setData(new Blob(data));
@@ -87,8 +91,10 @@ public class FileUploadServlet extends HttpServlet {
 				// e.getPermittedSize() + ") of the file (" + e.getActualSize()
 				// + ")");
 			}
+			out.print("S");
 		} catch (Exception ex) {
 			throw new ServletException(ex);
 		}
+
 	}
 }
