@@ -1,6 +1,6 @@
 package org.maksud.gwt.app.maksudapp.client;
 
-import org.maksud.gwt.app.maksudapp.client.content.GWTFileUpload;
+import org.maksud.gwt.app.maksudapp.client.ui.*;
 
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.Style.Scroll;
@@ -21,8 +21,6 @@ public class MaksudApp implements EntryPoint {
 	private Viewport viewport;
 
 	public void onModuleLoad() {
-
-		RootPanel rootPanel = RootPanel.get();
 
 		BorderLayout borderLayout = new BorderLayout();
 
@@ -62,21 +60,12 @@ public class MaksudApp implements EntryPoint {
 		if (id.equals("fileupload")) {
 			GWTFileUpload fupload = new GWTFileUpload();
 			center.add(fupload);
+		} else if (id.equals("files")) {
+
+		} else if (id.equals("users")) {
+			UserGridSample ugs = new UserGridSample();
+			center.add(ugs);
 		}
-
-		BasicRPC.Util.getInstance().dummy(new AsyncCallback<String>() {
-
-			@Override
-			public void onSuccess(String result) {
-				MessageBox.info("RPC Returned", result, null);
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				MessageBox.alert("RPC Failure", "Problem", null);
-
-			}
-		});
 
 		RootPanel.get().add(viewport);
 	}
