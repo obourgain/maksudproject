@@ -58,7 +58,7 @@ public class GWTFileUpload extends LayoutContainer {
 				
 				panel.submit();
 
-				MessageBox.info("Action", "You file was uploaded", null);
+				//MessageBox.info("Action", "You file was uploaded", null);
 			}
 		});
 		panel.addButton(btn);
