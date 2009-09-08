@@ -10,19 +10,12 @@ public class UserEntity extends BaseModel{
 	private String login;
 
 	private String password;
-
 	private String name;
-
 	private String email;
-
 	private String url;
-
 	private Date register_date;
-
 	private String activation_key;
-
 	private UserLevelEnum level;
-
 	private UserStatusEnum status;
 
 	public UserEntity() {
