@@ -2,9 +2,9 @@ package org.maksud.gwt.app.maksudapp.client;
 
 import java.util.List;
 
-import org.maksud.gwt.app.maksudapp.client.overlay.UserEntity;
 import org.maksud.gwt.app.maksudapp.client.overlay.*;
 
+import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -26,6 +26,7 @@ public interface BasicRPC extends RemoteService {
 	}
 
 	List<UserEntity> getUsers();
+
 	List<Employee> getEmployees();
 
 }
