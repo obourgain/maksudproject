@@ -3,6 +3,7 @@ package org.maksud.gwt.app.maksudapp.client;
 import java.util.List;
 
 import org.maksud.gwt.app.maksudapp.client.overlay.UserEntity;
+import org.maksud.gwt.app.maksudapp.client.overlay.*;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -15,14 +16,16 @@ public interface BasicRPC extends RemoteService {
 	 */
 	public static class Util {
 		private static BasicRPCAsync instance;
-		public static BasicRPCAsync getInstance(){
+
+		public static BasicRPCAsync getInstance() {
 			if (instance == null) {
 				instance = GWT.create(BasicRPC.class);
 			}
 			return instance;
 		}
 	}
-	
+
 	List<UserEntity> getUsers();
-	
+	List<Employee> getEmployees();
+
 }
