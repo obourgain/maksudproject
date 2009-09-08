@@ -5,15 +5,10 @@ import java.util.Date;
 public class FileEntity {
 
 	private Long id;
-
 	private String filename;
-
 	private long filesize;
-
 	private String filetype;
-
 	private UserEntity uploader;
-
 	private Date date;
 
 	public FileEntity() {
