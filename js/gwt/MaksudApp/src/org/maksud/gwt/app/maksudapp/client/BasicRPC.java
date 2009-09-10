@@ -25,7 +25,7 @@ public interface BasicRPC extends RemoteService {
 		}
 	}
 
-	List<UserEntity> getUsers();
+	List<UserModel> getUsers();
 
 	List<Employee> getEmployees();
 
