@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.maksud.gwt.app.maksudapp.server.data.PMF;
 import org.maksud.gwt.app.maksudapp.server.data.entities.UserEntity;
-import org.maksud.gwt.app.maksudapp.server.data.entities.UserStatusEnum;
+import org.maksud.gwt.app.maksudapp.server.data.entities.UserStatus;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -26,18 +26,28 @@ public class Login extends HttpServlet {
 
 			if (user.getPassword().equals(password)) {
 				res.getWriter().println("Password OK.");
-				if (user.getStatus() == UserStatusEnum.Active) {
+				if (user.getStatus() == UserStatus.Active) {
 					res.getWriter().println("Login Ok.");
 
-					HttpSession ses = req.getSession(true);
+					HttpSession session = req.getSession(true);
+					//session.setAttribute("userid", user.getLogin());
+					getServletContext().getRequestDispatcher("/login.jsp").forward(req, res);
+					// session.setAttribute("error", "");
 
 				} else {
-					res.getWriter().println("Inactive / Banned.");
+					HttpSession session = req.getSession(true);
+					session.removeAttribute("userid");
+
+					req.setAttribute("error", "Inactive / Banned.");
+					getServletContext().getRequestDispatcher("/login.jsp").forward(req, res);
 				}
 			} else {
-				res.getWriter().println("Password Incorrect.");
-			}
+				HttpSession session = req.getSession(true);
+				session.removeAttribute("userid");
 
+				req.setAttribute("error", "Incorrected Password.");
+				getServletContext().getRequestDispatcher("/login.jsp").forward(req, res);
+			}
 		} catch (Exception e) {
 
 		}

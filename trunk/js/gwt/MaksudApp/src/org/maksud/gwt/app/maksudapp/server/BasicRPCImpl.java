@@ -7,57 +7,64 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import javax.jdo.PersistenceManager;
+
 import org.maksud.gwt.app.maksudapp.client.BasicRPC;
 import org.maksud.gwt.app.maksudapp.client.overlay.Employee;
-import org.maksud.gwt.app.maksudapp.client.overlay.UserEntity;
+import org.maksud.gwt.app.maksudapp.client.overlay.UserLevel;
+import org.maksud.gwt.app.maksudapp.client.overlay.UserModel;
+import org.maksud.gwt.app.maksudapp.client.overlay.UserStatus;
+import org.maksud.gwt.app.maksudapp.server.data.PMF;
+import org.maksud.gwt.app.maksudapp.server.data.entities.UserEntity;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class BasicRPCImpl extends RemoteServiceServlet implements BasicRPC {
 
-	
 	@Override
-	public List<UserEntity> getUsers() {
-		List<UserEntity> lst = new ArrayList<UserEntity>();
+	public List<UserModel> getUsers() {
 
-		UserEntity demo = new UserEntity();
-		demo.setName("maksud");
-		demo.setLogin("login");
-		lst.add(demo);
+		List<UserModel> lstUserModel = new ArrayList<UserModel>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 
-		return lst;
+		String query = "select from " + UserEntity.class.getName();
+
+		try {
+			List<UserEntity> lstUsers = (List<UserEntity>) pm.newQuery(query).execute();
+			System.out.println("Total Records Found: " + lstUsers.size());
+
+			for (int i = 0; i < lstUsers.size(); i++) {
+				UserEntity user = lstUsers.get(i);
+				try {
+
+					// System.out.println("Id: " + em.getId().toString() +
+					// "  :::  "
+					// + em.getLogin() + " " + em.getActivation_key()+ " " +
+					// em.getStatus());
+
+					UserModel demo = new UserModel(user.getLogin(), user.getPassword(), user.getName(), user.getEmail(), user.getUrl(),
+							user.getRegister_date(), user.getActivation_key(), user.getLevel(), user.getStatus());
+					lstUserModel.add(demo);
+				} catch (Exception e) {
+					System.out.println("RPCImpl1:  " + e.getMessage());
+					pm.deletePersistent(user);
+				}
+			}
+			pm.close();
+		} catch (Exception e) {
+
+			System.out.println("RPCImpl2:  " + e.getMessage());
+		} finally {
+		}
+		return lstUserModel;
 	}
 
 	public List<Employee> getEmployees() {
 		List<Employee> employees = new ArrayList<Employee>();
 
-
-		employees.add(new Employee("Hollie Voss", "General Administration",
-				"Executive Dir  ector", 150000, new Date()));
-//		employees.add(new Employee("Emerson Milton", "Information Technology",
-//				"CTO", 120000, f.parse("2007-03-01")));
-//		employees.add(new Employee("Christina Blake", "Information Technology",
-//				"Project M  anager", 90000, f.parse("2008-08-01")));
-//		employees.add(new Employee("Heriberto Rush", "Information Technology",
-//				"Senior S/W  Engineer", 70000, f.parse("2009-02-07")));
-//		employees.add(new Employee("Candice Carson", "Information Technology",
-//				"S/W Engine  er", 60000, f.parse("2007-11-01")));
-//		employees.add(new Employee("Chad Andrews", "Information Technology",
-//				"Senior S/W E  ngineer", 70000, f.parse("2008-02-01")));
-//		employees.add(new Employee("Dirk Newman", "Information Technology",
-//				"S/W Engineer", 62000, f.parse("2009-03-01")));
-//		employees.add(new Employee("Bell Snedden", "Information Technology",
-//				"S/W Engineer  ", 73000, f.parse("2007-07-07")));
-//		employees.add(new Employee("Benito Meeks", "Marketing",
-//				"General Manager", 105000, f.parse("2008-02-01")));
-//		employees.add(new Employee("Gail Horton", "Marketing", "Executive",
-//				55000, f.parse("  2009-05-01")));
-//		employees.add(new Employee("Claudio Engle", "Marketing", "Executive",
-//				58000, f.parse("2008-09-03")));
-//		employees.add(new Employee("Buster misjenou", "Accounts", "Executive",
-//				52000, f.parse("2008-02-07")));
+		employees.add(new Employee("Hollie Voss", "General Administration", "Executive Dir  ector", 150000, new Date()));
 
 		return employees;
 	}
-	
+
 }

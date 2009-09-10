@@ -39,10 +39,10 @@ public class UserEntity {
 	private String activation_key;
 
 	@Persistent
-	private UserLevelEnum level;
+	private int level;
 
 	@Persistent
-	private UserStatusEnum status;
+	private int status;
 
 	public UserEntity() {
 
@@ -57,8 +57,8 @@ public class UserEntity {
 		this.url = url;
 		this.register_date = new Date();
 		this.activation_key = "";
-		this.level = UserLevelEnum.Contributor;
-		this.status = UserStatusEnum.Active;
+		this.level = UserLevel.Contributor;
+		this.status = UserStatus.Active;
 	}
 
 	public Key getId() {
@@ -125,19 +125,19 @@ public class UserEntity {
 		activation_key = activationKey;
 	}
 
-	public UserLevelEnum getLevel() {
+	public int getLevel() {
 		return level;
 	}
 
-	public void setLevel(UserLevelEnum level) {
+	public void setLevel(int level) {
 		this.level = level;
 	}
 
-	public UserStatusEnum getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(UserStatusEnum status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 

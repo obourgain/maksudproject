@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.catalina.HttpResponse;
 import org.maksud.gwt.app.maksudapp.server.data.PMF;
 import org.maksud.gwt.app.maksudapp.server.data.entities.UserEntity;
-import org.maksud.gwt.app.maksudapp.server.data.entities.UserLevelEnum;
-import org.maksud.gwt.app.maksudapp.server.data.entities.UserStatusEnum;
+import org.maksud.gwt.app.maksudapp.server.data.entities.UserLevel;
+import org.maksud.gwt.app.maksudapp.server.data.entities.UserStatus;
 import org.maksud.gwt.app.maksudapp.server.utility.MailUser;
 
 import com.google.appengine.api.datastore.KeyFactory;
@@ -46,10 +46,10 @@ public class UserRegistration extends HttpServlet {
 				user.setLogin(login);
 				user.setEmail(email);
 				user.setPassword(password);
-				user.setLevel(UserLevelEnum.Contributor);
+				user.setLevel(UserLevel.Contributor);
 				user.setName(login);
 				user.setRegister_date(new Date());
-				user.setStatus(UserStatusEnum.Inactive);
+				user.setStatus(UserStatus.Inactive);
 				user.setUrl(url);
 				user.setActivation_key(activationKey);
 				user.setId(KeyFactory.createKey(UserEntity.class.getSimpleName(), login));

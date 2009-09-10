@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.maksud.gwt.app.maksudapp.server.data.PMF;
 import org.maksud.gwt.app.maksudapp.server.data.entities.UserEntity;
-import org.maksud.gwt.app.maksudapp.server.data.entities.UserStatusEnum;
+import org.maksud.gwt.app.maksudapp.server.data.entities.UserStatus;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -25,7 +25,7 @@ public class ActivateUser extends HttpServlet {
 		UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), login));
 
 		if (user.getActivation_key().equals(activateString)) {
-			user.setStatus(UserStatusEnum.Active);
+			user.setStatus(UserStatus.Active);
 			pm.makePersistent(user);
 			pm.close();
 			res.getWriter().print("User is activated!");
