@@ -24,7 +24,7 @@ public class ActivateUser extends HttpServlet {
 
 		UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), login));
 
-		if (user.getActivation_key().equals(activateString)) {
+		if (user.getActivationKey().equals(activateString)) {
 			user.setStatus(UserStatus.Active);
 			pm.makePersistent(user);
 			pm.close();

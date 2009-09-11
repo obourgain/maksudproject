@@ -1,6 +1,7 @@
 package org.maksud.gwt.app.maksudapp.server.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.jdo.PersistenceManager;
 import javax.servlet.ServletException;
@@ -19,18 +20,20 @@ public class Login extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String login = req.getParameter("userid");
 		String password = req.getParameter("password");
+		
+		PrintWriter out = res.getWriter();
 
 		try {
 			PersistenceManager pm = PMF.get().getPersistenceManager();
 			UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), login));
 
 			if (user.getPassword().equals(password)) {
-				res.getWriter().println("Password OK.");
+				out.println("Password OK.");
 				if (user.getStatus() == UserStatus.Active) {
-					res.getWriter().println("Login Ok.");
+					out.println("Login Ok.");
 
 					HttpSession session = req.getSession(true);
-					//session.setAttribute("userid", user.getLogin());
+					session.setAttribute("userid", user.getLogin());
 					getServletContext().getRequestDispatcher("/login.jsp").forward(req, res);
 					// session.setAttribute("error", "");
 
@@ -49,6 +52,8 @@ public class Login extends HttpServlet {
 				getServletContext().getRequestDispatcher("/login.jsp").forward(req, res);
 			}
 		} catch (Exception e) {
+			
+			out.write(e.getMessage());
 
 		}
 	}

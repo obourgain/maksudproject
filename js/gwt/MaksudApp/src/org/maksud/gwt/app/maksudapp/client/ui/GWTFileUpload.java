@@ -1,13 +1,11 @@
 package org.maksud.gwt.app.maksudapp.client.ui;
 
-import java.util.List;
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.FormEvent;
 import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
-import com.extjs.gxt.ui.client.event.TabPanelEvent;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
 import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.button.Button;
@@ -16,11 +14,9 @@ import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.form.FormPanel.Encoding;
 import com.extjs.gxt.ui.client.widget.form.FormPanel.Method;
-import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 
 public class GWTFileUpload extends LayoutContainer {
 
@@ -64,20 +60,16 @@ public class GWTFileUpload extends LayoutContainer {
 
 		form.addListener(Events.Submit, new Listener<FormEvent>() {
 			public void handleEvent(FormEvent be) {
-				//status.setVisible(false);
-				String html = be.getResultHtml();
-				
-				try
-				{
-					JSONValue jsonValue = JSONParser.parse(html);
-					
-					
+				// status.setVisible(false);
+				// String html = be.getResultHtml();
+
+				try {
+					// JSONValue jsonValue = JSONParser.parse(html);
+
+				} catch (Exception e) {
+					MessageBox.info("Exception", e.getMessage(), null);
 				}
-				catch(Exception e)
-				{
-					MessageBox.info("Exception", e.getMessage(), null);	
-				}
-				
+
 			}
 		});
 
