@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.maksudapp.client.overlay;
+package org.maksud.gwt.app.maksudapp.client.model;
 
 import java.io.Serializable;
 
