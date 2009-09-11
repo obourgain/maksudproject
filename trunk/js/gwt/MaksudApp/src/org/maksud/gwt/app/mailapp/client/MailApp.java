@@ -1,28 +1,45 @@
 package org.maksud.gwt.app.mailapp.client;
 
+import org.maksud.gwt.app.mailapp.client.mvc.AppController;
+import org.maksud.gwt.app.mailapp.client.mvc.ContactController;
+import org.maksud.gwt.app.mailapp.client.mvc.MailController;
+import org.maksud.gwt.app.mailapp.client.mvc.TaskController;
+
+import com.extjs.gxt.ui.client.GXT;
+import com.extjs.gxt.ui.client.Registry;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
+import com.extjs.gxt.ui.client.util.Theme;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class MailApp implements EntryPoint {
 	private Button clickMeButton;
-	public void onModuleLoad() {
-		RootPanel rootPanel = RootPanel.get();
 
-		clickMeButton = new Button();
-		rootPanel.add(clickMeButton);
-		clickMeButton.setText("Click me!");
-		clickMeButton.addClickHandler(new ClickHandler(){
-			@Override
-			public void onClick(ClickEvent event) {
-				Window.alert("Hello, GWT World!");
-			}
-		});
-	}
+	 public static final String SERVICE = "mailservice";
+	  
+	  public void onModuleLoad() {
+	    //GXT.setDefaultTheme(Theme.GRAY, true);
+
+	    MailServiceAsync service = (MailServiceAsync) GWT.create(MailService.class);
+	    ServiceDefTarget endpoint = (ServiceDefTarget) service;
+	    String moduleRelativeURL = SERVICE;
+	    endpoint.setServiceEntryPoint(moduleRelativeURL);
+	    Registry.register(SERVICE, service);
+
+	    Dispatcher dispatcher = Dispatcher.get();
+	    dispatcher.addController(new AppController());
+	    dispatcher.addController(new MailController());
+	    dispatcher.addController(new TaskController());
+	    dispatcher.addController(new ContactController());
+
+	    dispatcher.dispatch(AppEvents.Login);
+	    
+	    GXT.hideLoadingPanel("loading");
+	  }
+
 }
