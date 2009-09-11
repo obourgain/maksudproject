@@ -2,6 +2,9 @@ package org.maksud.gwt.app.maksudapp.client.model;
 
 import java.util.Date;
 
+import org.maksud.gwt.app.common.client.model.User;
+
+
 import com.extjs.gxt.ui.client.data.BaseModel;
 
 public class FileModel extends BaseModel {
@@ -21,7 +24,7 @@ public class FileModel extends BaseModel {
 	public FileModel() {
 	}
 
-	public FileModel(Long id, String filename, long filesize, String filetype, UserModel uploader, Date date) {
+	public FileModel(Long id, String filename, long filesize, String filetype, User uploader, Date date) {
 		super();
 		set("id", id);
 		set("filename", filename);
@@ -63,11 +66,11 @@ public class FileModel extends BaseModel {
 		set("filetype", filetype);
 	}
 
-	public UserModel getUploader() {
+	public User getUploader() {
 		return get("uploader");
 	}
 
-	public void setUploader(UserModel uploader) {
+	public void setUploader(User uploader) {
 		set("uploader", uploader);
 	}
 

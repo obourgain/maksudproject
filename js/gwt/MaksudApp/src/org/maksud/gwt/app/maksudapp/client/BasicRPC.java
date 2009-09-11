@@ -2,6 +2,8 @@ package org.maksud.gwt.app.maksudapp.client;
 
 import java.util.List;
 
+import org.maksud.gwt.app.common.client.model.Employee;
+import org.maksud.gwt.app.common.client.model.User;
 import org.maksud.gwt.app.maksudapp.client.model.*;
 
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
@@ -25,7 +27,7 @@ public interface BasicRPC extends RemoteService {
 		}
 	}
 
-	List<UserModel> getUsers();
+	List<User> getUsers();
 
 	List<Employee> getEmployees();
 
