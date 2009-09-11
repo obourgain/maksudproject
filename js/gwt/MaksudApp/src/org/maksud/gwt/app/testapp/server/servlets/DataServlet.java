@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.maksudapp.server.servlets.demo;
+package org.maksud.gwt.app.testapp.server.servlets;
 
 import java.io.IOException;
 import java.util.List;

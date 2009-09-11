@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.maksudapp.server.data.entities.demo;
+package org.maksud.gwt.app.testapp.server.model;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
