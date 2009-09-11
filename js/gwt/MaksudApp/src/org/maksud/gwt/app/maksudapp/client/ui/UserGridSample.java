@@ -6,7 +6,7 @@ import java.util.List;
 import javax.persistence.Basic;
 
 import org.maksud.gwt.app.maksudapp.client.BasicRPC;
-import org.maksud.gwt.app.maksudapp.client.overlay.*;
+import org.maksud.gwt.app.maksudapp.client.model.*;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.data.ModelData;

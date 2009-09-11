@@ -2,7 +2,7 @@ package org.maksud.gwt.app.maksudapp.client;
 
 import java.util.List;
 
-import org.maksud.gwt.app.maksudapp.client.overlay.*;
+import org.maksud.gwt.app.maksudapp.client.model.*;
 
 import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.google.gwt.user.client.rpc.AsyncCallback;

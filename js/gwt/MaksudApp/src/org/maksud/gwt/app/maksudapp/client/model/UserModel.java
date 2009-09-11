@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.maksudapp.client.overlay;
+package org.maksud.gwt.app.maksudapp.client.model;
 
 import com.extjs.gxt.ui.client.data.BaseModel;
 
