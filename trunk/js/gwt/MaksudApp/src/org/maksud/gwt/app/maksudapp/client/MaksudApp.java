@@ -2,7 +2,7 @@ package org.maksud.gwt.app.maksudapp.client;
 
 import java.util.List;
 
-import org.maksud.gwt.app.maksudapp.client.ui.*;
+import org.maksud.gwt.app.maksudapp.client.widget.*;
 
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.Style.Scroll;

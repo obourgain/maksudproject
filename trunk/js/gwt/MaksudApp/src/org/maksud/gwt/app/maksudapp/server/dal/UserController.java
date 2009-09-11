@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.jdo.PersistenceManager;
 
-import org.maksud.gwt.app.maksudapp.client.overlay.UserModel;
+import org.maksud.gwt.app.common.client.model.User;
 import org.maksud.gwt.app.maksudapp.server.data.PMF;
 import org.maksud.gwt.app.maksudapp.server.data.entities.UserEntity;
 
