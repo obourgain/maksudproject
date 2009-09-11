@@ -5,7 +5,7 @@
  * 
  * http://extjs.com/license
  */
-package org.maksud.gwt.app.common.client.model;
+package org.maksud.gwt.app.common.client.gxtmodel;
 
 import com.extjs.gxt.ui.client.data.BaseModelData;
 

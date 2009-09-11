@@ -10,7 +10,8 @@ package org.maksud.gwt.app.common.client;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.maksud.gwt.app.common.client.model.*;
+import org.maksud.gwt.app.common.client.gxtmodel.*;
+
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Random;
 
