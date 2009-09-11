@@ -3,12 +3,15 @@ package org.maksud.gwt.app.maksudapp.server.servlets.demo;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.maksud.gwt.app.maksudapp.server.dal.UserController;
+import org.maksud.gwt.app.maksudapp.server.data.entities.UserEntity;
 import org.maksud.gwt.app.maksudapp.server.utility.FetchUrlContents;
 
 import com.google.appengine.api.users.User;
@@ -32,24 +35,35 @@ public class TestServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		PrintWriter out = resp.getWriter();
-		try {
-			JID jid = new JID("maksud.buet@gmail.com");
-			String msgBody = "Someone has sent you a gift on Example.com. To view: http://example.com/gifts/";
-			Message msg = new MessageBuilder().withRecipientJids(jid).withBody(msgBody).build();
 
-			boolean messageSent = false;
-			XMPPService xmpp = XMPPServiceFactory.getXMPPService();
-			if (xmpp.getPresence(jid).isAvailable()) {
-				SendResponse status = xmpp.sendMessage(msg);
-				messageSent = (status.getStatusMap().get(jid) == SendResponse.Status.SUCCESS);
-			}
+		List<UserEntity> userEntities = UserController.getAllUsers();
 
-			if (!messageSent) {
-				// Send an email message instead...
-			}
-		} catch (Exception e) {
-			out.println(e.getMessage());
+		for (int i = 0; i < userEntities.size(); i++) {
+			UserEntity entity = userEntities.get(i);
+			out.print("login:" + entity.getLogin() + "activation:" + entity.getActivationKey());
 		}
+
+		// try {
+		// JID jid = new JID("maksud.buet@gmail.com");
+		// String msgBody =
+		// "Someone has sent you a gift on Example.com. To view: http://example.com/gifts/";
+		// Message msg = new
+		// MessageBuilder().withRecipientJids(jid).withBody(msgBody).build();
+		//
+		// boolean messageSent = false;
+		// XMPPService xmpp = XMPPServiceFactory.getXMPPService();
+		// if (xmpp.getPresence(jid).isAvailable()) {
+		// SendResponse status = xmpp.sendMessage(msg);
+		// messageSent = (status.getStatusMap().get(jid) ==
+		// SendResponse.Status.SUCCESS);
+		// }
+		//
+		// if (!messageSent) {
+		// // Send an email message instead...
+		// }
+		// } catch (Exception e) {
+		// out.println(e.getMessage());
+		// }
 
 		// log.info("Got the Get..");
 		// resp.setContentType("text/html;charset=UTF-8");

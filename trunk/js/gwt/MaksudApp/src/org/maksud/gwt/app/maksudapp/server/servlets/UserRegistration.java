@@ -51,7 +51,7 @@ public class UserRegistration extends HttpServlet {
 				user.setRegister_date(new Date());
 				user.setStatus(UserStatus.Inactive);
 				user.setUrl(url);
-				user.setActivation_key(activationKey);
+				user.setActivationKey(activationKey);
 				user.setId(KeyFactory.createKey(UserEntity.class.getSimpleName(), login));
 
 				PersistenceManager pm = PMF.get().getPersistenceManager();

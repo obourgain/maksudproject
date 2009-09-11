@@ -45,7 +45,7 @@ public class DataServlet extends HttpServlet {
 
 				for (i = 0; i < employees.size(); i++) {
 					UserEntity em = employees.get(i);
-					System.out.println("Id: " + em.getId().toString() + "  :::  " + em.getLogin() + " " + em.getActivation_key()+ " " + em.getStatus());
+					System.out.println("Id: " + em.getId().toString() + "  :::  " + em.getLogin() + " " + em.getActivationKey()+ " " + em.getStatus());
 					
 					//pm.deletePersistent(em);
 				}

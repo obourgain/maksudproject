@@ -117,11 +117,11 @@ public class UserEntity {
 		register_date = registerDate;
 	}
 
-	public String getActivation_key() {
+	public String getActivationKey() {
 		return activation_key;
 	}
 
-	public void setActivation_key(String activationKey) {
+	public void setActivationKey(String activationKey) {
 		activation_key = activationKey;
 	}
 
