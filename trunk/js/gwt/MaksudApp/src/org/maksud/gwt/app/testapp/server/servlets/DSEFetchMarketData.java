@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.maksudapp.server.servlets.demo;
+package org.maksud.gwt.app.testapp.server.servlets;
 
 /*
  * To change this template, choose Tools | Templates

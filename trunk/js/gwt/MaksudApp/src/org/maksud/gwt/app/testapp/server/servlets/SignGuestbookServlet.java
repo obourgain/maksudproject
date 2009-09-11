@@ -1,16 +1,20 @@
-package org.maksud.gwt.app.maksudapp.server.servlets.demo;
+package org.maksud.gwt.app.testapp.server.servlets;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.maksud.gwt.app.common.server.model.jdo.PMF;
-import org.maksud.gwt.app.maksudapp.server.data.entities.demo.MaxDataTable;
+import org.maksud.gwt.app.testapp.server.model.MaxDataTable;
 
-import com.google.appengine.api.users.*;
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 public class SignGuestbookServlet extends HttpServlet {
 	private static final Logger log = Logger
