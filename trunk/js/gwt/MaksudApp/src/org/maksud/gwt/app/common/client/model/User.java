@@ -5,16 +5,16 @@ import com.extjs.gxt.ui.client.data.BaseModel;
 import java.util.*;
 
 public class User extends BaseModel {
-	
-//	private String login;
-//	private String password;
-//	private String name;
-//	private String email;
-//	private String url;
-//	private Date register_date;
-//	private String activation_key;
-//	private UserLevelEnum level;
-//	private UserStatusEnum status;
+
+	// private String login;
+	// private String password;
+	// private String name;
+	// private String email;
+	// private String url;
+	// private Date register_date;
+	// private String activation_key;
+	// private UserLevelEnum level;
+	// private UserStatusEnum status;
 
 	/**
 	 * 
@@ -25,8 +25,13 @@ public class User extends BaseModel {
 
 	}
 
-	public User(String login, String password, String name, String email, String url, Date registerDate, String activationKey, int level,
-			int status) {
+	public User(String login, String password) {
+		super();
+		set("login", login);
+		set("password", password);
+	}
+
+	public User(String login, String password, String name, String email, String url, Date registerDate, String activationKey, int level, int status) {
 		super();
 		set("login", login);
 		set("password", password);

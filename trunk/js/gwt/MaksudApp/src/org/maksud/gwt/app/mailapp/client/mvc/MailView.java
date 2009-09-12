@@ -28,68 +28,68 @@ import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 
 public class MailView extends View {
 
-  private LayoutContainer container;
-  private MailListPanel mailListPanel;
-  private MailItemPanel mailItemPanel;
+	private LayoutContainer container;
+	private MailListPanel mailListPanel;
+	private MailItemPanel mailItemPanel;
 
-  public MailView(Controller controller) {
-    super(controller);
-  }
+	public MailView(Controller controller) {
+		super(controller);
+	}
 
-  @Override
-  protected void handleEvent(AppEvent event) {
-    if (event.getType() == AppEvents.NavMail) {
-      LayoutContainer wrapper = (LayoutContainer) Registry.get(AppView.CENTER_PANEL);
-      wrapper.removeAll();
-      wrapper.add(container);
-      wrapper.layout();
-      return;
-    }
+	@Override
+	protected void handleEvent(AppEvent event) {
+		if (event.getType() == AppEvents.NavMail) {
+			LayoutContainer wrapper = (LayoutContainer) Registry.get(AppView.CENTER_PANEL);
+			wrapper.removeAll();
+			wrapper.add(container);
+			wrapper.layout();
+			return;
+		}
 
-    if (event.getType() == AppEvents.ViewMailItems) {
-      LayoutContainer wrapper = (LayoutContainer) Registry.get(AppView.CENTER_PANEL);
+		if (event.getType() == AppEvents.ViewMailItems) {
+			LayoutContainer wrapper = (LayoutContainer) Registry.get(AppView.CENTER_PANEL);
 
-      Folder f = (Folder) event.getData("folder");
-      mailListPanel.setHeading(f.getName());
-      
-      ListStore<MailItem> store = mailListPanel.getStore();
-      store.removeAll();
-   
-      store.add(event.<List<MailItem>>getData());
+			Folder f = (Folder) event.getData("folder");
+			mailListPanel.setHeading(f.getName());
 
-      wrapper.layout();
+			ListStore<MailItem> store = mailListPanel.getStore();
+			store.removeAll();
 
-      List<MailItem> items = event.getData();
-      if (items.size() > 0) {
-        mailListPanel.getGrid().getSelectionModel().select(((MailItem) items.get(0)), false);
-      } else {
-        mailItemPanel.showItem(null);
-      }
-      return;
-    }
+			store.add(event.<List<MailItem>> getData());
 
-    if (event.getType() == AppEvents.ViewMailItem) {
-      MailItem item = event.getData();
-      mailItemPanel.showItem(item);
-    }
-  }
+			wrapper.layout();
 
-  @Override
-  protected void initialize() {
-    container = new LayoutContainer();
+			List<MailItem> items = event.getData();
+			if (items.size() > 0) {
+				mailListPanel.getGrid().getSelectionModel().select(((MailItem) items.get(0)), false);
+			} else {
+				mailItemPanel.showItem(null);
+			}
+			return;
+		}
 
-    BorderLayout layout = new BorderLayout();
-    layout.setEnableState(false);
-    container.setLayout(layout);
+		if (event.getType() == AppEvents.ViewMailItem) {
+			MailItem item = event.getData();
+			mailItemPanel.showItem(item);
+		}
+	}
 
-    mailListPanel = new MailListPanel();
-    container.add(mailListPanel, new BorderLayoutData(LayoutRegion.CENTER));
+	@Override
+	protected void initialize() {
+		container = new LayoutContainer();
 
-    mailItemPanel = new MailItemPanel();
-    BorderLayoutData southData = new BorderLayoutData(LayoutRegion.SOUTH, .5f, 200, 1000);
-    southData.setSplit(true);
-    southData.setMargins(new Margins(5, 0, 0, 0));
-    container.add(mailItemPanel, southData);
-  }
+		BorderLayout layout = new BorderLayout();
+		layout.setEnableState(false);
+		container.setLayout(layout);
+
+		mailListPanel = new MailListPanel();
+		container.add(mailListPanel, new BorderLayoutData(LayoutRegion.CENTER));
+
+		mailItemPanel = new MailItemPanel();
+		BorderLayoutData southData = new BorderLayoutData(LayoutRegion.SOUTH, .5f, 200, 1000);
+		southData.setSplit(true);
+		southData.setMargins(new Margins(5, 0, 0, 0));
+		container.add(mailItemPanel, southData);
+	}
 
 }

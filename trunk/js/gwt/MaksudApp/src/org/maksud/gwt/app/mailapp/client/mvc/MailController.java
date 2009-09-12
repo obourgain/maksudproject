@@ -24,55 +24,55 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class MailController extends Controller {
 
-  private MailServiceAsync service;
-  private MailFolderView folderView;
-  private MailView mailView;
+	private MailServiceAsync service;
+	private MailFolderView folderView;
+	private MailView mailView;
 
-  public MailController() {
-    registerEventTypes(AppEvents.Init);
-    registerEventTypes(AppEvents.NavMail);
-    registerEventTypes(AppEvents.ViewMailItems);
-    registerEventTypes(AppEvents.ViewMailItem);
-  }
+	public MailController() {
+		registerEventTypes(AppEvents.Init);
+		registerEventTypes(AppEvents.NavMail);
+		registerEventTypes(AppEvents.ViewMailItems);
+		registerEventTypes(AppEvents.ViewMailItem);
+	}
 
-  @Override
-  public void handleEvent(AppEvent event) {
-    EventType type = event.getType();
-    if (type == AppEvents.Init) {
-      forwardToView(folderView, event);
-    } else if (type == AppEvents.NavMail) {
-      forwardToView(folderView, event);
-      forwardToView(mailView, event);
-    } else if (type == AppEvents.ViewMailItems) {
-      onViewMailItems(event);
-    } else if (type == AppEvents.ViewMailItem) {
-      forwardToView(mailView, event);
-    }
-  }
+	@Override
+	public void handleEvent(AppEvent event) {
+		EventType type = event.getType();
+		if (type == AppEvents.Init) {
+			forwardToView(folderView, event);
+		} else if (type == AppEvents.NavMail) {
+			forwardToView(folderView, event);
+			forwardToView(mailView, event);
+		} else if (type == AppEvents.ViewMailItems) {
+			onViewMailItems(event);
+		} else if (type == AppEvents.ViewMailItem) {
+			forwardToView(mailView, event);
+		}
+	}
 
-  private void onViewMailItems(final AppEvent event) {
-    final Folder f = event.getData();
-    if (f != null) {
-      service.getMailItems(f, new AsyncCallback<List<MailItem>>() {
-        public void onSuccess(List<MailItem> result) {
-          AppEvent ae = new AppEvent(event.getType(), result);
-          ae.setData("folder", f);
-          forwardToView(mailView, ae);
-        }
+	private void onViewMailItems(final AppEvent event) {
+		final Folder f = event.getData();
+		if (f != null) {
+			service.getMailItems(f, new AsyncCallback<List<MailItem>>() {
+				public void onSuccess(List<MailItem> result) {
+					AppEvent ae = new AppEvent(event.getType(), result);
+					ae.setData("folder", f);
+					forwardToView(mailView, ae);
+				}
 
-        public void onFailure(Throwable caught) {
-          Dispatcher.forwardEvent(AppEvents.Error, caught);
-        }
-      });
-    }
+				public void onFailure(Throwable caught) {
+					Dispatcher.forwardEvent(AppEvents.Error, caught);
+				}
+			});
+		}
 
-  }
+	}
 
-  public void initialize() {
-    service = (MailServiceAsync) Registry.get(MailApp.SERVICE);
+	public void initialize() {
+		service = (MailServiceAsync) Registry.get(MailApp.SERVICE);
 
-    folderView = new MailFolderView(this);
-    mailView = new MailView(this);
-  }
+		folderView = new MailFolderView(this);
+		mailView = new MailView(this);
+	}
 
 }
