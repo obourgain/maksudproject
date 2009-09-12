@@ -7,7 +7,7 @@
 
 	<servlet>
 		<servlet-name>demo_sign</servlet-name>
-		<servlet-class>org.maksud.gwt.app.maksudapp.server.servlets.demo.SignGuestbookServlet</servlet-class>
+		<servlet-class>org.maksud.gwt.app.testapp.server.servlets.SignGuestbookServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>demo_sign</servlet-name>
@@ -16,7 +16,7 @@
 
 	<servlet>
 		<servlet-name>demo_mail</servlet-name>
-		<servlet-class>org.maksud.gwt.app.maksudapp.server.servlets.demo.JavaMailDemo</servlet-class>
+		<servlet-class>org.maksud.gwt.app.testapp.server.servlets.JavaMailDemo</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>demo_mail</servlet-name>
@@ -25,7 +25,7 @@
 
 	<servlet>
 		<servlet-name>demo_test</servlet-name>
-		<servlet-class>org.maksud.gwt.app.maksudapp.server.servlets.demo.TestServlet</servlet-class>
+		<servlet-class>org.maksud.gwt.app.testapp.server.servlets.TestServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>demo_test</servlet-name>
@@ -36,7 +36,7 @@
 
 	<servlet>
 		<servlet-name>fileupload</servlet-name>
-		<servlet-class>org.maksud.gwt.app.maksudapp.server.servlets.FileUploadServlet</servlet-class>
+		<servlet-class>org.maksud.gwt.app.common.server.servlets.FileUploadServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>fileupload</servlet-name>
@@ -45,7 +45,7 @@
 
 	<servlet>
 		<servlet-name>Login</servlet-name>
-		<servlet-class>org.maksud.gwt.app.maksudapp.server.servlets.Login</servlet-class>
+		<servlet-class>org.maksud.gwt.app.common.server.servlets.Login</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>
@@ -54,7 +54,7 @@
 
 	<servlet>
 		<servlet-name>ActivateUser</servlet-name>
-		<servlet-class>org.maksud.gwt.app.maksudapp.server.servlets.ActivateUser</servlet-class>
+		<servlet-class>org.maksud.gwt.app.common.server.servlets.ActivateUser</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ActivateUser</servlet-name>
@@ -63,7 +63,7 @@
 
 	<servlet>
 		<servlet-name>UserRegistration</servlet-name>
-		<servlet-class>org.maksud.gwt.app.maksudapp.server.servlets.UserRegistration</servlet-class>
+		<servlet-class>org.maksud.gwt.app.common.server.servlets.UserRegistration</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>UserRegistration</servlet-name>
@@ -72,7 +72,7 @@
 
 	<servlet>
 		<servlet-name>demo_data</servlet-name>
-		<servlet-class>org.maksud.gwt.app.maksudapp.server.servlets.demo.DataServlet</servlet-class>
+		<servlet-class>org.maksud.gwt.app.testapp.server.servlets.DataServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>demo_data</servlet-name>
@@ -84,7 +84,7 @@
 		<welcome-file>/index.html</welcome-file>
 		<welcome-file>/index.jsp</welcome-file>
 	</welcome-file-list>
-	
+
 	<servlet>
 		<servlet-name>BasicRPC</servlet-name>
 		<servlet-class>org.maksud.gwt.app.maksudapp.server.BasicRPCImpl</servlet-class>
@@ -100,6 +100,26 @@
 	<servlet-mapping>
 		<servlet-name>MailService</servlet-name>
 		<url-pattern>/org.maksud.gwt.app.mailapp.MailApp/mailservice</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>AuthenticationService</servlet-name>
+		<servlet-class>org.maksud.gwt.app.common.server.AuthenticationServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AuthenticationService</servlet-name>
+		<url-pattern>/org.maksud.gwt.app.common.Common/AuthenticationService</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AuthenticationService</servlet-name>
+		<url-pattern>/maksudapp/AuthenticationService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>TestService</servlet-name>
+		<servlet-class>org.maksud.gwt.app.testapp.server.TestServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TestService</servlet-name>
+		<url-pattern>/org.maksud.gwt.app.testapp.TestApp/TestService</url-pattern>
 	</servlet-mapping>
 
 </web-app>
