@@ -2,11 +2,18 @@ package org.maksud.gwt.app.maksudapp.client;
 
 import java.util.List;
 
+import org.maksud.gwt.app.common.client.AuthenticationService;
+import org.maksud.gwt.app.maksudapp.client.AppEvents;
+import org.maksud.gwt.app.maksudapp.client.mvc.AppController;
+import org.maksud.gwt.app.maksudapp.client.mvc.UserController;
 import org.maksud.gwt.app.maksudapp.client.widget.*;
 
+import com.extjs.gxt.ui.client.GXT;
+import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.core.XDOM;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.util.Margins;
 import com.extjs.gxt.ui.client.widget.Component;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
@@ -17,10 +24,12 @@ import com.extjs.gxt.ui.client.widget.Viewport;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -33,10 +42,27 @@ public class MaksudApp implements EntryPoint {
 
 	private Viewport viewport;
 
+	public static final String SERVICE = "BasicRPC";
+
 	public void onModuleLoad() {
 
-		BorderLayout borderLayout = new BorderLayout();
+		// Service
+		BasicRPCAsync service = (BasicRPCAsync) GWT.create(BasicRPC.class);
+		ServiceDefTarget endpoint = (ServiceDefTarget) service;
+		String moduleRelativeURL = SERVICE;
+		endpoint.setServiceEntryPoint(moduleRelativeURL);
+		Registry.register(SERVICE, service);
+
+		Dispatcher dispatcher = Dispatcher.get();
+		dispatcher.addController(new AppController());
+		dispatcher.addController(new UserController());
 		
+		
+		dispatcher.dispatch(AppEvents.LoginDialog);    
+	    GXT.hideLoadingPanel("loading");
+
+		/*BorderLayout borderLayout = new BorderLayout();
+
 		TabPanel tabPanel = new TabPanel();
 
 		ContentPanel west = new ContentPanel();
@@ -63,7 +89,7 @@ public class MaksudApp implements EntryPoint {
 		Viewport viewport = new Viewport();
 		viewport.setLayout(borderLayout);
 		center.add(tabPanel);
-		
+
 		viewport.add(south, southData);
 		viewport.add(center, centerData);
 		viewport.add(west, westData);
@@ -105,6 +131,24 @@ public class MaksudApp implements EntryPoint {
 			populateCenter(center, USERS);
 		}
 
+		AuthenticationService.Util.getInstance().isSessionValid(new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onSuccess(Boolean result) {
+				if (result) {
+					MessageBox.info("Session", "Session Valid", null);
+				} else {
+					MessageBox.info("Session", "Session Timeout", null);
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
 		RootPanel.get().add(viewport);
 	}
 
@@ -128,6 +172,6 @@ public class MaksudApp implements EntryPoint {
 				MessageBox.info("Action", e.getMessage(), null);
 			}
 		}
-
+*/
 	}
 }
