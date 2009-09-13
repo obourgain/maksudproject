@@ -56,122 +56,13 @@ public class MaksudApp implements EntryPoint {
 		Dispatcher dispatcher = Dispatcher.get();
 		dispatcher.addController(new AppController());
 		dispatcher.addController(new UserController());
-		
-		
-		dispatcher.dispatch(AppEvents.LoginDialog);    
-	    GXT.hideLoadingPanel("loading");
 
-		/*BorderLayout borderLayout = new BorderLayout();
+		dispatcher.dispatch(AppEvents.LoginDialog);
 
-		TabPanel tabPanel = new TabPanel();
+		// FileUploadDialog dialog = new FileUploadDialog();
+		// dialog.show();
 
-		ContentPanel west = new ContentPanel();
-		ContentPanel south = new ContentPanel();
-		final ContentPanel center = new ContentPanel();
-		center.setHeading("BorderLayout Example");
-		center.setScrollMode(Scroll.AUTOX);
+		GXT.hideLoadingPanel("loading");
 
-		BorderLayoutData southData = new BorderLayoutData(LayoutRegion.SOUTH, 100);
-		southData.setCollapsible(true);
-		southData.setFloatable(true);
-		southData.setHideCollapseTool(true);
-		southData.setSplit(true);
-		southData.setMargins(new Margins(5, 5, 0, 5));
-
-		BorderLayoutData westData = new BorderLayoutData(LayoutRegion.WEST, 150);
-		westData.setSplit(true);
-		westData.setCollapsible(true);
-		westData.setMargins(new Margins(5));
-
-		BorderLayoutData centerData = new BorderLayoutData(LayoutRegion.CENTER);
-		centerData.setMargins(new Margins(5, 0, 5, 0));
-
-		Viewport viewport = new Viewport();
-		viewport.setLayout(borderLayout);
-		center.add(tabPanel);
-
-		viewport.add(south, southData);
-		viewport.add(center, centerData);
-		viewport.add(west, westData);
-
-		String id = Window.Location.getParameter("id");
-		if (id == null) {
-			id = XDOM.getBody().getId();
-		}
-
-		Anchor a = new Anchor("Upload");
-		a.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				populateCenter(center, UPLOAD);
-			}
-		});
-		west.add(a);
-
-		a = new Anchor("Users");
-		a.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				populateCenter(center, USERS);
-			}
-		});
-		west.add(a);
-
-		a = new Anchor("Files Uploaded");
-		a.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				populateCenter(center, FILES);
-			}
-		});
-		west.add(a);
-
-		if (id.equals("fileupload")) {
-			populateCenter(center, UPLOAD);
-		} else if (id.equals("files")) {
-
-		} else if (id.equals("users")) {
-			populateCenter(center, USERS);
-		}
-
-		AuthenticationService.Util.getInstance().isSessionValid(new AsyncCallback<Boolean>() {
-
-			@Override
-			public void onSuccess(Boolean result) {
-				if (result) {
-					MessageBox.info("Session", "Session Valid", null);
-				} else {
-					MessageBox.info("Session", "Session Timeout", null);
-				}
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		RootPanel.get().add(viewport);
-	}
-
-	void populateCenter(LayoutContainer center, int type) {
-		// List<Component> elements = center.getItems();
-		// for(int i=0;i< elements.size();i++)
-		center.removeAll();
-
-		if (type == UPLOAD) {
-			GWTFileUpload fupload = new GWTFileUpload();
-			center.add(fupload);
-			center.show();
-		} else if (type == FILES) {
-
-		} else if (type == USERS) {
-			try {
-				UserGridSample ugs = new UserGridSample();
-				center.add(ugs);
-				center.show();
-			} catch (Exception e) {
-				MessageBox.info("Action", e.getMessage(), null);
-			}
-		}
-*/
 	}
 }

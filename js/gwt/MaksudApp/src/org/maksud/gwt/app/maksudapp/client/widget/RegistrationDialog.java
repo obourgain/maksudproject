@@ -1,5 +1,10 @@
 package org.maksud.gwt.app.maksudapp.client.widget;
 
+import java.util.Date;
+
+import org.maksud.gwt.app.common.client.constants.UserLevel;
+import org.maksud.gwt.app.common.client.constants.UserStatus;
+import org.maksud.gwt.app.common.client.model.User;
 import org.maksud.gwt.app.maksudapp.client.AppEvents;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
@@ -8,16 +13,13 @@ import com.extjs.gxt.ui.client.event.ComponentEvent;
 import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.event.KeyListener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
-import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
-import com.extjs.gxt.ui.client.util.IconHelper;
 import com.extjs.gxt.ui.client.widget.Dialog;
 import com.extjs.gxt.ui.client.widget.Status;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
-import com.google.gwt.user.client.Timer;
 
 public class RegistrationDialog extends Dialog {
 
@@ -68,20 +70,20 @@ public class RegistrationDialog extends Dialog {
 		password.addKeyListener(keyListener);
 		add(password);
 
-		password = new TextField<String>();
-		password.setMinLength(4);
-		password.setPassword(true);
-		password.setFieldLabel("Retype");
-		password.addKeyListener(keyListener);
-		add(password);
+		retype = new TextField<String>();
+		retype.setMinLength(4);
+		retype.setPassword(true);
+		retype.setFieldLabel("Retype");
+		retype.addKeyListener(keyListener);
+		add(retype);
 
-		password = new TextField<String>();
-		password.setFieldLabel("Email");
-		add(password);
+		email = new TextField<String>();
+		email.setFieldLabel("Email");
+		add(email);
 
-		password = new TextField<String>();
-		password.setFieldLabel("Website");
-		add(password);
+		website = new TextField<String>();
+		website.setFieldLabel("Website");
+		add(website);
 
 		setFocusWidget(userName);
 
@@ -116,7 +118,7 @@ public class RegistrationDialog extends Dialog {
 		});
 
 		signup = new Button("Sign Up");
-		//signup.disable();
+		// signup.disable();
 		signup.addSelectionListener(new SelectionListener<ButtonEvent>() {
 			public void componentSelected(ButtonEvent ce) {
 				onSubmit(AppEvents.Registration);
@@ -134,7 +136,14 @@ public class RegistrationDialog extends Dialog {
 		if (event == AppEvents.LoginDialog) {
 			Dispatcher.forwardEvent(AppEvents.LoginDialog);
 		} else if (event == AppEvents.Registration) {
-			Dispatcher.forwardEvent(AppEvents.Registration);
+
+			try {
+				User usr = new User(userName.getValue(), password.getValue(), userName.getValue(), email.getValue(), website.getValue(), new Date(), "",
+						UserLevel.Contributor, UserStatus.Inactive);
+				Dispatcher.forwardEvent(AppEvents.Registration, usr);
+			} catch (Exception e) {
+				System.out.print(e.getMessage());
+			}
 		}
 	}
 
@@ -143,7 +152,8 @@ public class RegistrationDialog extends Dialog {
 	}
 
 	protected void validate() {
-		//signup.setEnabled(hasValue(userName) && hasValue(password) && password.getValue().length() > 3);
+		// signup.setEnabled(hasValue(userName) && hasValue(password) &&
+		// password.getValue().length() > 3);
 	}
 
 }

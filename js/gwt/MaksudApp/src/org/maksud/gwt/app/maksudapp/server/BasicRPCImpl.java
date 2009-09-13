@@ -40,4 +40,10 @@ public class BasicRPCImpl extends RemoteServiceServlet implements BasicRPC {
 		return employees;
 	}
 
+	@Override
+	public boolean registerUser(User user) {
+		System.out.print("registerUser");
+		return UserEntityManager.registerUser(user.getLogin(), user.getPassword(), user.getPassword(), user.getEmail(), user.getUrl());
+	}
+
 }
