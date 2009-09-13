@@ -47,35 +47,41 @@ public class MaksudApp implements EntryPoint {
 	public void onModuleLoad() {
 
 		// Service
-		BasicRPCAsync service = (BasicRPCAsync) GWT.create(BasicRPC.class);
-		ServiceDefTarget endpoint = (ServiceDefTarget) service;
-		String moduleRelativeURL = SERVICE;
-		endpoint.setServiceEntryPoint(moduleRelativeURL);
-		Registry.register(SERVICE, service);
-
-		Dispatcher dispatcher = Dispatcher.get();
-		dispatcher.addController(new AppController());
-		dispatcher.addController(new UserController());
-
-		dispatcher.dispatch(AppEvents.LoginDialog);
+//		BasicRPCAsync service = (BasicRPCAsync) GWT.create(BasicRPC.class);
+//		ServiceDefTarget endpoint = (ServiceDefTarget) service;
+//		String moduleRelativeURL = SERVICE;
+//		endpoint.setServiceEntryPoint(moduleRelativeURL);
+//		Registry.register(SERVICE, service);
+//
+//		Dispatcher dispatcher = Dispatcher.get();
+//		dispatcher.addController(new AppController());
+//		dispatcher.addController(new UserController());
+//
+//		dispatcher.dispatch(AppEvents.LoginDialog);
 
 		// FileUploadDialog dialog = new FileUploadDialog();
 		// dialog.show();
 
-		service.test(new AsyncCallback<Void>() {
-
-			@Override
-			public void onSuccess(Void result) {
-				System.out.println("test");
-
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+//		service.test(new AsyncCallback<Void>() {
+//
+//			@Override
+//			public void onSuccess(Void result) {
+//				System.out.println("test");
+//
+//			}
+//
+//			@Override
+//			public void onFailure(Throwable caught) {
+//				// TODO Auto-generated method stub
+//
+//			}
+//		});
+		
+		
+		ImageChooserExample is= new ImageChooserExample();
+		RootPanel.get().add(is);
+		
+	
 
 		GXT.hideLoadingPanel("loading");
 
