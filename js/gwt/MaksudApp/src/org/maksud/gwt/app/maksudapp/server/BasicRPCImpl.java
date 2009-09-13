@@ -46,4 +46,11 @@ public class BasicRPCImpl extends RemoteServiceServlet implements BasicRPC {
 		return UserEntityManager.registerUser(user.getLogin(), user.getPassword(), user.getPassword(), user.getEmail(), user.getUrl());
 	}
 
+	@Override
+	public void test() {
+		String str = getThreadLocalRequest().getRealPath("/");
+		System.out.println("|" + str + "|");
+
+	}
+
 }
