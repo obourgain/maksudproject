@@ -62,6 +62,21 @@ public class MaksudApp implements EntryPoint {
 		// FileUploadDialog dialog = new FileUploadDialog();
 		// dialog.show();
 
+		service.test(new AsyncCallback<Void>() {
+
+			@Override
+			public void onSuccess(Void result) {
+				System.out.println("test");
+
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
 		GXT.hideLoadingPanel("loading");
 
 	}

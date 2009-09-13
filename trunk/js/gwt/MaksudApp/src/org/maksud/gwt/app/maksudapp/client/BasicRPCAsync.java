@@ -8,10 +8,10 @@ import org.maksud.gwt.app.common.client.model.User;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface BasicRPCAsync {
-	void getUsers(AsyncCallback<List<User>> callback);
-
-	void getEmployees(AsyncCallback<List<Employee>> callback);
+	void test(AsyncCallback<Void> callback);
 	
+	void getUsers(AsyncCallback<List<User>> callback);
+	void getEmployees(AsyncCallback<List<Employee>> callback);
 	void registerUser(User user, AsyncCallback<Boolean> callback);
 
 }
