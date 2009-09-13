@@ -42,6 +42,11 @@
 		<servlet-name>fileupload</servlet-name>
 		<url-pattern>/fileupload</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>fileupload</servlet-name>
+		<url-pattern>/org.maksud.dms.DMSDemo/fileupload</url-pattern>
+	</servlet-mapping>
+	
 
 	<servlet>
 		<servlet-name>Login</servlet-name>
@@ -120,6 +125,14 @@
 	<servlet-mapping>
 		<servlet-name>TestService</servlet-name>
 		<url-pattern>/org.maksud.gwt.app.testapp.TestApp/TestService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DirectoryService</servlet-name>
+		<servlet-class>org.maksud.dms.server.DirectoryServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DirectoryService</servlet-name>
+		<url-pattern>/org.maksud.dms.DMSDemo/DirectoryService</url-pattern>
 	</servlet-mapping>
 
 </web-app>
