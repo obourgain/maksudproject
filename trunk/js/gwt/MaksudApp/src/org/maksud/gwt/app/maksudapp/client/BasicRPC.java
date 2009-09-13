@@ -4,9 +4,7 @@ import java.util.List;
 
 import org.maksud.gwt.app.common.client.model.Employee;
 import org.maksud.gwt.app.common.client.model.User;
-import org.maksud.gwt.app.maksudapp.client.model.*;
 
-import com.extjs.gxt.ui.client.data.BasePagingLoadResult;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -30,5 +28,7 @@ public interface BasicRPC extends RemoteService {
 	List<User> getUsers();
 
 	List<Employee> getEmployees();
+	
+	boolean registerUser(User user);
 
 }
