@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.maksud.gwt.app.common.client.constants.UserStatus;
 import org.maksud.gwt.app.common.server.model.jdo.PMF;
-import org.maksud.gwt.app.common.server.model.jdo.entities.User;
+import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -22,7 +22,7 @@ public class ActivateUser extends HttpServlet {
 
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
-		User user = (User) pm.getObjectById(User.class, KeyFactory.createKey(User.class.getSimpleName(), login));
+		UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), login));
 
 		if (user.getActivationKey().equals(activateString)) {
 			user.setStatus(UserStatus.Active);

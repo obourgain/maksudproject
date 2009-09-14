@@ -14,7 +14,7 @@ import com.google.appengine.api.datastore.Key;
 import java.util.*;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class User {
+public class UserEntity {
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -47,11 +47,11 @@ public class User {
 	@Persistent
 	private int status;
 
-	public User() {
+	public UserEntity() {
 
 	}
 
-	public User(String login, String password, String name, String email, String url) {
+	public UserEntity(String login, String password, String name, String email, String url) {
 		super();
 		this.login = login;
 		this.password = password;

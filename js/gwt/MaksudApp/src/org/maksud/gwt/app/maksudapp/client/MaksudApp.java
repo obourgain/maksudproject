@@ -47,17 +47,17 @@ public class MaksudApp implements EntryPoint {
 	public void onModuleLoad() {
 
 		// Service
-//		BasicRPCAsync service = (BasicRPCAsync) GWT.create(BasicRPC.class);
-//		ServiceDefTarget endpoint = (ServiceDefTarget) service;
-//		String moduleRelativeURL = SERVICE;
-//		endpoint.setServiceEntryPoint(moduleRelativeURL);
-//		Registry.register(SERVICE, service);
-//
-//		Dispatcher dispatcher = Dispatcher.get();
-//		dispatcher.addController(new AppController());
-//		dispatcher.addController(new UserController());
-//
-//		dispatcher.dispatch(AppEvents.LoginDialog);
+		BasicRPCAsync service = (BasicRPCAsync) GWT.create(BasicRPC.class);
+		ServiceDefTarget endpoint = (ServiceDefTarget) service;
+		String moduleRelativeURL = SERVICE;
+		endpoint.setServiceEntryPoint(moduleRelativeURL);
+		Registry.register(SERVICE, service);
+
+		Dispatcher dispatcher = Dispatcher.get();
+		dispatcher.addController(new AppController());
+		dispatcher.addController(new UserController());
+
+		dispatcher.dispatch(AppEvents.LoginDialog);
 
 		// FileUploadDialog dialog = new FileUploadDialog();
 		// dialog.show();
@@ -78,10 +78,8 @@ public class MaksudApp implements EntryPoint {
 //		});
 		
 		
-		ImageChooserExample is= new ImageChooserExample();
-		RootPanel.get().add(is);
-		
-	
+//		ImageChooserExample is= new ImageChooserExample();
+//		RootPanel.get().add(is);
 
 		GXT.hideLoadingPanel("loading");
 

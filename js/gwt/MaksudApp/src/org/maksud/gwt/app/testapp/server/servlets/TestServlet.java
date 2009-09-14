@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.maksud.gwt.app.common.server.dal.UserEntityManager;
-import org.maksud.gwt.app.common.server.model.jdo.entities.User;
+import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
 
 
 
@@ -26,10 +26,10 @@ public class TestServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		PrintWriter out = resp.getWriter();
 
-		List<User> userEntities = UserEntityManager.getAllUsers();
+		List<UserEntity> userEntities = UserEntityManager.getAllUsers();
 
 		for (int i = 0; i < userEntities.size(); i++) {
-			User entity = userEntities.get(i);
+			UserEntity entity = userEntities.get(i);
 			out.print("login:" + entity.getLogin() + "activation:" + entity.getActivationKey());
 		}
 

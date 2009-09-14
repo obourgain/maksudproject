@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.maksud.gwt.app.common.client.constants.UserStatus;
 import org.maksud.gwt.app.common.server.model.jdo.PMF;
-import org.maksud.gwt.app.common.server.model.jdo.entities.User;
+import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -25,7 +25,7 @@ public class Login extends HttpServlet {
 
 		try {
 			PersistenceManager pm = PMF.get().getPersistenceManager();
-			User user = (User) pm.getObjectById(User.class, KeyFactory.createKey(User.class.getSimpleName(), login));
+			UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), login));
 
 			if (user.getPassword().equals(password)) {
 				out.println("Password OK.");
