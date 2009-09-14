@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.maksud.gwt.app.common.server.model.jdo.PMF;
-import org.maksud.gwt.app.common.server.model.jdo.entities.User;
+import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
 
 public class DataServlet extends HttpServlet {
 
@@ -32,17 +32,17 @@ public class DataServlet extends HttpServlet {
 		{
 			
 			
-			String query = "select from " + User.class.getName();
+			String query = "select from " + UserEntity.class.getName();
 
 			try {
-				List<User> employees = (List<User>) pm.newQuery(query).execute();
+				List<UserEntity> employees = (List<UserEntity>) pm.newQuery(query).execute();
 				int i = 0;
 				i += 10;
 
 				System.out.println("Total Records Found: " + employees.size());
 
 				for (i = 0; i < employees.size(); i++) {
-					User em = employees.get(i);
+					UserEntity em = employees.get(i);
 					System.out.println("Id: " + em.getId().toString() + "  :::  " + em.getLogin() + " " + em.getActivationKey()+ " " + em.getStatus());
 					
 					//pm.deletePersistent(em);

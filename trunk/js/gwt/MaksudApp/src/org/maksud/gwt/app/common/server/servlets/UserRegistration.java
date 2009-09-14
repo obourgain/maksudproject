@@ -14,7 +14,7 @@ import org.maksud.gwt.app.common.client.constants.UserLevel;
 import org.maksud.gwt.app.common.client.constants.UserStatus;
 import org.maksud.gwt.app.common.server.dal.UserEntityManager;
 import org.maksud.gwt.app.common.server.model.jdo.PMF;
-import org.maksud.gwt.app.common.server.model.jdo.entities.User;
+import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
 import org.maksud.gwt.app.common.server.utility.MailHelper;
 
 import com.google.appengine.api.datastore.KeyFactory;

@@ -18,7 +18,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.maksud.gwt.app.common.server.model.jdo.PMF;
 import org.maksud.gwt.app.common.server.model.jdo.entities.UploadedFile;
-import org.maksud.gwt.app.common.server.model.jdo.entities.User;
+import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
 import org.maksud.gwt.app.maksudapp.client.utility.MAResponseResult;
 import org.maksud.gwt.app.maksudapp.client.utility.MAServerResponse;
 
@@ -51,7 +51,7 @@ public class FileUploadServlet extends HttpServlet {
 						try {
 							PersistenceManager pm = PMF.get().getPersistenceManager();
 
-							User user = (User) pm.getObjectById(User.class, KeyFactory.createKey(User.class.getSimpleName(), "maksud"));
+							UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), "maksud"));
 
 							if (user == null) {
 
