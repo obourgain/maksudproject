@@ -31,5 +31,7 @@ public interface BasicRPC extends RemoteService {
 	List<User> getUsers();
 	List<Employee> getEmployees();
 	boolean registerUser(User user);
+	
+	boolean loginUser(User user);
 
 }

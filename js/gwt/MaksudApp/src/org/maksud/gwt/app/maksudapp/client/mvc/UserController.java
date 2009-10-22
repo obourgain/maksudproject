@@ -6,6 +6,7 @@ import org.maksud.gwt.app.maksudapp.client.BasicRPC;
 import org.maksud.gwt.app.maksudapp.client.BasicRPCAsync;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
+import com.extjs.gxt.ui.client.mvc.Dispatcher;
 import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -15,10 +16,10 @@ public class UserController extends Controller {
 
 	public UserController() {
 		service = BasicRPC.Util.getInstance();
-		
-		
+
 		registerEventTypes(AppEvents.Registration);
 		registerEventTypes(AppEvents.Login);
+		registerEventTypes(AppEvents.LoginDialog);
 		registerEventTypes(AppEvents.RegistrationDialog);
 	}
 
@@ -29,15 +30,17 @@ public class UserController extends Controller {
 	@Override
 	public void handleEvent(AppEvent event) {
 		if (event.getType() == AppEvents.RegistrationDialog) {
-			showRegistrationDialog(event);
-		} else if (event.getType() == AppEvents.Login) {
-			showRegistrationDialog(event);
+			showDialog(event);
+		} else if (event.getType() == AppEvents.LoginDialog) {
+			showDialog(event);
 		} else if (event.getType() == AppEvents.Registration) {
 			registerUser((User) event.getData());
+		} else if (event.getType() == AppEvents.Login) {
+			loginUser((User) event.getData());
 		}
 	}
 
-	private void showRegistrationDialog(AppEvent event) {
+	private void showDialog(AppEvent event) {
 		forwardToView(userView, event);
 	}
 
@@ -52,9 +55,15 @@ public class UserController extends Controller {
 			@Override
 			public void onSuccess(Boolean result) {
 				if (result)
+				{
 					MessageBox.info("Registration", "User registraion is successfull. An activation url is sent to your mail.", null);
+					Dispatcher.forwardEvent(AppEvents.LoginDialog);
+				}
 				else
+				{
 					MessageBox.alert("Registration", "User registraion failed.", null);
+					Dispatcher.forwardEvent(AppEvents.RegistrationDialog);
+				}
 			}
 
 			@Override
@@ -63,7 +72,29 @@ public class UserController extends Controller {
 
 			}
 		});
+	}
 
+	private void loginUser(User user) {
+		service.loginUser(user, new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onSuccess(Boolean result) {
+				if (result)
+					MessageBox.info("Login", "User login is successfull. An activation url is sent to your mail.", null);
+				else
+				{
+					MessageBox.alert("Login", "User login failed.", null);
+					Dispatcher.forwardEvent(AppEvents.LoginDialog);
+				}
+
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 }

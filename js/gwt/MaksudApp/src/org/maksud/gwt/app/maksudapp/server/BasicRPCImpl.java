@@ -49,4 +49,9 @@ public class BasicRPCImpl extends RemoteServiceServlet implements BasicRPC {
 		System.out.println("|" + str + "|");
 	}
 
+	@Override
+	public boolean loginUser(User user) {
+		return UserEntityManager.login(user.getLogin(), user.getPassword());
+	}
+
 }

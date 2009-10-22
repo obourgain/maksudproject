@@ -14,4 +14,6 @@ public interface BasicRPCAsync {
 	void getEmployees(AsyncCallback<List<Employee>> callback);
 	void registerUser(User user, AsyncCallback<Boolean> callback);
 
+	void loginUser(User user, AsyncCallback<Boolean> callback);
+
 }
