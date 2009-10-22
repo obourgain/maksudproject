@@ -103,7 +103,7 @@ public class LoginDialog extends Dialog {
 		login.disable();
 		login.addSelectionListener(new SelectionListener<ButtonEvent>() {
 			public void componentSelected(ButtonEvent ce) {
-				onSubmit(AppEvents.LoginDialog);
+				onSubmit(AppEvents.Login);
 			}
 		});
 
@@ -120,7 +120,7 @@ public class LoginDialog extends Dialog {
 			AppEvent eveAppEvent = new AppEvent(AppEvents.RegistrationDialog);
 			Dispatcher.forwardEvent(eveAppEvent);
 		}
-		else
+		else if (event == AppEvents.Login) 
 		{
 			User user = new User(userName.getValue(), password.getValue());
 			AppEvent eveAppEvent = new AppEvent(AppEvents.Login, user);

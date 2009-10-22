@@ -123,4 +123,16 @@ public class UserEntityManager {
 			return false;
 		}
 	}
+
+	public static boolean login(String userid, String password) {
+		try {
+			if(isValidUser(userid, password))
+			{
+				return true;
+			}
+		} catch (Exception exp) {
+
+		}
+		return false;
+	}
 }
