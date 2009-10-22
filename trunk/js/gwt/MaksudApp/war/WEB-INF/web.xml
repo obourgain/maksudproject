@@ -6,35 +6,6 @@
 <web-app>
 
 	<servlet>
-		<servlet-name>demo_sign</servlet-name>
-		<servlet-class>org.maksud.gwt.app.testapp.server.servlets.SignGuestbookServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>demo_sign</servlet-name>
-		<url-pattern>/demo_sign</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>demo_mail</servlet-name>
-		<servlet-class>org.maksud.gwt.app.testapp.server.servlets.JavaMailDemo</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>demo_mail</servlet-name>
-		<url-pattern>/demo_mail</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>demo_test</servlet-name>
-		<servlet-class>org.maksud.gwt.app.testapp.server.servlets.TestServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>demo_test</servlet-name>
-		<url-pattern>/demo_test</url-pattern>
-	</servlet-mapping>
-
-
-
-	<servlet>
 		<servlet-name>fileupload</servlet-name>
 		<servlet-class>org.maksud.gwt.app.common.server.servlets.FileUploadServlet</servlet-class>
 	</servlet>
@@ -75,16 +46,6 @@
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>demo_data</servlet-name>
-		<servlet-class>org.maksud.gwt.app.testapp.server.servlets.DataServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>demo_data</servlet-name>
-		<url-pattern>/demo_data</url-pattern>
-	</servlet-mapping>
-
-
 	<welcome-file-list>
 		<welcome-file>/index.html</welcome-file>
 		<welcome-file>/index.jsp</welcome-file>
@@ -118,14 +79,7 @@
 		<servlet-name>AuthenticationService</servlet-name>
 		<url-pattern>/maksudapp/AuthenticationService</url-pattern>
 	</servlet-mapping>
-	<servlet>
-		<servlet-name>TestService</servlet-name>
-		<servlet-class>org.maksud.gwt.app.testapp.server.TestServiceImpl</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>TestService</servlet-name>
-		<url-pattern>/org.maksud.gwt.app.testapp.TestApp/TestService</url-pattern>
-	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>DirectoryService</servlet-name>
 		<servlet-class>org.maksud.dms.server.DirectoryServiceImpl</servlet-class>
