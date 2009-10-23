@@ -4,31 +4,35 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
+import org.eclipse.jdt.internal.compiler.ast.ThisReference;
 import org.maksud.gwt.app.common.client.constants.UserLevel;
 import org.maksud.gwt.app.common.client.constants.UserStatus;
 import org.maksud.gwt.app.common.server.model.jdo.PMF;
 import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
 import org.maksud.gwt.app.common.server.utility.MailHelper;
+import org.maksud.gwt.app.common.server.utility.UrlHelper;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
 public class UserController {
+	private static final Logger log = Logger.getLogger(ThisReference.class.getName());
 
 	public static List<UserEntity> getAllUsers() {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-
 		List<UserEntity> userEntities = new ArrayList<UserEntity>();
-		String query = "select from " + UserEntity.class.getName();
+
 		try {
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+			String query = "select from " + UserEntity.class.getName();
 			List<UserEntity> execute = (List<UserEntity>) pm.newQuery(query).execute();
 			userEntities = execute;
 			System.err.println("Total Records Found: " + userEntities.size());
 			pm.close();
 		} catch (Exception e) {
-			System.out.println("getAllUsers():  " + e.getMessage());
+			log.info("Problem Finding Users" + e.getMessage());
 		} finally {
 		}
 		return userEntities;
@@ -126,8 +130,7 @@ public class UserController {
 
 	public static boolean login(String userid, String password) {
 		try {
-			if(isValidUser(userid, password))
-			{
+			if (isValidUser(userid, password)) {
 				return true;
 			}
 		} catch (Exception exp) {
