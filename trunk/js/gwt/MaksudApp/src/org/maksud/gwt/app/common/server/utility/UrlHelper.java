@@ -8,9 +8,8 @@ import java.net.URL;
 import java.util.logging.Logger;
 
 
-
 public class UrlHelper {
-	//private static final Logger log = Logger.getLogger(TestServlet.class.getName());
+	private static final Logger log = Logger.getLogger(UrlHelper.class.getName());
 
 	public static String getContents(String addr) {
 
