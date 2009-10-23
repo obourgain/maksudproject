@@ -2,7 +2,7 @@ package org.maksud.gwt.app.maksudapp.client;
 
 import java.util.List;
 
-import org.maksud.gwt.app.common.client.AuthenticationService;
+import org.maksud.gwt.app.common.client.rpc.AuthenticationService;
 import org.maksud.gwt.app.maksudapp.client.AppEvents;
 import org.maksud.gwt.app.maksudapp.client.mvc.AppController;
 import org.maksud.gwt.app.maksudapp.client.mvc.UserController;
