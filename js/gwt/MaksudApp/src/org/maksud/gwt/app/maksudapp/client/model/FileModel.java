@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.maksudapp.client.model;
+package org.maksud.gwt.app.dsestockapp.client.model;
 
 import java.util.Date;
 
