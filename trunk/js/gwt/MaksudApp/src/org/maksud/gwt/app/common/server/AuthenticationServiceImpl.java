@@ -2,7 +2,7 @@ package org.maksud.gwt.app.common.server;
 
 import javax.servlet.http.HttpSession;
 
-import org.maksud.gwt.app.common.client.AuthenticationService;
+import org.maksud.gwt.app.common.client.rpc.AuthenticationService;
 import org.maksud.gwt.app.common.server.dal.UserEntityManager;
 
 import com.google.apphosting.api.DatastorePb.GetRequest;
