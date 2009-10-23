@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class Common implements EntryPoint {
 
 	public void onModuleLoad() {
-		
+		//A Dummy.
 	}
 
 }
