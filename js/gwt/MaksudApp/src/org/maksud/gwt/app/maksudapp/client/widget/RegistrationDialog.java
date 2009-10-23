@@ -1,11 +1,11 @@
-package org.maksud.gwt.app.maksudapp.client.widget;
+package org.maksud.gwt.app.dsestockapp.client.widget;
 
 import java.util.Date;
 
 import org.maksud.gwt.app.common.client.constants.UserLevel;
 import org.maksud.gwt.app.common.client.constants.UserStatus;
 import org.maksud.gwt.app.common.client.model.User;
-import org.maksud.gwt.app.maksudapp.client.AppEvents;
+import org.maksud.gwt.app.dsestockapp.client.AppEvents;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
