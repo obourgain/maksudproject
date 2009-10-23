@@ -16,20 +16,20 @@ import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
+import org.maksud.gwt.app.common.client.model.MyResponseResult;
+import org.maksud.gwt.app.common.client.model.MyServerResponse;
 import org.maksud.gwt.app.common.server.model.jdo.PMF;
 import org.maksud.gwt.app.common.server.model.jdo.entities.UploadedFile;
 import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
-import org.maksud.gwt.app.maksudapp.client.utility.MAResponseResult;
-import org.maksud.gwt.app.maksudapp.client.utility.MAServerResponse;
+
 
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.KeyFactory;
 
 public class FileUploadServlet extends HttpServlet {
-
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		try {
-			MAServerResponse maResp = new MAServerResponse();
+			MyServerResponse maResp = new MyServerResponse();
 
 			// res.setContentType("application/octet-stream");
 			res.setContentType("text/html");
@@ -70,7 +70,7 @@ public class FileUploadServlet extends HttpServlet {
 							// Save The file into database
 							pm.makePersistent(fileEntity);
 
-							maResp.setResult(MAResponseResult.Success);
+							maResp.setResult(MyResponseResult.Success);
 
 							/*
 							 * for (int i = 0; i < file.length; i++) {
@@ -80,7 +80,7 @@ public class FileUploadServlet extends HttpServlet {
 							// out.print(fileContents);
 							// out.print();
 						} catch (Exception e) {
-							maResp.setResult(MAResponseResult.Fail);
+							maResp.setResult(MyResponseResult.Fail);
 							maResp.setData(e.getMessage());
 						} finally {
 							IOUtils.closeQuietly(in);
@@ -89,7 +89,7 @@ public class FileUploadServlet extends HttpServlet {
 					}
 				}
 			} catch (SizeLimitExceededException e) {
-				maResp.setResult(MAResponseResult.Fail);
+				maResp.setResult(MyResponseResult.Fail);
 				maResp.setData(e.getMessage());
 				// out.print(e.getMessage());
 				// out.println("You exceeded the maximu size (" +
