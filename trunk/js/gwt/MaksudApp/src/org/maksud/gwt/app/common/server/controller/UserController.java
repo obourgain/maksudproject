@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.common.server.dal;
+package org.maksud.gwt.app.common.server.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +15,7 @@ import org.maksud.gwt.app.common.server.utility.MailHelper;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
-public class UserEntityManager {
+public class UserController {
 
 	public static List<UserEntity> getAllUsers() {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
