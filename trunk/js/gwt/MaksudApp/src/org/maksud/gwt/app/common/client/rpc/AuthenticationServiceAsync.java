@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.common.client;
+package org.maksud.gwt.app.common.client.rpc;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
