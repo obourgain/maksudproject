@@ -3,7 +3,7 @@ package org.maksud.gwt.app.common.server.rpc;
 import javax.servlet.http.HttpSession;
 
 import org.maksud.gwt.app.common.client.rpc.AuthenticationService;
-import org.maksud.gwt.app.common.server.controller.UserController;
+import org.maksud.gwt.app.common.server.dal.UserDBController;
 
 import com.google.apphosting.api.DatastorePb.GetRequest;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -12,7 +12,7 @@ public class AuthenticationServiceImpl extends RemoteServiceServlet implements A
 
 	@Override
 	public boolean isAuthenticated(String userid, String password) {
-		return UserController.isValidUser(userid, password);
+		return UserDBController.isValidUser(userid, password);
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class AuthenticationServiceImpl extends RemoteServiceServlet implements A
 
 	@Override
 	public boolean registerUser(String login, String password, String retype, String email, String web) {
-		return UserController.registerUser(login, password, retype, email, web);
+		return UserDBController.registerUser(login, password, retype, email, web);
 	}
 
 }
