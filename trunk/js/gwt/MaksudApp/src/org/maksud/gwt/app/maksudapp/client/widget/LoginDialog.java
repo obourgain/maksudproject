@@ -22,8 +22,8 @@ import com.google.gwt.user.client.Timer;
 
 public class LoginDialog extends Dialog {
 
-	//public String result = "";
-	//public User user;
+	// public String result = "";
+	// public User user;
 
 	protected TextField<String> userName;
 	protected TextField<String> password;
@@ -115,13 +115,10 @@ public class LoginDialog extends Dialog {
 
 	protected void onSubmit(EventType event) {
 		this.hide();
-		if(event == AppEvents.RegistrationDialog)
-		{
+		if (event == AppEvents.RegistrationDialog) {
 			AppEvent eveAppEvent = new AppEvent(AppEvents.RegistrationDialog);
 			Dispatcher.forwardEvent(eveAppEvent);
-		}
-		else if (event == AppEvents.Login) 
-		{
+		} else if (event == AppEvents.Login) {
 			User user = new User(userName.getValue(), password.getValue());
 			AppEvent eveAppEvent = new AppEvent(AppEvents.Login, user);
 			Dispatcher.forwardEvent(eveAppEvent);
