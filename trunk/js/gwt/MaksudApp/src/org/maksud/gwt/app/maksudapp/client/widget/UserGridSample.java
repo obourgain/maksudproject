@@ -1,29 +1,22 @@
-package org.maksud.gwt.app.maksudapp.client.widget;
+package org.maksud.gwt.app.dsestockapp.client.widget;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Basic;
-
 import org.maksud.gwt.app.common.client.model.User;
-import org.maksud.gwt.app.maksudapp.client.BasicRPC;
-import org.maksud.gwt.app.maksudapp.client.model.*;
+import org.maksud.gwt.app.dsestockapp.client.DSEWebService;
+import org.maksud.gwt.app.dsestockapp.client.DSEWebServiceAsync;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
-import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.LayoutContainer;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
-import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
-import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
-import com.extjs.gxt.ui.client.widget.table.NumberCellRenderer;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -107,7 +100,7 @@ public class UserGridSample extends LayoutContainer {
 
 		final UserGridSample self = this;
 
-		BasicRPC.Util.getInstance().getUsers(new AsyncCallback<List<User>>() {
+		DSEWebService.Util.getInstance().getUsers(new AsyncCallback<List<User>>() {
 
 			@Override
 			public void onSuccess(List<User> result) {
