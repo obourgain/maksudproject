@@ -4,6 +4,10 @@ import org.maksud.gwt.app.common.client.model.User;
 import org.maksud.gwt.app.maksudapp.client.AppEvents;
 import org.maksud.gwt.app.maksudapp.client.BasicRPC;
 import org.maksud.gwt.app.maksudapp.client.BasicRPCAsync;
+
+import com.extjs.gxt.ui.client.event.EventType;
+import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.event.MessageBoxEvent;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
@@ -50,19 +54,38 @@ public class UserController extends Controller {
 	}
 
 	private void registerUser(User user) {
+
 		service.registerUser(user, new AsyncCallback<Boolean>() {
 
 			@Override
 			public void onSuccess(Boolean result) {
-				if (result)
-				{
-					MessageBox.info("Registration", "User registraion is successfull. An activation url is sent to your mail.", null);
-					Dispatcher.forwardEvent(AppEvents.LoginDialog);
-				}
-				else
-				{
-					MessageBox.alert("Registration", "User registraion failed.", null);
-					Dispatcher.forwardEvent(AppEvents.RegistrationDialog);
+				if (result) {
+					MessageBox.info("Registration", "User registraion is successfull. An activation url is sent to your mail.",
+
+					new Listener<MessageBoxEvent>() {
+
+						@Override
+						public void handleEvent(MessageBoxEvent be) {
+							Dispatcher.forwardEvent(AppEvents.LoginDialog);
+						}
+					});
+
+				} else {
+					MessageBox.alert("Registration", "User registraion failed.", new Listener<MessageBoxEvent>() {
+
+						@Override
+						public void handleEvent(MessageBoxEvent be) {
+
+							@SuppressWarnings("unused")
+							EventType evt = be.getType();
+							if (be.getType() != null)
+								Dispatcher.forwardEvent(AppEvents.LoginDialog);
+
+							Dispatcher.forwardEvent(AppEvents.RegistrationDialog);
+
+						}
+					});
+
 				}
 			}
 
@@ -81,10 +104,16 @@ public class UserController extends Controller {
 			public void onSuccess(Boolean result) {
 				if (result)
 					MessageBox.info("Login", "User login is successfull. An activation url is sent to your mail.", null);
-				else
-				{
-					MessageBox.alert("Login", "User login failed.", null);
-					Dispatcher.forwardEvent(AppEvents.LoginDialog);
+				else {
+					MessageBox.alert("Login", "User login failed.", new Listener<MessageBoxEvent>() {
+
+						@Override
+						public void handleEvent(MessageBoxEvent be) {
+							Dispatcher.forwardEvent(AppEvents.LoginDialog);
+
+						}
+					});
+
 				}
 
 			}

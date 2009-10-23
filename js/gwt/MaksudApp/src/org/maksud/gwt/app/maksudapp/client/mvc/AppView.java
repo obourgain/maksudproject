@@ -40,34 +40,12 @@ public class AppView extends View {
 	private ContentPanel west;
 	private LayoutContainer center;
 
-	private LoginDialog loginDialog;
-
 	public AppView(Controller controller) {
 		super(controller);
 	}
 
 	protected void initialize() {
-		showLoginDialog();
-	}
-
-	private void showLoginDialog() {
-		if (loginDialog == null) {
-			loginDialog = new LoginDialog();
-			loginDialog.setClosable(false);
-			/*
-			 * loginDialog.addListener(Events.Hide, new Listener<WindowEvent>()
-			 * { public void handleEvent(WindowEvent be) {
-			 * 
-			 * if (loginDialog.result.equals("signup")) {
-			 * Dispatcher.forwardEvent(AppEvents.RegistrationDialog); } else {
-			 * 
-			 * //getController(). //AppEvent ae = new AppEvent(AppEvents.Login,
-			 * dialog.user); //ae.setData("folder", f);
-			 * //controller.handleEvent();
-			 * //Dispatcher.forwardEvent(AppEvents.Init); } } });
-			 */
-		}
-		loginDialog.show();
+		// showLoginDialog();
 	}
 
 	private void initUI() {
@@ -125,7 +103,7 @@ public class AppView extends View {
 		if (event.getType() == AppEvents.Init) {
 			initUI();
 		} else if (event.getType() == AppEvents.LoginDialog) {
-			showLoginDialog();
+			//showLoginDialog();
 		}
 	}
 

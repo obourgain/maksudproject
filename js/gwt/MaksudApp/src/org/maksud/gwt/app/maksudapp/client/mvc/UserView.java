@@ -1,6 +1,7 @@
 package org.maksud.gwt.app.maksudapp.client.mvc;
 
 import org.maksud.gwt.app.maksudapp.client.AppEvents;
+import org.maksud.gwt.app.maksudapp.client.widget.LoginDialog;
 import org.maksud.gwt.app.maksudapp.client.widget.RegistrationDialog;
 
 import com.extjs.gxt.ui.client.event.Events;
@@ -14,6 +15,7 @@ import com.extjs.gxt.ui.client.widget.MessageBox;
 public class UserView extends View {
 
 	private RegistrationDialog regDialog;
+	private LoginDialog loginDialog;
 
 	public UserView(Controller controller) {
 		super(controller);
@@ -23,6 +25,8 @@ public class UserView extends View {
 	protected void handleEvent(AppEvent event) {
 		if (event.getType() == AppEvents.RegistrationDialog) {
 			showRegistrationDialog();
+		} else if (event.getType() == AppEvents.LoginDialog) {
+			showLoginDialog();
 		}
 	}
 
@@ -32,5 +36,13 @@ public class UserView extends View {
 			regDialog.setClosable(false);
 		}
 		regDialog.show();
+	}
+
+	private void showLoginDialog() {
+		if (loginDialog == null) {
+			loginDialog = new LoginDialog();
+			loginDialog.setClosable(false);
+		}
+		loginDialog.show();
 	}
 }
