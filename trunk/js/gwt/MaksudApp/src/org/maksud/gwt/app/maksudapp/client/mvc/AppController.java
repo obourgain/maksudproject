@@ -20,7 +20,7 @@ public class AppController extends Controller {
 
 	public AppController() {
 		registerEventTypes(AppEvents.Init);
-		registerEventTypes(AppEvents.LoginDialog);
+		//registerEventTypes(AppEvents.LoginDialog);
 		registerEventTypes(AppEvents.Error);
 	}
 
