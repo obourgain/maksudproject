@@ -7,7 +7,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Logger;
 
-
 public class UrlHelper {
 	private static final Logger log = Logger.getLogger(UrlHelper.class.getName());
 
@@ -25,12 +24,12 @@ public class UrlHelper {
 
 				// line = (String)connection.getContent();
 
-				//log.info("Date: " + connection.getDate());
-				//log.info("Type: " + connection.getContentType());
-				//log.info("Exp: " + connection.getExpiration());
-				//log.info("Last M: " + connection.getLastModified());
-				//log.info("Length: " + connection.getContentLength());
-				//log.info("Content-Type: " + connection.getContentType());
+				log.info("Date: " + connection.getDate());
+				log.info("Type: " + connection.getContentType());
+				log.info("Exp: " + connection.getExpiration());
+				log.info("Last M: " + connection.getLastModified());
+				log.info("Length: " + connection.getContentLength());
+				log.info("Content-Type: " + connection.getContentType());
 
 				InputStream is = connection.getInputStream();
 				int ch;
@@ -38,12 +37,12 @@ public class UrlHelper {
 					line += (char) ch;
 				is.close();
 			} else {
-				//sslog.severe("HTTP Error.");
+				// sslog.severe("HTTP Error.");
 			}
 		} catch (MalformedURLException e) {
-			//log.severe("MalformedURLException:" + e.getMessage());
+			// log.severe("MalformedURLException:" + e.getMessage());
 		} catch (IOException e) {
-			//log.severe("IOException:" + e.getMessage());
+			// log.severe("IOException:" + e.getMessage());
 		}
 		return line;
 	}
