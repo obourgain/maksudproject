@@ -1,22 +1,18 @@
-package org.maksud.gwt.app.maksudapp.client.mvc;
+package org.maksud.gwt.app.dsestockapp.client.mvc;
 
-import org.maksud.gwt.app.common.client.gxtmodel.Folder;
-import org.maksud.gwt.app.maksudapp.client.AppEvents;
-import org.maksud.gwt.app.maksudapp.client.BasicRPCAsync;
-import org.maksud.gwt.app.maksudapp.client.MaksudApp;
-import org.maksud.gwt.app.maksudapp.client.mvc.AppView;
+import org.maksud.gwt.app.dsestockapp.client.AppEvents;
+import org.maksud.gwt.app.dsestockapp.client.DSEStockManager;
+import org.maksud.gwt.app.dsestockapp.client.DSEWebServiceAsync;
 
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
-import com.extjs.gxt.ui.client.mvc.Dispatcher;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class AppController extends Controller {
 
 	private AppView appView;
-	private BasicRPCAsync service;
+	private DSEWebServiceAsync service;
 
 	public AppController() {
 		registerEventTypes(AppEvents.Init);
@@ -45,7 +41,7 @@ public class AppController extends Controller {
 
 	private void onInit(AppEvent event) {
 		forwardToView(appView, event);
-		service = (BasicRPCAsync) Registry.get(MaksudApp.SERVICE);
+		service = (DSEWebServiceAsync) Registry.get(DSEStockManager.SERVICE);
 		
 		/*
 		service.getMailFolders("darrell", new AsyncCallback<Folder>() {

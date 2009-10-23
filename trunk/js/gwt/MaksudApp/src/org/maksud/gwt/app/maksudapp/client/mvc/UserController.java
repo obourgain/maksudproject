@@ -1,9 +1,9 @@
-package org.maksud.gwt.app.maksudapp.client.mvc;
+package org.maksud.gwt.app.dsestockapp.client.mvc;
 
 import org.maksud.gwt.app.common.client.model.User;
-import org.maksud.gwt.app.maksudapp.client.AppEvents;
-import org.maksud.gwt.app.maksudapp.client.BasicRPC;
-import org.maksud.gwt.app.maksudapp.client.BasicRPCAsync;
+import org.maksud.gwt.app.dsestockapp.client.AppEvents;
+import org.maksud.gwt.app.dsestockapp.client.DSEWebService;
+import org.maksud.gwt.app.dsestockapp.client.DSEWebServiceAsync;
 
 import com.extjs.gxt.ui.client.event.EventType;
 import com.extjs.gxt.ui.client.event.Listener;
@@ -16,10 +16,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class UserController extends Controller {
 	private UserView userView;
-	private BasicRPCAsync service;
+	private DSEWebServiceAsync service;
 
 	public UserController() {
-		service = BasicRPC.Util.getInstance();
+		service = DSEWebService.Util.getInstance();
 
 		registerEventTypes(AppEvents.Registration);
 		registerEventTypes(AppEvents.Login);
