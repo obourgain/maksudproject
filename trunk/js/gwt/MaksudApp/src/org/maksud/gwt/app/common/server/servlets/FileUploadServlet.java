@@ -22,7 +22,6 @@ import org.maksud.gwt.app.common.server.model.jdo.PMF;
 import org.maksud.gwt.app.common.server.model.jdo.entities.UploadedFile;
 import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
 
-
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -96,7 +95,7 @@ public class FileUploadServlet extends HttpServlet {
 				// e.getPermittedSize() + ") of the file (" + e.getActualSize()
 				// + ")");
 			}
-			out.print("S");
+			//out.print("S");
 		} catch (Exception ex) {
 			throw new ServletException(ex);
 		}
