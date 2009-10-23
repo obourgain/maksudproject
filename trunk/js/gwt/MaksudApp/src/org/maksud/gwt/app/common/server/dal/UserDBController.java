@@ -19,7 +19,7 @@ import org.maksud.gwt.app.common.server.utility.UrlHelper;
 import com.google.appengine.api.datastore.KeyFactory;
 
 public class UserDBController {
-	private static final Logger log = Logger.getLogger(ThisReference.class.getName());
+	private static final Logger log = Logger.getLogger(UserDBController.class.getName());
 
 	public static List<UserEntity> getAllUsers() {
 		List<UserEntity> userEntities = new ArrayList<UserEntity>();
@@ -40,6 +40,7 @@ public class UserDBController {
 
 	public static UserEntity getUser(String userid) {
 		try {
+			getAllUsers();
 			PersistenceManager pm = PMF.get().getPersistenceManager();
 			UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), userid));
 			return user;
