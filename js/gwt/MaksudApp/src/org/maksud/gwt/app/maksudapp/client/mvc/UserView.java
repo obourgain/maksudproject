@@ -1,12 +1,16 @@
-package org.maksud.gwt.app.dsestockapp.client.mvc;
+package org.maksud.gwt.app.maksudapp.client.mvc;
 
-import org.maksud.gwt.app.dsestockapp.client.AppEvents;
-import org.maksud.gwt.app.dsestockapp.client.widget.LoginDialog;
-import org.maksud.gwt.app.dsestockapp.client.widget.RegistrationDialog;
+import org.maksud.gwt.app.maksudapp.client.AppEvents;
+import org.maksud.gwt.app.maksudapp.client.widget.LoginDialog;
+import org.maksud.gwt.app.maksudapp.client.widget.RegistrationDialog;
 
+import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.event.WindowEvent;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Controller;
 import com.extjs.gxt.ui.client.mvc.View;
+import com.extjs.gxt.ui.client.widget.MessageBox;
 
 public class UserView extends View {
 
