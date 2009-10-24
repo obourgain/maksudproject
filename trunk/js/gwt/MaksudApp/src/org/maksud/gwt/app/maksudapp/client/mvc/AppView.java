@@ -5,9 +5,9 @@
  * 
  * http://extjs.com/license
  */
-package org.maksud.gwt.app.dsestockapp.client.mvc;
+package org.maksud.gwt.app.maksudapp.client.mvc;
 
-import org.maksud.gwt.app.dsestockapp.client.AppEvents;
+import org.maksud.gwt.app.maksudapp.client.AppEvents;
 
 import com.extjs.gxt.ui.client.Registry;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;

@@ -1,7 +1,7 @@
-package org.maksud.gwt.app.dsestockapp.client.widget;
+package org.maksud.gwt.app.maksudapp.client.widget;
 
 import org.maksud.gwt.app.common.client.model.User;
-import org.maksud.gwt.app.dsestockapp.client.AppEvents;
+import org.maksud.gwt.app.maksudapp.client.AppEvents;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
@@ -11,12 +11,14 @@ import com.extjs.gxt.ui.client.event.KeyListener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.mvc.AppEvent;
 import com.extjs.gxt.ui.client.mvc.Dispatcher;
+import com.extjs.gxt.ui.client.util.IconHelper;
 import com.extjs.gxt.ui.client.widget.Dialog;
 import com.extjs.gxt.ui.client.widget.Status;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.FillToolItem;
+import com.google.gwt.user.client.Timer;
 
 public class LoginDialog extends Dialog {
 
