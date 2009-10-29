@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.maksud.gwt.app.common.client.model.Employee;
 import org.maksud.gwt.app.common.client.model.User;
-import org.maksud.gwt.app.common.server.dal.UserEntityManager;
+import org.maksud.gwt.app.common.server.dal.UserDBController;
 import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
 import org.maksud.gwt.app.maksudapp.client.BasicRPC;
 
@@ -18,7 +18,7 @@ public class BasicRPCImpl extends RemoteServiceServlet implements BasicRPC {
 	public List<User> getUsers() {
 
 		List<User> userModels = new ArrayList<User>();
-		List<UserEntity> userEntities = UserEntityManager.getAllUsers();
+		List<UserEntity> userEntities = UserDBController.getAllUsers();
 		for (int i = 0; i < userEntities.size(); i++) {
 			UserEntity user = userEntities.get(i);
 			try {
@@ -40,7 +40,7 @@ public class BasicRPCImpl extends RemoteServiceServlet implements BasicRPC {
 
 	@Override
 	public boolean registerUser(User user) {
-		return UserEntityManager.registerUser(user.getLogin(), user.getPassword(), user.getPassword(), user.getEmail(), user.getUrl());
+		return UserDBController.registerUser(user.getLogin(), user.getPassword(), user.getPassword(), user.getEmail(), user.getUrl());
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class BasicRPCImpl extends RemoteServiceServlet implements BasicRPC {
 
 	@Override
 	public boolean loginUser(User user) {
-		return UserEntityManager.login(user.getLogin(), user.getPassword());
+		return UserDBController.login(user.getLogin(), user.getPassword());
 	}
 
 }
