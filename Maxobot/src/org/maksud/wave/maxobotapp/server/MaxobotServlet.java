@@ -32,6 +32,9 @@ public class MaxobotServlet extends AbstractRobotServlet {
 				TextView textView = blip.getDocument();
 				textView.append("Hi, everybody!");
 			}
+			
+			System.err.print("New Evemt Occured!");
+			System.err.print(e.getType().toString());
 
 		}
 
