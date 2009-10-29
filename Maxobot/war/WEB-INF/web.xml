@@ -17,6 +17,16 @@
 	</servlet-mapping>
 
 
+	<servlet>
+		<servlet-name>CronLogger</servlet-name>
+		<servlet-class>org.maksud.wave.maxobotapp.server.CronLogger</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CronLogger</servlet-name>
+		<url-pattern>/CronLogger</url-pattern>
+	</servlet-mapping>
+
+
 
 	<!-- Default page to serve -->
 	<welcome-file-list>
