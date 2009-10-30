@@ -27,10 +27,8 @@ public class UserDBController {
 		try {
 			PersistenceManager pm = PMF.get().getPersistenceManager();
 			String query = "select from " + UserEntity.class.getName();
-			List<UserEntity> execute = (List<UserEntity>) pm.newQuery(query).execute();
-			userEntities = execute;
+			userEntities = (List<UserEntity>) pm.newQuery(query).execute();
 			System.err.println("Total Records Found: " + userEntities.size());
-			pm.close();
 		} catch (Exception e) {
 			log.info("Problem Finding Users" + e.getMessage());
 		} finally {
@@ -56,7 +54,7 @@ public class UserDBController {
 	public static boolean isValidUser(String userid, String password) {
 		try {
 			UserEntity user = getUser(userid);
-			if (user != null && user.getPassword() == password && user.getStatus() == UserStatus.Active)
+			if (user != null && user.getPassword() == password && user.getStatus().getStatus() == UserStatus.Active)
 				return true;
 			else
 				return false;
@@ -66,7 +64,6 @@ public class UserDBController {
 	}
 
 	public static boolean registerUser(String userid, String password, String retype, String email, String web) {
-
 		String activationKey = UUID.randomUUID().toString().replace("-", "");
 
 		try {
@@ -82,10 +79,10 @@ public class UserDBController {
 				user.setLogin(userid);
 				user.setEmail(email);
 				user.setPassword(password);
-				user.setLevel(UserLevel.Contributor);
+				user.setLevel(new UserLevel());
 				user.setName(userid);
 				user.setRegister_date(new Date());
-				user.setStatus(UserStatus.Inactive);
+				user.setStatus(new UserStatus());
 				user.setUrl(web);
 				user.setActivationKey(activationKey);
 				user.setId(KeyFactory.createKey(UserEntity.class.getSimpleName(), userid));
@@ -115,7 +112,7 @@ public class UserDBController {
 		try {
 			UserEntity user = getUser(userid);
 			if (user.getActivationKey().equals(activationKey)) {
-				user.setStatus(UserStatus.Active);
+				user.setStatus(new UserStatus(UserStatus.Active));
 				PMF.get().getPersistenceManager().makePersistent(user);
 				System.out.println("User is activated!");
 				return true;

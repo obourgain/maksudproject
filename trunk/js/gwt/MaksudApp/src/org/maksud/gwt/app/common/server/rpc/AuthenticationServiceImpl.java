@@ -30,6 +30,7 @@ public class AuthenticationServiceImpl extends RemoteServiceServlet implements A
 
 	@Override
 	public boolean registerUser(String login, String password, String retype, String email, String web) {
+		System.err.print("Test");
 		return UserDBController.registerUser(login, password, retype, email, web);
 	}
 

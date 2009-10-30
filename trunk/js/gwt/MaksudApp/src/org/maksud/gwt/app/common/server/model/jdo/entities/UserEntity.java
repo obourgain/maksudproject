@@ -1,5 +1,7 @@
 package org.maksud.gwt.app.common.server.model.jdo.entities;
 
+import java.util.Date;
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
@@ -10,8 +12,6 @@ import org.maksud.gwt.app.common.client.constants.UserLevel;
 import org.maksud.gwt.app.common.client.constants.UserStatus;
 
 import com.google.appengine.api.datastore.Key;
-
-import java.util.*;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class UserEntity {
@@ -42,10 +42,10 @@ public class UserEntity {
 	private String activation_key;
 
 	@Persistent
-	private int level;
+	private UserStatus status;
 
 	@Persistent
-	private int status;
+	private UserLevel level;
 
 	public UserEntity() {
 
@@ -60,8 +60,8 @@ public class UserEntity {
 		this.url = url;
 		this.register_date = new Date();
 		this.activation_key = "";
-		this.level = UserLevel.Contributor;
-		this.status = UserStatus.Active;
+		this.level = new UserLevel(UserLevel.Contributor);
+		this.status = new UserStatus(UserStatus.Inactive);
 	}
 
 	public Key getId() {
@@ -128,20 +128,19 @@ public class UserEntity {
 		activation_key = activationKey;
 	}
 
-	public int getLevel() {
+	public UserLevel getLevel() {
 		return level;
 	}
 
-	public void setLevel(int level) {
+	public void setLevel(UserLevel level) {
 		this.level = level;
 	}
 
-	public int getStatus() {
+	public UserStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(UserStatus status) {
 		this.status = status;
 	}
-
 }

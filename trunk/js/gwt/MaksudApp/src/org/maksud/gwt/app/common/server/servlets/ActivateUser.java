@@ -25,7 +25,7 @@ public class ActivateUser extends HttpServlet {
 		UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), login));
 
 		if (user.getActivationKey().equals(activateString)) {
-			user.setStatus(UserStatus.Active);
+			user.setStatus(new UserStatus(UserStatus.Active));
 			pm.makePersistent(user);
 			pm.close();
 			res.getWriter().print("User is activated!");
@@ -33,6 +33,6 @@ public class ActivateUser extends HttpServlet {
 		} else {
 			res.getWriter().print("Activation Problem!");
 		}
-		//pm.close();
+		// pm.close();
 	}
 }
