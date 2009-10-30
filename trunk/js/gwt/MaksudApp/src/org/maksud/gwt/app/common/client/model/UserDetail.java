@@ -2,9 +2,13 @@ package org.maksud.gwt.app.common.client.model;
 
 import com.extjs.gxt.ui.client.data.BaseModel;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class User extends BaseModel {
+import org.maksud.gwt.app.common.client.constants.UserLevel;
+import org.maksud.gwt.app.common.client.constants.UserStatus;
+
+public class UserDetail extends BaseModel {
 
 	// private String login;
 	// private String password;
@@ -16,22 +20,20 @@ public class User extends BaseModel {
 	// private UserLevelEnum level;
 	// private UserStatusEnum status;
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2586208348201224917L;
 
-	public User() {
+	public UserDetail() {
 
 	}
 
-	public User(String login, String password) {
+	public UserDetail(String login, String password) {
 		super();
 		set("login", login);
 		set("password", password);
 	}
 
-	public User(String login, String password, String name, String email, String url, Date registerDate, String activationKey, int level, int status) {
+	public UserDetail(String login, String password, String name, String email, String url, Date registerDate, String activationKey, UserLevel level,
+			UserStatus status) {
 		super();
 		set("login", login);
 		set("password", password);
@@ -40,8 +42,28 @@ public class User extends BaseModel {
 		set("url", url);
 		set("register_date", registerDate);
 		set("activation_key", activationKey);
-		set("level", level);
-		set("status", status);
+
+		if (level != null)
+		{
+			System.err.print("Level Found!");
+			set("level", level.getLevel());
+		}
+		else
+		{
+			System.err.print("Level NOT Found!");
+			set("level", UserLevel.Contributor);
+		}
+
+		if (status != null)
+		{
+			System.err.print("Status Found!");
+			set("status", status.getStatus());
+		}
+		else
+		{
+			System.err.print("Status NOT Found!");
+			set("status", UserStatus.Inactive);
+		}
 	}
 
 	public String getLogin() {
@@ -84,36 +106,38 @@ public class User extends BaseModel {
 		set("url", url);
 	}
 
-	public Date getRegister_date() {
+	public Date getRegisterDate() {
 		return get("register_date");
 	}
 
-	public void setRegister_date(Date registerDate) {
+	public void setRegisterDate(Date registerDate) {
 		set("register_date", registerDate);
 	}
 
-	public String getActivation_key() {
+	public String getActivationKey() {
 		return get("activation_key");
 	}
 
-	public void setActivation_key(String activationKey) {
+	public void setActivationKey(String activationKey) {
 		set("activation_key", activationKey);
 	}
 
-	public int getLevel() {
-		return get("level");
+	public UserLevel getLevel() {
+		int level = get("level");
+		return new UserLevel(level);
 	}
 
-	public void setLevel(int level) {
-		set("level", level);
+	public void setLevel(UserLevel level) {
+		set("level", level.getLevel());
 	}
 
-	public int getStatus() {
-		return get("status");
+	public UserStatus getStatus() {
+		int status = get("status");
+		return new UserStatus(status);
 	}
 
-	public void setStatus(int status) {
-		set("status", status);
+	public void setStatus(UserStatus status) {
+		set("status", status.getStatus());
 	}
 
 }

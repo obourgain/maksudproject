@@ -1,15 +1,17 @@
 package org.maksud.gwt.app.common.client.model;
 
 import com.extjs.gxt.ui.client.data.BaseModel;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class Employee extends BaseModel {
+public class EmployeeDetail extends BaseModel implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	public Employee() {
+	public EmployeeDetail() {
 	}
 
-	public Employee(String name, String department, String designation,
+	public EmployeeDetail(String name, String department, String designation,
 			double salary, Date joiningdate) {
 		set("name", name);
 		set("department", department);
