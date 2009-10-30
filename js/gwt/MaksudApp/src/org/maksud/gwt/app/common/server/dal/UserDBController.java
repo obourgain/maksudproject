@@ -11,6 +11,7 @@ import javax.jdo.PersistenceManager;
 import org.eclipse.jdt.internal.compiler.ast.ThisReference;
 import org.maksud.gwt.app.common.client.constants.UserLevel;
 import org.maksud.gwt.app.common.client.constants.UserStatus;
+import org.maksud.gwt.app.common.client.model.UserDetail;
 import org.maksud.gwt.app.common.server.model.jdo.PMF;
 import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
 import org.maksud.gwt.app.common.server.utility.MailHelper;
@@ -135,5 +136,45 @@ public class UserDBController {
 
 		}
 		return false;
+	}
+
+	public static boolean deleteUser(String userid) {
+		try {
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+			UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), userid));
+			pm.deletePersistent(user);
+			pm.close();
+			System.err.print("Deleted");
+			log.info("Delete User: " + userid);
+			return true;
+		} catch (Exception e) {
+			System.err.print("Problem Deleting.. " + userid);
+			log.info("Problem Delete User: " + userid);
+			return false;
+		}
+	}
+
+	public static boolean updateUser(UserDetail pUser) {
+		try {
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+			UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), pUser.getUserId()));
+
+			user.setEmail(pUser.getEmail());
+			user.setLevel(pUser.getLevel());
+			user.setStatus(pUser.getStatus());
+			user.setName(pUser.getName());
+			user.setPassword(pUser.getPassword());
+			user.setUrl(pUser.getUrl());
+
+			pm.makePersistent(user);
+			pm.close();
+			System.err.print("Updated");
+			log.info("Update User: " + pUser.getUserId());
+			return true;
+		} catch (Exception e) {
+			System.err.print("Problem Updating.. ");
+			log.info("Problem Updating User: ");
+			return false;
+		}
 	}
 }
