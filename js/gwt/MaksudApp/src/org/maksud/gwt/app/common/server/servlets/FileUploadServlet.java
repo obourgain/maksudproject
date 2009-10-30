@@ -16,8 +16,8 @@ import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
-import org.maksud.gwt.app.common.client.model.MyResponseResult;
-import org.maksud.gwt.app.common.client.model.MyServerResponse;
+import org.maksud.gwt.app.common.client.rpc.MyResponseResult;
+import org.maksud.gwt.app.common.client.rpc.MyServerResponse;
 import org.maksud.gwt.app.common.server.model.jdo.PMF;
 import org.maksud.gwt.app.common.server.model.jdo.entities.UploadedFile;
 import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
@@ -26,6 +26,8 @@ import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.KeyFactory;
 
 public class FileUploadServlet extends HttpServlet {
+	private static final long serialVersionUID = 3862214295751771516L;
+
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		try {
 			MyServerResponse maResp = new MyServerResponse();
@@ -34,8 +36,6 @@ public class FileUploadServlet extends HttpServlet {
 			res.setContentType("text/html");
 			ServletFileUpload upload = new ServletFileUpload();
 			upload.setSizeMax(500000);
-
-			PrintWriter out = res.getWriter();
 
 			try {
 				FileItemIterator iterator = upload.getItemIterator(req);

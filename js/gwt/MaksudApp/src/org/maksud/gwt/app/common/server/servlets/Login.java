@@ -29,7 +29,7 @@ public class Login extends HttpServlet {
 
 			if (user.getPassword().equals(password)) {
 				out.println("Password OK.");
-				if (user.getStatus() == UserStatus.Active) {
+				if (user.getStatus().getStatus() == UserStatus.Active) {
 					out.println("Login Ok.");
 
 					HttpSession session = req.getSession(true);
