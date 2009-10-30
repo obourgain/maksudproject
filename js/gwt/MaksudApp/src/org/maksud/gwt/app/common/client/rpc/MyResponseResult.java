@@ -1,4 +1,4 @@
-package org.maksud.gwt.app.common.client.model;
+package org.maksud.gwt.app.common.client.rpc;
 
 import java.io.Serializable;
 

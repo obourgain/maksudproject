@@ -21,8 +21,9 @@ public interface AuthenticationService extends RemoteService {
 	}
 
 	public boolean isAuthenticated(String userid, String password);
+
 	public boolean isSessionValid();
-	public boolean registerUser(String userid, String password, String retype,String email, String web);
-	
-	
+
+	public boolean registerUser(String userid, String password, String retype, String email, String web);
+
 }
