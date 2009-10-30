@@ -66,11 +66,11 @@ public class UserDetail extends BaseModel {
 		}
 	}
 
-	public String getLogin() {
+	public String getUserId() {
 		return get("login");
 	}
 
-	public void setLogin(String login) {
+	public void setUserId(String login) {
 		set("login", login);
 	}
 
