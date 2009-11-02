@@ -24,12 +24,12 @@ public class UrlHelper {
 
 				// line = (String)connection.getContent();
 
-				log.info("Date: " + connection.getDate());
-				log.info("Type: " + connection.getContentType());
-				log.info("Exp: " + connection.getExpiration());
-				log.info("Last M: " + connection.getLastModified());
-				log.info("Length: " + connection.getContentLength());
-				log.info("Content-Type: " + connection.getContentType());
+				//log.info("Date: " + connection.getDate());
+				//log.info("Type: " + connection.getContentType());
+				//log.info("Exp: " + connection.getExpiration());
+				//log.info("Last M: " + connection.getLastModified());
+				//log.info("Length: " + connection.getContentLength());
+				//log.info("Content-Type: " + connection.getContentType());
 
 				InputStream is = connection.getInputStream();
 				int ch;
