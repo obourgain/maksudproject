@@ -5,7 +5,6 @@ import javax.servlet.http.HttpSession;
 import org.maksud.gwt.app.common.client.rpc.AuthenticationService;
 import org.maksud.gwt.app.common.server.dal.UserDBController;
 
-import com.google.apphosting.api.DatastorePb.GetRequest;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class AuthenticationServiceImpl extends RemoteServiceServlet implements AuthenticationService {
@@ -34,4 +33,5 @@ public class AuthenticationServiceImpl extends RemoteServiceServlet implements A
 		return UserDBController.registerUser(login, password, retype, email, web);
 	}
 
+	
 }
