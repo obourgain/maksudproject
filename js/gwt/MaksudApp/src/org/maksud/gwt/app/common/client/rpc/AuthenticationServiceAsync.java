@@ -9,4 +9,5 @@ public interface AuthenticationServiceAsync {
 
 	public void registerUser(String userid, String password, String retype, String email, String web, AsyncCallback<Boolean> callback);
 
+	
 }
