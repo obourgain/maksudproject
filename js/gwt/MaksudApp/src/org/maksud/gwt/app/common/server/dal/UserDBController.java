@@ -48,24 +48,6 @@ public class UserDBController {
 		return userEntities;
 	}
 
-	public static boolean activateUser(String userid, String activationKey) {
-		try {
-			UserEntity user = getUserEntity(userid);
-			if (user.getActivationKey().equals(activationKey)) {
-				user.setStatus(new UserStatus(UserStatus.Active));
-				PMF.get().getPersistenceManager().makePersistent(user);
-				System.out.println("User is activated!");
-				return true;
-			} else {
-				System.out.print("Activation Problem!");
-				return false;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
 	public static boolean createUser(String userid, String password,
 			String retype, String email, String web, String activationKey) {
 		try {
@@ -84,7 +66,7 @@ public class UserDBController {
 
 			PersistenceManager pm = PMF.get().getPersistenceManager();
 			pm.makePersistent(user);
-			pm.close();
+			// pm.close();
 			return true;
 		} catch (Exception exp) {
 			return false;
@@ -99,13 +81,23 @@ public class UserDBController {
 					KeyFactory.createKey(UserEntity.class.getSimpleName(),
 							userid));
 			pm.deletePersistent(user);
-			pm.close();
+			// pm.close();
 			System.err.print("Deleted");
 			log.info("Delete User: " + userid);
 			return true;
 		} catch (Exception e) {
 			System.err.print("Problem Deleting.. " + userid);
 			log.info("Problem Delete User: " + userid);
+			return false;
+		}
+	}
+
+	public static boolean updateUser(UserEntity user) {
+
+		try {
+			PMF.get().getPersistenceManager().makePersistent(user);
+			return true;
+		} catch (Exception exp) {
 			return false;
 		}
 	}
@@ -125,7 +117,7 @@ public class UserDBController {
 			user.setUrl(pUser.getUrl());
 
 			pm.makePersistent(user);
-			pm.close();
+			// pm.close();
 			System.err.print("Updated");
 			log.info("Update User: " + pUser.getUserId());
 			return true;
