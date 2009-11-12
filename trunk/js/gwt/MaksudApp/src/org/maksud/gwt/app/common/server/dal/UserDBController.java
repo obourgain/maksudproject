@@ -3,31 +3,42 @@ package org.maksud.gwt.app.common.server.dal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import org.eclipse.jdt.internal.compiler.ast.ThisReference;
 import org.maksud.gwt.app.common.client.constants.UserLevel;
 import org.maksud.gwt.app.common.client.constants.UserStatus;
 import org.maksud.gwt.app.common.client.model.UserDetail;
 import org.maksud.gwt.app.common.server.model.jdo.PMF;
 import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
-import org.maksud.gwt.app.common.server.utility.MailHelper;
-import org.maksud.gwt.app.common.server.utility.UrlHelper;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
 public class UserDBController {
-	private static final Logger log = Logger.getLogger(UserDBController.class.getName());
+	private static final Logger log = Logger.getLogger(UserDBController.class
+			.getName());
 
-	public static List<UserEntity> getAllUsers() {
-		List<UserEntity> userEntities = new ArrayList<UserEntity>();
+	public static List<UserEntity> getAllUserEntity() {
+		return getUserList("select from " + UserEntity.class.getName());
+	}
 
+	public static UserEntity getUserEntity(String userid) {
 		try {
 			PersistenceManager pm = PMF.get().getPersistenceManager();
-			String query = "select from " + UserEntity.class.getName();
+			UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class,
+					KeyFactory.createKey(UserEntity.class.getSimpleName(),
+							userid));
+			return user;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	private static List<UserEntity> getUserList(String query) {
+		List<UserEntity> userEntities = new ArrayList<UserEntity>();
+		try {
+			PersistenceManager pm = PMF.get().getPersistenceManager();
 			userEntities = (List<UserEntity>) pm.newQuery(query).execute();
 			System.err.println("Total Records Found: " + userEntities.size());
 		} catch (Exception e) {
@@ -37,81 +48,9 @@ public class UserDBController {
 		return userEntities;
 	}
 
-	public static UserEntity getUser(String userid) {
-		try {
-			getAllUsers();
-			PersistenceManager pm = PMF.get().getPersistenceManager();
-			UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), userid));
-			return user;
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	public static boolean isUserPresent(String userid) {
-		return getUser(userid) != null;
-	}
-
-	public static boolean isValidUser(String userid, String password) {
-		try {
-			UserEntity user = getUser(userid);
-			if (user != null && user.getPassword() == password && user.getStatus().getStatus() == UserStatus.Active)
-				return true;
-			else
-				return false;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	public static boolean registerUser(String userid, String password, String retype, String email, String web) {
-		String activationKey = UUID.randomUUID().toString().replace("-", "");
-
-		try {
-
-			if (isUserPresent(userid)) {
-				System.out.println("User already exists.");
-				return false;
-			}
-
-			if (password.equals(retype) && password.length() > 0) {
-
-				UserEntity user = new UserEntity();
-				user.setLogin(userid);
-				user.setEmail(email);
-				user.setPassword(password);
-				user.setLevel(new UserLevel());
-				user.setName(userid);
-				user.setRegister_date(new Date());
-				user.setStatus(new UserStatus());
-				user.setUrl(web);
-				user.setActivationKey(activationKey);
-				user.setId(KeyFactory.createKey(UserEntity.class.getSimpleName(), userid));
-
-				PersistenceManager pm = PMF.get().getPersistenceManager();
-				pm.makePersistent(user);
-				pm.close();
-
-				MailHelper.sendEmail("maksud.buet@gmail.com", "MaksudApp Admin", email, userid, "Activate",
-						"Please Activate by <a href='http://maksudapp.appspot.com/activate?user=" + userid + "&key=" + activationKey + "'>Clicking here</a>");
-
-				System.out.println("User registration successfull.");
-				return true;
-
-			} else {
-				System.out.println("User registration failed. Password Problem.");
-				return false;
-			}
-		} catch (Exception e) {
-			System.out.println("User registration failed. Exception");
-			e.printStackTrace();
-			return false;
-		}
-	}
-
 	public static boolean activateUser(String userid, String activationKey) {
 		try {
-			UserEntity user = getUser(userid);
+			UserEntity user = getUserEntity(userid);
 			if (user.getActivationKey().equals(activationKey)) {
 				user.setStatus(new UserStatus(UserStatus.Active));
 				PMF.get().getPersistenceManager().makePersistent(user);
@@ -127,21 +66,38 @@ public class UserDBController {
 		}
 	}
 
-	public static boolean login(String userid, String password) {
+	public static boolean createUser(String userid, String password,
+			String retype, String email, String web, String activationKey) {
 		try {
-			if (isValidUser(userid, password)) {
-				return true;
-			}
-		} catch (Exception exp) {
+			UserEntity user = new UserEntity();
+			user.setLogin(userid);
+			user.setEmail(email);
+			user.setPassword(password);
+			user.setLevel(new UserLevel());
+			user.setName(userid);
+			user.setRegister_date(new Date());
+			user.setStatus(new UserStatus());
+			user.setUrl(web);
+			user.setActivationKey(activationKey);
+			user.setId(KeyFactory.createKey(UserEntity.class.getSimpleName(),
+					user.getLogin()));
 
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+			pm.makePersistent(user);
+			pm.close();
+			return true;
+		} catch (Exception exp) {
+			return false;
 		}
-		return false;
+
 	}
 
 	public static boolean deleteUser(String userid) {
 		try {
 			PersistenceManager pm = PMF.get().getPersistenceManager();
-			UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), userid));
+			UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class,
+					KeyFactory.createKey(UserEntity.class.getSimpleName(),
+							userid));
 			pm.deletePersistent(user);
 			pm.close();
 			System.err.print("Deleted");
@@ -157,7 +113,9 @@ public class UserDBController {
 	public static boolean updateUser(UserDetail pUser) {
 		try {
 			PersistenceManager pm = PMF.get().getPersistenceManager();
-			UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), pUser.getUserId()));
+			UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class,
+					KeyFactory.createKey(UserEntity.class.getSimpleName(),
+							pUser.getUserId()));
 
 			user.setEmail(pUser.getEmail());
 			user.setLevel(pUser.getLevel());

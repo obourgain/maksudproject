@@ -9,6 +9,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import org.maksud.gwt.app.common.client.constants.UserLevel;
+import org.maksud.gwt.app.common.client.constants.UserLevelEnum;
 import org.maksud.gwt.app.common.client.constants.UserStatus;
 
 import com.google.appengine.api.datastore.Key;
@@ -60,7 +61,7 @@ public class UserEntity {
 		this.url = url;
 		this.register_date = new Date();
 		this.activation_key = "";
-		this.level = new UserLevel(UserLevel.Contributor);
+		this.level = new UserLevel(UserLevelEnum.Contributor);
 		this.status = new UserStatus(UserStatus.Inactive);
 	}
 

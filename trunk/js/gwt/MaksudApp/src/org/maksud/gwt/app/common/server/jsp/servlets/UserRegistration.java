@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.maksud.gwt.app.common.client.constants.UserLevel;
 import org.maksud.gwt.app.common.client.constants.UserStatus;
+import org.maksud.gwt.app.common.server.dal.AuthenticationController;
 import org.maksud.gwt.app.common.server.dal.UserDBController;
 import org.maksud.gwt.app.common.server.model.jdo.PMF;
 import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
@@ -28,7 +29,7 @@ public class UserRegistration extends HttpServlet {
 		String email = req.getParameter("email");
 		String web = req.getParameter("web");
 
-		if (UserDBController.registerUser(login, password, retype, email, web)) {
+		if (AuthenticationController.registerUser(login, password, retype, email, web)) {
 			req.removeAttribute("error");
 			getServletContext().getRequestDispatcher("/login.jsp").forward(req, res);
 		} else {
