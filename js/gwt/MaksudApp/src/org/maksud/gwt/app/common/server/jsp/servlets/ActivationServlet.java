@@ -16,7 +16,7 @@ import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
-public class ActivateUser extends HttpServlet {
+public class ActivationServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
