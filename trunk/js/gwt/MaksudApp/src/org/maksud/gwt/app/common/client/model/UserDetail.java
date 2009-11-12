@@ -51,7 +51,7 @@ public class UserDetail extends BaseModel {
 		else
 		{
 			System.err.print("Level NOT Found!");
-			set("level", UserLevel.Contributor);
+			set("level", (new UserLevel()).getLevel());
 		}
 
 		if (status != null)
@@ -123,8 +123,7 @@ public class UserDetail extends BaseModel {
 	}
 
 	public UserLevel getLevel() {
-		int level = get("level");
-		return new UserLevel(level);
+		return new UserLevel((String)get("level"));
 	}
 
 	public void setLevel(UserLevel level) {
