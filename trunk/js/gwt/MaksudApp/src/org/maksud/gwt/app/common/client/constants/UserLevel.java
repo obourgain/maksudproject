@@ -10,38 +10,30 @@ import javax.jdo.annotations.Persistent;
 @EmbeddedOnly
 public class UserLevel implements Serializable {
 	@Persistent
-	private int _level;
-
-	public static final int Admin = 0;
-	public static final int Editor = 1;
-	public static final int Contributor = 2;
+	private String _level;
 
 	public UserLevel() {
-		_level = UserLevel.Contributor;
+		_level = UserLevelEnum.Contributor.toString();
 	}
 
-	public UserLevel(int level) {
-		_level = level;
+	public UserLevel(UserLevelEnum level) {
+		_level = level.toString();
 	}
 
-	public int getLevel() {
+	public UserLevel(String string) {
+		_level = string;
+	}
+
+	public String getLevel() {
 		return _level;
 	}
 
-	public void setLevel(int status) {
-		_level = status;
+	public void setLevel(UserLevelEnum status) {
+		_level = status.toString();
 	}
 
 	@Override
 	public String toString() {
-		switch (_level) {
-		case UserLevel.Admin:
-			return "Admin";
-		case UserLevel.Contributor:
-			return "Contributor";
-		case UserLevel.Editor:
-			return "Editor";
-		}
-		return "Unknown";
+		return _level;
 	}
 }
