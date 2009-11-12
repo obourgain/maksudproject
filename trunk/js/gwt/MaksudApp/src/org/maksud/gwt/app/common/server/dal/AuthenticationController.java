@@ -60,11 +60,30 @@ public class AuthenticationController {
 				} else
 					return false;
 			} else {
-				System.out.println("User registration failed. Password Problem.");
+				System.out
+						.println("User registration failed. Password Problem.");
 				return false;
 			}
 		} catch (Exception e) {
 			System.out.println("User registration failed. Exception");
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public static boolean activateUser(String userid, String activationKey) {
+		try {
+			UserEntity user = UserDBController.getUserEntity(userid);
+			if (user.getActivationKey().equals(activationKey)) {
+				user.setStatus(new UserStatus(UserStatus.Active));
+				UserDBController.updateUser(user);
+				System.out.println("User is activated!");
+				return true;
+			} else {
+				System.out.print("Activation Problem!");
+				return false;
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
