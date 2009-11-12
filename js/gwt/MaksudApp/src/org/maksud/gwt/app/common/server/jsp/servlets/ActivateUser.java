@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.maksud.gwt.app.common.client.constants.UserStatus;
+import org.maksud.gwt.app.common.server.dal.AuthenticationController;
+import org.maksud.gwt.app.common.server.dal.UserDBController;
 import org.maksud.gwt.app.common.server.model.jdo.PMF;
 import org.maksud.gwt.app.common.server.model.jdo.entities.UserEntity;
 
@@ -16,23 +18,17 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 public class ActivateUser extends HttpServlet {
 
-	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		String login = (String) req.getParameter("user");
-		String activateString = (String) req.getParameter("key");
+	public void doGet(HttpServletRequest req, HttpServletResponse res)
+			throws ServletException, IOException {
+		String userid = (String) req.getParameter("user");
+		String activationKey = (String) req.getParameter("key");
 
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-
-		UserEntity user = (UserEntity) pm.getObjectById(UserEntity.class, KeyFactory.createKey(UserEntity.class.getSimpleName(), login));
-
-		if (user.getActivationKey().equals(activateString)) {
-			user.setStatus(new UserStatus(UserStatus.Active));
-			pm.makePersistent(user);
-			pm.close();
-			res.getWriter().print("User is activated!");
-			res.sendRedirect("/login.jsp");
+		if (AuthenticationController.activateUser(userid, activationKey)) {
+			// Show Success Message...
+			res.getWriter().print("Successfully Activated!");
 		} else {
+			// Show Failure
 			res.getWriter().print("Activation Problem!");
 		}
-		// pm.close();
 	}
 }
