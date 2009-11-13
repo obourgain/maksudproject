@@ -1,6 +1,0 @@
-<module>
-	<inherits name="com.google.gwt.user.User" />
-	<inherits name='org.maksud.gwt.app.common.Common' />
-	<inherits name='com.extjs.gxt.themes.Themes' />
-	<entry-point class="org.maksud.gwt.app.mailapp.client.MailApp" />
-</module>
