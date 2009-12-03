@@ -6,7 +6,7 @@
 
 	<!-- Other module inherits                                      -->
 	<inherits name="com.google.gwt.maps.GoogleMaps" />
-	<script src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2&amp;sensor=false" />
+	<script src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAh6DdyRsqG5CV5oCb3WsQPBTmCjuWZ4T7i_snh5KYRyySQLjymhR6UhlfMvv5ijxguE7jUK9Y3DNkZA" />
 
 	<!-- Specify the app entry point class.                         -->
 	<entry-point class='org.maksud.gwt.maxwebservice.client.MaxWebService' />
