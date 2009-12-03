@@ -9,7 +9,8 @@ import com.google.gwt.maps.client.overlay.Marker;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class MaxWebService implements EntryPoint {
-    private MapWidget map;
+    private MapWidget          map;
+    public static final String mapKey = "ABQIAAAAh6DdyRsqG5CV5oCb3WsQPBTmCjuWZ4T7i_snh5KYRyySQLjymhR6UhlfMvv5ijxguE7jUK9Y3DNkZA";
 
     public void onModuleLoad() {
         LatLng cawkerCity = LatLng.newInstance(23 + 43.0 / 60.0, 90 + 25.0 / 60.0);
