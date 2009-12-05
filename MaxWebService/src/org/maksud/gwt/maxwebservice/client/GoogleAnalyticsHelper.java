@@ -8,7 +8,14 @@ public class GoogleAnalyticsHelper {
     public static native void trackEvent(String category, String action)/*-{
         try
         {
-            $wnd.pageTracker._trackEvent(category, action);
+            if($wnd.pageTracker._trackEvent(category, action))
+            {
+                $wnd.alert("Successful!");
+            }
+            else
+            {
+                $wnd.alert("Failed!");
+            }
         }
         catch(err)
         {
@@ -19,7 +26,14 @@ public class GoogleAnalyticsHelper {
     public static native void trackEvent(String category, String action, String optional_label)/*-{
         try
         {
-            $wnd.pageTracker._trackEvent(category, action, optional_label);
+            if($wnd.pageTracker._trackEvent(category, action, optional_label))
+            {
+                $wnd.alert("Successful!");
+            }
+            else
+            {
+                $wnd.alert("Failed!");
+            }
         }
         catch(err)
         {
@@ -30,7 +44,14 @@ public class GoogleAnalyticsHelper {
     public static native void trackEvent(String category, String action, String optional_label, int optional_value)/*-{
         try
         {
-            $wnd.pageTracker._trackEvent(category, action, optional_label, optional_value);
+            if($wnd.pageTracker._trackEvent(category, action, optional_label, optional_value))
+            {
+                $wnd.alert("Successful!");
+            }
+            else
+            {
+                $wnd.alert("Failed!");
+            }
         }
         catch(err)
         {
