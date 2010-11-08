@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using Crownwood.DotNetMagic.Controls;
@@ -18,20 +17,15 @@ namespace GREWordStudy.Study
 {
     public partial class GreWordStudyForm : Form
     {
-        [DllImport("user32.dll")]
-        public static extern IntPtr SetCapture(IntPtr hWnd);
-        [DllImport("user32.dll")]
-        public static extern IntPtr ReleaseCapture(IntPtr hWnd);
-
-        bool captured = false;
-        Point pStart, pEnd;
+        bool _captured;
+        Point _pStart, _pEnd;
+        readonly FolderBrowserDialog _fbd = new FolderBrowserDialog();
+        private bool _isCommentDirty;
         //Bitmap resultBitmap;
 
-        private ListViewColumnSorter _lvwColumnSorter;
-
-        private readonly Color[] _hardnessForeground = new Color[6] { Color.Black, Color.Navy, Color.Black, Color.Black, Color.Black, Color.White };
-        private readonly Color[] _hardnessBackground = new Color[6] { Color.White, Color.LightGreen, Color.Aquamarine, Color.Yellow, Color.Pink, Color.Red };
-        private readonly Color[] _colorBackground = new Color[4] { Color.MistyRose, Color.LightBlue, Color.Yellow, Color.Thistle };
+        private readonly Color[] _hardnessForeground = new Color[] { Color.Black, Color.Navy, Color.Black, Color.Black, Color.Black, Color.White };
+        private readonly Color[] _hardnessBackground = new Color[] { Color.White, Color.LightGreen, Color.Aquamarine, Color.Yellow, Color.Pink, Color.Red };
+        private readonly Color[] _colorBackground = new Color[] { Color.MistyRose, Color.LightBlue, Color.Yellow, Color.Thistle };
 
         int _cindex;
 
@@ -69,15 +63,10 @@ namespace GREWordStudy.Study
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            this.TimedFilter(this.wordsDataListView, textWord.Text);
+            TimedFilter(this.wordsDataListView, textWord.Text);
         }
 
-        private void TimedFilter(DataListView olv, string txt)
-        {
-            this.TimedFilter(olv, txt, TextMatchFilter.MatchKind.Text);
-        }
-
-        private void TimedFilter(DataListView olv, string txt, TextMatchFilter.MatchKind matchKind)
+        private static void TimedFilter(DataListView olv, string txt, TextMatchFilter.MatchKind matchKind = TextMatchFilter.MatchKind.Text)
         {
             TextMatchFilter filter = null;
             if (!String.IsNullOrEmpty(txt))
@@ -105,14 +94,13 @@ namespace GREWordStudy.Study
             stopWatch.Stop();
         }
 
-        FolderBrowserDialog fbd = new FolderBrowserDialog();
-        private bool _isCommentDirty;
+
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (fbd.ShowDialog() == DialogResult.OK)
+            if (_fbd.ShowDialog() == DialogResult.OK)
             {
-                textBanglaDictionary.Text = fbd.SelectedPath;
+                textBanglaDictionary.Text = _fbd.SelectedPath;
                 Properties.Settings.Default.BengaliDictionaryPath = textBanglaDictionary.Text;
                 Properties.Settings.Default.Save();
             }
@@ -233,8 +221,6 @@ namespace GREWordStudy.Study
                 new Double[] { 25, 50, 75 },
                 new string[] { "Hard", "Moderate", "Easy", "Very Easy" });
 
-
-            _lvwColumnSorter = new ListViewColumnSorter();
 
             ResetWebBrowsers();
 
@@ -793,14 +779,6 @@ namespace GREWordStudy.Study
         }
 
 
-        private void webUrlsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Form form = new WebUrlsForm(_entities);
-            form.ShowDialog(this);
-
-            ResetWebBrowsers();
-        }
-
         private void ResetWebBrowsers()
         {
             var wurls = (from url in _entities.WebUrls
@@ -825,7 +803,7 @@ namespace GREWordStudy.Study
 
 
                     toolStripWebSites.Items.Add(button);
-                    button.Click += new EventHandler(buttonBrowseWord_Click);
+                    button.Click += buttonBrowseWord_Click;
                 }
             }
         }
@@ -844,15 +822,15 @@ namespace GREWordStudy.Study
 
         private void copyImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            COPY_Image();
+            CopyImage();
         }
 
         private void buttonCopyImage_Click(object sender, EventArgs e)
         {
-            COPY_Image();
+            CopyImage();
         }
 
-        private void COPY_Image()
+        private void CopyImage()
         {
             try
             {
@@ -865,13 +843,21 @@ namespace GREWordStudy.Study
 
         private void NavigateTo(string title, string address, int iconindex = 0)
         {
-            MaxBrowser mb = new MaxBrowser(address);
-            Crownwood.DotNetMagic.Controls.TabPage newPage = new Crownwood.DotNetMagic.Controls.TabPage(title, mb, iconindex) { Selected = true };
-
-            if (tabbedGroupsWebSites.ActiveLeaf != null)
+            if (openInDefaultBrowserToolStripMenuItem.Checked)
             {
-                tabbedGroupsWebSites.ActiveLeaf.TabPages.Add(newPage);
-                mb.Navigate(address);
+                new ShellExecute() { Path = address, Verb = ShellExecute.OpenFile }.Execute();
+            }
+            else
+            {
+                MaxBrowser mb = new MaxBrowser(address);
+                Crownwood.DotNetMagic.Controls.TabPage newPage = new Crownwood.DotNetMagic.Controls.TabPage(title, mb,
+                                                                                                            iconindex) { Selected = true };
+
+                if (tabbedGroupsWebSites.ActiveLeaf != null)
+                {
+                    tabbedGroupsWebSites.ActiveLeaf.TabPages.Add(newPage);
+                    mb.Navigate(address);
+                }
             }
         }
 
@@ -1191,11 +1177,11 @@ namespace GREWordStudy.Study
 
         private void picBmp_MouseMove(object sender, MouseEventArgs e)
         {
-            if (captured)
+            if (_captured)
             {
                 tsTextX2.Text = e.X + "";
                 tsTextY2.Text = e.Y + "";
-                pEnd = e.Location;
+                _pEnd = e.Location;
 
                 //tsextHeight.Text = Math.Abs(pStart.Y - pEnd.Y) + "";
                 //textWidth.Text = Math.Abs(pStart.X - pEnd.X) + "";
@@ -1206,21 +1192,21 @@ namespace GREWordStudy.Study
 
         private void picBmp_MouseDown(object sender, MouseEventArgs e)
         {
-            if (!captured)
+            if (!_captured)
             {
                 tsTextX1.Text = e.X + "";
                 tsTextY1.Text = e.Y + "";
-                pStart = e.Location;
+                _pStart = e.Location;
 
 
-                captured = true;
+                _captured = true;
                 //SetCapture(this.Handle);
             }
         }
 
         private void picBmp_MouseUp(object sender, MouseEventArgs e)
         {
-            captured = false;
+            _captured = false;
             //ReleaseCapture(this.Handle);
         }
 
@@ -1231,11 +1217,11 @@ namespace GREWordStudy.Study
 
         private void tsCropAndScale_Click(object sender, EventArgs e)
         {
-            pStart.X = int.Parse(tsTextX1.Text);
-            pStart.Y = int.Parse(tsTextY1.Text);
+            _pStart.X = int.Parse(tsTextX1.Text);
+            _pStart.Y = int.Parse(tsTextY1.Text);
 
-            pEnd.X = int.Parse(tsTextX2.Text);
-            pEnd.Y = int.Parse(tsTextY2.Text);
+            _pEnd.X = int.Parse(tsTextX2.Text);
+            _pEnd.Y = int.Parse(tsTextY2.Text);
 
             //textHeight.Text = Math.Abs(pStart.Y - pEnd.Y) + "";
             //textWidth.Text = Math.Abs(pStart.X - pEnd.X) + "";
@@ -1248,13 +1234,15 @@ namespace GREWordStudy.Study
         private void ZoomFactor(float factor, Image resultBitma)
         {
             Rectangle cropRect = new Rectangle(0, 0, resultBitma.Width, resultBitma.Height);
-            Bitmap CroppedBitmap = new Bitmap((int)(cropRect.Width * factor), (int)(cropRect.Height * factor));
-            Graphics g = Graphics.FromImage(CroppedBitmap);
-            g.ScaleTransform(factor, factor);
-            g.DrawImage(resultBitma, 0, 0, cropRect, GraphicsUnit.Pixel);
-            g.Dispose();
+            using (Bitmap croppedBitmap = new Bitmap((int)(cropRect.Width * factor), (int)(cropRect.Height * factor)))
+            {
+                Graphics g = Graphics.FromImage(croppedBitmap);
+                g.ScaleTransform(factor, factor);
+                g.DrawImage(resultBitma, 0, 0, cropRect, GraphicsUnit.Pixel);
+                g.Dispose();
 
-            picBmp.Image = CroppedBitmap;
+                picBmp.Image = croppedBitmap;
+            }
         }
 
         private Bitmap DrawAlbumArt()
@@ -1267,54 +1255,75 @@ namespace GREWordStudy.Study
 
 
                 Rectangle cropRect = GetCroppedRectangle();
-                Bitmap CroppedBitmap = new Bitmap(cropRect.Width, cropRect.Height);
-                Graphics g = Graphics.FromImage(CroppedBitmap);
-                g.DrawImage(bmp, 0, 0, cropRect, GraphicsUnit.Pixel);
-                g.Dispose();
+                using (Bitmap croppedBitmap = new Bitmap(cropRect.Width, cropRect.Height))
+                {
+                    Graphics g = Graphics.FromImage(croppedBitmap);
+                    g.DrawImage(bmp, 0, 0, cropRect, GraphicsUnit.Pixel);
+                    g.Dispose();
 
-                picBmp.Image = CroppedBitmap;
+                    picBmp.Image = croppedBitmap;
 
-                return CroppedBitmap;
+                    return croppedBitmap;
+                }
             }
             return null;
         }
-
-
 
         private Rectangle GetCroppedRectangle()
         {
             Rectangle r = new Rectangle();
 
-            if (pStart.X > pEnd.X)
+            if (_pStart.X > _pEnd.X)
             {
-                r.X = pEnd.X;
-                r.Width = pStart.X - pEnd.X + 1;
+                r.X = _pEnd.X;
+                r.Width = _pStart.X - _pEnd.X + 1;
             }
             else
             {
-                r.X = pStart.X;
-                r.Width = pEnd.X - pStart.X + 1;
+                r.X = _pStart.X;
+                r.Width = _pEnd.X - _pStart.X + 1;
             }
 
-            if (pStart.Y > pEnd.Y)
+            if (_pStart.Y > _pEnd.Y)
             {
-                r.Y = pEnd.Y;
-                r.Height = pStart.Y - pEnd.Y + 1;
+                r.Y = _pEnd.Y;
+                r.Height = _pStart.Y - _pEnd.Y + 1;
             }
             else
             {
-                r.Y = pStart.Y;
-                r.Height = pEnd.Y - pStart.Y + 1;
+                r.Y = _pStart.Y;
+                r.Height = _pEnd.Y - _pStart.Y + 1;
             }
             return r;
         }
 
         #endregion
-
-
-
         #endregion
 
+
+        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void openGoogleSearchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShellExecute execute = new ShellExecute { Path = "http://google.com/search?q=" + _currentWord, Verb = ShellExecute.OpenFile };
+            execute.Execute();
+        }
+
+        private void openInDefaultBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openInDefaultBrowserToolStripMenuItem.Checked = !openInDefaultBrowserToolStripMenuItem.Checked;
+        }
+
+        private void manageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form form = new WebUrlsForm(_entities);
+            form.ShowDialog(this);
+
+            ResetWebBrowsers();
+        }
 
 
 
