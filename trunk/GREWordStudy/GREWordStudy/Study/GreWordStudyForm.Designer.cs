@@ -39,6 +39,7 @@ namespace GREWordStudy.Study
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.excelFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openGoogleSearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pdfFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,6 +48,8 @@ namespace GREWordStudy.Study
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.webUrlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openInDefaultBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.stickyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -245,6 +248,7 @@ namespace GREWordStudy.Study
             this.exportToolStripMenuItem,
             this.toolStripSeparator5,
             this.excelFileToolStripMenuItem,
+            this.openGoogleSearchToolStripMenuItem,
             this.pdfFileToolStripMenuItem,
             this.toolStripSeparator3,
             this.toolStripMenuItem1,
@@ -290,6 +294,13 @@ namespace GREWordStudy.Study
             this.excelFileToolStripMenuItem.Text = "Excel File";
             this.excelFileToolStripMenuItem.Click += new System.EventHandler(this.excelFileToolStripMenuItem_Click);
             // 
+            // openGoogleSearchToolStripMenuItem
+            // 
+            this.openGoogleSearchToolStripMenuItem.Name = "openGoogleSearchToolStripMenuItem";
+            this.openGoogleSearchToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.openGoogleSearchToolStripMenuItem.Text = "Open Google Search";
+            this.openGoogleSearchToolStripMenuItem.Click += new System.EventHandler(this.openGoogleSearchToolStripMenuItem_Click);
+            // 
             // pdfFileToolStripMenuItem
             // 
             this.pdfFileToolStripMenuItem.Name = "pdfFileToolStripMenuItem";
@@ -333,13 +344,30 @@ namespace GREWordStudy.Study
             this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
             this.exitToolStripMenuItem1.Size = new System.Drawing.Size(182, 22);
             this.exitToolStripMenuItem1.Text = "E&xit";
+            this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem1_Click);
             // 
             // webUrlsToolStripMenuItem
             // 
+            this.webUrlsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.manageToolStripMenuItem,
+            this.openInDefaultBrowserToolStripMenuItem});
             this.webUrlsToolStripMenuItem.Name = "webUrlsToolStripMenuItem";
             this.webUrlsToolStripMenuItem.Size = new System.Drawing.Size(66, 23);
             this.webUrlsToolStripMenuItem.Text = "&Web Urls";
-            this.webUrlsToolStripMenuItem.Click += new System.EventHandler(this.webUrlsToolStripMenuItem_Click);
+            // 
+            // manageToolStripMenuItem
+            // 
+            this.manageToolStripMenuItem.Name = "manageToolStripMenuItem";
+            this.manageToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.manageToolStripMenuItem.Text = "Manage";
+            this.manageToolStripMenuItem.Click += new System.EventHandler(this.manageToolStripMenuItem_Click);
+            // 
+            // openInDefaultBrowserToolStripMenuItem
+            // 
+            this.openInDefaultBrowserToolStripMenuItem.Name = "openInDefaultBrowserToolStripMenuItem";
+            this.openInDefaultBrowserToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.openInDefaultBrowserToolStripMenuItem.Text = "Open In Default Browser";
+            this.openInDefaultBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInDefaultBrowserToolStripMenuItem_Click);
             // 
             // copyImageToolStripMenuItem
             // 
@@ -888,7 +916,7 @@ namespace GREWordStudy.Study
             this.tsSaveComment});
             this.toolbarComment.Location = new System.Drawing.Point(3, 0);
             this.toolbarComment.Name = "toolbarComment";
-            this.toolbarComment.Size = new System.Drawing.Size(413, 25);
+            this.toolbarComment.Size = new System.Drawing.Size(382, 25);
             this.toolbarComment.TabIndex = 0;
             // 
             // tsBold
@@ -1767,6 +1795,9 @@ namespace GREWordStudy.Study
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripMenuItem openGoogleSearchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem manageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openInDefaultBrowserToolStripMenuItem;
     }
 }
 
