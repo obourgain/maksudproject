@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using Crownwood.DotNetMagic.Controls;
@@ -17,6 +18,11 @@ namespace GREWordStudy.Study
 {
     public partial class GreWordStudyForm : Form
     {
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetCapture(IntPtr hWnd);
+        [DllImport("user32.dll")]
+        public static extern IntPtr ReleaseCapture(IntPtr hWnd);
+
         bool _captured;
         Point _pStart, _pEnd;
         readonly FolderBrowserDialog _fbd = new FolderBrowserDialog();
@@ -246,11 +252,13 @@ namespace GREWordStudy.Study
             {
                 words = (from w in _entities.ListedWords
                          where w.ListName.Id == listNameId
-                         select w.GreWord).ToList();
+                         orderby w.GreWord.Word
+                         select w.GreWord ).ToList();
             }
             else if (listNameId == 0)
             {
                 words = (from w in _entities.GreWords
+                         orderby w.Word
                          select w).ToList();
             }
             else
@@ -1234,15 +1242,14 @@ namespace GREWordStudy.Study
         private void ZoomFactor(float factor, Image resultBitma)
         {
             Rectangle cropRect = new Rectangle(0, 0, resultBitma.Width, resultBitma.Height);
-            using (Bitmap croppedBitmap = new Bitmap((int)(cropRect.Width * factor), (int)(cropRect.Height * factor)))
-            {
-                Graphics g = Graphics.FromImage(croppedBitmap);
-                g.ScaleTransform(factor, factor);
-                g.DrawImage(resultBitma, 0, 0, cropRect, GraphicsUnit.Pixel);
-                g.Dispose();
+            Bitmap croppedBitmap = new Bitmap((int)(cropRect.Width * factor), (int)(cropRect.Height * factor));
+            Graphics g = Graphics.FromImage(croppedBitmap);
+            g.ScaleTransform(factor, factor);
+            g.DrawImage(resultBitma, 0, 0, cropRect, GraphicsUnit.Pixel);
+            g.Dispose();
 
-                picBmp.Image = croppedBitmap;
-            }
+            picBmp.Image = croppedBitmap;
+
         }
 
         private Bitmap DrawAlbumArt()
@@ -1255,16 +1262,16 @@ namespace GREWordStudy.Study
 
 
                 Rectangle cropRect = GetCroppedRectangle();
-                using (Bitmap croppedBitmap = new Bitmap(cropRect.Width, cropRect.Height))
-                {
-                    Graphics g = Graphics.FromImage(croppedBitmap);
-                    g.DrawImage(bmp, 0, 0, cropRect, GraphicsUnit.Pixel);
-                    g.Dispose();
+                Bitmap croppedBitmap = new Bitmap(cropRect.Width, cropRect.Height);
 
-                    picBmp.Image = croppedBitmap;
+                Graphics g = Graphics.FromImage(croppedBitmap);
+                g.DrawImage(bmp, 0, 0, cropRect, GraphicsUnit.Pixel);
+                g.Dispose();
 
-                    return croppedBitmap;
-                }
+                picBmp.Image = croppedBitmap;
+
+                return croppedBitmap;
+
             }
             return null;
         }
