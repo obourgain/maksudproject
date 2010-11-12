@@ -566,6 +566,25 @@ namespace GREWordStudy.Model
         }
 
         #endregion
+        #region Function Imports
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public int RemoveHtml()
+        {
+            return base.ExecuteFunction("RemoveHtml");
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public int RemoveDuplicateBengaliWord()
+        {
+            return base.ExecuteFunction("RemoveDuplicateBengaliWord");
+        }
+
+        #endregion
     }
     
 
