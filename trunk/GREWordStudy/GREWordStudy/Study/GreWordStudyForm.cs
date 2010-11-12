@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -47,7 +48,10 @@ namespace GREWordStudy.Study
             InitializeComponent();
 
             LoadDatabase();
+            LoadFonts();
         }
+
+
 
         void buttonBrowseWord_Click(object sender, EventArgs e)
         {
@@ -79,15 +83,7 @@ namespace GREWordStudy.Study
                 filter = new TextMatchFilter(olv, txt, matchKind);
 
             // Setup a default renderer to draw the filter matches
-            if (filter == null)
-                olv.DefaultRenderer = null;
-            else
-            {
-                olv.DefaultRenderer = new HighlightTextRenderer(filter);
-
-                // Uncomment this line to see how the GDI+ rendering looks
-                //olv.DefaultRenderer = new HighlightTextRenderer { Filter = filter, UseGdiTextRendering = false };
-            }
+            olv.DefaultRenderer = filter == null ? null : new HighlightTextRenderer(filter);
 
             // Some lists have renderers already installed
             HighlightTextRenderer highlightingRenderer = olv.GetColumn(0).Renderer as HighlightTextRenderer;
@@ -253,7 +249,7 @@ namespace GREWordStudy.Study
                 words = (from w in _entities.ListedWords
                          where w.ListName.Id == listNameId
                          orderby w.GreWord.Word
-                         select w.GreWord ).ToList();
+                         select w.GreWord).ToList();
             }
             else if (listNameId == 0)
             {
@@ -1028,8 +1024,7 @@ namespace GREWordStudy.Study
 
         private void stickyNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StickyNoteForm snf = new StickyNoteForm();
-            snf.TopMost = true;
+            StickyNoteForm snf = new StickyNoteForm { TopMost = true };
             snf.Show(this);
         }
 
@@ -1052,41 +1047,41 @@ namespace GREWordStudy.Study
         }
 
 
-        OpenFileDialog excelOfd = new OpenFileDialog();
+        readonly OpenFileDialog _excelOfd = new OpenFileDialog();
         private void excelFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            excelOfd.Filter = "Excel|*.xlsx";
-            excelOfd.FileName = Properties.Settings.Default.ExcelPath;
-            if (excelOfd.ShowDialog(this) == DialogResult.OK)
+            _excelOfd.Filter = "Excel|*.xlsx";
+            _excelOfd.FileName = Properties.Settings.Default.ExcelPath;
+            if (_excelOfd.ShowDialog(this) == DialogResult.OK)
             {
-                Properties.Settings.Default.ExcelPath = excelOfd.FileName;
+                Properties.Settings.Default.ExcelPath = _excelOfd.FileName;
                 Properties.Settings.Default.Save();
 
                 ShellExecute execute = new ShellExecute
                                                     {
                                                         Verb = ShellExecute.OpenFile,
-                                                        Path = excelOfd.FileName
+                                                        Path = _excelOfd.FileName
                                                     };
                 execute.Execute();
             }
         }
 
-        OpenFileDialog pdfOfd = new OpenFileDialog();
+        readonly OpenFileDialog _pdfOfd = new OpenFileDialog();
 
 
         private void pdfFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pdfOfd.Filter = "PDF|*.pdf";
-            pdfOfd.FileName = Properties.Settings.Default.PdfPath;
-            if (pdfOfd.ShowDialog(this) == DialogResult.OK)
+            _pdfOfd.Filter = "PDF|*.pdf";
+            _pdfOfd.FileName = Properties.Settings.Default.PdfPath;
+            if (_pdfOfd.ShowDialog(this) == DialogResult.OK)
             {
-                Properties.Settings.Default.PdfPath = pdfOfd.FileName;
+                Properties.Settings.Default.PdfPath = _pdfOfd.FileName;
                 Properties.Settings.Default.Save();
 
                 ShellExecute execute = new ShellExecute
                 {
                     Verb = ShellExecute.OpenFile,
-                    Path = pdfOfd.FileName
+                    Path = _pdfOfd.FileName
                 };
                 execute.Execute();
             }
@@ -1330,6 +1325,73 @@ namespace GREWordStudy.Study
             form.ShowDialog(this);
 
             ResetWebBrowsers();
+        }
+
+
+
+        private void tsCmbFonts_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+                AddOrUpdateFont(((ToolStripComboBox)sender).Text);
+
+            if (e.Shift && e.KeyCode == Keys.Delete)
+            {
+                DeleteFont(((ToolStripComboBox)sender).Text);
+            }
+        }
+
+        private void DeleteFont(string text)
+        {
+            if (Properties.Settings.Default.Fonts == null) return;
+            if (Properties.Settings.Default.Fonts.Contains(text))
+            {
+                Properties.Settings.Default.Fonts.Remove(text);
+                Properties.Settings.Default.Save();
+
+                tsCmbFonts.Items.Remove(text);
+            }
+
+
+        }
+
+        private void tsCmbFonts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            AddOrUpdateFont(((ToolStripComboBox)sender).Text);
+        }
+
+        private void LoadFonts()
+        {
+            if (Properties.Settings.Default.Fonts != null)
+            {
+                foreach (string fontFamily in Properties.Settings.Default.Fonts)
+                {
+                    tsCmbFonts.Items.Add(fontFamily);
+                }
+            }
+        }
+
+        void AddOrUpdateFont(string fontFamily)
+        {
+            if (!string.IsNullOrWhiteSpace(fontFamily))
+            {
+                try
+                {
+                    var font = new Font(fontFamily, rtfComment.Font.Size, rtfComment.Font.Style);
+                    SetCommentFont(font);
+
+                    if (Properties.Settings.Default.Fonts == null) Properties.Settings.Default.Fonts = new StringCollection();
+                    if (!Properties.Settings.Default.Fonts.Contains(font.FontFamily.Name))
+                    {
+                        tsCmbFonts.Items.Add(font.FontFamily.Name);
+
+                        Properties.Settings.Default.Fonts.Add(font.FontFamily.Name);
+                        Properties.Settings.Default.Save();
+                    }
+                }
+                catch
+                {
+                }
+            }
         }
 
 
