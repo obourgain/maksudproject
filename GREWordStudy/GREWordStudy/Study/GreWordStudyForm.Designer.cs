@@ -124,6 +124,7 @@ namespace GREWordStudy.Study
             this.tsFontBangla = new System.Windows.Forms.ToolStripMenuItem();
             this.tsFontSegoe = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSaveComment = new System.Windows.Forms.ToolStripButton();
+            this.tsCmbFonts = new System.Windows.Forms.ToolStripComboBox();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -166,7 +167,6 @@ namespace GREWordStudy.Study
             this.statusTried = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusListNames = new System.Windows.Forms.ToolStripStatusLabel();
             this.ofd = new System.Windows.Forms.OpenFileDialog();
-            this.webUrlBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBanglaDictionary)).BeginInit();
@@ -222,7 +222,6 @@ namespace GREWordStudy.Study
             this.toolPhoto.SuspendLayout();
             this.panelGREMain.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.webUrlBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -871,7 +870,7 @@ namespace GREWordStudy.Study
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.rtfComment);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(507, 275);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(507, 273);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -892,7 +891,7 @@ namespace GREWordStudy.Study
             this.rtfComment.HideSelection = false;
             this.rtfComment.Location = new System.Drawing.Point(0, 0);
             this.rtfComment.Name = "rtfComment";
-            this.rtfComment.Size = new System.Drawing.Size(507, 275);
+            this.rtfComment.Size = new System.Drawing.Size(507, 273);
             this.rtfComment.TabIndex = 0;
             this.rtfComment.Text = "";
             this.rtfComment.TextChanged += new System.EventHandler(this.rtfComment_TextChanged);
@@ -913,10 +912,11 @@ namespace GREWordStudy.Study
             this.tsFontDecrease,
             this.tsFontSize,
             this.toolStripDropDownButton2,
-            this.tsSaveComment});
+            this.tsSaveComment,
+            this.tsCmbFonts});
             this.toolbarComment.Location = new System.Drawing.Point(3, 0);
             this.toolbarComment.Name = "toolbarComment";
-            this.toolbarComment.Size = new System.Drawing.Size(382, 25);
+            this.toolbarComment.Size = new System.Drawing.Size(504, 27);
             this.toolbarComment.TabIndex = 0;
             // 
             // tsBold
@@ -925,7 +925,7 @@ namespace GREWordStudy.Study
             this.tsBold.Image = ((System.Drawing.Image)(resources.GetObject("tsBold.Image")));
             this.tsBold.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBold.Name = "tsBold";
-            this.tsBold.Size = new System.Drawing.Size(23, 22);
+            this.tsBold.Size = new System.Drawing.Size(23, 24);
             this.tsBold.Text = "Bold";
             this.tsBold.Click += new System.EventHandler(this.tsBold_Click);
             // 
@@ -935,7 +935,7 @@ namespace GREWordStudy.Study
             this.tsItalic.Image = ((System.Drawing.Image)(resources.GetObject("tsItalic.Image")));
             this.tsItalic.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsItalic.Name = "tsItalic";
-            this.tsItalic.Size = new System.Drawing.Size(23, 22);
+            this.tsItalic.Size = new System.Drawing.Size(23, 24);
             this.tsItalic.Text = "Italic";
             this.tsItalic.Click += new System.EventHandler(this.tsItalic_Click);
             // 
@@ -945,7 +945,7 @@ namespace GREWordStudy.Study
             this.tsUnderline.Image = ((System.Drawing.Image)(resources.GetObject("tsUnderline.Image")));
             this.tsUnderline.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsUnderline.Name = "tsUnderline";
-            this.tsUnderline.Size = new System.Drawing.Size(23, 22);
+            this.tsUnderline.Size = new System.Drawing.Size(23, 24);
             this.tsUnderline.Text = "Underline";
             this.tsUnderline.Click += new System.EventHandler(this.tsUnderline_Click);
             // 
@@ -955,7 +955,7 @@ namespace GREWordStudy.Study
             this.tsStrikethrough.Image = ((System.Drawing.Image)(resources.GetObject("tsStrikethrough.Image")));
             this.tsStrikethrough.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsStrikethrough.Name = "tsStrikethrough";
-            this.tsStrikethrough.Size = new System.Drawing.Size(23, 22);
+            this.tsStrikethrough.Size = new System.Drawing.Size(23, 24);
             this.tsStrikethrough.Text = "Strikethrough";
             this.tsStrikethrough.Click += new System.EventHandler(this.tsStrikethrough_Click);
             // 
@@ -965,7 +965,7 @@ namespace GREWordStudy.Study
             this.tsPaste.Image = ((System.Drawing.Image)(resources.GetObject("tsPaste.Image")));
             this.tsPaste.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsPaste.Name = "tsPaste";
-            this.tsPaste.Size = new System.Drawing.Size(23, 22);
+            this.tsPaste.Size = new System.Drawing.Size(23, 24);
             this.tsPaste.Text = "Paste";
             this.tsPaste.Click += new System.EventHandler(this.tsPaste_Click);
             // 
@@ -984,7 +984,7 @@ namespace GREWordStudy.Study
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 22);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 24);
             this.toolStripDropDownButton1.Text = "Color";
             // 
             // tsColorRed
@@ -1050,7 +1050,7 @@ namespace GREWordStudy.Study
             this.tsDictionaryImage.Image = ((System.Drawing.Image)(resources.GetObject("tsDictionaryImage.Image")));
             this.tsDictionaryImage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsDictionaryImage.Name = "tsDictionaryImage";
-            this.tsDictionaryImage.Size = new System.Drawing.Size(23, 22);
+            this.tsDictionaryImage.Size = new System.Drawing.Size(23, 24);
             this.tsDictionaryImage.Text = "Vrinda";
             this.tsDictionaryImage.Click += new System.EventHandler(this.tsDictionaryImage_Click);
             // 
@@ -1060,7 +1060,7 @@ namespace GREWordStudy.Study
             this.tsFontIncrease.Image = ((System.Drawing.Image)(resources.GetObject("tsFontIncrease.Image")));
             this.tsFontIncrease.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsFontIncrease.Name = "tsFontIncrease";
-            this.tsFontIncrease.Size = new System.Drawing.Size(23, 22);
+            this.tsFontIncrease.Size = new System.Drawing.Size(23, 24);
             this.tsFontIncrease.Text = "Increase";
             this.tsFontIncrease.Click += new System.EventHandler(this.tsFontIncrease_Click);
             // 
@@ -1070,7 +1070,7 @@ namespace GREWordStudy.Study
             this.tsFontDecrease.Image = ((System.Drawing.Image)(resources.GetObject("tsFontDecrease.Image")));
             this.tsFontDecrease.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsFontDecrease.Name = "tsFontDecrease";
-            this.tsFontDecrease.Size = new System.Drawing.Size(23, 22);
+            this.tsFontDecrease.Size = new System.Drawing.Size(23, 24);
             this.tsFontDecrease.Text = "toolStripButton7";
             this.tsFontDecrease.Click += new System.EventHandler(this.tsFontDecrease_Click);
             // 
@@ -1082,7 +1082,7 @@ namespace GREWordStudy.Study
             "16",
             "20"});
             this.tsFontSize.Name = "tsFontSize";
-            this.tsFontSize.Size = new System.Drawing.Size(75, 25);
+            this.tsFontSize.Size = new System.Drawing.Size(75, 27);
             this.tsFontSize.TextChanged += new System.EventHandler(this.tsFontSize_TextChanged);
             // 
             // toolStripDropDownButton2
@@ -1098,7 +1098,7 @@ namespace GREWordStudy.Study
             this.toolStripDropDownButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton2.Image")));
             this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
-            this.toolStripDropDownButton2.Size = new System.Drawing.Size(29, 22);
+            this.toolStripDropDownButton2.Size = new System.Drawing.Size(29, 24);
             this.toolStripDropDownButton2.Text = "toolStripDropDownButton2";
             // 
             // tsFontCorbel
@@ -1154,9 +1154,16 @@ namespace GREWordStudy.Study
             this.tsSaveComment.Image = ((System.Drawing.Image)(resources.GetObject("tsSaveComment.Image")));
             this.tsSaveComment.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsSaveComment.Name = "tsSaveComment";
-            this.tsSaveComment.Size = new System.Drawing.Size(51, 22);
+            this.tsSaveComment.Size = new System.Drawing.Size(51, 24);
             this.tsSaveComment.Text = "Save";
             this.tsSaveComment.Click += new System.EventHandler(this.tsSaveComment_Click);
+            // 
+            // tsCmbFonts
+            // 
+            this.tsCmbFonts.Name = "tsCmbFonts";
+            this.tsCmbFonts.Size = new System.Drawing.Size(121, 23);
+            this.tsCmbFonts.SelectedIndexChanged += new System.EventHandler(this.tsCmbFonts_SelectedIndexChanged);
+            this.tsCmbFonts.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tsCmbFonts_KeyDown);
             // 
             // splitContainer5
             // 
@@ -1569,10 +1576,6 @@ namespace GREWordStudy.Study
             // 
             this.ofd.FileName = "openFileDialog1";
             // 
-            // webUrlBindingSource
-            // 
-            this.webUrlBindingSource.DataSource = typeof(GREWordStudy.Model.WebUrl);
-            // 
             // GreWordStudyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1655,7 +1658,6 @@ namespace GREWordStudy.Study
             this.panelGREMain.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.webUrlBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1758,7 +1760,6 @@ namespace GREWordStudy.Study
         private System.Windows.Forms.ToolStripMenuItem stickyNoteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stickyBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton tsPaste;
-        private System.Windows.Forms.BindingSource webUrlBindingSource;
         private BrightIdeasSoftware.DataListView wordsDataListView;
         private System.Windows.Forms.ImageList imageList2;
         private BrightIdeasSoftware.OLVColumn olvColumn1;
@@ -1798,6 +1799,7 @@ namespace GREWordStudy.Study
         private System.Windows.Forms.ToolStripMenuItem openGoogleSearchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openInDefaultBrowserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripComboBox tsCmbFonts;
     }
 }
 
