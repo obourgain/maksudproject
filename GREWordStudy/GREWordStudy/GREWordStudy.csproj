@@ -100,6 +100,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collector\GoogleDictionaryCollector.cs" />
     <Compile Include="Collector\HttpFetcher.cs" />
     <Compile Include="Collector\GREWordCollectorForm.cs">
       <SubType>Form</SubType>
@@ -121,10 +122,10 @@
       <DependentUpon>GREWebBrowser.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\DataGridViewPhotoHelper.cs" />
-    <Compile Include="Model\gredb.Designer.cs">
-      <AutoGen>True</AutoGen>
+    <Compile Include="Model\GreDb.Designer.cs">
+      <DependentUpon>GreDb.edmx</DependentUpon>
       <DesignTime>True</DesignTime>
-      <DependentUpon>gredb.edmx</DependentUpon>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Model\GreWord.cs" />
     <Compile Include="Study\GreWordStudyForm.cs">
@@ -192,10 +193,7 @@
       <DependentUpon>WebUrlsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
-    <EntityDeploy Include="Model\gredb.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>gredb.Designer.cs</LastGenOutput>
-    </EntityDeploy>
+    <None Include="Properties\DataSources\GREWordStudy.Model.gredbEntities.datasource" />
     <None Include="Properties\DataSources\GREWordStudy.Model.WebUrl.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -252,7 +250,12 @@
     <None Include="Resources\no.png" />
     <None Include="Resources\yes.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EntityDeploy Include="Model\GreDb.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GreDb.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
