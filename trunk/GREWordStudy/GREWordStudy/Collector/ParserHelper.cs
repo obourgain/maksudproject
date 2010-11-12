@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Objects.DataClasses;
 using System.Linq;
 using System.Threading;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using GREWordStudy.Model;
-using System.Data.Objects;
 
 namespace GREWordStudy.Collector
 {
@@ -26,14 +24,16 @@ namespace GREWordStudy.Collector
         }
         #region Fetch Data
         public void FetchDefinitionsNet() { FetchDefinitionsNet(null); }
-        public void FetchDefinitionsNet(string word)
+
+        private void FetchDefinitionsNet(string word)
         {
             const string baseurl = "http://www.definitions.net/definition/";
             var unfetched = new List<string>();
 
             if (string.IsNullOrEmpty(word))
             {
-                unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.DefinitionsNetHtmls.Select(w => w.Word)).ToList();
+                //unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.DefinitionsNetHtmls.Select(w => w.Word)).ToList();
+                unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.WordDefinitions.Select(w => w.Word).Distinct()).ToList();
             }
             else { unfetched.Add(word); }
 
@@ -48,13 +48,15 @@ namespace GREWordStudy.Collector
         }
 
         public void FetchEtymology() { FetchEtymology(null); }
-        public void FetchEtymology(string word)
+
+        private void FetchEtymology(string word)
         {
             const string baseurl = "http://www.etymonline.com/index.php?searchmode=none&search=";
             var unfetched = new List<string>();
             if (string.IsNullOrEmpty(word))
             {
-                unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.EtymologyHtmls.Select(w => w.Word)).ToList();
+                //unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.EtymologyHtmls.Select(w => w.Word)).ToList();
+                unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.WordEtymologies.Select(w => w.Word).Distinct()).ToList();
             }
             else
             {
@@ -70,13 +72,15 @@ namespace GREWordStudy.Collector
         }
 
         public void FetchGoogleDictionary() { FetchGoogleDictionary(null); }
-        public void FetchGoogleDictionary(string word)
+
+        private void FetchGoogleDictionary(string word)
         {
             const string baseurl = "http://www.google.com/dictionary?aq=f&langpair=en|bn&hl=en&q=";
             var unfetched = new List<string>();
             if (string.IsNullOrEmpty(word))
             {
-                unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.GoogleDictionaryHtmls.Select(w => w.Word)).ToList();
+                //unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.GoogleDictionaryHtmls.Select(w => w.Word)).ToList();
+                unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.BengaliDefinitions.Select(w => w.Word).Distinct()).ToList();
             }
             else
             {
@@ -92,13 +96,15 @@ namespace GREWordStudy.Collector
         }
 
         public void FetchMnemonicDictionary() { FetchMnemonicDictionary(null); }
-        public void FetchMnemonicDictionary(string word)
+
+        private void FetchMnemonicDictionary(string word)
         {
             const string baseurl = "http://www.mnemonicdictionary.com/include/ajaxSearch.php?event=search&word=";
             var unfetched = new List<string>();
             if (string.IsNullOrEmpty(word))
             {
-                unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.MnemonicsDictionaryHtmls.Select(w => w.Word)).ToList();
+                //unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.MnemonicsDictionaryHtmls.Select(w => w.Word)).ToList();
+                unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.BasicMnemonics.Select(w => w.Word).Distinct()).ToList();
             }
             else
             {
@@ -114,13 +120,15 @@ namespace GREWordStudy.Collector
         }
 
         public void FetchSynonymsNet() { FetchDefinitionsNet(null); }
-        public void FetchSynonymsNet(string word)
+
+        private void FetchSynonymsNet(string word)
         {
             const string baseurl = "http://www.synonyms.net/synonym/";
             var unfetched = new List<string>();
             if (string.IsNullOrEmpty(word))
             {
-                unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.SynonymsNetHtmls.Select(w => w.Word)).ToList();
+                //unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.SynonymsNetHtmls.Select(w => w.Word)).ToList();
+                unfetched = _entities.GreWords.Select(w => w.Word).Except(_entities.WordDefinitions.Select(w => w.Word).Distinct()).ToList();
             }
             else
             {
@@ -178,7 +186,7 @@ namespace GREWordStudy.Collector
         }
         #endregion
 
-
+        #region Add HTMLs
         private void AddDefinitionsNetHtml(string word, string data)
         {
             var sql = from w in _entities.DefinitionsNetHtmls
@@ -251,7 +259,7 @@ namespace GREWordStudy.Collector
 
             if (sql.Count() == 0)
             {
-                MnemonicsDictionaryHtml mh = new MnemonicsDictionaryHtml()
+                var mh = new MnemonicsDictionaryHtml()
                 {
                     Word = word,
                     Html = data
@@ -288,9 +296,9 @@ namespace GREWordStudy.Collector
                 _entities.SaveChanges();
             }
         }
+        #endregion
 
-
-        //Parsers
+        #region PARSERs
 
 
         public void ParseAffinity()
@@ -373,7 +381,8 @@ namespace GREWordStudy.Collector
                 ParseEtymology(etymologyHtml);
             }
         }
-        public void ParseEtymology(string word)
+
+        private void ParseEtymology(string word)
         {
             if (!string.IsNullOrEmpty(word))
             {
@@ -385,14 +394,13 @@ namespace GREWordStudy.Collector
             WordEtymology etymology = (_entities.WordEtymologies.Where(w => w.GreWord.Word == html.Word)).FirstOrDefault();
             if (etymology != null) return;
 
-            Regex regex = new Regex("<dt.*?><a.*?>" + html.Word + "<.*?dt>.+?<dd.*?>(.+?)</dd>", RegexOptions.Singleline);
+            Regex regex = new Regex(@"<dt.*?><a.*?>" + html.Word + @"(\s+.+)?<.*?dt>.+?<dd.*?>(.+?)</dd>", RegexOptions.Singleline);
             Match match = regex.Match(html.Html);
             if (!match.Success) return;
 
             FireLogMessage("Adding Etymology for Word: " + html.Word);
 
-            string setymology = null;
-            setymology = match.Groups[1].Value;
+            string setymology = match.Groups[2].Value;
             setymology = Regex.Replace(setymology, "<span.*?>(.+?)</span>", "$1", RegexOptions.Singleline);
             setymology = Regex.Replace(setymology, "<a.*?>(.+?)</a>", "$1", RegexOptions.Singleline);
             setymology = CleanText(setymology);
@@ -413,7 +421,8 @@ namespace GREWordStudy.Collector
                 ParseGoogleBengali(word);
             }
         }
-        public void ParseGoogleBengali(string word)
+
+        private void ParseGoogleBengali(string word)
         {
             FireLogMessage("GoogleBengali for " + word);
 
@@ -442,7 +451,8 @@ namespace GREWordStudy.Collector
                 ParseGooglePhrase(word);
             }
         }
-        public void ParseGooglePhrase(string word)
+
+        private void ParseGooglePhrase(string word)
         {
             FireLogMessage("GooglePhrase Parsing " + word);
 
@@ -467,7 +477,7 @@ namespace GREWordStudy.Collector
                     UpdateGooglePhrase(gw, en, bn);
                 }
             }
-            catch (Exception exp)
+            catch
             {
             }
         }
@@ -484,10 +494,11 @@ namespace GREWordStudy.Collector
 
             foreach (string word in words)
             {
-                this.ParseGoogleSynonym(word);
+                ParseGoogleSynonym(word);
             }
         }
-        public void ParseGoogleSynonym(string word)
+
+        private void ParseGoogleSynonym(string word)
         {
             GreWord greWord = GetGreWord(word);
             GoogleDictionaryHtml gd = (_entities.GoogleDictionaryHtmls.Where(w => w.Word == word)).FirstOrDefault();
@@ -529,7 +540,8 @@ namespace GREWordStudy.Collector
             }
 
         }
-        public void ParseMnemonicDictionary(string word)
+
+        private void ParseMnemonicDictionary(string word)
         {
             FireLogMessage("Parsing Mnemonics for: " + word);
 
@@ -588,22 +600,22 @@ namespace GREWordStudy.Collector
                 {
                     //listSelectedMnemonics.Items.Add(clarify(m.Groups[1].Value));
                     string def = CleanText(m.Groups[1].Value);
-                    FeaturedMnemonic mnemonics = new FeaturedMnemonic()
-                    {
-                        Mnemonic = def
-                    };
-                    mnemonics.GreWord = greWord;
+                    FeaturedMnemonic mnemonics = new FeaturedMnemonic
+                                                     {
+                                                         Mnemonic = def,
+                                                         GreWord = greWord
+                                                     };
                     _entities.AddToFeaturedMnemonics(mnemonics);
                     _entities.SaveChanges();
                 }
             }
 
-            Regex regexAllMnemonicDIV = new Regex("<div class='mnemonic'>(.+?)</div>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
-            Regex regexAllMnemonicLI = new Regex(@"<li><p>(.+?)</p><p>\s+added by.+?<p>Was this mnemonic useful \?&nbsp; &nbsp;\s+<strong id='hallo\d+'>(.+?)</strong>.+?<strong id='hallo\d+'>&nbsp;(.+?)</strong>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
-            Match allMnemonic = regexAllMnemonicDIV.Match(text);
-            if (selectedMnemonic != null)
+            Regex regexAllMnemonicDiv = new Regex("<div class='mnemonic'>(.+?)</div>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            Regex regexAllMnemonicLi = new Regex(@"<li><p>(.+?)</p><p>\s+added by.+?<p>Was this mnemonic useful \?&nbsp; &nbsp;\s+<strong id='hallo\d+'>(.+?)</strong>.+?<strong id='hallo\d+'>&nbsp;(.+?)</strong>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            Match allMnemonic = regexAllMnemonicDiv.Match(text);
+            if (allMnemonic.Success)
             {
-                MatchCollection meanings = regexAllMnemonicLI.Matches(allMnemonic.Groups[1].Value);
+                MatchCollection meanings = regexAllMnemonicLi.Matches(allMnemonic.Groups[1].Value);
 
                 foreach (Match m in meanings)
                 {
@@ -645,10 +657,7 @@ namespace GREWordStudy.Collector
 
                     Regex regexAddedBy = new Regex(@" -added by <a href='http://www.mnemonicdictionary.com/phpbb/profile.php\?mode=viewprofile&amp;u=.+?'>.+?</a>", RegexOptions.IgnoreCase);
                     meanings = regexAddedBy.Matches(text);
-                    foreach (Match m in meanings)
-                    {
-                        text = text.Replace(m.Groups[0].Value, "");
-                    }
+                    text = meanings.Cast<Match>().Aggregate(text, (current, m) => current.Replace(m.Groups[0].Value, ""));
                     w.Definition = text;
                     _entities.SaveChanges();
                 }
@@ -665,11 +674,11 @@ namespace GREWordStudy.Collector
 
             foreach (string word in words)
             {
-                this.ParseWordnetDefinitions(word);
+                ParseWordnetDefinitions(word);
             }
         }
 
-        public void ParseWordnetDefinitions(string word)
+        private void ParseWordnetDefinitions(string word)
         {
 
             FireLogMessage("WordnetDefinitions Parsing: " + word);
@@ -737,7 +746,7 @@ namespace GREWordStudy.Collector
             }
         }
 
-        public void ParseWordnetSynonyms(string word)
+        private void ParseWordnetSynonyms(string word)
         {
             FireLogMessage("WordnetSynonyms Parsing: " + word);
 
@@ -797,6 +806,7 @@ namespace GREWordStudy.Collector
                 // Syntax error in the regular expression
             }
         }
+        #endregion
 
         static string CleanText(string str)
         {
@@ -863,7 +873,7 @@ namespace GREWordStudy.Collector
         }
 
 
-        public string WordToFetch { get; set; }
+        public string WordToFetch { private get; set; }
         public void FetchAndParseSingleWord()
         {
             FireLogMessage("STARTED");
