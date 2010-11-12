@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="gredbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="gredbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="gredbModelStoreContainer">
           <EntitySet Name="BasicMnemonics" EntityType="gredbModel.Store.BasicMnemonics" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="BengaliDefinitions" EntityType="gredbModel.Store.BengaliDefinitions" store:Type="Tables" Schema="dbo" />
@@ -434,8 +434,7 @@
         </Association>
         <Function Name="RemoveDuplicateBengaliWord" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="RemoveHtml" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="gredbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -512,6 +511,8 @@
             <End Role="ListName" EntitySet="ListNames" />
             <End Role="ListedWords" EntitySet="ListedWords" />
           </AssociationSet>
+          <FunctionImport Name="RemoveHtml" />
+          <FunctionImport Name="RemoveDuplicateBengaliWord" />
         </EntityContainer>
         <EntityType Name="BasicMnemonic">
           <Key>
@@ -1011,6 +1012,8 @@
             <ScalarProperty Name="Word" ColumnName="Word" />
             <ScalarProperty Name="Etymology" ColumnName="Etymology" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="RemoveHtml" FunctionName="gredbModel.Store.RemoveHtml" />
+          <FunctionImportMapping FunctionImportName="RemoveDuplicateBengaliWord" FunctionName="gredbModel.Store.RemoveDuplicateBengaliWord" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
