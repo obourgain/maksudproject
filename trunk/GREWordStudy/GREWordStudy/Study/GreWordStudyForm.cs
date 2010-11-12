@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
+using CommonUtility;
 using Crownwood.DotNetMagic.Controls;
 using GREWordStudy.Collector;
 using GREWordStudy.Common.Browser;
@@ -1162,7 +1163,7 @@ namespace GREWordStudy.Study
 
         private void tsScale_Click(object sender, EventArgs e)
         {
-            ZoomFactor((float)(float.Parse(txtScale.Text) / 100.0), picBmp.Image);
+            picBmp.Image = ImageUtility.Scale(picBmp.Image, (float)(float.Parse(txtScale.Text) / 100.0));
         }
 
         private void tsCopyImage_Click(object sender, EventArgs e)
@@ -1226,50 +1227,14 @@ namespace GREWordStudy.Study
             _pEnd.X = int.Parse(tsTextX2.Text);
             _pEnd.Y = int.Parse(tsTextY2.Text);
 
-            //textHeight.Text = Math.Abs(pStart.Y - pEnd.Y) + "";
-            //textWidth.Text = Math.Abs(pStart.X - pEnd.X) + "";
-
             picBmp.Refresh();
-            ZoomFactor((float)(float.Parse(txtScale.Text) / 100.0), DrawAlbumArt());
+            picBmp.Image = CommonUtility.ImageUtility.Crop(picBmp.Image, GetCroppedRectangle());
         }
 
         #region Image Operation
-        private void ZoomFactor(float factor, Image resultBitma)
-        {
-            Rectangle cropRect = new Rectangle(0, 0, resultBitma.Width, resultBitma.Height);
-            Bitmap croppedBitmap = new Bitmap((int)(cropRect.Width * factor), (int)(cropRect.Height * factor));
-            Graphics g = Graphics.FromImage(croppedBitmap);
-            g.ScaleTransform(factor, factor);
-            g.DrawImage(resultBitma, 0, 0, cropRect, GraphicsUnit.Pixel);
-            g.Dispose();
-
-            picBmp.Image = croppedBitmap;
-
-        }
-
-        private Bitmap DrawAlbumArt()
-        {
-
-            Bitmap bmp = (Bitmap)picBmp.Image;
-
-            if (bmp != null)
-            {
 
 
-                Rectangle cropRect = GetCroppedRectangle();
-                Bitmap croppedBitmap = new Bitmap(cropRect.Width, cropRect.Height);
 
-                Graphics g = Graphics.FromImage(croppedBitmap);
-                g.DrawImage(bmp, 0, 0, cropRect, GraphicsUnit.Pixel);
-                g.Dispose();
-
-                picBmp.Image = croppedBitmap;
-
-                return croppedBitmap;
-
-            }
-            return null;
-        }
 
         private Rectangle GetCroppedRectangle()
         {

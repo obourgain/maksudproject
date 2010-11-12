@@ -206,6 +206,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonUtility\CommonUtility.csproj">
+      <Project>{0AC3BA9B-02E3-4FEC-A17E-59AB365DCCB2}</Project>
+      <Name>CommonUtility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ShellLib\ShellLib.csproj">
       <Project>{773B1EF8-E5F0-45CA-96E8-20AE06716026}</Project>
       <Name>ShellLib</Name>
