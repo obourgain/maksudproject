@@ -12,16 +12,9 @@ namespace GREWordStudy.Collector
     public partial class GREWordCollectorForm : Form
     {
 
-        //gredbEntities entities;
-        //ParserHelper parser;
-
-
         public GREWordCollectorForm()
         {
             InitializeComponent();
-
-            //entities = new gredbEntities();
-            //parser = new ParserHelper(entities);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -34,8 +27,7 @@ namespace GREWordStudy.Collector
             if (list == null)
             {
 
-                ListName listName = new ListName();
-                listName.Name = comboBoxList.Text.Trim();
+                ListName listName = new ListName { Name = comboBoxList.Text.Trim() };
                 entities.AddToListNames(listName);
                 entities.SaveChanges();
 
@@ -45,21 +37,6 @@ namespace GREWordStudy.Collector
             {
                 listNameId = list.Id;
             }
-
-            //if (textSetName.Text.Trim().Length > 0)
-            //{
-            //    ListName listName = new ListName();
-            //    listName.Name = textSetName.Text.Trim();
-            //    entities.AddToListNames(listName);
-            //    entities.SaveChanges();
-
-            //    listNameId = listName.Id;
-            //}
-            //else
-            //{
-            //    listNameId = Convert.ToInt64(comboBox1.SelectedValue);
-            //}
-
 
             String str = Regex.Replace(textBox1.Text, "([0-9\\.]+|<.+?>)", "");
             Regex regex = new Regex("([^\\s]+)");
@@ -76,10 +53,9 @@ namespace GREWordStudy.Collector
                 {
                     try
                     {
-                        GreWord word;
-                        word = (from w in entities.GreWords
-                                where w.Word.ToLower() == m.Value.ToLower()
-                                select w).FirstOrDefault();
+                        GreWord word = (from w in entities.GreWords
+                                        where w.Word.ToLower() == m.Value.ToLower()
+                                        select w).FirstOrDefault();
 
                         if (word == null)
                         {
@@ -91,10 +67,9 @@ namespace GREWordStudy.Collector
                             entities.SaveChanges();
                         }
 
-                        ListedWord lw;
-                        lw = (from w in entities.ListedWords
-                              where w.ListName.Id == ln.Id && w.GreWord.Word == word.Word
-                              select w).FirstOrDefault();
+                        ListedWord lw = (from w in entities.ListedWords
+                                         where w.ListName.Id == ln.Id && w.GreWord.Word == word.Word
+                                         select w).FirstOrDefault();
 
                         if (lw == null)
                         {
@@ -125,17 +100,10 @@ namespace GREWordStudy.Collector
             var entities = new gredbEntities();
             var parser = new ParserHelper(entities);
 
-            parser.OnLogMessage += delegate(object sender2, string person)
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    textBox2.AppendText(person + "\r\n");
-                });
-            };
+            parser.OnLogMessage += OnParserOnLogMessage;
 
 
-            workerThread = new Thread(new ThreadStart(parser.FetchMnemonicDictionary));
-            workerThread.IsBackground = true;
+            workerThread = new Thread(parser.FetchMnemonicDictionary) { IsBackground = true };
             workerThread.Start();
         }
 
@@ -147,16 +115,9 @@ namespace GREWordStudy.Collector
             var entities = new gredbEntities();
             var parser = new ParserHelper(entities);
 
-            parser.OnLogMessage += delegate(object sender2, string person)
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    textBox2.AppendText(person + "\r\n");
-                });
-            };
+            parser.OnLogMessage += OnParserOnLogMessage;
 
-            workerThread = new Thread(new ThreadStart(parser.FetchGoogleDictionary));
-            workerThread.IsBackground = true;
+            workerThread = new Thread(parser.FetchGoogleDictionary) { IsBackground = true };
             workerThread.Start();
 
         }
@@ -305,16 +266,9 @@ namespace GREWordStudy.Collector
             var entities = new gredbEntities();
             var parser = new ParserHelper(entities);
 
-            parser.OnLogMessage += delegate(object sender2, string person)
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    textBox2.AppendText(person + "\r\n");
-                });
-            };
+            parser.OnLogMessage += OnParserOnLogMessage;
 
-            workerThread = new Thread(new ThreadStart(parser.FetchEtymology));
-            workerThread.IsBackground = true;
+            workerThread = new Thread(parser.FetchEtymology) { IsBackground = true };
             workerThread.Start();
         }
 
@@ -323,16 +277,9 @@ namespace GREWordStudy.Collector
             var entities = new gredbEntities();
             var parser = new ParserHelper(entities);
 
-            parser.OnLogMessage += delegate(object sender2, string person)
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    textBox2.AppendText(person + "\r\n");
-                });
-            };
+            parser.OnLogMessage += OnParserOnLogMessage;
 
-            workerThread = new Thread(new ThreadStart(parser.ParseGooglePhrase));
-            workerThread.IsBackground = true;
+            workerThread = new Thread(parser.ParseGooglePhrase) { IsBackground = true };
             workerThread.Start();
         }
 
@@ -341,16 +288,9 @@ namespace GREWordStudy.Collector
             var entities = new gredbEntities();
             var parser = new ParserHelper(entities);
 
-            parser.OnLogMessage += delegate(object sender2, string person)
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    textBox2.AppendText(person + "\r\n");
-                });
-            };
+            parser.OnLogMessage += OnParserOnLogMessage;
 
-            workerThread = new Thread(new ThreadStart(parser.ParseMnemonicDictionary));
-            workerThread.IsBackground = true;
+            workerThread = new Thread(parser.ParseMnemonicDictionary) { IsBackground = true };
             workerThread.Start();
         }
 
@@ -366,16 +306,9 @@ namespace GREWordStudy.Collector
             var parser = new ParserHelper(entities);
 
 
-            parser.OnLogMessage += delegate(object sender2, string person)
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    textBox2.AppendText(person + "\r\n");
-                });
-            };
+            parser.OnLogMessage += OnParserOnLogMessage;
 
-            workerThread = new Thread(new ThreadStart(parser.ParseAffinity));
-            workerThread.IsBackground = true;
+            workerThread = new Thread(parser.ParseAffinity) { IsBackground = true };
             workerThread.Start();
 
         }
@@ -383,7 +316,6 @@ namespace GREWordStudy.Collector
         private void button5_Click(object sender, EventArgs e)
         {
             var entities = new gredbEntities();
-            var parser = new ParserHelper(entities);
 
             GreWord[] greWords = (from w in entities.GreWords
                                   where w.Hardness > 4
@@ -412,18 +344,13 @@ namespace GREWordStudy.Collector
         private void button8_Click(object sender, EventArgs e)
         {
             var entities = new gredbEntities();
-            var parser = new ParserHelper(entities);
 
             GreWord[] greWords = (from w in entities.GreWords
                                   where w.Hardness > 3
                                   orderby w.Hardness descending
                                   select w).ToArray();
 
-            String strGre = "";
-            foreach (GreWord w in greWords)
-            {
-                strGre += w.Word + "\t[ " + w.Hardness + " ]\r\n";
-            }
+            String strGre = greWords.Aggregate("", (current, w) => current + (w.Word + "\t[ " + w.Hardness + " ]\r\n"));
 
             SaveFileDialog sfd = new SaveFileDialog();
             if (sfd.ShowDialog() == DialogResult.OK)
@@ -440,34 +367,22 @@ namespace GREWordStudy.Collector
             var entities = new gredbEntities();
             var parser = new ParserHelper(entities);
 
-            parser.OnLogMessage += delegate(object sender2, string person)
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    textBox2.AppendText(person + "\r\n");
-                });
-            };
+            parser.OnLogMessage += OnParserOnLogMessage;
 
-            workerThread = new Thread(new ThreadStart(parser.ParseGoogleBengali));
-            workerThread.IsBackground = true;
+            workerThread = new Thread(parser.ParseGoogleBengali) { IsBackground = true };
             workerThread.Start();
         }
+
+
 
         private void buttonDefinitionsNet_Click(object sender, EventArgs e)
         {
             var entities = new gredbEntities();
             var parser = new ParserHelper(entities);
 
-            parser.OnLogMessage += delegate(object sender2, string person)
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    textBox2.AppendText(person + "\r\n");
-                });
-            };
+            parser.OnLogMessage += OnParserOnLogMessage;
 
-            workerThread = new Thread(new ThreadStart(parser.FetchDefinitionsNet));
-            workerThread.IsBackground = true;
+            workerThread = new Thread(parser.FetchDefinitionsNet) { IsBackground = true };
             workerThread.Start();
         }
 
@@ -476,16 +391,9 @@ namespace GREWordStudy.Collector
             var entities = new gredbEntities();
             var parser = new ParserHelper(entities);
 
-            parser.OnLogMessage += delegate(object sender2, string person)
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    textBox2.AppendText(person + "\r\n");
-                });
-            };
+            parser.OnLogMessage += OnParserOnLogMessage;
 
-            workerThread = new Thread(new ThreadStart(parser.FetchSynonymsNet));
-            workerThread.IsBackground = true;
+            workerThread = new Thread(parser.FetchSynonymsNet) { IsBackground = true };
             workerThread.Start();
         }
 
@@ -494,16 +402,9 @@ namespace GREWordStudy.Collector
             var entities = new gredbEntities();
             var parser = new ParserHelper(entities);
 
-            parser.OnLogMessage += delegate(object sender2, string person)
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    textBox2.AppendText(person + "\r\n");
-                });
-            };
+            parser.OnLogMessage += OnParserOnLogMessage;
 
-            workerThread = new Thread(new ThreadStart(parser.ParseWordnetDefinitions));
-            workerThread.IsBackground = true;
+            workerThread = new Thread(parser.ParseWordnetDefinitions) { IsBackground = true };
             workerThread.Start();
         }
 
@@ -512,16 +413,9 @@ namespace GREWordStudy.Collector
             var entities = new gredbEntities();
             var parser = new ParserHelper(entities);
 
-            parser.OnLogMessage += delegate(object sender2, string person)
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    textBox2.AppendText(person + "\r\n");
-                });
-            };
+            parser.OnLogMessage += OnParserOnLogMessage;
 
-            workerThread = new Thread(new ThreadStart(parser.ParseWordnetSynonyms));
-            workerThread.IsBackground = true;
+            workerThread = new Thread(parser.ParseWordnetSynonyms) { IsBackground = true };
             workerThread.Start();
         }
 
@@ -530,10 +424,21 @@ namespace GREWordStudy.Collector
             var entities = new gredbEntities();
             var parser = new ParserHelper(entities);
 
-            parser.OnLogMessage += (sender2, person) => this.Invoke((MethodInvoker)(() => textBox2.AppendText(person + "\r\n")));
+            parser.OnLogMessage += OnParserOnLogMessage;
 
-            workerThread = new Thread(new ThreadStart(parser.ParseEtymology)) { IsBackground = true };
+            workerThread = new Thread(parser.ParseEtymology) { IsBackground = true };
             workerThread.Start();
+        }
+
+        private void OnParserOnLogMessage(object sender, string text)
+        {
+            Invoke((MethodInvoker)(() => textBox2.AppendText(text + "\r\n")));
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var entities = new gredbEntities();
+            entities.RemoveDuplicateBengaliWord();
         }
     }
 }
