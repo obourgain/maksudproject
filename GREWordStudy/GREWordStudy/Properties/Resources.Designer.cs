@@ -116,10 +116,28 @@ namespace GREWordStudy.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Excel|*.xlsx.
+        /// </summary>
+        internal static string ExcelFileFilter {
+            get {
+                return ResourceManager.GetString("ExcelFileFilter", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap no {
             get {
                 object obj = ResourceManager.GetObject("no", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PDF|*.pdf.
+        /// </summary>
+        internal static string PdfFileFilter {
+            get {
+                return ResourceManager.GetString("PdfFileFilter", resourceCulture);
             }
         }
         

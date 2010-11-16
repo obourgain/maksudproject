@@ -31,8 +31,5 @@
     <Setting Name="PdfPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">c:\</Value>
     </Setting>
-    <Setting Name="Fonts" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
   </Settings>
 </SettingsFile>
