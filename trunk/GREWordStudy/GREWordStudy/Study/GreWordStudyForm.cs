@@ -873,9 +873,9 @@ namespace GREWordStudy.Study
                                     orderby w.Affinity
                                     select new
                                                {
-                                                   synonym = w.GreWord1.Word,
+                                                   synonym = w.RelevantWord.Word,
                                                    relation = w.Affinity,
-                                                   hardness = w.GreWord1.Hardness
+                                                   hardness = w.RelevantWord.Hardness
                                                }).ToList();
 
                     foreach (var aword in affinity)
@@ -892,9 +892,9 @@ namespace GREWordStudy.Study
                                     orderby w.Affinity
                                     select new
                                     {
-                                        antonym = w.GreWord1.Word,
+                                        antonym = w.RelevantWord.Word,
                                         relation = w.Affinity,
-                                        hardness = w.GreWord1.Hardness
+                                        hardness = w.RelevantWord.Hardness
                                     }).ToList();
 
                     foreach (var aword in antonyms)
@@ -1173,7 +1173,7 @@ namespace GREWordStudy.Study
                 else
                 {
                     var affineWords = (from w in _entities.GreWordAffinities
-                                       where w.GreWord1.Word == word
+                                       where w.RelevantWord.Word == word
                                        select w).ToList();
 
                     foreach (GreWordAffinity w in affineWords)

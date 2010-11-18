@@ -592,7 +592,7 @@
           <Property Name="Related" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Affinity" Type="Int32" Nullable="false" />
           <NavigationProperty Name="GreWord" Relationship="gredbModel.FK_GreWordAffinity_GreWords" FromRole="GreWordAffinity" ToRole="GreWords" />
-          <NavigationProperty Name="GreWord1" Relationship="gredbModel.FK_GreWordAffinity_GreWords1" FromRole="GreWordAffinity" ToRole="GreWords" />
+          <NavigationProperty Name="RelevantWord" Relationship="gredbModel.FK_GreWordAffinity_GreWords1" FromRole="GreWordAffinity" ToRole="GreWords" />
         </EntityType>
         <EntityType Name="GreWordDefinition">
           <Key>

@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityFrameworkUtil.cs" />
     <Compile Include="EventLogger.cs" />
     <Compile Include="ImageUtility.cs" />
     <Compile Include="ILogger.cs" />

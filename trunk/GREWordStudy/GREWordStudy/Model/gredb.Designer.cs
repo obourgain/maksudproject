@@ -2281,7 +2281,7 @@ namespace GREWordStudy.Model
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("gredbModel", "FK_GreWordAffinity_GreWords1", "GreWords")]
-        public GreWord GreWord1
+        public GreWord RelevantWord
         {
             get
             {
@@ -2297,7 +2297,7 @@ namespace GREWordStudy.Model
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<GreWord> GreWord1Reference
+        public EntityReference<GreWord> RelevantWordReference
         {
             get
             {
