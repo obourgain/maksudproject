@@ -5,6 +5,7 @@ using System.Threading;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using GREWordStudy.Model;
+using CommonUtility;
 
 namespace GREWordStudy.Collector
 {
@@ -251,7 +252,7 @@ namespace GREWordStudy.Collector
         }
         private void AddMnemonicsHtml(string word, string data)
         {
-            var allItems = _entities.MnemonicsDictionaryHtmls.ToList();
+            var allItems = _entities.MnemonicsDictionaryHtmls.EnumerateInChunksOf(100);
 
             var sql = from w in allItems
                       where w.Word.Equals(word)
@@ -304,13 +305,12 @@ namespace GREWordStudy.Collector
         public void ParseAffinity()
         {
             var words = (from w in _entities.GreWords
-                         select w.Word);
-            if (words.Count() == 0) return;
-
+                         select w.Word).EnumerateInChunksOf(100);
             //var done = (from w in _entities.GreWordAffinities
             //select w.GreWord.Word).ToList();
             //words = words.Except(done).ToList();
             #region Primary Affinity
+
             foreach (string word in words)
             {
                 FireLogMessage("Primary Affinity for: " + word);
@@ -320,16 +320,18 @@ namespace GREWordStudy.Collector
                                select w).FirstOrDefault();
 
                 #region Synonyms
-                var synonyms = (from w in _entities.GoogleSynonyms
+                var synonyms = (from w in _entities.GreWordSynonyms
                                 where w.Word == word
-                                select w.Synonym);
-
-                if (synonyms.Count() > 0)
+                                select w.Synonyms).EnumerateInChunksOf(100);
+                foreach (var synonym in synonyms)
                 {
-                    foreach (var synonym in synonyms)
+                    string[] arrSynonyms = synonym.Split(",".ToCharArray());
+                    foreach (string s in arrSynonyms)
                     {
+                        string a = s.Trim();
+                        if (string.IsNullOrEmpty(a) || word == a) continue;
                         var similarWord = (from w in _entities.GreWords
-                                           where w.Word == synonym
+                                           where w.Word == a
                                            select w).FirstOrDefault();
                         if (similarWord != null)
                         {
@@ -337,18 +339,19 @@ namespace GREWordStudy.Collector
                         }
                     }
                 }
+
                 #endregion
 
                 #region Antonyms
                 var antonyms = (from w in _entities.GreWordSynonyms
                                 where w.Word == word
-                                select w.Antonyms).ToList();
+                                select w.Antonyms).EnumerateInChunksOf(100);
                 foreach (var antonym in antonyms)
                 {
                     string[] arrAntonym = antonym.Split(",".ToCharArray());
-                    foreach (string t in arrAntonym)
+                    foreach (string s in arrAntonym)
                     {
-                        string a = t.Trim();
+                        string a = s.Trim();
                         if (string.IsNullOrEmpty(a)) continue;
 
                         var antonymWord = (from w in _entities.GreWords
@@ -362,11 +365,13 @@ namespace GREWordStudy.Collector
                     }
                 }
                 #endregion
-            }
+            }/**/
             #endregion
 
             #region Secondary Affinity
-            foreach (var word in words)
+            var words2 = (from w in _entities.GreWords
+                          select w.Word).EnumerateInChunksOf(100);
+            foreach (var word in words2)
             {
                 FireLogMessage("Secondary Affinity for: " + word);
 
@@ -375,50 +380,47 @@ namespace GREWordStudy.Collector
                                select w).FirstOrDefault();
 
                 #region Secondary Synonyms
-                var similarWords = (from w in _entities.GoogleSynonyms
-                                    where w.Synonym == word
-                                    select w.GreWord);
+                var similarWords = (from w in _entities.GreWordAffinities
+                                    where w.RelevantWord.Word == word && w.Affinity == 1
+                                    select w.GreWord).EnumerateInChunksOf(100);
 
-                if (similarWords.Count() > 0)
+
+                foreach (var similarWord in similarWords)
                 {
-                    foreach (var similarWord in similarWords)
+                    if (similarWord.Word == word)
+                        continue;
+
+                    var present2 = (from w in _entities.GreWordAffinities
+                                    where w.GreWord.Word == word && w.RelevantWord.Word == similarWord.Word && w.Affinity > 0
+                                    select w).FirstOrDefault();
+
+                    if (present2 == null)
                     {
-                        if (similarWord.Word == word)
-                            continue;
-
-                        var present2 = (from w in _entities.GreWordAffinities
-                                        where
-                                            w.GreWord.Word == word && w.GreWord1.Word == similarWord.Word &&
-                                            w.Affinity > 0
-                                        select w).FirstOrDefault();
-
-                        if (present2 == null)
-                        {
-                            InsertAffineWord(greWord, similarWord, 2);
-                        }
+                        InsertAffineWord(greWord, similarWord, 2);
                     }
                 }
+
                 #endregion
 
                 #region Secondary Antonym
                 var antiWords = (from w in _entities.GreWordSynonyms
                                  where w.Antonyms.ToLower().Contains(word)
-                                 select w.GreWord);
-                if (antiWords.Count() > 0)
+                                 select w.GreWord).EnumerateInChunksOf(100);
+
+                foreach (var antonym in antiWords)
                 {
-                    foreach (var antonym in antiWords)
+                    if (antonym.Word == word)
+                        continue;
+
+                    var present2 = (from w in _entities.GreWordAffinities
+                                    where
+                                        w.GreWord.Word == word && w.RelevantWord.Word == antonym.Word &&
+                                        w.Affinity < 0
+                                    select w).FirstOrDefault();
+
+                    if (present2 == null)
                     {
-                        if (antonym.Word == word)
-                            continue;
-
-                        var present2 = (from w in _entities.GreWordAffinities
-                                        where w.GreWord.Word == word && w.GreWord1.Word == antonym.Word && w.Affinity < 0
-                                        select w).FirstOrDefault();
-
-                        if (present2 == null)
-                        {
-                            InsertAffineWord(greWord, antonym, 2);
-                        }
+                        InsertAffineWord(greWord, antonym, -2);
                     }
                 }
                 #endregion
@@ -430,14 +432,14 @@ namespace GREWordStudy.Collector
         private void InsertAffineWord(GreWord word, GreWord affine, int affinity)
         {
             int count = (from o in _entities.GreWordAffinities
-                         where o.GreWord.Word == word.Word && o.GreWord1.Word == affine.Word
+                         where o.GreWord.Word == word.Word && o.RelevantWord.Word == affine.Word
                          select o).Count();
             if (count == 0)
             {
                 GreWordAffinity gwa = new GreWordAffinity()
                            {
                                GreWord = word,
-                               GreWord1 = affine,
+                               RelevantWord = affine,
                                Affinity = affinity
                            };
                 _entities.AddToGreWordAffinities(gwa);
@@ -448,7 +450,7 @@ namespace GREWordStudy.Collector
         //1
         public void ParseEtymology()
         {
-            List<EtymologyHtml> etymologyHtmls = (from w in _entities.EtymologyHtmls select w).ToList();
+            var etymologyHtmls = (from w in _entities.EtymologyHtmls select w).EnumerateInChunksOf(100);
             foreach (EtymologyHtml etymologyHtml in etymologyHtmls)
             {
                 ParseEtymology(etymologyHtml);
@@ -708,7 +710,7 @@ namespace GREWordStudy.Collector
         //6
         public void ParseMnemonicDictionarySynonym()
         {
-            List<WordDefinition> words = (_entities.WordDefinitions.Select(w => w)).ToList();
+            var words = (_entities.WordDefinitions.Select(w => w)).EnumerateInChunksOf(100);
 
             foreach (WordDefinition w in words)
             {
