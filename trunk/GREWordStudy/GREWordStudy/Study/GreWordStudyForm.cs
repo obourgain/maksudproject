@@ -21,8 +21,13 @@ namespace GREWordStudy.Study
 {
     public partial class GreWordStudyForm : Form
     {
-        private readonly Color[] _colorBackground = new[]
-                                                        {Color.MistyRose, Color.LightBlue, Color.Yellow, Color.Thistle};
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetCapture(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr ReleaseCapture(IntPtr hWnd);
+
+        private readonly Color[] _colorBackground = new[] { Color.MistyRose, Color.LightBlue, Color.Yellow, Color.Thistle };
 
         private readonly gredbEntities _entities = new gredbEntities();
         private readonly OpenFileDialog _excelOfd = new OpenFileDialog();
@@ -47,7 +52,6 @@ namespace GREWordStudy.Study
         private readonly Dictionary<string, WebUrl> _webUrls = new Dictionary<string, WebUrl>();
         private bool _captured;
         private int _cindex;
-        //readonly Dictionary<string, MaxBrowser> _browsers = new Dictionary<string, MaxBrowser>();
 
         private String _currentWord = "";
         private bool _isCommentDirty;
@@ -61,18 +65,14 @@ namespace GREWordStudy.Study
             LoadDatabase();
         }
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr SetCapture(IntPtr hWnd);
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr ReleaseCapture(IntPtr hWnd);
 
 
         private void buttonBrowseWord_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_currentWord)) return;
 
-            var ts = (ToolStripButton) sender;
+            var ts = (ToolStripButton)sender;
             string address = _webUrls[ts.Text].Url + _currentWord;
 
             NavigateTo(_currentWord, address, _webUrls[ts.Text].ImageIndex);
@@ -137,22 +137,18 @@ namespace GREWordStudy.Study
             LoadDatabase();
         }
 
-        private void listViewRelation_DoubleClick(object sender, EventArgs e)
+        private void listSynonyms_DoubleClick(object sender, EventArgs e)
         {
-            if (listViewRelation.SelectedItems.Count == 1)
-            {
-                LoadWordInformation(listViewRelation.SelectedItems[0].Text, false);
-            }
+            LoadAffineWord((ListView)sender);
         }
 
-        private void listViewRelation_KeyDown(object sender, KeyEventArgs e)
+
+
+        private void listSynonyms_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (listViewRelation.SelectedItems.Count == 1)
-                {
-                    LoadWordInformation(listViewRelation.SelectedItems[0].Text, false);
-                }
+                LoadAffineWord((ListView)sender);
             }
         }
 
@@ -172,11 +168,11 @@ namespace GREWordStudy.Study
             }
             else if (e.Control && e.KeyCode == Keys.OemOpenBrackets)
             {
-                SetFontSizeAsIncrement((float) -2.0);
+                SetFontSizeAsIncrement((float)-2.0);
             }
             else if (e.Control && e.KeyCode == Keys.OemCloseBrackets)
             {
-                SetFontSizeAsIncrement((float) 2.0);
+                SetFontSizeAsIncrement((float)2.0);
             }
             else if (e.Control && e.KeyCode == Keys.Oemcomma)
             {
@@ -249,7 +245,8 @@ namespace GREWordStudy.Study
 
         private void rtfComment_TextChanged(object sender, EventArgs e)
         {
-            _isCommentDirty = true;
+            if (!string.IsNullOrEmpty(_currentWord))
+                _isCommentDirty = true;
         }
 
 
@@ -319,13 +316,13 @@ namespace GREWordStudy.Study
         {
             if (openInDefaultBrowserToolStripMenuItem.Checked)
             {
-                new ShellExecute {Path = address, Verb = ShellExecute.OpenFile}.Execute();
+                new ShellExecute { Path = address, Verb = ShellExecute.OpenFile }.Execute();
             }
             else
             {
                 var mb = new MaxBrowser(address);
                 var newPage = new TabPage(title, mb,
-                                          iconindex) {Selected = true};
+                                          iconindex) { Selected = true };
 
                 if (tabbedGroupsWebSites.ActiveLeaf != null)
                 {
@@ -397,44 +394,44 @@ namespace GREWordStudy.Study
 
         private void tsFontIncrease_Click(object sender, EventArgs e)
         {
-            SetFontSizeAsIncrement((float) 4.0);
+            SetFontSizeAsIncrement((float)4.0);
         }
 
         private void tsFontDecrease_Click(object sender, EventArgs e)
         {
-            SetFontSizeAsIncrement((float) -4.0);
+            SetFontSizeAsIncrement((float)-4.0);
         }
 
 
         private void tsColorRed_Click(object sender, EventArgs e)
         {
-            SetCommentColor(((ToolStripMenuItem) sender).ForeColor);
+            SetCommentColor(((ToolStripMenuItem)sender).ForeColor);
         }
 
         private void tsGreen_Click(object sender, EventArgs e)
         {
-            SetCommentColor(((ToolStripMenuItem) sender).ForeColor);
+            SetCommentColor(((ToolStripMenuItem)sender).ForeColor);
         }
 
         private void tsBlue_Click(object sender, EventArgs e)
         {
-            SetCommentColor(((ToolStripMenuItem) sender).ForeColor);
+            SetCommentColor(((ToolStripMenuItem)sender).ForeColor);
         }
 
         private void tsNormalColor_Click(object sender, EventArgs e)
         {
-            SetCommentColor(((ToolStripMenuItem) sender).ForeColor);
-            SetCommentBackgroundColor(((ToolStripMenuItem) sender).BackColor);
+            SetCommentColor(((ToolStripMenuItem)sender).ForeColor);
+            SetCommentBackgroundColor(((ToolStripMenuItem)sender).BackColor);
         }
 
         private void tsYellowBackground_Click(object sender, EventArgs e)
         {
-            SetCommentBackgroundColor(((ToolStripMenuItem) sender).BackColor);
+            SetCommentBackgroundColor(((ToolStripMenuItem)sender).BackColor);
         }
 
         private void tsLightGreenBackground_Click(object sender, EventArgs e)
         {
-            SetCommentBackgroundColor(((ToolStripMenuItem) sender).BackColor);
+            SetCommentBackgroundColor(((ToolStripMenuItem)sender).BackColor);
         }
 
         private void tsDictionaryImage_Click(object sender, EventArgs e)
@@ -475,7 +472,7 @@ namespace GREWordStudy.Study
         {
             try
             {
-                SetFontSize((float) Convert.ToDouble(tsFontSize.Text));
+                SetFontSize((float)Convert.ToDouble(tsFontSize.Text));
             }
             catch
             {
@@ -495,7 +492,7 @@ namespace GREWordStudy.Study
 
         private void stickyNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var snf = new StickyNoteForm {TopMost = true};
+            var snf = new StickyNoteForm { TopMost = true };
             snf.Show(this);
         }
 
@@ -526,7 +523,7 @@ namespace GREWordStudy.Study
                 Settings.Default.ExcelPath = _excelOfd.FileName;
                 Settings.Default.Save();
 
-                var execute = new ShellExecute {Verb = ShellExecute.OpenFile, Path = _excelOfd.FileName};
+                var execute = new ShellExecute { Verb = ShellExecute.OpenFile, Path = _excelOfd.FileName };
                 execute.Execute();
             }
         }
@@ -541,14 +538,14 @@ namespace GREWordStudy.Study
                 Settings.Default.PdfPath = _pdfOfd.FileName;
                 Settings.Default.Save();
 
-                var execute = new ShellExecute {Verb = ShellExecute.OpenFile, Path = _pdfOfd.FileName};
+                var execute = new ShellExecute { Verb = ShellExecute.OpenFile, Path = _pdfOfd.FileName };
                 execute.Execute();
             }
         }
 
         private void stickyBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            (new StickyBrowser {TopMost = true}).Show(this);
+            (new StickyBrowser { TopMost = true }).Show(this);
         }
 
         private void tsPaste_Click(object sender, EventArgs e)
@@ -559,7 +556,7 @@ namespace GREWordStudy.Study
 
         private void wordsDataListView_FormatRow(object sender, FormatRowEventArgs e)
         {
-            var w = (GreWord) e.Model;
+            var w = (GreWord)e.Model;
             e.Item.ForeColor = _hardnessForeground[w.Hardness];
             e.Item.BackColor = _hardnessBackground[w.Hardness];
             e.Item.Font = w.Hardness > 0
@@ -621,7 +618,7 @@ namespace GREWordStudy.Study
 
         private void tsScale_Click(object sender, EventArgs e)
         {
-            picBmp.Image = ImageUtility.Scale(picBmp.Image, (float) (float.Parse(txtScale.Text)/100.0));
+            picBmp.Image = ImageUtility.Scale(picBmp.Image, (float)(float.Parse(txtScale.Text) / 100.0));
         }
 
         private void tsCopyImage_Click(object sender, EventArgs e)
@@ -641,8 +638,7 @@ namespace GREWordStudy.Study
 
         private void openGoogleSearchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var execute = new ShellExecute
-                              {Path = "http://google.com/search?q=" + _currentWord, Verb = ShellExecute.OpenFile};
+            var execute = new ShellExecute { Path = "http://google.com/search?q=" + _currentWord, Verb = ShellExecute.OpenFile };
             execute.Execute();
         }
 
@@ -791,7 +787,7 @@ namespace GREWordStudy.Study
                                          {
                                              try
                                              {
-                                                 var greWord = (GreWord) row;
+                                                 var greWord = (GreWord)row;
                                                  return "rating_" + greWord.Hardness;
                                              }
                                              catch
@@ -801,12 +797,12 @@ namespace GREWordStudy.Study
                                          };
 
             hardnessColumn.MakeGroupies(
-                new[] {1, 2, 3, 4, 5},
-                new[] {"Unprocessed", "Very Easy", "Easy", "Moderate", "Hard", "Very Hard"});
+                new[] { 1, 2, 3, 4, 5 },
+                new[] { "Unprocessed", "Very Easy", "Easy", "Moderate", "Hard", "Very Hard" });
 
             percentageColumn.MakeGroupies(
-                new[] {25, 50, 75},
-                new[] {"Hard", "Moderate", "Easy", "Very Easy"});
+                new[] { 25, 50, 75 },
+                new[] { "Hard", "Moderate", "Easy", "Very Easy" });
 
 
             ResetWebBrowsers();
@@ -857,6 +853,8 @@ namespace GREWordStudy.Study
 
         private void LoadWordInformation(string word, bool chkAffinity)
         {
+            labelWord.Text = word.ToUpper();
+
             if (_isCommentDirty)
             {
                 SaveComment(_currentWord);
@@ -867,10 +865,11 @@ namespace GREWordStudy.Study
             {
                 try
                 {
-                    listViewRelation.Items.Clear();
+                    listSynonyms.Items.Clear();
+                    listAntonyms.Items.Clear();
 
                     var affinity = (from w in _entities.GreWordAffinities
-                                    where w.GreWord.Word == word
+                                    where w.GreWord.Word == word && w.Affinity > 0
                                     orderby w.Affinity
                                     select new
                                                {
@@ -881,21 +880,40 @@ namespace GREWordStudy.Study
 
                     foreach (var aword in affinity)
                     {
-                        var lvi = new ListViewItem {Text = aword.synonym};
+                        var lvi = new ListViewItem { Text = aword.synonym };
                         lvi.SubItems.Add(aword.relation + "");
                         lvi.ToolTipText = " [" + aword.hardness + "]";
                         lvi.BackColor = aword.relation == 1 ? Color.LightGreen : Color.Cornsilk;
-                        listViewRelation.Items.Add(lvi);
+                        listSynonyms.Items.Add(lvi);
+                    }
+
+                    var antonyms = (from w in _entities.GreWordAffinities
+                                    where w.GreWord.Word == word && w.Affinity < 0
+                                    orderby w.Affinity
+                                    select new
+                                    {
+                                        antonym = w.GreWord1.Word,
+                                        relation = w.Affinity,
+                                        hardness = w.GreWord1.Hardness
+                                    }).ToList();
+
+                    foreach (var aword in antonyms)
+                    {
+                        var lvi = new ListViewItem { Text = aword.antonym };
+                        lvi.SubItems.Add(aword.relation + "");
+                        lvi.ToolTipText = " [" + aword.hardness + "]";
+                        lvi.BackColor = aword.relation == -1 ? Color.LightGreen : Color.Cornsilk;
+                        listAntonyms.Items.Add(lvi);
                     }
                 }
-                catch
+                catch (Exception exp)
                 {
+                    _logger.Error("Load Word Information", 895, exp);
                 }
             }
 
             //
-            List<string> listNames =
-                (from o in _entities.ListedWords where o.GreWord.Word == word select o.ListName.Name).ToList();
+            List<string> listNames = (from o in _entities.ListedWords where o.GreWord.Word == word select o.ListName.Name).ToList();
 
             statusListNames.Text = "";
             foreach (string listName in listNames)
@@ -919,103 +937,125 @@ namespace GREWordStudy.Study
             }
 
             rtfMnemonics.Text = "";
-            //Featured Mnemonics
+
+            #region Featured Mnemonics
+            var selectedMnemonics = (from w in _entities.FeaturedMnemonics
+                                     where w.GreWord.Word == word
+                                     select w).ToList();
+            foreach (FeaturedMnemonic mnemonic in selectedMnemonics)
             {
-                List<FeaturedMnemonic> selected_mnemonics = (from w in _entities.FeaturedMnemonics
-                                                             where w.GreWord.Word == word
-                                                             select w).ToList();
-                foreach (FeaturedMnemonic mnemonic in selected_mnemonics)
-                {
-                    rtfMnemonics.SelectionBackColor = _colorBackground[_cindex++%4];
-                    rtfMnemonics.AppendText(mnemonic.Mnemonic + "\r\n");
-                }
+                rtfMnemonics.SelectionBackColor = _colorBackground[_cindex++ % 4];
+                rtfMnemonics.AppendText(mnemonic.Mnemonic + "\r\n");
             }
+            #endregion
+
 
             //Basic Mnemonics
+
+            #region Basic Mnemonics
+            var allMnemonics = (from w in _entities.BasicMnemonics
+                                where w.GreWord.Word == word
+                                select w).ToList();
+            foreach (BasicMnemonic mnemonic in allMnemonics)
             {
-                List<BasicMnemonic> all_mnemonics = (from w in _entities.BasicMnemonics
-                                                     where w.GreWord.Word == word
-                                                     select w).ToList();
-                foreach (BasicMnemonic mnemonic in all_mnemonics)
-                {
-                    rtfMnemonics.SelectionBackColor = _colorBackground[_cindex++%4];
-                    rtfMnemonics.AppendText("[" + mnemonic.Helpful + "][" + mnemonic.NotHelpful + "]  " +
-                                            mnemonic.Mnemonic + "\r\n");
-                }
+                rtfMnemonics.SelectionBackColor = _colorBackground[_cindex++ % 4];
+                rtfMnemonics.AppendText("[" + mnemonic.Helpful + "][" + mnemonic.NotHelpful + "]  " +
+                                        mnemonic.Mnemonic + "\r\n");
             }
+            #endregion
+
 
             //Bengali Definition
             {
-                List<BengaliDefinition> wordDefinition = (from w in _entities.BengaliDefinitions
-                                                          where w.GreWord.Word == word
-                                                          select w).Distinct().ToList();
-                textBengali.Text = "";
+                var fSonarBangla = new Font(tsFontVrinda.Font.FontFamily, 12.0f, FontStyle.Bold);
+                var f10R = new Font(tsFontVrinda.Font.FontFamily, 10.0f, FontStyle.Regular);
+                var f12R = new Font(rtfGoogleDictionary.Font.FontFamily, 12.0f, FontStyle.Regular);
+                var f10B = new Font(rtfGoogleDictionary.Font.FontFamily, 10.0f, FontStyle.Bold);
+
+                var wordDefinition = (from w in _entities.BengaliDefinitions
+                                      where w.GreWord.Word == word
+                                      select w).Distinct().ToList();
+                rtfGoogleDictionary.Text = "";
+                rtfGoogleDictionary.SelectionFont = fSonarBangla;
+                rtfGoogleDictionary.SelectionColor = Color.Black;
                 foreach (BengaliDefinition mnemonic in wordDefinition)
                 {
-                    textBengali.Text += mnemonic.Bengali + @", ";
+                    rtfGoogleDictionary.AppendText(mnemonic.Bengali + @", ");
                 }
-            }
 
-            //Google Synonym
-            {
-                List<GoogleSynonym> wordDefinition = (from w in _entities.GoogleSynonyms
-                                                      where w.GreWord.Word == word
-                                                      select w).Distinct().ToList();
-                textBengali.Text += Environment.NewLine;
-                foreach (GoogleSynonym mnemonic in wordDefinition)
+
+                //Google Synonym
+                var googleSynonyms = (from w in _entities.GoogleSynonyms
+                                      where w.GreWord.Word == word
+                                      select w).Distinct().ToList();
+
+                rtfGoogleDictionary.AppendText(Environment.NewLine);
+                rtfGoogleDictionary.SelectionFont = f12R;
+                rtfGoogleDictionary.SelectionColor = Color.DarkBlue;
+                foreach (GoogleSynonym googleSynonym in googleSynonyms)
                 {
-                    textBengali.Text += mnemonic.Synonym + @", ";
+                    rtfGoogleDictionary.AppendText(googleSynonym.Synonym + @", ");
+                }
+
+
+                //Google Phrase
+
+                var googlePhrases = (from w in _entities.GooglePhrases
+                                     where w.GreWord.Word == word
+                                     select w).ToList();
+                rtfGoogleDictionary.AppendText(Environment.NewLine);
+
+                foreach (GooglePhrase googlePhrase in googlePhrases)
+                {
+                    rtfGoogleDictionary.SelectionColor = Color.DarkRed;
+                    rtfGoogleDictionary.SelectionFont = f10B;
+                    rtfGoogleDictionary.AppendText(googlePhrase.EnglishPhrase + ": ");
+                    rtfGoogleDictionary.SelectionColor = Color.DarkGreen;
+                    rtfGoogleDictionary.SelectionFont = f10R;
+                    rtfGoogleDictionary.AppendText(googlePhrase.BengaliPhrase + ", ");
                 }
             }
 
             //Comment
             {
-                GreWord wordDefinition = (from w in _entities.GreWords
-                                          where w.Word == word
-                                          select w).FirstOrDefault();
+                var wordDefinition = (from w in _entities.GreWords
+                                      where w.Word == word
+                                      select w).FirstOrDefault();
                 rtfComment.Text = "";
 
                 if (wordDefinition != null)
+                {
                     rtfComment.Rtf = wordDefinition.Comment;
-
+                    wordHardness.Rating = wordDefinition.Hardness;
+                }
                 _isCommentDirty = false;
             }
 
             //Etymology
             {
-                WordEtymology wordDefinition = (from w in _entities.WordEtymologies
-                                                where w.GreWord.Word == word
-                                                select w).FirstOrDefault();
+                var wordDefinition = (from w in _entities.WordEtymologies
+                                      where w.GreWord.Word == word
+                                      select w).FirstOrDefault();
                 rtfEtymology.Text = "";
 
                 if (wordDefinition != null)
                     rtfEtymology.Text = wordDefinition.Etymology;
             }
 
-            //Google Phrase
-            {
-                List<GooglePhrase> wordDefinition = (from w in _entities.GooglePhrases
-                                                     where w.GreWord.Word == word
-                                                     select w).ToList();
-                textGooglePhrase.Text = "";
-                foreach (GooglePhrase mnemonic in wordDefinition)
-                {
-                    textGooglePhrase.Text += mnemonic.EnglishPhrase + ": " + mnemonic.BengaliPhrase + "\r\n";
-                }
-            }
-
             //WordNet Definitions
             {
-                List<GreWordDefinition> greWordDefinitions = (from w in _entities.GreWordDefinitions
-                                                              where w.GreWord.Word == word
-                                                              select w).ToList();
+                var greWordDefinitions = (from w in _entities.GreWordDefinitions
+                                          where w.GreWord.Word == word
+                                          orderby w.Serial
+                                          select w).ToList();
                 rtfWordnetDefinitions.Text = "";
+                var f12N = new Font(rtfWordnetDefinitions.SelectionFont.FontFamily, 12.0f);
+                var f12B = new Font(rtfWordnetDefinitions.SelectionFont.FontFamily, 12.0f, FontStyle.Bold);
+                var f12I = new Font(rtfWordnetDefinitions.SelectionFont.FontFamily, 12.0f, FontStyle.Italic);
+                var f10B = new Font(rtfWordnetDefinitions.SelectionFont.FontFamily, 10.0f, FontStyle.Bold);
+
                 foreach (GreWordDefinition definition in greWordDefinitions)
                 {
-                    var f12N = new Font(rtfWordnetDefinitions.SelectionFont.FontFamily, 12.0f);
-                    var f12B = new Font(rtfWordnetDefinitions.SelectionFont.FontFamily, 12.0f, FontStyle.Bold);
-                    var f12I = new Font(rtfWordnetDefinitions.SelectionFont.FontFamily, 12.0f, FontStyle.Italic);
-                    var f10B = new Font(rtfWordnetDefinitions.SelectionFont.FontFamily, 10.0f, FontStyle.Bold);
 
                     rtfWordnetDefinitions.SelectionFont = f12N;
                     rtfWordnetDefinitions.AppendText(definition.Serial + ".");
@@ -1046,17 +1086,19 @@ namespace GREWordStudy.Study
                 rtfWordnetDefinitions.SelectionStart = 0;
             }
 
+            //Synonyms.net
             {
-                List<GreWordSynonym> greWordDefinitions = (from w in _entities.GreWordSynonyms
-                                                           where w.GreWord.Word == word
-                                                           select w).ToList();
+                var greWordSynonyms = (from w in _entities.GreWordSynonyms
+                                       where w.GreWord.Word == word
+                                       orderby w.Serial
+                                       select w).ToList();
                 rtfWordnetSynonyms.Text = "";
-                foreach (GreWordSynonym definition in greWordDefinitions)
+                var f12N = new Font(rtfWordnetSynonyms.SelectionFont.FontFamily, 12.0f);
+                var f12B = new Font(rtfWordnetSynonyms.SelectionFont.FontFamily, 12.0f, FontStyle.Bold);
+                var f10B = new Font(rtfWordnetSynonyms.SelectionFont.FontFamily, 10.0f, FontStyle.Bold);
+
+                foreach (GreWordSynonym definition in greWordSynonyms)
                 {
-                    var f12N = new Font(rtfWordnetSynonyms.SelectionFont.FontFamily, 12.0f);
-                    var f12B = new Font(rtfWordnetSynonyms.SelectionFont.FontFamily, 12.0f, FontStyle.Bold);
-                    var f12I = new Font(rtfWordnetSynonyms.SelectionFont.FontFamily, 12.0f, FontStyle.Italic);
-                    var f10B = new Font(rtfWordnetSynonyms.SelectionFont.FontFamily, 10.0f, FontStyle.Bold);
 
                     rtfWordnetSynonyms.SelectionFont = f12N;
                     rtfWordnetSynonyms.AppendText(definition.Serial + ".");
@@ -1075,7 +1117,7 @@ namespace GREWordStudy.Study
                         rtfWordnetSynonyms.AppendText("Synonym: ");
 
                         rtfWordnetSynonyms.SelectionFont = f12N;
-                        rtfWordnetSynonyms.AppendText(definition.Synonyms + "\n");
+                        rtfWordnetSynonyms.AppendText(definition.Synonyms.Trim() + "\n");
                     }
 
                     if (!string.IsNullOrEmpty(definition.Antonyms))
@@ -1084,7 +1126,7 @@ namespace GREWordStudy.Study
                         rtfWordnetSynonyms.AppendText("Antonym: ");
 
                         rtfWordnetSynonyms.SelectionFont = f12N;
-                        rtfWordnetSynonyms.AppendText(definition.Antonyms + "\n");
+                        rtfWordnetSynonyms.AppendText(definition.Antonyms.Trim() + "\n");
                     }
 
                     rtfWordnetSynonyms.AppendText("\n");
@@ -1099,14 +1141,13 @@ namespace GREWordStudy.Study
             {
                 Text = string.Format("Currently Studying #{1}: {0}", word, index);
 
-                labelWord.Text = word.ToUpper();
                 LoadWordInformation(word, true);
 
-                int i = Convert.ToInt32(hardness);
-                wordHardness.Rating = i;
+
             }
-            catch
+            catch (Exception exception)
             {
+                _logger.Error("LoadWord", 1111, exception);
             }
         }
 
@@ -1118,9 +1159,9 @@ namespace GREWordStudy.Study
 
                 if (listNameId != 0)
                 {
-                    List<ListedWord> words = (from w in _entities.ListedWords
-                                              where w.ListName.Id == listNameId && w.GreWord.Word == word
-                                              select w).ToList();
+                    var words = (from w in _entities.ListedWords
+                                 where w.ListName.Id == listNameId && w.GreWord.Word == word
+                                 select w).ToList();
 
 
                     if (words.Count > 0)
@@ -1131,18 +1172,18 @@ namespace GREWordStudy.Study
                 }
                 else
                 {
-                    List<GreWordAffinity> affineWords = (from w in _entities.GreWordAffinities
-                                                         where w.GreWord1.Word == word
-                                                         select w).ToList();
+                    var affineWords = (from w in _entities.GreWordAffinities
+                                       where w.GreWord1.Word == word
+                                       select w).ToList();
 
                     foreach (GreWordAffinity w in affineWords)
                     {
                         _entities.DeleteObject(w);
                     }
 
-                    List<GreWord> words = (from w in _entities.ListedWords
-                                           where w.GreWord.Word.Equals(word)
-                                           select w.GreWord).ToList();
+                    var words = (from w in _entities.ListedWords
+                                 where w.GreWord.Word.Equals(word)
+                                 select w.GreWord).ToList();
 
                     if (words.Count > 0)
                     {
@@ -1153,7 +1194,7 @@ namespace GREWordStudy.Study
             }
             catch (Exception exp)
             {
-                Console.Write(exp.StackTrace);
+                _logger.Error("DeleteWord", 1156, exp);
             }
         }
 
@@ -1168,7 +1209,6 @@ namespace GREWordStudy.Study
                                             where w.Id == listNameId
                                             select w).ToList();
 
-
                     if (words.Count > 0)
                     {
                         _entities.DeleteObject(words.First());
@@ -1181,6 +1221,7 @@ namespace GREWordStudy.Study
             catch (Exception exception)
             {
                 MessageBox.Show("List Delete Problem:\n" + exception.Message, "Deletion Problem");
+                _logger.Error("Delete From List", 1183, exception);
             }
 
             LoadWordList();
@@ -1200,13 +1241,10 @@ namespace GREWordStudy.Study
                     greword.Hardness = level;
                     _entities.SaveChanges();
 
-
                     item.SubItems[1].Text = greword.Hardness + "";
                     wordsDataListView.EnsureVisible(item.Index);
 
-                    item.Font = greword.Hardness > 1
-                                    ? new Font(wordsDataListView.Font, FontStyle.Bold)
-                                    : new Font(wordsDataListView.Font, FontStyle.Regular);
+                    item.Font = greword.Hardness > 1 ? new Font(wordsDataListView.Font, FontStyle.Bold) : new Font(wordsDataListView.Font, FontStyle.Regular);
                     item.ForeColor = _hardnessForeground[greword.Hardness];
                     item.BackColor = _hardnessBackground[greword.Hardness];
                 }
@@ -1317,11 +1355,8 @@ namespace GREWordStudy.Study
         {
             try
             {
-                rtfComment.SelectionFont = new Font(rtfComment.SelectionFont.FontFamily, (fontsize),
-                                                    MakeFontStyle(rtfComment.SelectionFont.Bold,
-                                                                  rtfComment.SelectionFont.Italic,
-                                                                  rtfComment.SelectionFont.Underline,
-                                                                  rtfComment.SelectionFont.Strikeout));
+                Font selectionFont = rtfComment.SelectionFont;
+                rtfComment.SelectionFont = new Font(selectionFont.FontFamily, fontsize, selectionFont.Style);
             }
             catch
             {
@@ -1358,6 +1393,13 @@ namespace GREWordStudy.Study
             rtfComment.SelectionBackColor = color;
         }
 
+        private void LoadAffineWord(ListView listView)
+        {
+            if (listView.SelectedItems.Count == 1)
+            {
+                LoadWordInformation(listView.SelectedItems[0].Text, false);
+            }
+        }
         #endregion
     }
 }

@@ -85,10 +85,12 @@ namespace GREWordStudy.Study
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.rtfEtymology = new System.Windows.Forms.RichTextBox();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
-            this.listViewRelation = new System.Windows.Forms.ListView();
+            this.listSynonyms = new System.Windows.Forms.ListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.textGooglePhrase = new System.Windows.Forms.TextBox();
+            this.listAntonyms = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel2 = new System.Windows.Forms.Panel();
             this.labelWord = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -133,7 +135,7 @@ namespace GREWordStudy.Study
             this.rtfWordnetDefinitions = new System.Windows.Forms.RichTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.rtfWordnetSynonyms = new System.Windows.Forms.RichTextBox();
-            this.textBengali = new System.Windows.Forms.TextBox();
+            this.rtfGoogleDictionary = new System.Windows.Forms.RichTextBox();
             this.rtfMnemonics = new System.Windows.Forms.RichTextBox();
             this.tabControlGRE = new System.Windows.Forms.TabControl();
             this.tabPageWebBrowsers = new System.Windows.Forms.TabPage();
@@ -755,36 +757,36 @@ namespace GREWordStudy.Study
             // 
             // splitContainer7.Panel1
             // 
-            this.splitContainer7.Panel1.Controls.Add(this.listViewRelation);
+            this.splitContainer7.Panel1.Controls.Add(this.listSynonyms);
             // 
             // splitContainer7.Panel2
             // 
-            this.splitContainer7.Panel2.Controls.Add(this.textGooglePhrase);
+            this.splitContainer7.Panel2.Controls.Add(this.listAntonyms);
             this.splitContainer7.Size = new System.Drawing.Size(318, 142);
             this.splitContainer7.SplitterDistance = 187;
             this.splitContainer7.TabIndex = 0;
             // 
-            // listViewRelation
+            // listSynonyms
             // 
-            this.listViewRelation.Alignment = System.Windows.Forms.ListViewAlignment.Left;
-            this.listViewRelation.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.listViewRelation.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listSynonyms.Alignment = System.Windows.Forms.ListViewAlignment.Left;
+            this.listSynonyms.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listSynonyms.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader3,
             this.columnHeader4});
-            this.listViewRelation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listViewRelation.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listViewRelation.GridLines = true;
-            this.listViewRelation.HideSelection = false;
-            this.listViewRelation.Location = new System.Drawing.Point(0, 0);
-            this.listViewRelation.MultiSelect = false;
-            this.listViewRelation.Name = "listViewRelation";
-            this.listViewRelation.ShowItemToolTips = true;
-            this.listViewRelation.Size = new System.Drawing.Size(187, 142);
-            this.listViewRelation.TabIndex = 6;
-            this.listViewRelation.UseCompatibleStateImageBehavior = false;
-            this.listViewRelation.View = System.Windows.Forms.View.List;
-            this.listViewRelation.DoubleClick += new System.EventHandler(this.listViewRelation_DoubleClick);
-            this.listViewRelation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listViewRelation_KeyDown);
+            this.listSynonyms.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listSynonyms.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listSynonyms.GridLines = true;
+            this.listSynonyms.HideSelection = false;
+            this.listSynonyms.Location = new System.Drawing.Point(0, 0);
+            this.listSynonyms.MultiSelect = false;
+            this.listSynonyms.Name = "listSynonyms";
+            this.listSynonyms.ShowItemToolTips = true;
+            this.listSynonyms.Size = new System.Drawing.Size(187, 142);
+            this.listSynonyms.TabIndex = 6;
+            this.listSynonyms.UseCompatibleStateImageBehavior = false;
+            this.listSynonyms.View = System.Windows.Forms.View.List;
+            this.listSynonyms.DoubleClick += new System.EventHandler(this.listSynonyms_DoubleClick);
+            this.listSynonyms.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listSynonyms_KeyDown);
             // 
             // columnHeader3
             // 
@@ -798,17 +800,39 @@ namespace GREWordStudy.Study
             this.columnHeader4.Text = "#";
             this.columnHeader4.Width = 20;
             // 
-            // textGooglePhrase
+            // listAntonyms
             // 
-            this.textGooglePhrase.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textGooglePhrase.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textGooglePhrase.Font = new System.Drawing.Font("Candara", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textGooglePhrase.Location = new System.Drawing.Point(0, 0);
-            this.textGooglePhrase.Multiline = true;
-            this.textGooglePhrase.Name = "textGooglePhrase";
-            this.textGooglePhrase.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textGooglePhrase.Size = new System.Drawing.Size(127, 142);
-            this.textGooglePhrase.TabIndex = 8;
+            this.listAntonyms.Alignment = System.Windows.Forms.ListViewAlignment.Left;
+            this.listAntonyms.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listAntonyms.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2});
+            this.listAntonyms.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listAntonyms.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listAntonyms.GridLines = true;
+            this.listAntonyms.HideSelection = false;
+            this.listAntonyms.Location = new System.Drawing.Point(0, 0);
+            this.listAntonyms.MultiSelect = false;
+            this.listAntonyms.Name = "listAntonyms";
+            this.listAntonyms.ShowItemToolTips = true;
+            this.listAntonyms.Size = new System.Drawing.Size(127, 142);
+            this.listAntonyms.TabIndex = 7;
+            this.listAntonyms.UseCompatibleStateImageBehavior = false;
+            this.listAntonyms.View = System.Windows.Forms.View.List;
+            this.listAntonyms.DoubleClick += new System.EventHandler(this.listSynonyms_DoubleClick);
+            this.listAntonyms.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listSynonyms_KeyDown);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.DisplayIndex = 1;
+            this.columnHeader1.Text = "Affinity";
+            this.columnHeader1.Width = 120;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.DisplayIndex = 0;
+            this.columnHeader2.Text = "#";
+            this.columnHeader2.Width = 20;
             // 
             // panel2
             // 
@@ -922,7 +946,7 @@ namespace GREWordStudy.Study
             this.tsFontColor});
             this.toolbarComment.Location = new System.Drawing.Point(3, 0);
             this.toolbarComment.Name = "toolbarComment";
-            this.toolbarComment.Size = new System.Drawing.Size(459, 25);
+            this.toolbarComment.Size = new System.Drawing.Size(428, 25);
             this.toolbarComment.TabIndex = 0;
             // 
             // tsBold
@@ -1217,7 +1241,7 @@ namespace GREWordStudy.Study
             // 
             // splitContainer6.Panel2
             // 
-            this.splitContainer6.Panel2.Controls.Add(this.textBengali);
+            this.splitContainer6.Panel2.Controls.Add(this.rtfGoogleDictionary);
             this.splitContainer6.Size = new System.Drawing.Size(255, 300);
             this.splitContainer6.SplitterDistance = 153;
             this.splitContainer6.TabIndex = 1;
@@ -1281,18 +1305,18 @@ namespace GREWordStudy.Study
             this.rtfWordnetSynonyms.TabIndex = 8;
             this.rtfWordnetSynonyms.Text = "";
             // 
-            // textBengali
+            // rtfGoogleDictionary
             // 
-            this.textBengali.BackColor = System.Drawing.Color.LightCyan;
-            this.textBengali.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBengali.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBengali.Font = new System.Drawing.Font("Candara", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBengali.Location = new System.Drawing.Point(0, 0);
-            this.textBengali.Multiline = true;
-            this.textBengali.Name = "textBengali";
-            this.textBengali.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBengali.Size = new System.Drawing.Size(255, 143);
-            this.textBengali.TabIndex = 7;
+            this.rtfGoogleDictionary.BackColor = System.Drawing.Color.LavenderBlush;
+            this.rtfGoogleDictionary.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtfGoogleDictionary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtfGoogleDictionary.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtfGoogleDictionary.HideSelection = false;
+            this.rtfGoogleDictionary.Location = new System.Drawing.Point(0, 0);
+            this.rtfGoogleDictionary.Name = "rtfGoogleDictionary";
+            this.rtfGoogleDictionary.Size = new System.Drawing.Size(255, 143);
+            this.rtfGoogleDictionary.TabIndex = 8;
+            this.rtfGoogleDictionary.Text = "";
             // 
             // rtfMnemonics
             // 
@@ -1645,7 +1669,6 @@ namespace GREWordStudy.Study
             this.splitContainer4.ResumeLayout(false);
             this.splitContainer7.Panel1.ResumeLayout(false);
             this.splitContainer7.Panel2.ResumeLayout(false);
-            this.splitContainer7.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
             this.splitContainer7.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
@@ -1665,7 +1688,6 @@ namespace GREWordStudy.Study
             this.splitContainer5.ResumeLayout(false);
             this.splitContainer6.Panel1.ResumeLayout(false);
             this.splitContainer6.Panel2.ResumeLayout(false);
-            this.splitContainer6.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
             this.splitContainer6.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
@@ -1713,17 +1735,15 @@ namespace GREWordStudy.Study
         private System.Windows.Forms.RichTextBox rtfComment;
         private System.Windows.Forms.SplitContainer splitContainer5;
         private System.Windows.Forms.SplitContainer splitContainer6;
-        private System.Windows.Forms.TextBox textBengali;
         private System.Windows.Forms.RichTextBox rtfMnemonics;
         private System.Windows.Forms.TabControl tabControlGRE;
         private System.Windows.Forms.Panel panelGREMain;
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer7;
-        private System.Windows.Forms.ListView listViewRelation;
+        private System.Windows.Forms.ListView listSynonyms;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.TextBox textGooglePhrase;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label labelWord;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -1828,6 +1848,10 @@ namespace GREWordStudy.Study
         private System.Windows.Forms.FontDialog fontDialog;
         private System.Windows.Forms.ToolStripButton tsFontColor;
         private System.Windows.Forms.ColorDialog colorDialog;
+        private System.Windows.Forms.RichTextBox rtfGoogleDictionary;
+        private System.Windows.Forms.ListView listAntonyms;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
     }
 }
 
