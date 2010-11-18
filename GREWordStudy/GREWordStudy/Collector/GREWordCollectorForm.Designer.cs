@@ -272,7 +272,7 @@
             this.groupBox2.Controls.Add(this.buttonAffinity);
             this.groupBox2.Location = new System.Drawing.Point(196, 152);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(413, 132);
+            this.groupBox2.Size = new System.Drawing.Size(515, 132);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Parse";
