@@ -128,6 +128,7 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Model\GreWord.cs" />
+    <Compile Include="Model\PlainWord.cs" />
     <Compile Include="Study\GreWordStudyForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -172,6 +172,7 @@ namespace GREWordStudy.Study
             this.ofd = new System.Windows.Forms.OpenFileDialog();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
+            this.captureScreenAreaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBanglaDictionary)).BeginInit();
@@ -237,7 +238,8 @@ namespace GREWordStudy.Study
             this.copyImageToolStripMenuItem,
             this.toolStripTextBox1,
             this.stickyToolStripMenuItem,
-            this.removeAllToolStripMenuItem});
+            this.removeAllToolStripMenuItem,
+            this.captureScreenAreaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(784, 27);
@@ -1625,6 +1627,13 @@ namespace GREWordStudy.Study
             this.fontDialog.AllowScriptChange = false;
             this.fontDialog.Font = new System.Drawing.Font("Union", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
+            // captureScreenAreaToolStripMenuItem
+            // 
+            this.captureScreenAreaToolStripMenuItem.Name = "captureScreenAreaToolStripMenuItem";
+            this.captureScreenAreaToolStripMenuItem.Size = new System.Drawing.Size(126, 23);
+            this.captureScreenAreaToolStripMenuItem.Text = "Capture &Screen Area";
+            this.captureScreenAreaToolStripMenuItem.Click += new System.EventHandler(this.captureScreenAreaToolStripMenuItem_Click);
+            // 
             // GreWordStudyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1852,6 +1861,7 @@ namespace GREWordStudy.Study
         private System.Windows.Forms.ListView listAntonyms;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ToolStripMenuItem captureScreenAreaToolStripMenuItem;
     }
 }
 
