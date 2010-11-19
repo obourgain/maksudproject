@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using CommonUtility;
+using CommonUtility.Screenshot;
 using Crownwood.DotNetMagic.Controls;
 using GREWordStudy.Collector;
 using GREWordStudy.Common.Browser;
@@ -29,7 +30,7 @@ namespace GREWordStudy.Study
 
         private readonly Color[] _colorBackground = new[] { Color.MistyRose, Color.LightBlue, Color.Yellow, Color.Thistle };
 
-        private readonly gredbEntities _entities = new gredbEntities();
+        private gredbEntities _entities = new gredbEntities();
         private readonly OpenFileDialog _excelOfd = new OpenFileDialog();
 
         private readonly FolderBrowserDialog _fbd = new FolderBrowserDialog();
@@ -57,6 +58,8 @@ namespace GREWordStudy.Study
         private bool _isCommentDirty;
         private Point _pEnd;
         private Point _pStart;
+        IEnumerable<PlainWord> _plainWordList = null;
+        private ScreenOverlay _screenOverlay;
 
         public GreWordStudyForm()
         {
@@ -556,7 +559,7 @@ namespace GREWordStudy.Study
 
         private void wordsDataListView_FormatRow(object sender, FormatRowEventArgs e)
         {
-            var w = (GreWord)e.Model;
+            var w = (PlainWord)e.Model;
             e.Item.ForeColor = _hardnessForeground[w.Hardness];
             e.Item.BackColor = _hardnessBackground[w.Hardness];
             e.Item.Font = w.Hardness > 0
@@ -787,7 +790,7 @@ namespace GREWordStudy.Study
                                          {
                                              try
                                              {
-                                                 var greWord = (GreWord)row;
+                                                 var greWord = (PlainWord)row;
                                                  return "rating_" + greWord.Hardness;
                                              }
                                              catch
@@ -823,32 +826,48 @@ namespace GREWordStudy.Study
             comboList.DataSource = list;
         }
 
+
+
         private void LoadWordList()
         {
             long listNameId = Convert.ToInt64(comboList.SelectedValue);
+            _entities.Dispose();
+            _entities = new gredbEntities();
 
-            List<GreWord> words = null;
+
             if (listNameId > 0)
             {
-                words = (from w in _entities.ListedWords
-                         where w.ListName.Id == listNameId
-                         orderby w.GreWord.Word
-                         select w.GreWord).ToList();
+                _plainWordList = (from w in _entities.ListedWords
+                                  where w.ListName.Id == listNameId
+                                  orderby w.GreWord.Word
+                                  select new PlainWord()
+                                  {
+                                      Word = w.GreWord.Word,
+                                      Forgotten = w.GreWord.Forgotten,
+                                      Remembered = w.GreWord.Remembered,
+                                      Hardness = w.GreWord.Hardness,
+                                  }).ToList();
             }
             else if (listNameId == 0)
             {
-                words = (from w in _entities.GreWords
-                         orderby w.Word
-                         select w).ToList();
+                _plainWordList = (from w in _entities.GreWords
+                                  orderby w.Word
+                                  select new PlainWord()
+                                  {
+                                      Word = w.Word,
+                                      Forgotten = w.Forgotten,
+                                      Remembered = w.Remembered,
+                                      Hardness = w.Hardness,
+                                  }).ToList();
             }
             else
             {
-                words = new List<GreWord>();
+                _plainWordList = new List<PlainWord>();
             }
 
             //listBox1.Items.Clear();
             wordsDataListView.Items.Clear();
-            wordsDataListView.DataSource = words;
+            wordsDataListView.DataSource = _plainWordList;
         }
 
         private void LoadWordInformation(string word, bool chkAffinity)
@@ -883,13 +902,15 @@ namespace GREWordStudy.Study
                         var lvi = new ListViewItem { Text = aword.synonym };
                         lvi.SubItems.Add(aword.relation + "");
                         lvi.ToolTipText = " [" + aword.hardness + "]";
-                        lvi.BackColor = aword.relation == 1 ? Color.LightGreen : Color.Cornsilk;
+
+                        lvi.BackColor = aword.relation == 1 ? Color.LightGreen : aword.relation == 3 ? Color.LightBlue : Color.Cornsilk;
+
                         listSynonyms.Items.Add(lvi);
                     }
 
                     var antonyms = (from w in _entities.GreWordAffinities
                                     where w.GreWord.Word == word && w.Affinity < 0
-                                    orderby w.Affinity
+                                    orderby w.Affinity descending
                                     select new
                                     {
                                         antonym = w.RelevantWord.Word,
@@ -1241,6 +1262,8 @@ namespace GREWordStudy.Study
                     greword.Hardness = level;
                     _entities.SaveChanges();
 
+                    _plainWordList.Where(a => a.Word == word).Select(a => a).FirstOrDefault().Hardness = level;
+
                     item.SubItems[1].Text = greword.Hardness + "";
                     wordsDataListView.EnsureVisible(item.Index);
 
@@ -1280,6 +1303,10 @@ namespace GREWordStudy.Study
                     greword.Forgotten += countForgot;
                     greword.Remembered += countRemember;
                     _entities.SaveChanges();
+
+                    var p = _plainWordList.Where(a => a.Word == word).Select(a => a).FirstOrDefault();
+                    p.Forgotten += countForgot;
+                    p.Remembered += countRemember;
 
                     item.SubItems[2].Text = greword.RememberPercentile + "";
                 }
@@ -1380,11 +1407,11 @@ namespace GREWordStudy.Study
         {
             if (rtfComment.SelectedText.Length == 0)
             {
-                rtfComment.SelectionColor = color;
+                rtfComment.ForeColor = color;
             }
             else
             {
-                rtfComment.ForeColor = color;
+                rtfComment.SelectionColor = color;
             }
         }
 
@@ -1401,5 +1428,13 @@ namespace GREWordStudy.Study
             }
         }
         #endregion
+
+        private void captureScreenAreaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_screenOverlay == null)
+                _screenOverlay = new ScreenOverlay() { ParentForm = this };
+            System.Threading.Thread.Sleep(1000);
+            _screenOverlay.Show();
+        }
     }
 }

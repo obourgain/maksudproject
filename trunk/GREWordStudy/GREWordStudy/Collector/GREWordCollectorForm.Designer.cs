@@ -52,6 +52,7 @@
             this.button10 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -193,9 +194,9 @@
             this.buttonAffinity.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonAffinity.Location = new System.Drawing.Point(279, 55);
             this.buttonAffinity.Name = "buttonAffinity";
-            this.buttonAffinity.Size = new System.Drawing.Size(63, 30);
+            this.buttonAffinity.Size = new System.Drawing.Size(86, 30);
             this.buttonAffinity.TabIndex = 13;
-            this.buttonAffinity.Text = "Affinity";
+            this.buttonAffinity.Text = "Affinity.net";
             this.buttonAffinity.UseVisualStyleBackColor = true;
             this.buttonAffinity.Click += new System.EventHandler(this.buttonAffinity_Click);
             // 
@@ -261,6 +262,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button4);
             this.groupBox2.Controls.Add(this.button9);
             this.groupBox2.Controls.Add(this.buttonParseWordnetSynonyms);
             this.groupBox2.Controls.Add(this.buttonParseWordnetDefinitions);
@@ -352,6 +354,19 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // button4
+            // 
+            this.button4.AutoSize = true;
+            this.button4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.button4.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(371, 55);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(112, 30);
+            this.button4.TabIndex = 18;
+            this.button4.Text = "Google Affinity";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // GREWordCollectorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -405,6 +420,7 @@
         private System.Windows.Forms.Button buttonParseWordnetSynonyms;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button4;
     }
 }
 

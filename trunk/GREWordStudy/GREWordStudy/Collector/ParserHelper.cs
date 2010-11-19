@@ -301,8 +301,67 @@ namespace GREWordStudy.Collector
 
         #region PARSERs
 
+        public void ParseAffinityByGoogle()
+        {
+            var words = (from w in _entities.GreWords
+                         select w.Word).GetChunksOfSize(100);
 
-        public void ParseAffinity()
+            foreach (var wordChunk in words)
+            {
+                foreach (var word in wordChunk)
+                {
+                    FireLogMessage("Primary AffinityByGoogle for: " + word);
+
+                    var greWord = (from w in _entities.GreWords
+                                   where w.Word == word
+                                   select w).FirstOrDefault();
+                    #region Synonyms
+                    var synonyms = (from w in _entities.GoogleSynonyms
+                                    where w.Word == word
+                                    select w.Synonym).ToList();
+
+                    foreach (var synonym in synonyms)
+                    {
+                        string a = synonym.Trim();
+                        if (string.IsNullOrEmpty(a) || word == a) continue;
+                        var similarWord = (from w in _entities.GreWords
+                                           where w.Word == a
+                                           select w).FirstOrDefault();
+                        if (similarWord != null)
+                        {
+                            InsertAffineWord(greWord, similarWord, 3);
+                        }
+                    }
+                    #endregion
+
+                    #region Secondary Synonyms
+                    var similarWords = (from w in _entities.GoogleSynonyms
+                                        where w.Synonym == word
+                                        select w.GreWord).ToList();
+
+
+                    foreach (var similarWord in similarWords)
+                    {
+                        if (similarWord.Word == word)
+                            continue;
+
+                        var present2 = (from w in _entities.GreWordAffinities
+                                        where w.GreWord.Word == word && w.RelevantWord.Word == similarWord.Word && w.Affinity > 0
+                                        select w).FirstOrDefault();
+
+                        if (present2 == null)
+                        {
+                            InsertAffineWord(greWord, similarWord, 4);
+                        }
+                    }
+
+                    #endregion
+                }
+                _entities.SaveChanges();
+            }
+        }
+
+        public void ParseAffinitySynonyms()
         {
             var words = (from w in _entities.GreWords
                          select w.Word).EnumerateInChunksOf(100);
@@ -423,6 +482,8 @@ namespace GREWordStudy.Collector
                         InsertAffineWord(greWord, antonym, -2);
                     }
                 }
+                _entities.SaveChanges();
+
                 #endregion
             }
             #endregion
@@ -443,7 +504,6 @@ namespace GREWordStudy.Collector
                                Affinity = affinity
                            };
                 _entities.AddToGreWordAffinities(gwa);
-                _entities.SaveChanges();
             }
         }
 

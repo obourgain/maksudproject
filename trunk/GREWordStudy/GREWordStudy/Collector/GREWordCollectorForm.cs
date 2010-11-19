@@ -308,7 +308,7 @@ namespace GREWordStudy.Collector
 
             parser.OnLogMessage += OnParserOnLogMessage;
 
-            workerThread = new Thread(parser.ParseAffinity) { IsBackground = true };
+            workerThread = new Thread(parser.ParseAffinitySynonyms) { IsBackground = true };
             workerThread.Start();
 
         }
@@ -439,6 +439,17 @@ namespace GREWordStudy.Collector
         {
             var entities = new gredbEntities();
             entities.RemoveDuplicateBengaliWord();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var entities = new gredbEntities();
+            var parser = new ParserHelper(entities);
+
+            parser.OnLogMessage += OnParserOnLogMessage;
+
+            workerThread = new Thread(parser.ParseAffinityByGoogle) { IsBackground = true };
+            workerThread.Start();
         }
     }
 }
