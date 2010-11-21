@@ -1433,7 +1433,7 @@ namespace GREWordStudy.Study
         {
             if (_screenOverlay == null)
                 _screenOverlay = new ScreenOverlay() { ParentForm = this };
-            System.Threading.Thread.Sleep(1000);
+            //System.Threading.Thread.Sleep(1000);
             _screenOverlay.Show();
         }
     }
