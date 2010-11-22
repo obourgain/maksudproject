@@ -28,6 +28,9 @@ namespace GREWordStudy.Study
         [DllImport("user32.dll")]
         public static extern IntPtr ReleaseCapture(IntPtr hWnd);
 
+        [DllImport("User32.dll")]
+        private static extern bool SendMessage(IntPtr hwnd, UInt32 msg, UInt32 wParam, UInt32 lParam);
+
         private readonly Color[] _colorBackground = new[] { Color.MistyRose, Color.LightBlue, Color.Yellow, Color.Thistle };
 
         private gredbEntities _entities = new gredbEntities();
@@ -1488,6 +1491,9 @@ namespace GREWordStudy.Study
                     break;
 
                 case Keys.Return:
+
+
+
                     try { wordsDataListView.SelectedIndex++; }
                     catch { }
                     e.SuppressKeyPress = true;
@@ -1497,8 +1503,31 @@ namespace GREWordStudy.Study
 
         void TryVisibleNext5Words(int num)
         {
-            try { wordsDataListView.EnsureVisible(wordsDataListView.SelectedIndex + num); }
+            try
+            {
+                //wordsDataListView.EnsureVisible(wordsDataListView.SelectedIndex + num);
+
+                Message msg = new Message {Msg = WM_VSCROLL};
+                WndProc(ref msg);
+            }
             catch { }
+        }
+
+        private const int WM_HSCROLL = 0x114;
+        private const int WM_VSCROLL = 0x115;
+        protected override void WndProc(ref Message msg)
+        {
+
+            // Look for the WM_VSCROLL or the WM_HSCROLL messages.
+            if (msg.Msg == WM_VSCROLL)
+            {
+                int myInt = 1;
+                int intLow = myInt & 0xffff;
+                long intHigh = ((long)myInt & 0xffff0000) >> 16;
+                SendMessage(this.wordsDataListView.Handle, (int)WM_VSCROLL, (uint)intLow, (uint)intHigh);
+            }
+            // Pass message to default handler.
+            base.WndProc(ref msg);
         }
     }
 }
