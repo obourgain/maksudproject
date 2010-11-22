@@ -56,6 +56,7 @@ namespace GREWordStudy.Study
             this.stickyNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stickyBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.captureScreenAreaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.webToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -172,7 +173,6 @@ namespace GREWordStudy.Study
             this.ofd = new System.Windows.Forms.OpenFileDialog();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
-            this.captureScreenAreaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBanglaDictionary)).BeginInit();
@@ -422,6 +422,13 @@ namespace GREWordStudy.Study
             this.removeAllToolStripMenuItem.Text = "Remove All";
             this.removeAllToolStripMenuItem.Click += new System.EventHandler(this.removeAllToolStripMenuItem_Click);
             // 
+            // captureScreenAreaToolStripMenuItem
+            // 
+            this.captureScreenAreaToolStripMenuItem.Name = "captureScreenAreaToolStripMenuItem";
+            this.captureScreenAreaToolStripMenuItem.Size = new System.Drawing.Size(126, 23);
+            this.captureScreenAreaToolStripMenuItem.Text = "Capture &Screen Area";
+            this.captureScreenAreaToolStripMenuItem.Click += new System.EventHandler(this.captureScreenAreaToolStripMenuItem_Click);
+            // 
             // webToolStripMenuItem
             // 
             this.webToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -608,6 +615,7 @@ namespace GREWordStudy.Study
             this.olvColumn1,
             this.hardnessColumn,
             this.percentageColumn});
+            this.wordsDataListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.wordsDataListView.DataSource = null;
             this.wordsDataListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.wordsDataListView.EmptyListMsg = "Select a Word List from Combo Box";
@@ -635,6 +643,7 @@ namespace GREWordStudy.Study
             this.wordsDataListView.View = System.Windows.Forms.View.Details;
             this.wordsDataListView.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.wordsDataListView_FormatRow);
             this.wordsDataListView.SelectedIndexChanged += new System.EventHandler(this.wordsDataListView_SelectedIndexChanged);
+            this.wordsDataListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.wordsDataListView_KeyDown);
             // 
             // olvColumn1
             // 
@@ -743,7 +752,7 @@ namespace GREWordStudy.Study
             this.rtfEtymology.BackColor = System.Drawing.Color.PaleTurquoise;
             this.rtfEtymology.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtfEtymology.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtfEtymology.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtfEtymology.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtfEtymology.HideSelection = false;
             this.rtfEtymology.Location = new System.Drawing.Point(0, 0);
             this.rtfEtymology.Name = "rtfEtymology";
@@ -1626,13 +1635,6 @@ namespace GREWordStudy.Study
             // 
             this.fontDialog.AllowScriptChange = false;
             this.fontDialog.Font = new System.Drawing.Font("Union", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            // 
-            // captureScreenAreaToolStripMenuItem
-            // 
-            this.captureScreenAreaToolStripMenuItem.Name = "captureScreenAreaToolStripMenuItem";
-            this.captureScreenAreaToolStripMenuItem.Size = new System.Drawing.Size(126, 23);
-            this.captureScreenAreaToolStripMenuItem.Text = "Capture &Screen Area";
-            this.captureScreenAreaToolStripMenuItem.Click += new System.EventHandler(this.captureScreenAreaToolStripMenuItem_Click);
             // 
             // GreWordStudyForm
             // 

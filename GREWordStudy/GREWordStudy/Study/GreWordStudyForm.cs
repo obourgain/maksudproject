@@ -570,8 +570,10 @@ namespace GREWordStudy.Study
         private void wordsDataListView_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (wordsDataListView.SelectedItem != null)
-                LoadWord(wordsDataListView.SelectedItem.Text, wordsDataListView.SelectedItem.SubItems[1].Text,
-                         wordsDataListView.SelectedIndex);
+            {
+                LoadWord(wordsDataListView.SelectedItem.Text, wordsDataListView.SelectedItem.SubItems[1].Text, wordsDataListView.SelectedIndex);
+                TryVisibleNext5Words(3);
+            }
         }
 
 
@@ -1435,6 +1437,68 @@ namespace GREWordStudy.Study
                 _screenOverlay = new ScreenOverlay() { ParentForm = this };
             //System.Threading.Thread.Sleep(1000);
             _screenOverlay.Show();
+        }
+
+
+        private void wordsDataListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.D0:
+                case Keys.NumPad0:
+                    SetHardness(0);
+                    e.SuppressKeyPress = true;
+                    break;
+                case Keys.D1:
+                case Keys.NumPad1:
+                    SetHardness(1);
+                    e.SuppressKeyPress = true;
+                    break;
+                case Keys.D2:
+                case Keys.NumPad2:
+                    SetHardness(2);
+                    e.SuppressKeyPress = true;
+                    break;
+                case Keys.D3:
+                case Keys.NumPad3:
+                    SetHardness(3);
+                    e.SuppressKeyPress = true;
+                    break;
+                case Keys.D4:
+                case Keys.NumPad4:
+                    SetHardness(4);
+                    e.SuppressKeyPress = true;
+                    break;
+                case Keys.D5:
+                case Keys.NumPad5:
+                    SetHardness(5);
+                    e.SuppressKeyPress = true;
+                    break;
+
+                case Keys.Space:
+                case Keys.Add:
+                    Remembered();
+                    e.SuppressKeyPress = true;
+                    break;
+
+                case Keys.Cancel:
+                case Keys.Subtract:
+                    Forgotten();
+                    e.SuppressKeyPress = true;
+                    break;
+
+                case Keys.Return:
+                    try { wordsDataListView.SelectedIndex++; }
+                    catch { }
+                    e.SuppressKeyPress = true;
+                    break;
+            }
+        }
+
+        void TryVisibleNext5Words(int num)
+        {
+            try { wordsDataListView.EnsureVisible(wordsDataListView.SelectedIndex + num); }
+            catch { }
         }
     }
 }
