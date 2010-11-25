@@ -634,7 +634,7 @@ namespace GREWordStudy.Study
             this.wordsDataListView.ShowItemCountOnGroups = true;
             this.wordsDataListView.Size = new System.Drawing.Size(185, 242);
             this.wordsDataListView.SmallImageList = this.imageList2;
-            this.wordsDataListView.TabIndex = 36;
+            this.wordsDataListView.TabIndex = 1000;
             this.wordsDataListView.UseCompatibleStateImageBehavior = false;
             this.wordsDataListView.UseExplorerTheme = true;
             this.wordsDataListView.UseFiltering = true;
@@ -932,7 +932,7 @@ namespace GREWordStudy.Study
             this.rtfComment.Location = new System.Drawing.Point(0, 0);
             this.rtfComment.Name = "rtfComment";
             this.rtfComment.Size = new System.Drawing.Size(507, 275);
-            this.rtfComment.TabIndex = 0;
+            this.rtfComment.TabIndex = 1001;
             this.rtfComment.Text = "";
             this.rtfComment.TextChanged += new System.EventHandler(this.rtfComment_TextChanged);
             this.rtfComment.KeyDown += new System.Windows.Forms.KeyEventHandler(this.rtfComment_KeyDown);

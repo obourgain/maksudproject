@@ -160,52 +160,75 @@ namespace GREWordStudy.Study
 
         private void rtfComment_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Control && e.KeyCode == Keys.B)
+            switch (e.KeyCode)
             {
-                MakeBold();
+                case Keys.F1:
+                    SetHardness(1);
+                    e.SuppressKeyPress = true;
+                    break;
+                case Keys.F2:
+                    SetHardness(2);
+                    e.SuppressKeyPress = true;
+                    break;
+                case Keys.F3:
+                    SetHardness(3);
+                    e.SuppressKeyPress = true;
+                    break;
+                case Keys.F4:
+                    SetHardness(4);
+                    e.SuppressKeyPress = true;
+                    break;
+                case Keys.F5:
+                    SetHardness(5);
+                    e.SuppressKeyPress = true;
+                    break;
+
+                case Keys.F11:
+                    e.SuppressKeyPress = true;
+                    wordsDataListView.Focus();
+                    SendKeys.SendWait("{DOWN}");
+                    break;
+
+                case Keys.F10:
+                    e.SuppressKeyPress = true;
+                    wordsDataListView.Focus();
+                    SendKeys.SendWait("{UP}");
+                    break;
+
+                case Keys.F9:
+                    e.SuppressKeyPress = true;
+                    Remembered();
+                    break;
+                case Keys.F7:
+                    e.SuppressKeyPress = true;
+                    Forgotten();
+                    break;
+
+                case Keys.F6:
+                    wordsDataListView.Focus();
+                    e.SuppressKeyPress = true;
+                    return;
             }
-            else if (e.Control && e.KeyCode == Keys.U)
+            rtfComment.Focus();
+
+            if (!e.Control) return;
+            switch (e.KeyCode)
             {
-                MakeUnderline();
-            }
-            else if (e.Control && e.KeyCode == Keys.T)
-            {
-                MakeStrikethrough();
-            }
-            else if (e.Control && e.KeyCode == Keys.OemOpenBrackets)
-            {
-                SetFontSizeAsIncrement((float)-2.0);
-            }
-            else if (e.Control && e.KeyCode == Keys.OemCloseBrackets)
-            {
-                SetFontSizeAsIncrement((float)2.0);
-            }
-            else if (e.Control && e.KeyCode == Keys.Oemcomma)
-            {
-                try
-                {
-                    int i = wordsDataListView.SelectedIndices[0];
-                    wordsDataListView.SelectedItems.Clear();
-                    wordsDataListView.Items[i - 1].Selected = true;
-                    wordsDataListView.EnsureVisible(i - 1);
-                }
-                catch (Exception exp)
-                {
-                    _logger.Error("Comment KeyDown Error", 179, exp);
-                }
-            }
-            else if (e.Control && e.KeyCode == Keys.OemPeriod)
-            {
-                try
-                {
-                    int i = wordsDataListView.SelectedIndices[0];
-                    wordsDataListView.SelectedItems.Clear();
-                    wordsDataListView.Items[i + 1].Selected = true;
-                    wordsDataListView.EnsureVisible(i + 1);
-                }
-                catch
-                {
-                }
+                case Keys.B:
+                    MakeBold();
+                    break;
+                case Keys.U:
+                    MakeUnderline();
+                    break;
+                case Keys.T:
+                    MakeStrikethrough();
+                    break;
+                case Keys.OemOpenBrackets:
+                    SetFontSizeAsIncrement((float)-2.0);
+                    break;
+                case Keys.OemCloseBrackets:
+                    SetFontSizeAsIncrement((float)2.0);
+                    break;
             }
         }
 
@@ -809,8 +832,8 @@ namespace GREWordStudy.Study
                 new[] { "Unprocessed", "Very Easy", "Easy", "Moderate", "Hard", "Very Hard" });
 
             percentageColumn.MakeGroupies(
-                new[] { 25, 50, 75 },
-                new[] { "Hard", "Moderate", "Easy", "Very Easy" });
+                new[] { 0, 25, 50, 75 },
+                new[] { "Untouched", "Hard", "Moderate", "Easy", "Very Easy" });
 
 
             ResetWebBrowsers();
@@ -1490,12 +1513,8 @@ namespace GREWordStudy.Study
                     e.SuppressKeyPress = true;
                     break;
 
-                case Keys.Return:
-
-
-
-                    try { wordsDataListView.SelectedIndex++; }
-                    catch { }
+                case Keys.F6:
+                    rtfComment.Focus();
                     e.SuppressKeyPress = true;
                     break;
             }
@@ -1507,7 +1526,7 @@ namespace GREWordStudy.Study
             {
                 //wordsDataListView.EnsureVisible(wordsDataListView.SelectedIndex + num);
 
-                Message msg = new Message {Msg = WM_VSCROLL};
+                Message msg = new Message { Msg = WM_VSCROLL };
                 WndProc(ref msg);
             }
             catch { }
@@ -1529,5 +1548,8 @@ namespace GREWordStudy.Study
             // Pass message to default handler.
             base.WndProc(ref msg);
         }
+
+
+
     }
 }
