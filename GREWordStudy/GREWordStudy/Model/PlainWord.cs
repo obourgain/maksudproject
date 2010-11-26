@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GREWordStudy.Model
+﻿namespace GREWordStudy.Model
 {
     public class PlainWord
     {
@@ -14,13 +9,17 @@ namespace GREWordStudy.Model
                 if (Remembered + Forgotten == 0)
                     return -1;
                 else
-                    return (int)((double)Remembered * 100.0 / (double)(Remembered + Forgotten));
+                    return (int)(Remembered * 100.0 / (Remembered + Forgotten));
             }
         }
 
         public double Forgotten { get; set; }
 
         public double Remembered { get; set; }
+
+        public int Tried { get { return (int)(Forgotten + Remembered); } }
+        
+        public int Index { get; set; }
 
         public string Word { get; set; }
 
