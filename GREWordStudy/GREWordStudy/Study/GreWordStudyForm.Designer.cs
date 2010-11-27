@@ -47,16 +47,24 @@ namespace GREWordStudy.Study
             this.fetchSelectedWordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.webUrlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.manageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openInDefaultBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.stickyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stickyNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stickyBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.captureScreenAreaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wordListFontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wordListGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoWordVisiblityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewAsIconsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewAsListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewAsDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.manageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openInDefaultBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.webToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,9 +82,10 @@ namespace GREWordStudy.Study
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.wordsDataListView = new BrightIdeasSoftware.DataListView();
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.hardnessColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.percentageColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.colWord = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.colHardness = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.colPercentage = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.colTried = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.wordHardness = new ThirstyCrow.WinForms.Controls.ToolStripStarRating();
@@ -95,7 +104,7 @@ namespace GREWordStudy.Study
             this.panel2 = new System.Windows.Forms.Panel();
             this.labelWord = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.textWord = new System.Windows.Forms.TextBox();
+            this.textWordFilter = new System.Windows.Forms.TextBox();
             this.comboList = new System.Windows.Forms.ComboBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
@@ -136,6 +145,10 @@ namespace GREWordStudy.Study
             this.rtfWordnetDefinitions = new System.Windows.Forms.RichTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.rtfWordnetSynonyms = new System.Windows.Forms.RichTextBox();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.buttonSearchByAntonym = new System.Windows.Forms.Button();
+            this.buttonSearchBySynonym = new System.Windows.Forms.Button();
+            this.textSearchSynonym = new System.Windows.Forms.TextBox();
             this.rtfGoogleDictionary = new System.Windows.Forms.RichTextBox();
             this.rtfMnemonics = new System.Windows.Forms.RichTextBox();
             this.tabControlGRE = new System.Windows.Forms.TabControl();
@@ -219,6 +232,7 @@ namespace GREWordStudy.Study
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.tabControlGRE.SuspendLayout();
             this.tabPageWebBrowsers.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -234,12 +248,11 @@ namespace GREWordStudy.Study
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.webUrlsToolStripMenuItem,
             this.copyImageToolStripMenuItem,
             this.toolStripTextBox1,
             this.stickyToolStripMenuItem,
-            this.removeAllToolStripMenuItem,
-            this.captureScreenAreaToolStripMenuItem});
+            this.captureScreenAreaToolStripMenuItem,
+            this.settingsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(784, 27);
@@ -352,31 +365,6 @@ namespace GREWordStudy.Study
             this.exitToolStripMenuItem1.Text = "E&xit";
             this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem1_Click);
             // 
-            // webUrlsToolStripMenuItem
-            // 
-            this.webUrlsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manageToolStripMenuItem,
-            this.openInDefaultBrowserToolStripMenuItem});
-            this.webUrlsToolStripMenuItem.Name = "webUrlsToolStripMenuItem";
-            this.webUrlsToolStripMenuItem.Size = new System.Drawing.Size(66, 23);
-            this.webUrlsToolStripMenuItem.Text = "&Web Urls";
-            // 
-            // manageToolStripMenuItem
-            // 
-            this.manageToolStripMenuItem.Name = "manageToolStripMenuItem";
-            this.manageToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.manageToolStripMenuItem.Text = "Manage";
-            this.manageToolStripMenuItem.Click += new System.EventHandler(this.manageToolStripMenuItem_Click);
-            // 
-            // openInDefaultBrowserToolStripMenuItem
-            // 
-            this.openInDefaultBrowserToolStripMenuItem.Checked = true;
-            this.openInDefaultBrowserToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.openInDefaultBrowserToolStripMenuItem.Name = "openInDefaultBrowserToolStripMenuItem";
-            this.openInDefaultBrowserToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.openInDefaultBrowserToolStripMenuItem.Text = "Open In Default Browser";
-            this.openInDefaultBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInDefaultBrowserToolStripMenuItem_Click);
-            // 
             // copyImageToolStripMenuItem
             // 
             this.copyImageToolStripMenuItem.Name = "copyImageToolStripMenuItem";
@@ -415,19 +403,109 @@ namespace GREWordStudy.Study
             this.stickyBrowserToolStripMenuItem.Text = "Sticky Browser";
             this.stickyBrowserToolStripMenuItem.Click += new System.EventHandler(this.stickyBrowserToolStripMenuItem_Click);
             // 
-            // removeAllToolStripMenuItem
-            // 
-            this.removeAllToolStripMenuItem.Name = "removeAllToolStripMenuItem";
-            this.removeAllToolStripMenuItem.Size = new System.Drawing.Size(79, 23);
-            this.removeAllToolStripMenuItem.Text = "Remove All";
-            this.removeAllToolStripMenuItem.Click += new System.EventHandler(this.removeAllToolStripMenuItem_Click);
-            // 
             // captureScreenAreaToolStripMenuItem
             // 
             this.captureScreenAreaToolStripMenuItem.Name = "captureScreenAreaToolStripMenuItem";
-            this.captureScreenAreaToolStripMenuItem.Size = new System.Drawing.Size(126, 23);
-            this.captureScreenAreaToolStripMenuItem.Text = "Capture &Screen Area";
+            this.captureScreenAreaToolStripMenuItem.Size = new System.Drawing.Size(61, 23);
+            this.captureScreenAreaToolStripMenuItem.Text = "&Capture";
             this.captureScreenAreaToolStripMenuItem.Click += new System.EventHandler(this.captureScreenAreaToolStripMenuItem_Click);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.wordListFontToolStripMenuItem,
+            this.wordListGroupToolStripMenuItem,
+            this.autoWordVisiblityToolStripMenuItem,
+            this.viewAsIconsToolStripMenuItem,
+            this.viewAsListToolStripMenuItem,
+            this.viewAsDetailsToolStripMenuItem,
+            this.toolStripSeparator10,
+            this.manageToolStripMenuItem,
+            this.removeAllToolStripMenuItem,
+            this.openInDefaultBrowserToolStripMenuItem,
+            this.toolStripSeparator11});
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 23);
+            this.settingsToolStripMenuItem.Text = "&Settings";
+            // 
+            // wordListFontToolStripMenuItem
+            // 
+            this.wordListFontToolStripMenuItem.Name = "wordListFontToolStripMenuItem";
+            this.wordListFontToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.wordListFontToolStripMenuItem.Text = "&Word List Font";
+            this.wordListFontToolStripMenuItem.Click += new System.EventHandler(this.wordListFontToolStripMenuItem_Click);
+            // 
+            // wordListGroupToolStripMenuItem
+            // 
+            this.wordListGroupToolStripMenuItem.Checked = true;
+            this.wordListGroupToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.wordListGroupToolStripMenuItem.Name = "wordListGroupToolStripMenuItem";
+            this.wordListGroupToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.wordListGroupToolStripMenuItem.Text = "Word List &Group";
+            this.wordListGroupToolStripMenuItem.Click += new System.EventHandler(this.wordListGroupToolStripMenuItem_Click);
+            // 
+            // autoWordVisiblityToolStripMenuItem
+            // 
+            this.autoWordVisiblityToolStripMenuItem.Checked = true;
+            this.autoWordVisiblityToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.autoWordVisiblityToolStripMenuItem.Name = "autoWordVisiblityToolStripMenuItem";
+            this.autoWordVisiblityToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.autoWordVisiblityToolStripMenuItem.Text = "Auto Word Visiblity";
+            this.autoWordVisiblityToolStripMenuItem.Click += new System.EventHandler(this.autoWordVisiblityToolStripMenuItem_Click);
+            // 
+            // viewAsIconsToolStripMenuItem
+            // 
+            this.viewAsIconsToolStripMenuItem.Name = "viewAsIconsToolStripMenuItem";
+            this.viewAsIconsToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.viewAsIconsToolStripMenuItem.Text = "View as Icons";
+            this.viewAsIconsToolStripMenuItem.Click += new System.EventHandler(this.viewAsIconsToolStripMenuItem_Click);
+            // 
+            // viewAsListToolStripMenuItem
+            // 
+            this.viewAsListToolStripMenuItem.Name = "viewAsListToolStripMenuItem";
+            this.viewAsListToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.viewAsListToolStripMenuItem.Text = "View as List";
+            this.viewAsListToolStripMenuItem.Click += new System.EventHandler(this.viewAsListToolStripMenuItem_Click);
+            // 
+            // viewAsDetailsToolStripMenuItem
+            // 
+            this.viewAsDetailsToolStripMenuItem.Name = "viewAsDetailsToolStripMenuItem";
+            this.viewAsDetailsToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.viewAsDetailsToolStripMenuItem.Text = "View as Details";
+            this.viewAsDetailsToolStripMenuItem.Click += new System.EventHandler(this.viewAsDetailsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(199, 6);
+            // 
+            // manageToolStripMenuItem
+            // 
+            this.manageToolStripMenuItem.Name = "manageToolStripMenuItem";
+            this.manageToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.manageToolStripMenuItem.Text = "Web &Links Manage";
+            this.manageToolStripMenuItem.Click += new System.EventHandler(this.manageToolStripMenuItem_Click);
+            // 
+            // removeAllToolStripMenuItem
+            // 
+            this.removeAllToolStripMenuItem.Name = "removeAllToolStripMenuItem";
+            this.removeAllToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.removeAllToolStripMenuItem.Text = "Remove &All Browsers";
+            this.removeAllToolStripMenuItem.Click += new System.EventHandler(this.removeAllToolStripMenuItem_Click);
+            // 
+            // openInDefaultBrowserToolStripMenuItem
+            // 
+            this.openInDefaultBrowserToolStripMenuItem.Checked = true;
+            this.openInDefaultBrowserToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.openInDefaultBrowserToolStripMenuItem.Name = "openInDefaultBrowserToolStripMenuItem";
+            this.openInDefaultBrowserToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.openInDefaultBrowserToolStripMenuItem.Text = "Open In &Default Browser";
+            this.openInDefaultBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInDefaultBrowserToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(199, 6);
             // 
             // webToolStripMenuItem
             // 
@@ -591,7 +669,7 @@ namespace GREWordStudy.Study
             // splitContainer3
             // 
             this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 45);
+            this.splitContainer3.Location = new System.Drawing.Point(0, 50);
             this.splitContainer3.Name = "splitContainer3";
             // 
             // splitContainer3.Panel1
@@ -602,19 +680,21 @@ namespace GREWordStudy.Study
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(507, 267);
+            this.splitContainer3.Size = new System.Drawing.Size(507, 262);
             this.splitContainer3.SplitterDistance = 185;
             this.splitContainer3.TabIndex = 4;
             // 
             // wordsDataListView
             // 
-            this.wordsDataListView.AllColumns.Add(this.olvColumn1);
-            this.wordsDataListView.AllColumns.Add(this.hardnessColumn);
-            this.wordsDataListView.AllColumns.Add(this.percentageColumn);
+            this.wordsDataListView.AllColumns.Add(this.colWord);
+            this.wordsDataListView.AllColumns.Add(this.colHardness);
+            this.wordsDataListView.AllColumns.Add(this.colPercentage);
+            this.wordsDataListView.AllColumns.Add(this.colTried);
             this.wordsDataListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumn1,
-            this.hardnessColumn,
-            this.percentageColumn});
+            this.colWord,
+            this.colHardness,
+            this.colPercentage,
+            this.colTried});
             this.wordsDataListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.wordsDataListView.DataSource = null;
             this.wordsDataListView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -632,7 +712,7 @@ namespace GREWordStudy.Study
             this.wordsDataListView.Name = "wordsDataListView";
             this.wordsDataListView.OwnerDraw = true;
             this.wordsDataListView.ShowItemCountOnGroups = true;
-            this.wordsDataListView.Size = new System.Drawing.Size(185, 242);
+            this.wordsDataListView.Size = new System.Drawing.Size(185, 237);
             this.wordsDataListView.SmallImageList = this.imageList2;
             this.wordsDataListView.TabIndex = 1000;
             this.wordsDataListView.UseCompatibleStateImageBehavior = false;
@@ -640,28 +720,34 @@ namespace GREWordStudy.Study
             this.wordsDataListView.UseFiltering = true;
             this.wordsDataListView.UseHotItem = true;
             this.wordsDataListView.UseTranslucentHotItem = true;
+            this.wordsDataListView.UseTranslucentSelection = true;
             this.wordsDataListView.View = System.Windows.Forms.View.Details;
             this.wordsDataListView.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.wordsDataListView_FormatRow);
             this.wordsDataListView.SelectedIndexChanged += new System.EventHandler(this.wordsDataListView_SelectedIndexChanged);
             this.wordsDataListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.wordsDataListView_KeyDown);
             // 
-            // olvColumn1
+            // colWord
             // 
-            this.olvColumn1.AspectName = "Word";
-            this.olvColumn1.IsTileViewColumn = true;
-            this.olvColumn1.Text = "Word";
-            this.olvColumn1.UseInitialLetterForGroup = true;
-            this.olvColumn1.Width = 150;
+            this.colWord.AspectName = "Word";
+            this.colWord.IsTileViewColumn = true;
+            this.colWord.Text = "Word";
+            this.colWord.UseInitialLetterForGroup = true;
+            this.colWord.Width = 150;
             // 
-            // hardnessColumn
+            // colHardness
             // 
-            this.hardnessColumn.AspectName = "Hardness";
-            this.hardnessColumn.Text = "Hardness";
+            this.colHardness.AspectName = "Hardness";
+            this.colHardness.Text = "Hardness";
             // 
-            // percentageColumn
+            // colPercentage
             // 
-            this.percentageColumn.AspectName = "RememberPercentile";
-            this.percentageColumn.Text = "%";
+            this.colPercentage.AspectName = "RememberPercentile";
+            this.colPercentage.Text = "%";
+            // 
+            // colTried
+            // 
+            this.colTried.AspectName = "Tried";
+            this.colTried.Text = "Tried";
             // 
             // imageList2
             // 
@@ -743,8 +829,8 @@ namespace GREWordStudy.Study
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.splitContainer7);
-            this.splitContainer4.Size = new System.Drawing.Size(318, 267);
-            this.splitContainer4.SplitterDistance = 121;
+            this.splitContainer4.Size = new System.Drawing.Size(318, 262);
+            this.splitContainer4.SplitterDistance = 118;
             this.splitContainer4.TabIndex = 0;
             // 
             // rtfEtymology
@@ -756,7 +842,7 @@ namespace GREWordStudy.Study
             this.rtfEtymology.HideSelection = false;
             this.rtfEtymology.Location = new System.Drawing.Point(0, 0);
             this.rtfEtymology.Name = "rtfEtymology";
-            this.rtfEtymology.Size = new System.Drawing.Size(318, 121);
+            this.rtfEtymology.Size = new System.Drawing.Size(318, 118);
             this.rtfEtymology.TabIndex = 7;
             this.rtfEtymology.Text = "";
             // 
@@ -773,7 +859,7 @@ namespace GREWordStudy.Study
             // splitContainer7.Panel2
             // 
             this.splitContainer7.Panel2.Controls.Add(this.listAntonyms);
-            this.splitContainer7.Size = new System.Drawing.Size(318, 142);
+            this.splitContainer7.Size = new System.Drawing.Size(318, 140);
             this.splitContainer7.SplitterDistance = 187;
             this.splitContainer7.TabIndex = 0;
             // 
@@ -792,7 +878,7 @@ namespace GREWordStudy.Study
             this.listSynonyms.MultiSelect = false;
             this.listSynonyms.Name = "listSynonyms";
             this.listSynonyms.ShowItemToolTips = true;
-            this.listSynonyms.Size = new System.Drawing.Size(187, 142);
+            this.listSynonyms.Size = new System.Drawing.Size(187, 140);
             this.listSynonyms.TabIndex = 6;
             this.listSynonyms.UseCompatibleStateImageBehavior = false;
             this.listSynonyms.View = System.Windows.Forms.View.List;
@@ -826,7 +912,7 @@ namespace GREWordStudy.Study
             this.listAntonyms.MultiSelect = false;
             this.listAntonyms.Name = "listAntonyms";
             this.listAntonyms.ShowItemToolTips = true;
-            this.listAntonyms.Size = new System.Drawing.Size(127, 142);
+            this.listAntonyms.Size = new System.Drawing.Size(127, 140);
             this.listAntonyms.TabIndex = 7;
             this.listAntonyms.UseCompatibleStateImageBehavior = false;
             this.listAntonyms.View = System.Windows.Forms.View.List;
@@ -852,38 +938,41 @@ namespace GREWordStudy.Study
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(507, 45);
+            this.panel2.Size = new System.Drawing.Size(507, 50);
             this.panel2.TabIndex = 3;
             // 
             // labelWord
             // 
             this.labelWord.BackColor = System.Drawing.Color.Yellow;
             this.labelWord.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelWord.Font = new System.Drawing.Font("Candara", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelWord.Font = new System.Drawing.Font("Candara", 26.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelWord.Location = new System.Drawing.Point(187, 0);
             this.labelWord.Name = "labelWord";
-            this.labelWord.Size = new System.Drawing.Size(320, 45);
+            this.labelWord.Size = new System.Drawing.Size(320, 50);
             this.labelWord.TabIndex = 32;
             this.labelWord.Text = "GRE";
             // 
             // panel6
             // 
-            this.panel6.Controls.Add(this.textWord);
+            this.panel6.Controls.Add(this.textWordFilter);
             this.panel6.Controls.Add(this.comboList);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel6.Location = new System.Drawing.Point(0, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(187, 45);
+            this.panel6.Size = new System.Drawing.Size(187, 50);
             this.panel6.TabIndex = 31;
             // 
             // textWord
             // 
-            this.textWord.Dock = System.Windows.Forms.DockStyle.Top;
-            this.textWord.Location = new System.Drawing.Point(0, 21);
-            this.textWord.Name = "textWord";
-            this.textWord.Size = new System.Drawing.Size(187, 20);
-            this.textWord.TabIndex = 4;
-            this.textWord.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textWordFilter.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textWordFilter.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textWordFilter.Location = new System.Drawing.Point(0, 21);
+            this.textWordFilter.Name = "textWordFilter";
+            this.textWordFilter.Size = new System.Drawing.Size(187, 29);
+            this.textWordFilter.TabIndex = 4;
+            this.textWordFilter.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textWordFilter.Enter += new System.EventHandler(this.textWord_Enter);
+            this.textWordFilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textWord_KeyDown);
             // 
             // comboList
             // 
@@ -927,7 +1016,7 @@ namespace GREWordStudy.Study
             this.rtfComment.BackColor = System.Drawing.Color.AliceBlue;
             this.rtfComment.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtfComment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtfComment.Font = new System.Drawing.Font("Candara", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtfComment.Font = new System.Drawing.Font("Midiet", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtfComment.HideSelection = false;
             this.rtfComment.Location = new System.Drawing.Point(0, 0);
             this.rtfComment.Name = "rtfComment";
@@ -1261,6 +1350,7 @@ namespace GREWordStudy.Study
             // 
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -1315,6 +1405,50 @@ namespace GREWordStudy.Study
             this.rtfWordnetSynonyms.Size = new System.Drawing.Size(241, 121);
             this.rtfWordnetSynonyms.TabIndex = 8;
             this.rtfWordnetSynonyms.Text = "";
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.buttonSearchByAntonym);
+            this.tabPage6.Controls.Add(this.buttonSearchBySynonym);
+            this.tabPage6.Controls.Add(this.textSearchSynonym);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(10);
+            this.tabPage6.Size = new System.Drawing.Size(247, 127);
+            this.tabPage6.TabIndex = 2;
+            this.tabPage6.Text = "Search";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // buttonSearchByAntonym
+            // 
+            this.buttonSearchByAntonym.Location = new System.Drawing.Point(94, 45);
+            this.buttonSearchByAntonym.Name = "buttonSearchByAntonym";
+            this.buttonSearchByAntonym.Size = new System.Drawing.Size(75, 23);
+            this.buttonSearchByAntonym.TabIndex = 2;
+            this.buttonSearchByAntonym.Text = "By Antonym";
+            this.buttonSearchByAntonym.UseVisualStyleBackColor = true;
+            this.buttonSearchByAntonym.Click += new System.EventHandler(this.buttonSearchByAntonym_Click);
+            // 
+            // buttonSearchBySynonym
+            // 
+            this.buttonSearchBySynonym.Location = new System.Drawing.Point(13, 45);
+            this.buttonSearchBySynonym.Name = "buttonSearchBySynonym";
+            this.buttonSearchBySynonym.Size = new System.Drawing.Size(75, 23);
+            this.buttonSearchBySynonym.TabIndex = 1;
+            this.buttonSearchBySynonym.Text = "By Synonym";
+            this.buttonSearchBySynonym.UseVisualStyleBackColor = true;
+            this.buttonSearchBySynonym.Click += new System.EventHandler(this.buttonSearchBySynonym_Click);
+            // 
+            // textSearchSynonym
+            // 
+            this.textSearchSynonym.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textSearchSynonym.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textSearchSynonym.Location = new System.Drawing.Point(10, 10);
+            this.textSearchSynonym.Name = "textSearchSynonym";
+            this.textSearchSynonym.Size = new System.Drawing.Size(227, 29);
+            this.textSearchSynonym.TabIndex = 0;
+            this.textSearchSynonym.Enter += new System.EventHandler(this.textSearchSynonym_Enter);
+            this.textSearchSynonym.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textSearchSynonym_KeyDown);
             // 
             // rtfGoogleDictionary
             // 
@@ -1634,7 +1768,7 @@ namespace GREWordStudy.Study
             // fontDialog
             // 
             this.fontDialog.AllowScriptChange = false;
-            this.fontDialog.Font = new System.Drawing.Font("Union", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fontDialog.Font = new System.Drawing.Font("Midiet", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
             // GreWordStudyForm
             // 
@@ -1704,6 +1838,8 @@ namespace GREWordStudy.Study
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
             this.tabControlGRE.ResumeLayout(false);
             this.tabPageWebBrowsers.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
@@ -1740,7 +1876,7 @@ namespace GREWordStudy.Study
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.RichTextBox rtfEtymology;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TextBox textWord;
+        private System.Windows.Forms.TextBox textWordFilter;
         private System.Windows.Forms.ComboBox comboList;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.RichTextBox rtfComment;
@@ -1770,7 +1906,6 @@ namespace GREWordStudy.Study
         private System.Windows.Forms.ToolStripStatusLabel statusTried;
         private System.Windows.Forms.ToolStripStatusLabel statusRemembered;
         private System.Windows.Forms.ToolStripStatusLabel statusFailed;
-        private System.Windows.Forms.ToolStripMenuItem webUrlsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem singWordToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem1;
@@ -1787,7 +1922,6 @@ namespace GREWordStudy.Study
         private System.Windows.Forms.ToolStripMenuItem stickyToolStripMenuItem;
         private System.Windows.Forms.Panel panel4;
         private Crownwood.DotNetMagic.Controls.TabbedGroups tabbedGroupsWebSites;
-        private System.Windows.Forms.ToolStripMenuItem removeAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.ToolStrip toolbarComment;
         private System.Windows.Forms.ToolStripButton tsBold;
@@ -1818,9 +1952,9 @@ namespace GREWordStudy.Study
         private System.Windows.Forms.ToolStripButton tsPaste;
         private BrightIdeasSoftware.DataListView wordsDataListView;
         private System.Windows.Forms.ImageList imageList2;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private BrightIdeasSoftware.OLVColumn hardnessColumn;
-        private BrightIdeasSoftware.OLVColumn percentageColumn;
+        private BrightIdeasSoftware.OLVColumn colWord;
+        private BrightIdeasSoftware.OLVColumn colHardness;
+        private BrightIdeasSoftware.OLVColumn colPercentage;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripMenuItem deleteSelectedListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fetchSelectedWordToolStripMenuItem;
@@ -1853,8 +1987,6 @@ namespace GREWordStudy.Study
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem openGoogleSearchToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem manageToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openInDefaultBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton tsFont;
         private System.Windows.Forms.FontDialog fontDialog;
         private System.Windows.Forms.ToolStripButton tsFontColor;
@@ -1864,6 +1996,23 @@ namespace GREWordStudy.Study
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ToolStripMenuItem captureScreenAreaToolStripMenuItem;
+        private BrightIdeasSoftware.OLVColumn colTried;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem wordListFontToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.ToolStripMenuItem manageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openInDefaultBrowserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem wordListGroupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+        private System.Windows.Forms.ToolStripMenuItem viewAsDetailsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewAsListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewAsIconsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem autoWordVisiblityToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.TextBox textSearchSynonym;
+        private System.Windows.Forms.Button buttonSearchByAntonym;
+        private System.Windows.Forms.Button buttonSearchBySynonym;
     }
 }
 
