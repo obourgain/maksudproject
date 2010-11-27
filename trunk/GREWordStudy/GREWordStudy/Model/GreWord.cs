@@ -9,9 +9,10 @@
                 if (Remembered + Forgotten == 0)
                     return -1;
                 else
-                    return (int)((double)Remembered * 100.0 / (double)(Remembered + Forgotten));
+                    return (int)(Remembered * 100.0 / (Remembered + Forgotten));
             }
         }
+        public int Tried { get { return Forgotten + Remembered; } }
     }
 }
 
