@@ -193,7 +193,9 @@
     <EmbeddedResource Include="Study\WebUrlsForm.resx">
       <DependentUpon>WebUrlsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\DataSources\GREWordStudy.Model.gredbEntities.datasource" />
     <None Include="Properties\DataSources\GREWordStudy.Model.WebUrl.datasource" />
     <None Include="Properties\Settings.settings">
