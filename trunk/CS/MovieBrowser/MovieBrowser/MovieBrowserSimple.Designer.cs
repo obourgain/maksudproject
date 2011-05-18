@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MovieBrowserSimple));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -40,16 +41,17 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.textIgnore = new System.Windows.Forms.TextBox();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.tsParse = new System.Windows.Forms.ToolStripButton();
+            this.tsUpdateFolder = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.tsBrowseFolder = new System.Windows.Forms.ToolStripButton();
+            this.tsSaveFolders = new System.Windows.Forms.ToolStripButton();
+            this.tsReload = new System.Windows.Forms.ToolStripButton();
+            this.tsSearchImdb = new System.Windows.Forms.ToolStripButton();
+            this.tsSearchGoogle = new System.Windows.Forms.ToolStripButton();
+            this.tsDelete = new System.Windows.Forms.ToolStripButton();
+            this.tsOpenInExplorer = new System.Windows.Forms.ToolStripButton();
+            this.tsUpdateIgnoreList = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,7 +60,11 @@
             this.parseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.parseCurrentPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.intelligentTrackerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.extraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -77,10 +83,14 @@
             // toolStripContainer1
             // 
             // 
+            // toolStripContainer1.BottomToolStripPanel
+            // 
+            this.toolStripContainer1.BottomToolStripPanel.Controls.Add(this.statusStrip1);
+            // 
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(738, 373);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(713, 376);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -106,8 +116,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel2.Controls.Add(this.toolStrip3);
-            this.splitContainer1.Size = new System.Drawing.Size(738, 373);
-            this.splitContainer1.SplitterDistance = 246;
+            this.splitContainer1.Size = new System.Drawing.Size(713, 376);
+            this.splitContainer1.SplitterDistance = 237;
             this.splitContainer1.TabIndex = 0;
             // 
             // treeView1
@@ -117,10 +127,11 @@
             this.treeView1.HideSelection = false;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(246, 373);
+            this.treeView1.ShowNodeToolTips = true;
+            this.treeView1.Size = new System.Drawing.Size(237, 376);
             this.treeView1.TabIndex = 1;
-            this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
-            this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyDown);
+            this.treeView1.DoubleClick += new System.EventHandler(this.TreeView1DoubleClick);
+            this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TreeView1KeyDown);
             // 
             // tabControl1
             // 
@@ -131,7 +142,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 25);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(488, 348);
+            this.tabControl1.Size = new System.Drawing.Size(472, 351);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage2
@@ -140,7 +151,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(480, 322);
+            this.tabPage2.Size = new System.Drawing.Size(464, 325);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Browser";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -152,10 +163,10 @@
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.ScriptErrorsSuppressed = true;
-            this.webBrowser1.Size = new System.Drawing.Size(474, 316);
+            this.webBrowser1.Size = new System.Drawing.Size(458, 319);
             this.webBrowser1.TabIndex = 0;
-            this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
-            this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webBrowser1_Navigated);
+            this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WebBrowser1DocumentCompleted);
+            this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WebBrowser1Navigated);
             // 
             // tabPage1
             // 
@@ -201,116 +212,127 @@
             // toolStrip3
             // 
             this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton7,
-            this.toolStripButton6});
+            this.tsParse,
+            this.tsUpdateFolder});
             this.toolStrip3.Location = new System.Drawing.Point(0, 0);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(488, 25);
+            this.toolStrip3.Size = new System.Drawing.Size(472, 25);
             this.toolStrip3.TabIndex = 0;
             this.toolStrip3.Text = "toolStrip3";
             // 
-            // toolStripButton7
+            // tsParse
             // 
-            this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(55, 22);
-            this.toolStripButton7.Text = "Parse";
-            this.toolStripButton7.Click += new System.EventHandler(this.toolStripButton7_Click);
+            this.tsParse.Image = ((System.Drawing.Image)(resources.GetObject("tsParse.Image")));
+            this.tsParse.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsParse.Name = "tsParse";
+            this.tsParse.Size = new System.Drawing.Size(55, 22);
+            this.tsParse.Text = "Parse";
+            this.tsParse.Click += new System.EventHandler(this.ToolStripButton7Click);
             // 
-            // toolStripButton6
+            // tsUpdateFolder
             // 
-            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(101, 22);
-            this.toolStripButton6.Text = "Update Folder";
-            this.toolStripButton6.Click += new System.EventHandler(this.toolStripButton6_Click);
+            this.tsUpdateFolder.Image = ((System.Drawing.Image)(resources.GetObject("tsUpdateFolder.Image")));
+            this.tsUpdateFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsUpdateFolder.Name = "tsUpdateFolder";
+            this.tsUpdateFolder.Size = new System.Drawing.Size(101, 22);
+            this.tsUpdateFolder.Text = "Update Folder";
+            this.tsUpdateFolder.Click += new System.EventHandler(this.ToolStripButton6Click);
             // 
             // toolStrip1
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
-            this.toolStripButton9,
-            this.toolStripButton2,
-            this.toolStripButton3,
-            this.toolStripButton4,
-            this.toolStripButton8,
-            this.toolStripButton5});
+            this.tsBrowseFolder,
+            this.tsSaveFolders,
+            this.tsReload,
+            this.tsSearchImdb,
+            this.tsSearchGoogle,
+            this.tsDelete,
+            this.tsOpenInExplorer,
+            this.tsUpdateIgnoreList});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(558, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(609, 25);
             this.toolStrip1.TabIndex = 0;
             // 
-            // toolStripButton1
+            // tsBrowseFolder
             // 
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(65, 22);
-            this.toolStripButton1.Text = "Browse";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.tsBrowseFolder.Image = ((System.Drawing.Image)(resources.GetObject("tsBrowseFolder.Image")));
+            this.tsBrowseFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBrowseFolder.Name = "tsBrowseFolder";
+            this.tsBrowseFolder.Size = new System.Drawing.Size(65, 22);
+            this.tsBrowseFolder.Text = "Browse";
+            this.tsBrowseFolder.Click += new System.EventHandler(this.ToolStripButton1Click);
             // 
-            // toolStripButton9
+            // tsSaveFolders
             // 
-            this.toolStripButton9.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton9.Image")));
-            this.toolStripButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton9.Name = "toolStripButton9";
-            this.toolStripButton9.Size = new System.Drawing.Size(63, 22);
-            this.toolStripButton9.Text = "Reload";
-            this.toolStripButton9.Click += new System.EventHandler(this.toolStripButton9_Click);
+            this.tsSaveFolders.Image = ((System.Drawing.Image)(resources.GetObject("tsSaveFolders.Image")));
+            this.tsSaveFolders.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsSaveFolders.Name = "tsSaveFolders";
+            this.tsSaveFolders.Size = new System.Drawing.Size(51, 22);
+            this.tsSaveFolders.Text = "Save";
+            this.tsSaveFolders.Click += new System.EventHandler(this.TsSaveFoldersClick);
             // 
-            // toolStripButton2
+            // tsReload
             // 
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(56, 22);
-            this.toolStripButton2.Text = "IMDB";
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            this.tsReload.Image = ((System.Drawing.Image)(resources.GetObject("tsReload.Image")));
+            this.tsReload.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsReload.Name = "tsReload";
+            this.tsReload.Size = new System.Drawing.Size(63, 22);
+            this.tsReload.Text = "Reload";
+            this.tsReload.Click += new System.EventHandler(this.ToolStripButton9Click);
             // 
-            // toolStripButton3
+            // tsSearchImdb
             // 
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(65, 22);
-            this.toolStripButton3.Text = "Google";
-            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
+            this.tsSearchImdb.Image = ((System.Drawing.Image)(resources.GetObject("tsSearchImdb.Image")));
+            this.tsSearchImdb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsSearchImdb.Name = "tsSearchImdb";
+            this.tsSearchImdb.Size = new System.Drawing.Size(56, 22);
+            this.tsSearchImdb.Text = "IMDB";
+            this.tsSearchImdb.Click += new System.EventHandler(this.ToolStripButton2Click);
             // 
-            // toolStripButton4
+            // tsSearchGoogle
             // 
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(60, 22);
-            this.toolStripButton4.Text = "Delete";
-            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
+            this.tsSearchGoogle.Image = ((System.Drawing.Image)(resources.GetObject("tsSearchGoogle.Image")));
+            this.tsSearchGoogle.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsSearchGoogle.Name = "tsSearchGoogle";
+            this.tsSearchGoogle.Size = new System.Drawing.Size(65, 22);
+            this.tsSearchGoogle.Text = "Google";
+            this.tsSearchGoogle.Click += new System.EventHandler(this.ToolStripButton3Click);
             // 
-            // toolStripButton8
+            // tsDelete
             // 
-            this.toolStripButton8.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton8.Image")));
-            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(114, 22);
-            this.toolStripButton8.Text = "Open in Explorer";
-            this.toolStripButton8.Click += new System.EventHandler(this.toolStripButton8_Click);
+            this.tsDelete.Image = ((System.Drawing.Image)(resources.GetObject("tsDelete.Image")));
+            this.tsDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsDelete.Name = "tsDelete";
+            this.tsDelete.Size = new System.Drawing.Size(60, 22);
+            this.tsDelete.Text = "Delete";
+            this.tsDelete.Click += new System.EventHandler(this.ToolStripButton4Click);
             // 
-            // toolStripButton5
+            // tsOpenInExplorer
             // 
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(123, 22);
-            this.toolStripButton5.Text = "Update Ignore List";
-            this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click_1);
+            this.tsOpenInExplorer.Image = ((System.Drawing.Image)(resources.GetObject("tsOpenInExplorer.Image")));
+            this.tsOpenInExplorer.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsOpenInExplorer.Name = "tsOpenInExplorer";
+            this.tsOpenInExplorer.Size = new System.Drawing.Size(114, 22);
+            this.tsOpenInExplorer.Text = "Open in Explorer";
+            this.tsOpenInExplorer.Click += new System.EventHandler(this.ToolStripButton8Click);
+            // 
+            // tsUpdateIgnoreList
+            // 
+            this.tsUpdateIgnoreList.Image = ((System.Drawing.Image)(resources.GetObject("tsUpdateIgnoreList.Image")));
+            this.tsUpdateIgnoreList.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsUpdateIgnoreList.Name = "tsUpdateIgnoreList";
+            this.tsUpdateIgnoreList.Size = new System.Drawing.Size(123, 22);
+            this.tsUpdateIgnoreList.Text = "Update Ignore List";
+            this.tsUpdateIgnoreList.Click += new System.EventHandler(this.ToolStripButton5Click1);
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.parseToolStripMenuItem});
+            this.parseToolStripMenuItem,
+            this.extraToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(738, 24);
@@ -331,25 +353,25 @@
             // 
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
             this.searchToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.searchToolStripMenuItem.Text = "Search";
-            this.searchToolStripMenuItem.Click += new System.EventHandler(this.searchToolStripMenuItem_Click);
+            this.searchToolStripMenuItem.Click += new System.EventHandler(this.SearchToolStripMenuItemClick);
             // 
             // googleToolStripMenuItem
             // 
             this.googleToolStripMenuItem.Name = "googleToolStripMenuItem";
             this.googleToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.googleToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.googleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.googleToolStripMenuItem.Text = "Google";
-            this.googleToolStripMenuItem.Click += new System.EventHandler(this.googleToolStripMenuItem_Click);
+            this.googleToolStripMenuItem.Click += new System.EventHandler(this.GoogleToolStripMenuItemClick);
             // 
             // updateToolStripMenuItem
             // 
             this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
             this.updateToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.updateToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.updateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.updateToolStripMenuItem.Text = "Update";
-            this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
+            this.updateToolStripMenuItem.Click += new System.EventHandler(this.UpdateToolStripMenuItemClick);
             // 
             // parseToolStripMenuItem
             // 
@@ -373,30 +395,52 @@
             this.intelligentTrackerToolStripMenuItem.Name = "intelligentTrackerToolStripMenuItem";
             this.intelligentTrackerToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.intelligentTrackerToolStripMenuItem.Text = "&Intelligent Tracker";
-            this.intelligentTrackerToolStripMenuItem.Click += new System.EventHandler(this.intelligentTrackerToolStripMenuItem_Click);
+            this.intelligentTrackerToolStripMenuItem.Click += new System.EventHandler(this.IntelligentTrackerToolStripMenuItemClick);
+            // 
+            // extraToolStripMenuItem
+            // 
+            this.extraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sortToolStripMenuItem});
+            this.extraToolStripMenuItem.Name = "extraToolStripMenuItem";
+            this.extraToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.extraToolStripMenuItem.Text = "Extra";
+            // 
+            // sortToolStripMenuItem
+            // 
+            this.sortToolStripMenuItem.Name = "sortToolStripMenuItem";
+            this.sortToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sortToolStripMenuItem.Text = "&Sort";
+            this.sortToolStripMenuItem.Click += new System.EventHandler(this.sortToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 425);
+            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.statusStrip1.Location = new System.Drawing.Point(0, 0);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(738, 22);
-            this.statusStrip1.TabIndex = 2;
-            this.statusStrip1.Text = "statusStrip1";
+            this.statusStrip1.TabIndex = 0;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // MovieBrowserSimple
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(738, 447);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MovieBrowserSimple";
             this.Text = "Movie";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MovieBrowserSimple_FormClosing);
-            this.Load += new System.EventHandler(this.MovieBrowserSimple_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MovieBrowserSimpleFormClosing);
+            this.Load += new System.EventHandler(this.MovieBrowserSimpleLoad);
+            this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
@@ -427,19 +471,19 @@
 
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton tsBrowseFolder;
+        private System.Windows.Forms.ToolStripButton tsSearchImdb;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem googleToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripButton tsSearchGoogle;
+        private System.Windows.Forms.ToolStripButton tsDelete;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ToolStrip toolStrip3;
-        private System.Windows.Forms.ToolStripButton toolStripButton7;
+        private System.Windows.Forms.ToolStripButton tsParse;
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.ToolStripMenuItem parseToolStripMenuItem;
@@ -449,12 +493,16 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TextBox textIgnore;
-        private System.Windows.Forms.ToolStripButton toolStripButton6;
-        private System.Windows.Forms.ToolStripButton toolStripButton8;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
-        private System.Windows.Forms.ToolStripButton toolStripButton9;
+        private System.Windows.Forms.ToolStripButton tsUpdateFolder;
+        private System.Windows.Forms.ToolStripButton tsOpenInExplorer;
+        private System.Windows.Forms.ToolStripButton tsUpdateIgnoreList;
+        private System.Windows.Forms.ToolStripButton tsReload;
         private System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton tsSaveFolders;
+        private System.Windows.Forms.ToolStripMenuItem extraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sortToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
 
