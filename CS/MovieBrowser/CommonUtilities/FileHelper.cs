@@ -4,6 +4,7 @@ namespace CommonUtilities
 {
     public static class FileHelper
     {
+       
         public static string Extension(this string @this)
         {
             try { return @this.Substring(@this.LastIndexOf(".") + 1); }
