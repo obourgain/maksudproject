@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
@@ -16,49 +17,42 @@ namespace MovieBrowser
         private const string ImdbSearch = "http://www.imdb.com/find?s=all&q=";
         private const string ImdbTitle = "http://www.imdb.com/title/";
 
+        private MovieNode _selectedNode = null;
+
+
         public MovieBrowserSimple()
         {
             InitializeComponent();
             treeView1.TreeViewNodeSorter = new MovieComparer();
         }
-
         private void ToolStripButton1Click(object sender, EventArgs e)
         {
             LoadFolderDialog();
         }
-
         private void ToolStripButton2Click(object sender, EventArgs e)
         {
             SearchMovie(ImdbSearch);
         }
-
         private void TreeView1DoubleClick(object sender, EventArgs e)
         {
             SearchMovie(ImdbSearch);
         }
-
         private void SearchToolStripMenuItemClick(object sender, EventArgs e)
         {
             SearchMovie(ImdbSearch);
         }
-
         private void GoogleToolStripMenuItemClick(object sender, EventArgs e)
         {
             SearchMovie(GoogleSearch);
         }
-
         private void ToolStripButton3Click(object sender, EventArgs e)
         {
             SearchMovie(GoogleSearch);
         }
-
         private void ToolStripButton4Click(object sender, EventArgs e)
         {
             DeleteNode();
         }
-
-
-
         private void TreeView1KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -76,30 +70,20 @@ namespace MovieBrowser
                 Open();
             }
         }
-
-
-
         private void IntelligentTrackerToolStripMenuItemClick(object sender, EventArgs e)
         {
             intelligentTrackerToolStripMenuItem.Checked = !intelligentTrackerToolStripMenuItem.Checked;
         }
-
-
-
         private void MovieBrowserSimpleFormClosing(object sender, FormClosingEventArgs e)
         {
 
             SaveFolderList();
 
         }
-
         private void MovieBrowserSimpleLoad(object sender, EventArgs e)
         {
             LoadAllFolders();
         }
-
-
-
         private void WebBrowser1DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             try
@@ -113,8 +97,6 @@ namespace MovieBrowser
             }
 
         }
-
-
         private void ToolStripButton7Click(object sender, EventArgs e)
         {
             try
@@ -124,36 +106,26 @@ namespace MovieBrowser
             }
             catch { }
         }
-
-
-
         private void ToolStripButton6Click(object sender, EventArgs e)
         {
             UpdateMovie();
         }
-
-
-
         private void ToolStripButton8Click(object sender, EventArgs e)
         {
             Open();
         }
-
         private void ToolStripButton5Click1(object sender, EventArgs e)
         {
             SaveIgnoreList();
         }
-
         private void WebBrowser1Navigated(object sender, WebBrowserNavigatedEventArgs e)
         {
             textBox1.AppendText("Navigated to " + e.Url.AbsoluteUri + "\r\n");
         }
-
         private void ToolStripButton9Click(object sender, EventArgs e)
         {
             LoadAllFolders();
         }
-
         private void UpdateToolStripMenuItemClick(object sender, EventArgs e)
         {
             UpdateMovie();
@@ -180,18 +152,16 @@ namespace MovieBrowser
                 LoadFolder(_dialog.SelectedPath);
             }
         }
-
         private void LoadFolder(string folderPath)
         {
 
-            var movie = ParseFolderName(folderPath);
-            var treeNode = new TreeNode(movie.TitleWithRating) { Tag = movie };
+            var movie = Movie.FromFolderName(folderPath);
+            var treeNode = new MovieNode(movie);
             treeView1.Nodes.Add(treeNode);
 
             FolderBrowseRecursively(treeNode, folderPath);
         }
-
-        private static void FolderBrowseRecursively(TreeNode treeNode, string selectedPath)
+        private static void FolderBrowseRecursively(MovieNode treeNode, string selectedPath)
         {
 
             var directories = Directory.GetDirectories(selectedPath);
@@ -199,16 +169,16 @@ namespace MovieBrowser
 
             foreach (var directory in directories)
             {
-                var movie = ParseFolderName(directory);
-                var tn = new TreeNode(movie.TitleWithRating) { Tag = movie };
+                var movie = Movie.FromFolderName(directory);
+                var tn = new MovieNode(movie);
                 treeNode.Nodes.Add(tn);
 
 
                 var files = Directory.GetFiles(directory);
                 foreach (var file in files)
                 {
-                    movie = ParseFolderName(file);
-                    var node = new TreeNode(movie.TitleWithRating) { Tag = movie };
+                    movie = Movie.FromFolderName(file);
+                    var node = new MovieNode(movie);
                     tn.Nodes.Add(node);
                 }
 
@@ -219,19 +189,19 @@ namespace MovieBrowser
         {
             try
             {
-                var movie = (Movie)treeView1.SelectedNode.Tag;
+                _selectedNode = (MovieNode)treeView1.SelectedNode;
+                var movie = (Movie)_selectedNode.Tag;
                 if (address.Equals(ImdbSearch) && movie != null && !string.IsNullOrEmpty(movie.ImdbId))
                 {
                     Navigate(ImdbTitle + movie.ImdbId);
                 }
                 else
                 {
-                    Navigate(address + IgnoreWords(treeView1.SelectedNode.Text));
+                    Navigate(address + IgnoreWords(_selectedNode.Text));
                 }
             }
             catch { }
         }
-
         private string IgnoreWords(string text)
         {
             text = text.ToLower();
@@ -244,20 +214,21 @@ namespace MovieBrowser
         {
             try
             {
-                Movie filename = (Movie)treeView1.SelectedNode.Tag;
+                var filename = (Movie)_selectedNode.Tag;
 
-                string newdir = filename.FilePath.Substring(0, filename.FilePath.LastIndexOf("\\") + 1);
+                var newdir = filename.FilePath.Substring(0, filename.FilePath.LastIndexOf("\\") + 1);
 
-                Movie movie = ParseMovieInfo();
+                var movie = ParseMovieInfo();
                 //Directory.Move(filename, newdir);
                 newdir += CleanedName(HttpHelper.Decode(String.Format("{0} ({1}), [{2}] [{3}]", movie.Title, movie.Year, movie.Rating, movie.ImdbId)));
 
                 Directory.Move(filename.FilePath, newdir);
 
-                //treeView1.SelectedNode.Tag = newdir;
                 movie.FilePath = newdir;
-                treeView1.SelectedNode.Text = ParseFolderName(newdir).Title + " " + movie.Rating;
-                treeView1.SelectedNode.Tag = movie;
+                movie.IsValidMovie = true;
+                _selectedNode.Text = movie.TitleWithRating;
+                _selectedNode.Tag = movie;
+                _selectedNode.SelectedImageIndex = _selectedNode.ImageIndex = movie.ImageIndex;
             }
             catch
             {
@@ -282,7 +253,7 @@ namespace MovieBrowser
         {
             Properties.Settings.Default.Paths = new StringCollection();
 
-            foreach (TreeNode node in treeView1.Nodes)
+            foreach (MovieNode node in treeView1.Nodes)
             {
                 Properties.Settings.Default.Paths.Add(((Movie)node.Tag).FilePath);
             }
@@ -293,32 +264,7 @@ namespace MovieBrowser
             return Regex.Replace(name, @"[\\/:*?""<>|]+", "");
         }
 
-        private static Movie ParseFolderName(string folderPath)
-        {
-            String folderName = "";
-            int i = folderPath.LastIndexOf("\\");
-            if (i > 0)
-            {
-                folderName = folderPath.Substring(i + 1);
-            }
 
-            var match = Regex.Match(folderName, @"(.+) \((\d+)\), \[([\d.]+)\]\s*(\[(tt\d+)\])?");
-            if (match.Success)
-            {
-                return new Movie()
-                {
-                    Title = match.Groups[1].Value,
-                    Year = int.Parse(match.Groups[2].Value),
-                    Rating = double.Parse(match.Groups[3].Value),
-                    ImdbId = match.Groups[5].Value,
-                    FilePath = folderPath
-                };
-            }
-            else
-            {
-                return new Movie() { Title = folderName, FilePath = folderPath };
-            }
-        }
         private Movie ParseMovieInfo()
         {
             var src = webBrowser1.DocumentText;

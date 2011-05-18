@@ -61,6 +61,7 @@
       <DependentUpon>MovieBrowserSimple.cs</DependentUpon>
     </Compile>
     <Compile Include="MovieComparer.cs" />
+    <Compile Include="MovieNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MovieBrowserSimple.resx">
@@ -89,6 +90,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonUtilities\CommonUtilities.csproj">
+      <Project>{C3ABB3E2-C7A5-4E6F-BFD0-D246ED83E1BC}</Project>
+      <Name>CommonUtilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ShellLib\ShellLib.csproj">
       <Project>{773B1EF8-E5F0-45CA-96E8-20AE06716026}</Project>
       <Name>ShellLib</Name>
