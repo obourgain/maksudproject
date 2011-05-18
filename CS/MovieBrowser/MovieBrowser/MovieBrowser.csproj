@@ -60,22 +60,8 @@
     <Compile Include="MovieBrowserSimple.Designer.cs">
       <DependentUpon>MovieBrowserSimple.cs</DependentUpon>
     </Compile>
-    <Compile Include="ShellLib\FilterByExtension.cs" />
-    <Compile Include="ShellLib\IFolderFilter.cs" />
-    <Compile Include="ShellLib\IFolderFilterSite.cs" />
-    <Compile Include="ShellLib\IMalloc.cs" />
-    <Compile Include="ShellLib\IShellFolder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShellLib\ShellAddRecent.cs" />
-    <Compile Include="ShellLib\ShellApi.cs" />
-    <Compile Include="ShellLib\ShellBrowseForFolderDialog.cs" />
-    <Compile Include="ShellLib\ShellExecute.cs" />
-    <Compile Include="ShellLib\ShellFileOperation.cs" />
-    <Compile Include="ShellLib\ShellFunctions.cs" />
-    <Compile Include="ShellLib\ShellGUIDs.cs" />
-    <Compile Include="ShellLib\ShellNameMapping.cs" />
-    <Compile Include="ShellLib\ShellUtilities.cs" />
     <EmbeddedResource Include="MovieBrowserSimple.resx">
       <DependentUpon>MovieBrowserSimple.cs</DependentUpon>
     </EmbeddedResource>
@@ -105,6 +91,10 @@
     <ProjectReference Include="..\HttpUtility\HttpUtility.csproj">
       <Project>{C3ABB3E2-C7A5-4E6F-BFD0-D246ED83E1BC}</Project>
       <Name>HttpUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShellLib\ShellLib.csproj">
+      <Project>{773B1EF8-E5F0-45CA-96E8-20AE06716026}</Project>
+      <Name>ShellLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
