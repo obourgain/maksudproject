@@ -790,7 +790,7 @@ namespace GREWordStudy.Study
             this.tsForgot.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsForgot.Name = "tsForgot";
             this.tsForgot.Size = new System.Drawing.Size(23, 22);
-            this.tsForgot.Text = "toolStripButton2";
+            this.tsForgot.Text = "Forgot";
             this.tsForgot.Click += new System.EventHandler(this.tsForgot_Click);
             // 
             // tsRemembered
@@ -801,7 +801,7 @@ namespace GREWordStudy.Study
             this.tsRemembered.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsRemembered.Name = "tsRemembered";
             this.tsRemembered.Size = new System.Drawing.Size(23, 22);
-            this.tsRemembered.Text = "toolStripButton1";
+            this.tsRemembered.Text = "Remembered";
             this.tsRemembered.Click += new System.EventHandler(this.tsRemembered_Click);
             // 
             // toolStripButton1
@@ -811,8 +811,8 @@ namespace GREWordStudy.Study
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 20);
+            this.toolStripButton1.Text = "Delete Word";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // splitContainer4
@@ -962,7 +962,7 @@ namespace GREWordStudy.Study
             this.panel6.Size = new System.Drawing.Size(187, 50);
             this.panel6.TabIndex = 31;
             // 
-            // textWord
+            // textWordFilter
             // 
             this.textWordFilter.Dock = System.Windows.Forms.DockStyle.Top;
             this.textWordFilter.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1016,7 +1016,7 @@ namespace GREWordStudy.Study
             this.rtfComment.BackColor = System.Drawing.Color.AliceBlue;
             this.rtfComment.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtfComment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtfComment.Font = new System.Drawing.Font("Midiet", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtfComment.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtfComment.HideSelection = false;
             this.rtfComment.Location = new System.Drawing.Point(0, 0);
             this.rtfComment.Name = "rtfComment";
@@ -1768,7 +1768,7 @@ namespace GREWordStudy.Study
             // fontDialog
             // 
             this.fontDialog.AllowScriptChange = false;
-            this.fontDialog.Font = new System.Drawing.Font("Midiet", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fontDialog.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
             // GreWordStudyForm
             // 
