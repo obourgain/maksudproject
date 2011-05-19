@@ -67,6 +67,8 @@ namespace MovieBrowser
         public double Rating { get; set; }
         public string ImdbId { get; set; }
 
+
+        public string FolderName { get { return string.Format("{0} ({1}), [{2}] [{3}]", Title, Year, Rating, ImdbId); } }
         public int ImageIndex
         {
             get
