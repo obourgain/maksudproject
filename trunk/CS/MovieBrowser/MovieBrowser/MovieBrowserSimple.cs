@@ -369,7 +369,7 @@ namespace MovieBrowser
         {
             try
             {
-                var movie = (Movie) treeView1.SelectedNode.Tag;
+                var movie = (Movie)treeView1.SelectedNode.Tag;
                 var stt = new SendToThread()
                               {
                                   Source = movie.FilePath,
@@ -380,13 +380,15 @@ namespace MovieBrowser
             }
             catch
             {
-                
+
             }
         }
     }
 
     public class SendToThread
     {
+
+
         public string Source { get; set; }
         public string Destination { get; set; }
 
@@ -394,16 +396,16 @@ namespace MovieBrowser
         {
             try
             {
-
-                FileHelper.CopyAll(new DirectoryInfo(Source), new DirectoryInfo(Destination));
-
-                MessageBox.Show("Copied Successfully.");
+                FileHelper.CopyAllRecursive(new DirectoryInfo(Source), new DirectoryInfo(Destination), null);
+                MessageBox.Show(@"Copied Successfully.");
             }
             catch (Exception exception)
             {
-                MessageBox.Show("Problem Sending file.");
+                MessageBox.Show(@"Problem Sending file.");
             }
         }
 
     }
+
+
 }
