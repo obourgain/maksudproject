@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Management;
 using System.Text.RegularExpressions;
 
 namespace CommonUtilities
 {
-    public class USBDeviceInfo
+    public class UsbDeviceInfo
     {
-        public USBDeviceInfo(string deviceID, string pnpDeviceID, string description)
+        public UsbDeviceInfo(string deviceId, string pnpDeviceId, string description)
         {
-            this.DeviceID = deviceID;
-            this.PnpDeviceID = pnpDeviceID;
+            this.DeviceId = deviceId;
+            this.PnpDeviceId = pnpDeviceId;
             this.Description = description;
         }
-        public string DeviceID { get; private set; }
-        public string PnpDeviceID { get; private set; }
+        public string DeviceId { get; private set; }
+        public string PnpDeviceId { get; private set; }
         public string Description { get; private set; }
     }
 
+    public delegate void CopyFileChanged(string filename);
 
     public static class FileHelper
     {
@@ -39,28 +41,18 @@ namespace CommonUtilities
             return Regex.Replace(@this, @"[\\/:*?""<>|]+", "");
         }
 
-        public static List<USBDeviceInfo> GetUSBDevices()
+        public static List<UsbDeviceInfo> GetUsbDevices()
         {
-            List<USBDeviceInfo> devices = new List<USBDeviceInfo>();
-
             var searcher = new ManagementObjectSearcher(@"SELECT Caption, DeviceID FROM Win32_DiskDrive WHERE InterfaceType='USB'");
 
-            foreach (var device in searcher.Get())
-            {
-                devices.Add(new USBDeviceInfo(
-                (string)device.GetPropertyValue("DeviceID"),
-                (string)device.GetPropertyValue("Caption"),
-                (string)device.GetPropertyValue("Caption")
-                ));
-            }
-
-            return devices;
+            return (from ManagementBaseObject device in searcher.Get()
+                    select new UsbDeviceInfo((string)device.GetPropertyValue("DeviceID"), (string)device.GetPropertyValue("Caption"), (string)device.GetPropertyValue("Caption"))).ToList();
         }
 
         public static List<string> UsbDrives()
         {
 
-            int i = 0;
+            var i = 0;
             List<string> lista;
 
             Console.WriteLine("fetching logical disks...");
@@ -98,8 +90,9 @@ namespace CommonUtilities
             }
         }
 
-        public static void CopyAll(DirectoryInfo source, DirectoryInfo target)
+        public static void CopyAllRecursive(DirectoryInfo source, DirectoryInfo target, CopyFileChanged onCopyFileChanged)
         {
+
             // Check if the target directory exists, if not, create it.
             if (Directory.Exists(target.FullName) == false)
             {
@@ -107,17 +100,19 @@ namespace CommonUtilities
             }
 
             // Copy each file into it’s new directory.
-            foreach (FileInfo fi in source.GetFiles())
+            foreach (var fi in source.GetFiles())
             {
+                if (onCopyFileChanged != null)
+                    onCopyFileChanged(string.Format(@"Copying {0}\{1}", target.FullName, fi.Name));
                 Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
                 fi.CopyTo(Path.Combine(target.ToString(), fi.Name), true);
             }
 
             // Copy each subdirectory using recursion.
-            foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
+            foreach (var diSourceSubDir in source.GetDirectories())
             {
-                DirectoryInfo nextTargetSubDir = target.CreateSubdirectory(diSourceSubDir.Name);
-                CopyAll(diSourceSubDir, nextTargetSubDir);
+                var nextTargetSubDir = target.CreateSubdirectory(diSourceSubDir.Name);
+                CopyAllRecursive(diSourceSubDir, nextTargetSubDir, onCopyFileChanged);
             }
         }
     }
