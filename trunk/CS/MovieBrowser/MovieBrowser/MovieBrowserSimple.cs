@@ -4,7 +4,9 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
+using CommonUtilities;
 using HttpUtility;
 using ShellLib;
 
@@ -83,7 +85,21 @@ namespace MovieBrowser
         private void MovieBrowserSimpleLoad(object sender, EventArgs e)
         {
             LoadAllFolders();
+
+            LoadPenDrives();
         }
+
+        private void LoadPenDrives()
+        {
+            tsPendrives.Items.Clear();
+
+            var ss = FileHelper.UsbDrives();
+            foreach (string t in ss)
+            {
+                tsPendrives.Items.Add(t);
+            }
+        }
+
         private void WebBrowser1DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             try
@@ -130,7 +146,22 @@ namespace MovieBrowser
         {
             UpdateMovie();
         }
+        private void TsSaveFoldersClick(object sender, EventArgs e)
+        {
+            SaveFolderList();
+        }
 
+        private void sortToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            treeView1.TreeViewNodeSorter = new MovieComparer();
+
+            treeView1.Sort();
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            LoadPenDrives();
+        }
         #region Code
         private void LoadAllFolders()
         {
@@ -220,7 +251,7 @@ namespace MovieBrowser
 
                 var movie = ParseMovieInfo();
                 //Directory.Move(filename, newdir);
-                newdir += CleanedName(HttpHelper.Decode(String.Format("{0} ({1}), [{2}] [{3}]", movie.Title, movie.Year, movie.Rating, movie.ImdbId)));
+                newdir += HttpHelper.Decode(movie.FolderName).Clean();
 
                 Directory.Move(filename.FilePath, newdir);
 
@@ -259,10 +290,7 @@ namespace MovieBrowser
             }
             Properties.Settings.Default.Save();
         }
-        private static string CleanedName(string name)
-        {
-            return Regex.Replace(name, @"[\\/:*?""<>|]+", "");
-        }
+
 
 
         private Movie ParseMovieInfo()
@@ -327,18 +355,55 @@ namespace MovieBrowser
         }
         #endregion
 
-        private void TsSaveFoldersClick(object sender, EventArgs e)
+        private void sendToPendriveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFolderList();
+            CopyToPendrive();
         }
 
-        private void sortToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CopyToPendrive()
         {
-            treeView1.TreeViewNodeSorter = new MovieComparer();
-
-            treeView1.Sort();
+            SendTo();
         }
 
+        public void SendTo()
+        {
+            try
+            {
+                var movie = (Movie) treeView1.SelectedNode.Tag;
+                var stt = new SendToThread()
+                              {
+                                  Source = movie.FilePath,
+                                  Destination = Path.Combine(tsPendrives.SelectedItem.ToString(), movie.FolderName)
+                              };
+                var thread = new Thread(stt.SendTo);
+                thread.Start();
+            }
+            catch
+            {
+                
+            }
+        }
+    }
+
+    public class SendToThread
+    {
+        public string Source { get; set; }
+        public string Destination { get; set; }
+
+        public void SendTo()
+        {
+            try
+            {
+
+                FileHelper.CopyAll(new DirectoryInfo(Source), new DirectoryInfo(Destination));
+
+                MessageBox.Show("Copied Successfully.");
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Problem Sending file.");
+            }
+        }
 
     }
 }
