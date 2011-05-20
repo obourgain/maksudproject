@@ -71,9 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form\MovieBrowserSimple.Logic.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Controller\MovieBrowserController.cs" />
     <Compile Include="Model\MovieListViewItem.cs" />
     <Compile Include="Model\Movies.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -139,6 +137,7 @@
     <Content Include="Library\ObjectListView.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="NewFolder1\" />
     <Folder Include="Repository\" />
   </ItemGroup>
   <ItemGroup>

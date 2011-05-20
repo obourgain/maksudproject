@@ -78,6 +78,7 @@
             this.intelligentTrackerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tpInformation = new System.Windows.Forms.TabPage();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -198,7 +199,7 @@
             this.sendToPendriveToolStripMenuItem.Name = "sendToPendriveToolStripMenuItem";
             this.sendToPendriveToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.sendToPendriveToolStripMenuItem.Text = "Send To Pendrive";
-            this.sendToPendriveToolStripMenuItem.Click += new System.EventHandler(this.sendToPendriveToolStripMenuItem_Click);
+            this.sendToPendriveToolStripMenuItem.Click += new System.EventHandler(this.SendToPendriveToolStripMenuItemClick);
             // 
             // imageList1
             // 
@@ -216,7 +217,7 @@
             this.tpMovies.Location = new System.Drawing.Point(4, 26);
             this.tpMovies.Name = "tpMovies";
             this.tpMovies.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMovies.Size = new System.Drawing.Size(265, 346);
+            this.tpMovies.Size = new System.Drawing.Size(265, 344);
             this.tpMovies.TabIndex = 1;
             this.tpMovies.Text = "Movies";
             this.tpMovies.UseVisualStyleBackColor = true;
@@ -262,6 +263,7 @@
             this.tabInformation.Controls.Add(this.tabPage2);
             this.tabInformation.Controls.Add(this.tabPage1);
             this.tabInformation.Controls.Add(this.tabPage3);
+            this.tabInformation.Controls.Add(this.tpInformation);
             this.tabInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabInformation.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabInformation.Location = new System.Drawing.Point(0, 25);
@@ -319,7 +321,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 26);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(538, 319);
+            this.tabPage3.Size = new System.Drawing.Size(538, 321);
             this.tabPage3.TabIndex = 3;
             this.tabPage3.Text = "Ignore List";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -389,7 +391,7 @@
             this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(786, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(740, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // tsBrowseFolder
@@ -426,7 +428,7 @@
             this.tsSearchImdb.Name = "tsSearchImdb";
             this.tsSearchImdb.Size = new System.Drawing.Size(56, 22);
             this.tsSearchImdb.Text = "IMDB";
-            this.tsSearchImdb.Click += new System.EventHandler(this.ToolStripButton2Click);
+            this.tsSearchImdb.Click += new System.EventHandler(this.tsSearchImdbClicl);
             // 
             // tsSearchGoogle
             // 
@@ -435,7 +437,7 @@
             this.tsSearchGoogle.Name = "tsSearchGoogle";
             this.tsSearchGoogle.Size = new System.Drawing.Size(65, 22);
             this.tsSearchGoogle.Text = "Google";
-            this.tsSearchGoogle.Click += new System.EventHandler(this.ToolStripButton3Click);
+            this.tsSearchGoogle.Click += new System.EventHandler(this.tsSearchGoogleClick);
             // 
             // tsDelete
             // 
@@ -444,7 +446,7 @@
             this.tsDelete.Name = "tsDelete";
             this.tsDelete.Size = new System.Drawing.Size(60, 22);
             this.tsDelete.Text = "Delete";
-            this.tsDelete.Click += new System.EventHandler(this.ToolStripButton4Click);
+            this.tsDelete.Click += new System.EventHandler(this.tsDeleteClick);
             // 
             // tsOpenInExplorer
             // 
@@ -453,7 +455,7 @@
             this.tsOpenInExplorer.Name = "tsOpenInExplorer";
             this.tsOpenInExplorer.Size = new System.Drawing.Size(114, 22);
             this.tsOpenInExplorer.Text = "Open in Explorer";
-            this.tsOpenInExplorer.Click += new System.EventHandler(this.ToolStripButton8Click);
+            this.tsOpenInExplorer.Click += new System.EventHandler(this.TsOpenInExplorerClick);
             // 
             // tsUpdateIgnoreList
             // 
@@ -462,12 +464,13 @@
             this.tsUpdateIgnoreList.Name = "tsUpdateIgnoreList";
             this.tsUpdateIgnoreList.Size = new System.Drawing.Size(123, 22);
             this.tsUpdateIgnoreList.Text = "Update Ignore List";
-            this.tsUpdateIgnoreList.Click += new System.EventHandler(this.ToolStripButton5Click1);
+            this.tsUpdateIgnoreList.Click += new System.EventHandler(this.TsUpdateIgnoreListClick);
             // 
             // tsPendrives
             // 
+            this.tsPendrives.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tsPendrives.Name = "tsPendrives";
-            this.tsPendrives.Size = new System.Drawing.Size(121, 25);
+            this.tsPendrives.Size = new System.Drawing.Size(75, 25);
             // 
             // toolStripButton1
             // 
@@ -531,7 +534,7 @@
             this.updateMovieDatabaseToolStripMenuItem.Name = "updateMovieDatabaseToolStripMenuItem";
             this.updateMovieDatabaseToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.updateMovieDatabaseToolStripMenuItem.Text = "Update Movie Database";
-            this.updateMovieDatabaseToolStripMenuItem.Click += new System.EventHandler(this.updateMovieDatabaseToolStripMenuItem_Click);
+            this.updateMovieDatabaseToolStripMenuItem.Click += new System.EventHandler(this.UpdateMovieDatabaseToolStripMenuItemClick);
             // 
             // parseToolStripMenuItem
             // 
@@ -570,7 +573,17 @@
             this.sortToolStripMenuItem.Name = "sortToolStripMenuItem";
             this.sortToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
             this.sortToolStripMenuItem.Text = "&Sort";
-            this.sortToolStripMenuItem.Click += new System.EventHandler(this.sortToolStripMenuItem_Click);
+            this.sortToolStripMenuItem.Click += new System.EventHandler(this.SortToolStripMenuItemClick);
+            // 
+            // tpInformation
+            // 
+            this.tpInformation.Location = new System.Drawing.Point(4, 26);
+            this.tpInformation.Name = "tpInformation";
+            this.tpInformation.Padding = new System.Windows.Forms.Padding(3);
+            this.tpInformation.Size = new System.Drawing.Size(538, 321);
+            this.tpInformation.TabIndex = 4;
+            this.tpInformation.Text = "Movie Info";
+            this.tpInformation.UseVisualStyleBackColor = true;
             // 
             // MovieBrowserSimple
             // 
@@ -667,6 +680,7 @@
         private System.Windows.Forms.ColumnHeader colRating;
         private System.Windows.Forms.ToolStripMenuItem updateMovieDatabaseToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader colYear;
+        private System.Windows.Forms.TabPage tpInformation;
     }
 }
 
