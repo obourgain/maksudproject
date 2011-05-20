@@ -44,11 +44,14 @@ namespace MovieBrowser.Controller
         public const string ImdbTitle = "http://www.imdb.com/title/";
 
         readonly FolderBrowserDialog _dialog = new FolderBrowserDialog();
-        private readonly MovieNode _selectedNode = null;
+        private MovieNode _selectedNode = null;
 
         public WebBrowser Browser { get; set; }
         //public TreeView MovieFolderTree { get; set; }
         //public ListView ListView1 { get; set; }
+        public bool RecentSearch { get; set; }
+
+        public bool IntelligentSearch { get; set; }
 
 
         public void LoadAllFolders(TreeView movieFolderTree)
@@ -113,17 +116,28 @@ namespace MovieBrowser.Controller
             }
         }
 
-        public void SearchMovie(String address, Movie movie)
+        public void SearchMovieTree(string address, MovieNode movie)
         {
             try
             {
+                _selectedNode = movie;
+                SearchMovie(address, movie.Movie);
+            }
+            catch { }
+        }
+        public void SearchMovie(string address, Movie movie)
+        {
+            try
+            {
+                RecentSearch = true;
                 if (address.Equals(ImdbSearch) && movie != null && !string.IsNullOrEmpty(movie.ImdbId))
                 {
+
                     Navigate(ImdbTitle + movie.ImdbId);
                 }
                 else
                 {
-                    Navigate(address + IgnoreWords(_selectedNode.Text));
+                    if (movie != null) Navigate(address + IgnoreWords(movie.Title));
                 }
             }
             catch { }
@@ -238,13 +252,10 @@ namespace MovieBrowser.Controller
         }
         void Navigate(string url)
         {
-
             Browser.Navigate(url);
-
-
         }
 
-        public void Redirect(string src)
+        public void Redirect(string srcurl, string src)
         {
             var match = Regex.Match(src, "Media from&nbsp;<a href=\"/title/(tt[0-9]+)/");
             var title = match.Groups[1].Value;
@@ -253,9 +264,13 @@ namespace MovieBrowser.Controller
                 var url = "http://www.imdb.com/title/" + title;
                 InvokeOnDebugTextFired(string.Format("Redirect to '{0}'...\r\n", url));
                 Browser.Navigate(url);
-            }
-        }
 
+                RecentSearch = false;
+            }
+
+            if (srcurl.StartsWith(ImdbSearch))
+                RecentSearch = false;
+        }
 
         public void LoadPenDrives(ToolStripComboBox tsPendrives)
         {

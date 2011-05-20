@@ -20,9 +20,8 @@ namespace MovieBrowser.Forms
             treeView1.TreeViewNodeSorter = new MovieComparer();
 
             _controller.Browser = webBrowser1;
-            //_controller.MovieFolderTree = treeView1;
             _controller.OnDebugTextFired += (sender, e) => textBox1.AppendText(e.ToString());
-            //_controller.ListView1 = listView1;
+            _controller.IntelligentSearch = intelligentTrackerToolStripMenuItem.Checked;
         }
 
         //Events
@@ -41,7 +40,7 @@ namespace MovieBrowser.Forms
             if (treeView1.SelectedNode.Nodes.Count == 0)
                 _controller.Open(((Movie)treeView1.SelectedNode.Tag).FilePath);
             else
-                _controller.SearchMovie(MovieBrowserController.ImdbSearch, (Movie)treeView1.SelectedNode.Tag);
+                _controller.SearchMovieTree(MovieBrowserController.ImdbSearch, (MovieNode)treeView1.SelectedNode);
         }
         private void SearchToolStripMenuItemClick(object sender, EventArgs e)
         {
@@ -49,8 +48,7 @@ namespace MovieBrowser.Forms
         }
         private void GoogleToolStripMenuItemClick(object sender, EventArgs e)
         {
-            try { _controller.SearchMovie(MovieBrowserController.GoogleSearch, (Movie)treeView1.SelectedNode.Tag); }
-            catch { }
+            TreeView1DoubleClick(sender, e);
         }
         private void tsSearchGoogleClick(object sender, EventArgs e)
         {
@@ -74,6 +72,7 @@ namespace MovieBrowser.Forms
         private void IntelligentTrackerToolStripMenuItemClick(object sender, EventArgs e)
         {
             intelligentTrackerToolStripMenuItem.Checked = !intelligentTrackerToolStripMenuItem.Checked;
+            _controller.IntelligentSearch = intelligentTrackerToolStripMenuItem.Checked;
         }
         private void MovieBrowserSimpleFormClosing(object sender, FormClosingEventArgs e)
         {
@@ -91,8 +90,12 @@ namespace MovieBrowser.Forms
             try
             {
                 textBox1.AppendText("Document Completed: " + webBrowser1.ReadyState + "\r\n");
-                if (intelligentTrackerToolStripMenuItem.Checked)
-                    _controller.Redirect(webBrowser1.DocumentText);
+                if (_controller.RecentSearch && _controller.IntelligentSearch)
+                    _controller.Redirect(e.Url.AbsoluteUri, webBrowser1.DocumentText);
+                else
+                {
+                    _controller.RecentSearch = false;
+                }
             }
             catch (Exception)
             {
@@ -125,6 +128,7 @@ namespace MovieBrowser.Forms
         private void ToolStripButton9Click(object sender, EventArgs e)
         {
             _controller.LoadAllFolders(treeView1);
+            _controller.LoadListViewMovies(listView1);
         }
         private void UpdateToolStripMenuItemClick(object sender, EventArgs e)
         {
@@ -156,8 +160,6 @@ namespace MovieBrowser.Forms
         {
             _controller.UpdateMovieDataBaseFromFileSystem(treeView1);
         }
-
-
         private void ListView1DoubleClick(object sender, EventArgs e)
         {
             try { _controller.SearchMovie(MovieBrowserController.ImdbSearch, (Movie)listView1.SelectedItems[0].Tag); }
@@ -167,11 +169,6 @@ namespace MovieBrowser.Forms
         {
             if (e.KeyCode == Keys.Enter) ListView1DoubleClick(sender, e);
         }
-
-        private void toolStripButton3_Click(object sender, EventArgs e)
-        {
-            
-        }
     }
 
     public class SendToThread
@@ -179,13 +176,13 @@ namespace MovieBrowser.Forms
 
         public string Source { get; set; }
         public string Destination { get; set; }
-       
+
 
         public void SendTo()
         {
             try
             {
-                FileHelper.CopyAllRecursive(new DirectoryInfo(Source), new DirectoryInfo(Destination));               
+                FileHelper.CopyAllRecursive(new DirectoryInfo(Source), new DirectoryInfo(Destination));
             }
             catch (Exception exception)
             {
