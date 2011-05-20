@@ -57,6 +57,7 @@
             this.tsParse = new System.Windows.Forms.ToolStripButton();
             this.tsUpdateFolder = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsBrowseFolder = new System.Windows.Forms.ToolStripButton();
             this.tsSaveFolders = new System.Windows.Forms.ToolStripButton();
@@ -217,7 +218,7 @@
             this.tpMovies.Location = new System.Drawing.Point(4, 26);
             this.tpMovies.Name = "tpMovies";
             this.tpMovies.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMovies.Size = new System.Drawing.Size(265, 346);
+            this.tpMovies.Size = new System.Drawing.Size(265, 344);
             this.tpMovies.TabIndex = 1;
             this.tpMovies.Text = "Movies";
             this.tpMovies.UseVisualStyleBackColor = true;
@@ -343,7 +344,7 @@
             this.tpInformation.Location = new System.Drawing.Point(4, 26);
             this.tpInformation.Name = "tpInformation";
             this.tpInformation.Padding = new System.Windows.Forms.Padding(3);
-            this.tpInformation.Size = new System.Drawing.Size(538, 321);
+            this.tpInformation.Size = new System.Drawing.Size(538, 319);
             this.tpInformation.TabIndex = 4;
             this.tpInformation.Text = "Movie Info";
             this.tpInformation.UseVisualStyleBackColor = true;
@@ -353,7 +354,8 @@
             this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsParse,
             this.tsUpdateFolder,
-            this.toolStripButton2});
+            this.toolStripButton2,
+            this.toolStripButton3});
             this.toolStrip3.Location = new System.Drawing.Point(0, 0);
             this.toolStrip3.Name = "toolStrip3";
             this.toolStrip3.Size = new System.Drawing.Size(546, 25);
@@ -386,6 +388,16 @@
             this.toolStripButton2.Size = new System.Drawing.Size(107, 22);
             this.toolStripButton2.Text = "Add To Movies";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton3.Text = "toolStripButton3";
+            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
             // toolStrip1
             // 
@@ -683,6 +695,7 @@
         private System.Windows.Forms.ToolStripMenuItem updateMovieDatabaseToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader colYear;
         private System.Windows.Forms.TabPage tpInformation;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
     }
 }
 

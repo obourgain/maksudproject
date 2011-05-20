@@ -1,7 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using CommonUtilities;
+using CommonUtilities.Extensions;
+using CommonUtilities.FileSystem;
 using MovieBrowser.Controller;
 using MovieBrowser.Model;
 
@@ -164,6 +167,11 @@ namespace MovieBrowser.Forms
         {
             if (e.KeyCode == Keys.Enter) ListView1DoubleClick(sender, e);
         }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 
     public class SendToThread
@@ -171,15 +179,13 @@ namespace MovieBrowser.Forms
 
         public string Source { get; set; }
         public string Destination { get; set; }
-        public CopyDialog Dialog { get; set; }
+       
 
         public void SendTo()
         {
             try
             {
-                FileHelper.CopyAllRecursive(new DirectoryInfo(Source), new DirectoryInfo(Destination), Dialog);
-                MessageBox.Show(@"Copied Successfully.");
-                Dialog.SetPropertyThreadSafe(() => Dialog.Visible, false);
+                FileHelper.CopyAllRecursive(new DirectoryInfo(Source), new DirectoryInfo(Destination));               
             }
             catch (Exception exception)
             {

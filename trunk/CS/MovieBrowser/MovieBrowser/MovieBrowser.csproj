@@ -53,6 +53,7 @@
     <ApplicationIcon>1305357557_Video.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="ObjectListView, Version=2.4.1.38133, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Library\ObjectListView.dll</HintPath>
@@ -72,12 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\MovieBrowserController.cs" />
-    <Compile Include="Forms\FileCopyDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FileCopyDialog.Designer.cs">
-      <DependentUpon>FileCopyDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Model\MovieListViewItem.cs" />
     <Compile Include="Model\Movies.Designer.cs">
       <AutoGen>True</AutoGen>
