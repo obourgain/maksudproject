@@ -11,7 +11,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmSchemaAttribute()]
 
 // Original file name:
-// Generation date: 5/20/2011 10:27:40 AM
+// Generation date: 5/20/2011 11:05:25 AM
 namespace MovieBrowser.Model
 {
     
@@ -85,24 +85,53 @@ namespace MovieBrowser.Model
         /// <summary>
         /// Create a new Movie object.
         /// </summary>
+        /// <param name="id">Initial value of Id.</param>
+        /// <param name="imdbId">Initial value of ImdbId.</param>
         /// <param name="title">Initial value of Title.</param>
         /// <param name="year">Initial value of Year.</param>
         /// <param name="rating">Initial value of Rating.</param>
-        /// <param name="id">Initial value of Id.</param>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static Movie CreateMovie(string title, int year, double rating, long id)
+        public static Movie CreateMovie(global::System.Guid id, string imdbId, string title, int year, double rating)
         {
             Movie movie = new Movie();
+            movie.Id = id;
+            movie.ImdbId = imdbId;
             movie.Title = title;
             movie.Year = year;
             movie.Rating = rating;
-            movie.Id = id;
             return movie;
         }
         /// <summary>
+        /// There are no comments for property Id in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.Guid Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                this.OnIdChanging(value);
+                this.ReportPropertyChanging("Id");
+                this._Id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Id");
+                this.OnIdChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.Guid _Id;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnIdChanging(global::System.Guid value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnIdChanged();
+        /// <summary>
         /// There are no comments for property ImdbId in the schema.
         /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         public string ImdbId
@@ -115,7 +144,7 @@ namespace MovieBrowser.Model
             {
                 this.OnImdbIdChanging(value);
                 this.ReportPropertyChanging("ImdbId");
-                this._ImdbId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this._ImdbId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
                 this.ReportPropertyChanged("ImdbId");
                 this.OnImdbIdChanged();
             }
@@ -262,33 +291,6 @@ namespace MovieBrowser.Model
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnLanguageChanged();
         /// <summary>
-        /// There are no comments for property Runtime in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public string Runtime
-        {
-            get
-            {
-                return this._Runtime;
-            }
-            set
-            {
-                this.OnRuntimeChanging(value);
-                this.ReportPropertyChanging("Runtime");
-                this._Runtime = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("Runtime");
-                this.OnRuntimeChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private string _Runtime;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnRuntimeChanging(string value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnRuntimeChanged();
-        /// <summary>
         /// There are no comments for property ReleaseDate in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
@@ -316,31 +318,31 @@ namespace MovieBrowser.Model
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnReleaseDateChanged();
         /// <summary>
-        /// There are no comments for property Id in the schema.
+        /// There are no comments for property Runtime in the schema.
         /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public long Id
+        public string Runtime
         {
             get
             {
-                return this._Id;
+                return this._Runtime;
             }
             set
             {
-                this.OnIdChanging(value);
-                this.ReportPropertyChanging("Id");
-                this._Id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("Id");
-                this.OnIdChanged();
+                this.OnRuntimeChanging(value);
+                this.ReportPropertyChanging("Runtime");
+                this._Runtime = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Runtime");
+                this.OnRuntimeChanged();
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private long _Id;
+        private string _Runtime;
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnIdChanging(long value);
+        partial void OnRuntimeChanging(string value);
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnIdChanged();
+        partial void OnRuntimeChanged();
     }
 }

@@ -72,6 +72,10 @@
             this.intelligentTrackerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.colImdbId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colRating = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -82,6 +86,7 @@
             this.tabMovies.SuspendLayout();
             this.tpFileSystem.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.tpMovies.SuspendLayout();
             this.tabInformation.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -144,7 +149,7 @@
             this.tabMovies.Controls.Add(this.tpFileSystem);
             this.tabMovies.Controls.Add(this.tpMovies);
             this.tabMovies.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabMovies.Font = new System.Drawing.Font("Monaco", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabMovies.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabMovies.Location = new System.Drawing.Point(0, 0);
             this.tabMovies.Name = "tabMovies";
             this.tabMovies.SelectedIndex = 0;
@@ -205,10 +210,11 @@
             // 
             // tpMovies
             // 
-            this.tpMovies.Location = new System.Drawing.Point(4, 29);
+            this.tpMovies.Controls.Add(this.listView1);
+            this.tpMovies.Location = new System.Drawing.Point(4, 26);
             this.tpMovies.Name = "tpMovies";
             this.tpMovies.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMovies.Size = new System.Drawing.Size(265, 341);
+            this.tpMovies.Size = new System.Drawing.Size(265, 346);
             this.tpMovies.TabIndex = 1;
             this.tpMovies.Text = "Movies";
             this.tpMovies.UseVisualStyleBackColor = true;
@@ -219,6 +225,7 @@
             this.tabInformation.Controls.Add(this.tabPage1);
             this.tabInformation.Controls.Add(this.tabPage3);
             this.tabInformation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabInformation.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabInformation.Location = new System.Drawing.Point(0, 25);
             this.tabInformation.Name = "tabInformation";
             this.tabInformation.SelectedIndex = 0;
@@ -228,10 +235,10 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.webBrowser1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Location = new System.Drawing.Point(4, 26);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(538, 325);
+            this.tabPage2.Size = new System.Drawing.Size(538, 321);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Browser";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -243,7 +250,7 @@
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.ScriptErrorsSuppressed = true;
-            this.webBrowser1.Size = new System.Drawing.Size(532, 319);
+            this.webBrowser1.Size = new System.Drawing.Size(532, 315);
             this.webBrowser1.TabIndex = 0;
             this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WebBrowser1DocumentCompleted);
             this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WebBrowser1Navigated);
@@ -265,7 +272,7 @@
             this.textBox1.Location = new System.Drawing.Point(3, 3);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(532, 319);
+            this.textBox1.Size = new System.Drawing.Size(532, 317);
             this.textBox1.TabIndex = 0;
             // 
             // tabPage3
@@ -286,7 +293,7 @@
             this.textIgnore.Multiline = true;
             this.textIgnore.Name = "textIgnore";
             this.textIgnore.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textIgnore.Size = new System.Drawing.Size(532, 319);
+            this.textIgnore.Size = new System.Drawing.Size(532, 317);
             this.textIgnore.TabIndex = 0;
             // 
             // toolStrip3
@@ -519,6 +526,32 @@
             this.sortToolStripMenuItem.Text = "&Sort";
             this.sortToolStripMenuItem.Click += new System.EventHandler(this.sortToolStripMenuItem_Click);
             // 
+            // listView1
+            // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colImdbId,
+            this.colTitle,
+            this.colRating});
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.Location = new System.Drawing.Point(3, 3);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(259, 340);
+            this.listView1.TabIndex = 0;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // colImdbId
+            // 
+            this.colImdbId.Text = "Imdb Id";
+            // 
+            // colTitle
+            // 
+            this.colTitle.Text = "Title";
+            // 
+            // colRating
+            // 
+            this.colRating.Text = "Rating";
+            // 
             // MovieBrowserSimple
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -546,6 +579,7 @@
             this.tabMovies.ResumeLayout(false);
             this.tpFileSystem.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
+            this.tpMovies.ResumeLayout(false);
             this.tabInformation.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -607,6 +641,10 @@
         private System.Windows.Forms.TabPage tpFileSystem;
         private System.Windows.Forms.TabPage tpMovies;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader colImdbId;
+        private System.Windows.Forms.ColumnHeader colTitle;
+        private System.Windows.Forms.ColumnHeader colRating;
     }
 }
 
