@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
@@ -17,11 +19,16 @@ namespace CommonUtilities
             timer1.Enabled = true;
         }
 
-        public string CopyText
+
+        public String CopyText
         {
             set
             {
                 this.label1.Text = value;
+            }
+            get
+            {
+                return this.label1.Text;
             }
         }
 
@@ -29,7 +36,7 @@ namespace CommonUtilities
         {
             try
             {
-                progressBar1.Value = (progressBar1.Value + 10) % 100;
+                progressBar1.Value = (progressBar1.Value + 1) % 100;
             }
             catch (Exception)
             {
@@ -38,5 +45,7 @@ namespace CommonUtilities
             }
 
         }
+
+
     }
 }
