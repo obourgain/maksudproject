@@ -11,7 +11,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmSchemaAttribute()]
 
 // Original file name:
-// Generation date: 5/20/2011 11:05:25 AM
+// Generation date: 5/20/2011 11:32:21 AM
 namespace MovieBrowser.Model
 {
     

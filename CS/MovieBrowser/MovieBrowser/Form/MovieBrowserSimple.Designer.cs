@@ -40,6 +40,11 @@
             this.sendToPendriveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tpMovies = new System.Windows.Forms.TabPage();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.colImdbId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colRating = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colYear = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabInformation = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
@@ -67,15 +72,12 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.googleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateMovieDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.parseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.parseCurrentPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.intelligentTrackerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.colImdbId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colRating = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -159,10 +161,10 @@
             // tpFileSystem
             // 
             this.tpFileSystem.Controls.Add(this.treeView1);
-            this.tpFileSystem.Location = new System.Drawing.Point(4, 29);
+            this.tpFileSystem.Location = new System.Drawing.Point(4, 26);
             this.tpFileSystem.Name = "tpFileSystem";
             this.tpFileSystem.Padding = new System.Windows.Forms.Padding(3);
-            this.tpFileSystem.Size = new System.Drawing.Size(265, 343);
+            this.tpFileSystem.Size = new System.Drawing.Size(265, 346);
             this.tpFileSystem.TabIndex = 0;
             this.tpFileSystem.Text = "Movie Folders";
             this.tpFileSystem.UseVisualStyleBackColor = true;
@@ -179,7 +181,7 @@
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowNodeToolTips = true;
-            this.treeView1.Size = new System.Drawing.Size(259, 337);
+            this.treeView1.Size = new System.Drawing.Size(259, 340);
             this.treeView1.TabIndex = 1;
             this.treeView1.DoubleClick += new System.EventHandler(this.TreeView1DoubleClick);
             this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TreeView1KeyDown);
@@ -214,10 +216,45 @@
             this.tpMovies.Location = new System.Drawing.Point(4, 26);
             this.tpMovies.Name = "tpMovies";
             this.tpMovies.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMovies.Size = new System.Drawing.Size(265, 346);
+            this.tpMovies.Size = new System.Drawing.Size(265, 344);
             this.tpMovies.TabIndex = 1;
             this.tpMovies.Text = "Movies";
             this.tpMovies.UseVisualStyleBackColor = true;
+            // 
+            // listView1
+            // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colImdbId,
+            this.colTitle,
+            this.colRating,
+            this.colYear});
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.FullRowSelect = true;
+            this.listView1.Location = new System.Drawing.Point(3, 3);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(259, 340);
+            this.listView1.TabIndex = 0;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            // 
+            // colImdbId
+            // 
+            this.colImdbId.Text = "Imdb Id";
+            this.colImdbId.Width = 100;
+            // 
+            // colTitle
+            // 
+            this.colTitle.Text = "Title";
+            this.colTitle.Width = 200;
+            // 
+            // colRating
+            // 
+            this.colRating.Text = "Rating";
+            // 
+            // colYear
+            // 
+            this.colYear.Text = "Year";
             // 
             // tabInformation
             // 
@@ -258,10 +295,10 @@
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.textBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(4, 26);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(538, 323);
+            this.tabPage1.Size = new System.Drawing.Size(538, 319);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Debug";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -272,16 +309,16 @@
             this.textBox1.Location = new System.Drawing.Point(3, 3);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(532, 317);
+            this.textBox1.Size = new System.Drawing.Size(532, 315);
             this.textBox1.TabIndex = 0;
             // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.textIgnore);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Location = new System.Drawing.Point(4, 26);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(538, 323);
+            this.tabPage3.Size = new System.Drawing.Size(538, 319);
             this.tabPage3.TabIndex = 3;
             this.tabPage3.Text = "Ignore List";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -293,7 +330,7 @@
             this.textIgnore.Multiline = true;
             this.textIgnore.Name = "textIgnore";
             this.textIgnore.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textIgnore.Size = new System.Drawing.Size(532, 317);
+            this.textIgnore.Size = new System.Drawing.Size(532, 315);
             this.textIgnore.TabIndex = 0;
             // 
             // toolStrip3
@@ -458,7 +495,8 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.searchToolStripMenuItem,
             this.googleToolStripMenuItem,
-            this.updateToolStripMenuItem});
+            this.updateToolStripMenuItem,
+            this.updateMovieDatabaseToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -467,7 +505,7 @@
             // 
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
             this.searchToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.searchToolStripMenuItem.Text = "Search";
             this.searchToolStripMenuItem.Click += new System.EventHandler(this.SearchToolStripMenuItemClick);
             // 
@@ -475,7 +513,7 @@
             // 
             this.googleToolStripMenuItem.Name = "googleToolStripMenuItem";
             this.googleToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.googleToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.googleToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.googleToolStripMenuItem.Text = "Google";
             this.googleToolStripMenuItem.Click += new System.EventHandler(this.GoogleToolStripMenuItemClick);
             // 
@@ -483,9 +521,16 @@
             // 
             this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
             this.updateToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.updateToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.updateToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.updateToolStripMenuItem.Text = "Update";
             this.updateToolStripMenuItem.Click += new System.EventHandler(this.UpdateToolStripMenuItemClick);
+            // 
+            // updateMovieDatabaseToolStripMenuItem
+            // 
+            this.updateMovieDatabaseToolStripMenuItem.Name = "updateMovieDatabaseToolStripMenuItem";
+            this.updateMovieDatabaseToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.updateMovieDatabaseToolStripMenuItem.Text = "Update Movie Database";
+            this.updateMovieDatabaseToolStripMenuItem.Click += new System.EventHandler(this.updateMovieDatabaseToolStripMenuItem_Click);
             // 
             // parseToolStripMenuItem
             // 
@@ -525,32 +570,6 @@
             this.sortToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
             this.sortToolStripMenuItem.Text = "&Sort";
             this.sortToolStripMenuItem.Click += new System.EventHandler(this.sortToolStripMenuItem_Click);
-            // 
-            // listView1
-            // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colImdbId,
-            this.colTitle,
-            this.colRating});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Location = new System.Drawing.Point(3, 3);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(259, 340);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // colImdbId
-            // 
-            this.colImdbId.Text = "Imdb Id";
-            // 
-            // colTitle
-            // 
-            this.colTitle.Text = "Title";
-            // 
-            // colRating
-            // 
-            this.colRating.Text = "Rating";
             // 
             // MovieBrowserSimple
             // 
@@ -645,6 +664,8 @@
         private System.Windows.Forms.ColumnHeader colImdbId;
         private System.Windows.Forms.ColumnHeader colTitle;
         private System.Windows.Forms.ColumnHeader colRating;
+        private System.Windows.Forms.ToolStripMenuItem updateMovieDatabaseToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader colYear;
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using CommonUtilities;
@@ -7,6 +8,12 @@ namespace MovieBrowser.Model
 {
     public partial class Movie
     {
+
+        public Movie()
+        {
+            Id = Guid.NewGuid();
+        }
+
         public static readonly List<string> MovieFiles = new List<string>() { "avi", "mkv", "flv", "mp4" };
         public static readonly List<string> SubtitleFiles = new List<string>() { "srt", "sub" };
 

@@ -35,10 +35,7 @@ namespace MovieBrowser.Form
 
             foreach (var movie in list)
             {
-                var listItem = new ListViewItem {Text = movie.Title};
-                listItem.SubItems.Add(movie.ImdbId);
-                listItem.SubItems.Add(movie.Rating.ToString());
-                listView1.Items.Add(listItem);
+                listView1.Items.Add(new MovieListViewItem(movie));
             }
         }
         private void LoadFolderDialog()
@@ -87,6 +84,21 @@ namespace MovieBrowser.Form
             {
                 _selectedNode = (MovieNode)treeView1.SelectedNode;
                 var movie = (Movie)_selectedNode.Tag;
+                if (address.Equals(ImdbSearch) && movie != null && !string.IsNullOrEmpty(movie.ImdbId))
+                {
+                    Navigate(ImdbTitle + movie.ImdbId);
+                }
+                else
+                {
+                    Navigate(address + IgnoreWords(_selectedNode.Text));
+                }
+            }
+            catch { }
+        }
+        private void SearchMovie(String address, Movie movie)
+        {
+            try
+            {
                 if (address.Equals(ImdbSearch) && movie != null && !string.IsNullOrEmpty(movie.ImdbId))
                 {
                     Navigate(ImdbTitle + movie.ImdbId);
@@ -230,15 +242,42 @@ namespace MovieBrowser.Form
             }
         }
 
-        private void AddMovieToDb()
+        private void AddMovieToDb(Movie movie)
         {
-
-            var movie = ParseMovieInfo();
-
             var entities = new MovieDbEntities();
-            entities.AddToMovies(movie);
-            entities.SaveChanges();
 
+            if (entities.Movies.Where(o => o.ImdbId.Equals(movie.ImdbId)).Count() == 0)
+            {
+                entities.AddToMovies(movie);
+                entities.SaveChanges();
+            }
+            else
+            {
+                //Already exists
+                Console.WriteLine(@"Exists: {0}", movie.ImdbId);
+            }
+
+        }
+
+        private void UpdateMovieDataBaseFromFileSystem()
+        {
+            foreach (var node in treeView1.Nodes)
+            {
+                UpdateMovieDataBaseFromFileSystem((MovieNode)node);
+            }
+        }
+
+        private void UpdateMovieDataBaseFromFileSystem(MovieNode movieNode)
+        {
+            if (movieNode.Movie.IsValidMovie)
+            {
+                AddMovieToDb(movieNode.Movie);
+            }
+
+            foreach (var node in movieNode.Nodes)
+            {
+                UpdateMovieDataBaseFromFileSystem((MovieNode)node);
+            }
         }
     }
 }

@@ -89,7 +89,7 @@ namespace MovieBrowser.Form
             LoadPenDrives();
         }
 
-        
+
 
         private void WebBrowser1DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
@@ -153,7 +153,7 @@ namespace MovieBrowser.Form
         {
             LoadPenDrives();
         }
-        
+
 
         private void sendToPendriveToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -186,8 +186,26 @@ namespace MovieBrowser.Form
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            AddMovieToDb();
+            AddMovieToDb(ParseMovieInfo());
         }
+
+        private void updateMovieDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdateMovieDataBaseFromFileSystem();
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                SearchMovie(ImdbSearch, (Movie)listView1.SelectedItems[0].Tag);
+            }
+            finally
+            {
+
+            }
+        }
+
     }
 
     public class SendToThread

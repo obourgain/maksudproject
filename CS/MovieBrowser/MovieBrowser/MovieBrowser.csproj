@@ -74,6 +74,7 @@
     <Compile Include="Form\MovieBrowserSimple.Logic.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Model\MovieListViewItem.cs" />
     <Compile Include="Model\Movies.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

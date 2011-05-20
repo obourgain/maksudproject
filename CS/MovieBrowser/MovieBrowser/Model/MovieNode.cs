@@ -10,5 +10,7 @@ namespace MovieBrowser.Model
             Tag = movie;
             SelectedImageIndex = ImageIndex = movie.ImageIndex;
         }
+
+        public Movie Movie { get { return (Movie) Tag; } }
     }
 }
