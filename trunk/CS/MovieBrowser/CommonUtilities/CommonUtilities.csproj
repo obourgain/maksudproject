@@ -44,20 +44,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControlExtensions.cs" />
-    <Compile Include="CopyDialog.cs">
+    <Compile Include="Extensions\ControlExtensions.cs" />
+    <Compile Include="FileSystem\FileCopyDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CopyDialog.Designer.cs">
-      <DependentUpon>CopyDialog.cs</DependentUpon>
+    <Compile Include="FileSystem\FileCopyDialog.Designer.cs">
+      <DependentUpon>FileCopyDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="FileHelper.cs" />
+    <Compile Include="FileSystem\FileCopierEx.cs" />
+    <Compile Include="FileSystem\FileHelper.cs" />
     <Compile Include="HttpHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CopyDialog.resx">
-      <DependentUpon>CopyDialog.cs</DependentUpon>
+    <EmbeddedResource Include="FileSystem\FileCopyDialog.resx">
+      <DependentUpon>FileCopyDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

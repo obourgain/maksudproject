@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Text.RegularExpressions;
+using CommonUtilities.Extensions;
 
-namespace CommonUtilities
+namespace CommonUtilities.FileSystem
 {
     public class UsbDeviceInfo
     {
@@ -19,6 +20,15 @@ namespace CommonUtilities
         public string PnpDeviceId { get; private set; }
         public string Description { get; private set; }
     }
+
+
+    public class CopyFileInfo
+    {
+        public string SourcePath { get; set; }
+        public string TargetPath { get; set; }
+        public bool IsFolder { get; set; }
+    }
+
 
     public delegate void CopyFileChanged(string filename);
 
@@ -90,33 +100,64 @@ namespace CommonUtilities
             }
         }
 
-        public static void CopyAllRecursive(DirectoryInfo source, DirectoryInfo target, CopyDialog onCopyFileChanged)
+        public static List<CopyFileInfo> ListAllFolders(DirectoryInfo source, DirectoryInfo target)
         {
-
             // Check if the target directory exists, if not, create it.
             if (Directory.Exists(target.FullName) == false)
             {
                 Directory.CreateDirectory(target.FullName);
             }
 
+
+            List<CopyFileInfo> list = new List<CopyFileInfo>();
             // Copy each file into it’s new directory.
             foreach (var fi in source.GetFiles())
             {
-                //if (onCopyFileChanged != null)
-                //    onCopyFileChanged(string.Format(@"Copying {0}\{1}", target.FullName, fi.Name));
-
-                onCopyFileChanged.SetPropertyThreadSafe(() => onCopyFileChanged.CopyText, string.Format( @"Copying {0}\{1}", target.FullName, fi.Name));
-
-                Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
-                fi.CopyTo(Path.Combine(target.ToString(), fi.Name), true);
+                list.Add(new CopyFileInfo { IsFolder = false, SourcePath = fi.FullName, TargetPath = Path.Combine(target.ToString(), fi.Name) });
             }
 
             // Copy each subdirectory using recursion.
             foreach (var diSourceSubDir in source.GetDirectories())
             {
                 var nextTargetSubDir = target.CreateSubdirectory(diSourceSubDir.Name);
-                CopyAllRecursive(diSourceSubDir, nextTargetSubDir, onCopyFileChanged);
+                list.AddRange(ListAllFolders(diSourceSubDir, nextTargetSubDir));
             }
+
+            return list;
+        }
+
+
+        public static void CopyAllRecursive(DirectoryInfo source, DirectoryInfo target)
+        {
+            var list = ListAllFolders(source, target);
+            var dialog = new FileCopyDialog();
+            dialog.Show();
+            dialog.CopyFiles(list);
+
+            //// Check if the target directory exists, if not, create it.
+            //if (Directory.Exists(target.FullName) == false)
+            //{
+            //    Directory.CreateDirectory(target.FullName);
+            //}
+
+            //// Copy each file into it’s new directory.
+            //foreach (var fi in source.GetFiles())
+            //{
+            //    //if (onCopyFileChanged != null)
+            //    //    onCopyFileChanged(string.Format(@"Copying {0}\{1}", target.FullName, fi.Name));
+
+            //    //onCopyFileChanged.SetPropertyThreadSafe(() => onCopyFileChanged.CopyText, string.Format( @"Copying {0}\{1}", target.FullName, fi.Name));
+
+            //    Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
+            //    fi.CopyTo(Path.Combine(target.ToString(), fi.Name), true);
+            //}
+
+            //// Copy each subdirectory using recursion.
+            //foreach (var diSourceSubDir in source.GetDirectories())
+            //{
+            //    var nextTargetSubDir = target.CreateSubdirectory(diSourceSubDir.Name);
+            //    CopyAllRecursive(diSourceSubDir, nextTargetSubDir, onCopyFileChanged);
+            //}
         }
     }
 }
