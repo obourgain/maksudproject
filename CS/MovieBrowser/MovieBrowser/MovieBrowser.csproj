@@ -72,6 +72,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\MovieBrowserController.cs" />
+    <Compile Include="Forms\FileCopyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FileCopyDialog.Designer.cs">
+      <DependentUpon>FileCopyDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\MovieListViewItem.cs" />
     <Compile Include="Model\Movies.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -137,7 +143,6 @@
     <Content Include="Library\ObjectListView.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="NewFolder1\" />
     <Folder Include="Repository\" />
   </ItemGroup>
   <ItemGroup>
