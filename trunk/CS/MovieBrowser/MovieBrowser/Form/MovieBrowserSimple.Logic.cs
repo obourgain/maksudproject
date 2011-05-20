@@ -246,7 +246,7 @@ namespace MovieBrowser.Form
         {
             var entities = new MovieDbEntities();
 
-            if (entities.Movies.Where(o => o.ImdbId.Equals(movie.ImdbId)).Count() == 0)
+            if (entities.Movies.Where(o => o.ImdbId.Equals(movie.ImdbId)).ToList().Count() == 0)
             {
                 entities.AddToMovies(movie);
                 entities.SaveChanges();
