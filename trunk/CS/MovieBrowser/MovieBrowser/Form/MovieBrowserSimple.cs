@@ -200,7 +200,7 @@ namespace MovieBrowser.Form
             {
                 SearchMovie(ImdbSearch, (Movie)listView1.SelectedItems[0].Tag);
             }
-            finally
+            catch
             {
 
             }
