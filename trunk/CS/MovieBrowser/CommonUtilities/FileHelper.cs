@@ -90,7 +90,7 @@ namespace CommonUtilities
             }
         }
 
-        public static void CopyAllRecursive(DirectoryInfo source, DirectoryInfo target, CopyFileChanged onCopyFileChanged)
+        public static void CopyAllRecursive(DirectoryInfo source, DirectoryInfo target, CopyDialog onCopyFileChanged)
         {
 
             // Check if the target directory exists, if not, create it.
@@ -102,8 +102,11 @@ namespace CommonUtilities
             // Copy each file into it’s new directory.
             foreach (var fi in source.GetFiles())
             {
-                if (onCopyFileChanged != null)
-                    onCopyFileChanged(string.Format(@"Copying {0}\{1}", target.FullName, fi.Name));
+                //if (onCopyFileChanged != null)
+                //    onCopyFileChanged(string.Format(@"Copying {0}\{1}", target.FullName, fi.Name));
+
+                onCopyFileChanged.SetPropertyThreadSafe(() => onCopyFileChanged.CopyText, string.Format( @"Copying {0}\{1}", target.FullName, fi.Name));
+
                 Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
                 fi.CopyTo(Path.Combine(target.ToString(), fi.Name), true);
             }
