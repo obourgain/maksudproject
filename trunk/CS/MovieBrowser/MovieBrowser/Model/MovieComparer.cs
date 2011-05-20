@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Windows.Forms;
 
-namespace MovieBrowser
+namespace MovieBrowser.Model
 {
     class MovieComparer : IComparer
     {

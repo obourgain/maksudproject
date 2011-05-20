@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using CommonUtilities;
+﻿using System.Windows.Forms;
 
-namespace MovieBrowser
+namespace MovieBrowser.Model
 {
     public class MovieNode : TreeNode
     {
