@@ -19,7 +19,6 @@ namespace MovieBrowser.Form
         private void LoadAllFolders()
         {
             treeView1.Nodes.Clear();
-
             if (Properties.Settings.Default.Paths != null)
             {
                 foreach (var path in Properties.Settings.Default.Paths)
@@ -29,10 +28,10 @@ namespace MovieBrowser.Form
             }
             textIgnore.Text = "" + Properties.Settings.Default.Ignore;
 
+
+            listView1.Items.Clear();
             var entities = new MovieDbEntities();
-
             var list = entities.Movies.ToList();
-
             foreach (var movie in list)
             {
                 listView1.Items.Add(new MovieListViewItem(movie));

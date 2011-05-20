@@ -194,16 +194,16 @@ namespace MovieBrowser.Form
             UpdateMovieDataBaseFromFileSystem();
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListView1DoubleClick(object sender, EventArgs e)
         {
-            try
-            {
-                SearchMovie(ImdbSearch, (Movie)listView1.SelectedItems[0].Tag);
-            }
-            catch
-            {
+            try { SearchMovie(ImdbSearch, (Movie)listView1.SelectedItems[0].Tag); }
+            catch { }
+        }
 
-            }
+        private void ListView1KeyDown(object sender, KeyEventArgs e)
+        {
+            try { SearchMovie(ImdbSearch, (Movie)listView1.SelectedItems[0].Tag); }
+            catch { }
         }
 
     }

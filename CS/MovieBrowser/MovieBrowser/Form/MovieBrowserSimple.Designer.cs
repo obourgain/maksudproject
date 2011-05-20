@@ -216,7 +216,7 @@
             this.tpMovies.Location = new System.Drawing.Point(4, 26);
             this.tpMovies.Name = "tpMovies";
             this.tpMovies.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMovies.Size = new System.Drawing.Size(265, 344);
+            this.tpMovies.Size = new System.Drawing.Size(265, 346);
             this.tpMovies.TabIndex = 1;
             this.tpMovies.Text = "Movies";
             this.tpMovies.UseVisualStyleBackColor = true;
@@ -236,7 +236,8 @@
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.listView1.DoubleClick += new System.EventHandler(this.ListView1DoubleClick);
+            this.listView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListView1KeyDown);
             // 
             // colImdbId
             // 
@@ -388,7 +389,7 @@
             this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(755, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(786, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // tsBrowseFolder
