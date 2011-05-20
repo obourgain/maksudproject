@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using CommonUtilities;
+using CommonUtilities.FileSystem;
 using HttpUtility;
 using MovieBrowser.Forms;
 using MovieBrowser.Model;
@@ -265,6 +266,7 @@ namespace MovieBrowser.Controller
             {
                 tsPendrives.Items.Add(t);
             }
+            if (ss.Count > 0) tsPendrives.SelectedIndex = 0;
         }
 
         public void AddMovieToDb(Movie movie)
@@ -309,22 +311,20 @@ namespace MovieBrowser.Controller
         {
             try
             {
-                var copyDialog = new CopyDialog();
-                copyDialog.Show();
-
                 var movie = (Movie)treeView1.SelectedNode.Tag;
                 var stt = new SendToThread()
                 {
-                    Dialog = copyDialog,
                     Source = movie.FilePath,
                     Destination = Path.Combine(tsPendrives.SelectedItem.ToString(), movie.FolderName)
                 };
-                var thread = new Thread(stt.SendTo);
-                thread.Start();
-            }
-            catch
-            {
+                //var thread = new Thread(stt.SendTo);
+                //thread.Start();
 
+                stt.SendTo();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(string.Format("SendTo:\r\n{0}", exception.Message));
             }
         }
     }
