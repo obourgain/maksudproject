@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using CommonUtilities;
 
-namespace MovieBrowser
+namespace MovieBrowser.Model
 {
-    public class Movie
+    public partial class Movie
     {
         public static readonly List<string> MovieFiles = new List<string>() { "avi", "mkv", "flv", "mp4" };
         public static readonly List<string> SubtitleFiles = new List<string>() { "srt", "sub" };
@@ -62,11 +59,6 @@ namespace MovieBrowser
         }
         public bool IsValidMovie { get; set; }
         public string FilePath { get; set; }
-        public string Title { get; set; }
-        public int Year { get; set; }
-        public double Rating { get; set; }
-        public string ImdbId { get; set; }
-
 
         public string FolderName { get { return string.Format("{0} ({1}), [{2}] [{3}]", Title, Year, Rating, ImdbId); } }
         public int ImageIndex
@@ -82,7 +74,7 @@ namespace MovieBrowser
                 {
                     if (FilePath.Extension().ExistsIn(MovieFiles))
                         return 2; // Video
-                    else if (FilePath.Extension().ExistsIn(Movie.SubtitleFiles))
+                    else if (FilePath.Extension().ExistsIn(SubtitleFiles))
                         return 3; // Subtitles
                     else
                     {

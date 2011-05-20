@@ -1,4 +1,4 @@
-﻿namespace MovieBrowser
+﻿namespace MovieBrowser.Form
 {
     partial class MovieBrowserSimple
     {
@@ -33,11 +33,14 @@
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tabMovies = new System.Windows.Forms.TabControl();
+            this.tpFileSystem = new System.Windows.Forms.TabPage();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.sendToPendriveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tpMovies = new System.Windows.Forms.TabPage();
+            this.tabInformation = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -47,6 +50,7 @@
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.tsParse = new System.Windows.Forms.ToolStripButton();
             this.tsUpdateFolder = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsBrowseFolder = new System.Windows.Forms.ToolStripButton();
             this.tsSaveFolders = new System.Windows.Forms.ToolStripButton();
@@ -75,8 +79,10 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tabMovies.SuspendLayout();
+            this.tpFileSystem.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.tabInformation.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -123,15 +129,38 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.treeView1);
+            this.splitContainer1.Panel1.Controls.Add(this.tabMovies);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
+            this.splitContainer1.Panel2.Controls.Add(this.tabInformation);
             this.splitContainer1.Panel2.Controls.Add(this.toolStrip3);
             this.splitContainer1.Size = new System.Drawing.Size(823, 376);
             this.splitContainer1.SplitterDistance = 273;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // tabMovies
+            // 
+            this.tabMovies.Controls.Add(this.tpFileSystem);
+            this.tabMovies.Controls.Add(this.tpMovies);
+            this.tabMovies.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabMovies.Font = new System.Drawing.Font("Monaco", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabMovies.Location = new System.Drawing.Point(0, 0);
+            this.tabMovies.Name = "tabMovies";
+            this.tabMovies.SelectedIndex = 0;
+            this.tabMovies.Size = new System.Drawing.Size(273, 376);
+            this.tabMovies.TabIndex = 2;
+            // 
+            // tpFileSystem
+            // 
+            this.tpFileSystem.Controls.Add(this.treeView1);
+            this.tpFileSystem.Location = new System.Drawing.Point(4, 29);
+            this.tpFileSystem.Name = "tpFileSystem";
+            this.tpFileSystem.Padding = new System.Windows.Forms.Padding(3);
+            this.tpFileSystem.Size = new System.Drawing.Size(265, 343);
+            this.tpFileSystem.TabIndex = 0;
+            this.tpFileSystem.Text = "Movie Folders";
+            this.tpFileSystem.UseVisualStyleBackColor = true;
             // 
             // treeView1
             // 
@@ -141,11 +170,11 @@
             this.treeView1.HideSelection = false;
             this.treeView1.ImageIndex = 0;
             this.treeView1.ImageList = this.imageList1;
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
+            this.treeView1.Location = new System.Drawing.Point(3, 3);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowNodeToolTips = true;
-            this.treeView1.Size = new System.Drawing.Size(273, 376);
+            this.treeView1.Size = new System.Drawing.Size(259, 337);
             this.treeView1.TabIndex = 1;
             this.treeView1.DoubleClick += new System.EventHandler(this.TreeView1DoubleClick);
             this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TreeView1KeyDown);
@@ -155,7 +184,7 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sendToPendriveToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(167, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(167, 26);
             // 
             // sendToPendriveToolStripMenuItem
             // 
@@ -174,17 +203,27 @@
             this.imageList1.Images.SetKeyName(3, "subtitle");
             this.imageList1.Images.SetKeyName(4, "file");
             // 
-            // tabControl1
+            // tpMovies
             // 
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 25);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(546, 351);
-            this.tabControl1.TabIndex = 1;
+            this.tpMovies.Location = new System.Drawing.Point(4, 29);
+            this.tpMovies.Name = "tpMovies";
+            this.tpMovies.Padding = new System.Windows.Forms.Padding(3);
+            this.tpMovies.Size = new System.Drawing.Size(265, 341);
+            this.tpMovies.TabIndex = 1;
+            this.tpMovies.Text = "Movies";
+            this.tpMovies.UseVisualStyleBackColor = true;
+            // 
+            // tabInformation
+            // 
+            this.tabInformation.Controls.Add(this.tabPage2);
+            this.tabInformation.Controls.Add(this.tabPage1);
+            this.tabInformation.Controls.Add(this.tabPage3);
+            this.tabInformation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabInformation.Location = new System.Drawing.Point(0, 25);
+            this.tabInformation.Name = "tabInformation";
+            this.tabInformation.SelectedIndex = 0;
+            this.tabInformation.Size = new System.Drawing.Size(546, 351);
+            this.tabInformation.TabIndex = 1;
             // 
             // tabPage2
             // 
@@ -254,7 +293,8 @@
             // 
             this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsParse,
-            this.tsUpdateFolder});
+            this.tsUpdateFolder,
+            this.toolStripButton2});
             this.toolStrip3.Location = new System.Drawing.Point(0, 0);
             this.toolStrip3.Name = "toolStrip3";
             this.toolStrip3.Size = new System.Drawing.Size(546, 25);
@@ -278,6 +318,15 @@
             this.tsUpdateFolder.Size = new System.Drawing.Size(101, 22);
             this.tsUpdateFolder.Text = "Update Folder";
             this.tsUpdateFolder.Click += new System.EventHandler(this.ToolStripButton6Click);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(107, 22);
+            this.toolStripButton2.Text = "Add To Movies";
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
             // toolStrip1
             // 
@@ -494,8 +543,10 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
+            this.tabMovies.ResumeLayout(false);
+            this.tpFileSystem.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
+            this.tabInformation.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -525,7 +576,7 @@
         private System.Windows.Forms.ToolStripButton tsSearchGoogle;
         private System.Windows.Forms.ToolStripButton tsDelete;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabInformation;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ToolStrip toolStrip3;
         private System.Windows.Forms.ToolStripButton tsParse;
@@ -552,6 +603,10 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem sendToPendriveToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.TabControl tabMovies;
+        private System.Windows.Forms.TabPage tpFileSystem;
+        private System.Windows.Forms.TabPage tpMovies;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
     }
 }
 
