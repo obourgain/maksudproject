@@ -79,17 +79,17 @@
       <DependentUpon>Movies.edmx</DependentUpon>
     </Compile>
     <Compile Include="Model\Movie.cs" />
-    <Compile Include="Form\MovieBrowserSimple.cs">
+    <Compile Include="Forms\MovieBrowserSimple.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\MovieBrowserSimple.Designer.cs">
+    <Compile Include="Forms\MovieBrowserSimple.Designer.cs">
       <DependentUpon>MovieBrowserSimple.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\MovieComparer.cs" />
     <Compile Include="Model\MovieNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form\MovieBrowserSimple.resx">
+    <EmbeddedResource Include="Forms\MovieBrowserSimple.resx">
       <DependentUpon>MovieBrowserSimple.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

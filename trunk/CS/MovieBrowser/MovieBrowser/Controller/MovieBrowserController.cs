@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using CommonUtilities;
 using HttpUtility;
-using MovieBrowser.Form;
+using MovieBrowser.Forms;
 using MovieBrowser.Model;
 using ShellLib;
 
