@@ -217,7 +217,7 @@
             this.tpMovies.Location = new System.Drawing.Point(4, 26);
             this.tpMovies.Name = "tpMovies";
             this.tpMovies.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMovies.Size = new System.Drawing.Size(265, 344);
+            this.tpMovies.Size = new System.Drawing.Size(265, 346);
             this.tpMovies.TabIndex = 1;
             this.tpMovies.Text = "Movies";
             this.tpMovies.UseVisualStyleBackColor = true;
@@ -231,6 +231,8 @@
             this.colYear});
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.FullRowSelect = true;
+            this.listView1.GridLines = true;
+            this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(3, 3);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(259, 340);
@@ -341,7 +343,7 @@
             this.tpInformation.Location = new System.Drawing.Point(4, 26);
             this.tpInformation.Name = "tpInformation";
             this.tpInformation.Padding = new System.Windows.Forms.Padding(3);
-            this.tpInformation.Size = new System.Drawing.Size(538, 319);
+            this.tpInformation.Size = new System.Drawing.Size(538, 321);
             this.tpInformation.TabIndex = 4;
             this.tpInformation.Text = "Movie Info";
             this.tpInformation.UseVisualStyleBackColor = true;
@@ -438,7 +440,7 @@
             this.tsSearchImdb.Name = "tsSearchImdb";
             this.tsSearchImdb.Size = new System.Drawing.Size(56, 22);
             this.tsSearchImdb.Text = "IMDB";
-            this.tsSearchImdb.Click += new System.EventHandler(this.tsSearchImdbClicl);
+            this.tsSearchImdb.Click += new System.EventHandler(this.tsSearchImdbClick);
             // 
             // tsSearchGoogle
             // 
