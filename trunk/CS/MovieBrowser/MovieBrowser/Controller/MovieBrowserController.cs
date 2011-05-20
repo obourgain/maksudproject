@@ -5,20 +5,34 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 using CommonUtilities;
 using HttpUtility;
+using MovieBrowser.Form;
 using MovieBrowser.Model;
 using ShellLib;
 
-namespace MovieBrowser.Form
+namespace MovieBrowser.Controller
 {
-    partial class MovieBrowserSimple
+    public class MovieBrowserController
     {
+        public const string GoogleSearch = "http://www.google.com/search?q=";
+        public const string ImdbSearch = "http://www.imdb.com/find?s=all&q=";
+        public const string ImdbTitle = "http://www.imdb.com/title/";
 
-        private void LoadAllFolders()
+        readonly FolderBrowserDialog _dialog = new FolderBrowserDialog();
+        private readonly MovieNode _selectedNode = null;
+
+        public WebBrowser Browser { get; set; }
+        public TreeView MovieFolderTree { get; set; }
+        public TextBox TextIgnore { get; set; }
+        public TextBox TextBox1 { get; set; }
+        public ListView ListView1 { get; set; }
+
+        public void LoadAllFolders()
         {
-            treeView1.Nodes.Clear();
+            MovieFolderTree.Nodes.Clear();
             if (Properties.Settings.Default.Paths != null)
             {
                 foreach (var path in Properties.Settings.Default.Paths)
@@ -26,20 +40,21 @@ namespace MovieBrowser.Form
                     LoadFolder(path);
                 }
             }
-            textIgnore.Text = "" + Properties.Settings.Default.Ignore;
+            TextIgnore.Text = "" + Properties.Settings.Default.Ignore;
 
 
-            listView1.Items.Clear();
+            ListView1.Items.Clear();
             var entities = new MovieDbEntities();
             var list = entities.Movies.ToList();
             foreach (var movie in list)
             {
-                listView1.Items.Add(new MovieListViewItem(movie));
+                ListView1.Items.Add(new MovieListViewItem(movie));
             }
         }
-        private void LoadFolderDialog()
+
+        public void LoadFolderDialog()
         {
-            if (_dialog.ShowDialog(this) == DialogResult.OK)
+            if (_dialog.ShowDialog() == DialogResult.OK)
             {
                 LoadFolder(_dialog.SelectedPath);
             }
@@ -49,7 +64,7 @@ namespace MovieBrowser.Form
 
             var movie = Movie.FromFolderName(folderPath);
             var treeNode = new MovieNode(movie);
-            treeView1.Nodes.Add(treeNode);
+            MovieFolderTree.Nodes.Add(treeNode);
 
             FolderBrowseRecursively(treeNode, folderPath);
         }
@@ -77,24 +92,25 @@ namespace MovieBrowser.Form
                 FolderBrowseRecursively(tn, directory);
             }
         }
-        private void SearchMovie(String address)
-        {
-            try
-            {
-                _selectedNode = (MovieNode)treeView1.SelectedNode;
-                var movie = (Movie)_selectedNode.Tag;
-                if (address.Equals(ImdbSearch) && movie != null && !string.IsNullOrEmpty(movie.ImdbId))
-                {
-                    Navigate(ImdbTitle + movie.ImdbId);
-                }
-                else
-                {
-                    Navigate(address + IgnoreWords(_selectedNode.Text));
-                }
-            }
-            catch { }
-        }
-        private void SearchMovie(String address, Movie movie)
+
+        //public void SearchMovie(String address, Movie movie)
+        //{
+        //    try
+        //    {
+        //        _selectedNode = (MovieNode)treeView1.SelectedNode;
+        //        var movie = (Movie)_selectedNode.Tag;
+        //        if (address.Equals(ImdbSearch) && movie != null && !string.IsNullOrEmpty(movie.ImdbId))
+        //        {
+        //            Navigate(ImdbTitle + movie.ImdbId);
+        //        }
+        //        else
+        //        {
+        //            Navigate(address + IgnoreWords(_selectedNode.Text));
+        //        }
+        //    }
+        //    catch { }
+        //}
+        public void SearchMovie(String address, Movie movie)
         {
             try
             {
@@ -112,12 +128,13 @@ namespace MovieBrowser.Form
         private string IgnoreWords(string text)
         {
             text = text.ToLower();
-            string[] ignored = textIgnore.Text.ToLower().Split();
+            string[] ignored = TextIgnore.Text.ToLower().Split();
             text = ignored.Aggregate(text, (current, s) => string.IsNullOrEmpty(s) ? current : current.Replace(s, ""));
             text = text.Replace(".", " ");
             return text;
         }
-        private void UpdateMovie()
+
+        public void UpdateMovie()
         {
             try
             {
@@ -141,9 +158,10 @@ namespace MovieBrowser.Form
             {
             }
         }
-        private void SaveIgnoreList()
+
+        public void SaveIgnoreList()
         {
-            string[] words = textIgnore.Text.ToLower().Split();
+            string[] words = TextIgnore.Text.ToLower().Split();
             //Array.Sort(words);
 
             var t = (from s in words
@@ -152,34 +170,33 @@ namespace MovieBrowser.Form
 
             string s2 = string.Join(" ", t);
 
-            textIgnore.Text = s2;
+            TextIgnore.Text = s2;
             Properties.Settings.Default.Ignore = s2;
             Properties.Settings.Default.Save();
         }
-        private void SaveFolderList()
+
+        public void SaveFolderList()
         {
             Properties.Settings.Default.Paths = new StringCollection();
 
-            foreach (MovieNode node in treeView1.Nodes)
+            foreach (MovieNode node in MovieFolderTree.Nodes)
             {
                 Properties.Settings.Default.Paths.Add(((Movie)node.Tag).FilePath);
             }
             Properties.Settings.Default.Save();
         }
 
-
-
-        private Movie ParseMovieInfo()
+        public Movie ParseMovieInfo()
         {
-            var src = webBrowser1.DocumentText;
+            var src = Browser.DocumentText;
             var rating = Regex.Match(src, @"<span class=""rating-rating"">([\d.]+)<span>").Groups[1].Value;
             var match = Regex.Match(src, @"<title>(.+?) \(.*?([\d.]+)\)");
 
-            var imdbId = Regex.Match(webBrowser1.Url.AbsolutePath, @"/title/(tt\d+)/").Groups[1].Value;
+            var imdbId = Regex.Match(Browser.Url.AbsolutePath, @"/title/(tt\d+)/").Groups[1].Value;
 
-            textBox1.AppendText("Title: " + match.Groups[1].Value + "\r\n");
-            textBox1.AppendText("Year: " + match.Groups[2].Value + "\r\n");
-            textBox1.AppendText("Rating: " + rating + "\r\n");
+            TextBox1.AppendText("Title: " + match.Groups[1].Value + "\r\n");
+            TextBox1.AppendText("Year: " + match.Groups[2].Value + "\r\n");
+            TextBox1.AppendText("Rating: " + rating + "\r\n");
             var movie = new Movie
             {
                 Rating = Convert.ToDouble(rating),
@@ -191,46 +208,49 @@ namespace MovieBrowser.Form
             return movie;
 
         }
-        private void DeleteNode()
+
+        public void DeleteNode()
         {
             try
             {
-                if (MessageBox.Show(this, @"Sure To Delete", @"Delete Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    treeView1.SelectedNode.Remove();
+
+                if (MessageBox.Show(@"Sure To Delete", @"Delete Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    MovieFolderTree.SelectedNode.Remove();
             }
             finally
             {
 
             }
         }
-        private void Open()
+
+        public void Open()
         {
             var execute = new ShellExecute
             {
                 Verb = ShellExecute.OpenFile,
-                Path = ((Movie)treeView1.SelectedNode.Tag).FilePath
+                Path = ((Movie)MovieFolderTree.SelectedNode.Tag).FilePath
             };
             execute.Execute();
         }
         void Navigate(string url)
         {
 
-            webBrowser1.Navigate(url);
+            Browser.Navigate(url);
 
 
         }
-        private void Redirect(string src)
+
+        public void Redirect(string src)
         {
             var match = Regex.Match(src, "Media from&nbsp;<a href=\"/title/(tt[0-9]+)/");
             var title = match.Groups[1].Value;
             if (!string.IsNullOrEmpty(title))
             {
-                textBox1.AppendText("Redirect!...\r\n");
-                webBrowser1.Navigate("http://www.imdb.com/title/" + title);
+                TextBox1.AppendText("Redirect!...\r\n");
+                Browser.Navigate("http://www.imdb.com/title/" + title);
             }
         }
-
-        private void LoadPenDrives()
+        public void LoadPenDrives(ToolStripComboBox tsPendrives)
         {
             tsPendrives.Items.Clear();
 
@@ -241,7 +261,7 @@ namespace MovieBrowser.Form
             }
         }
 
-        private void AddMovieToDb(Movie movie)
+        public void AddMovieToDb(Movie movie)
         {
             var entities = new MovieDbEntities();
 
@@ -258,15 +278,15 @@ namespace MovieBrowser.Form
 
         }
 
-        private void UpdateMovieDataBaseFromFileSystem()
+        public void UpdateMovieDataBaseFromFileSystem()
         {
-            foreach (var node in treeView1.Nodes)
+            foreach (var node in MovieFolderTree.Nodes)
             {
                 UpdateMovieDataBaseFromFileSystem((MovieNode)node);
             }
         }
 
-        private void UpdateMovieDataBaseFromFileSystem(MovieNode movieNode)
+        public void UpdateMovieDataBaseFromFileSystem(MovieNode movieNode)
         {
             if (movieNode.Movie.IsValidMovie)
             {
@@ -276,6 +296,29 @@ namespace MovieBrowser.Form
             foreach (var node in movieNode.Nodes)
             {
                 UpdateMovieDataBaseFromFileSystem((MovieNode)node);
+            }
+        }
+
+        public void SendTo(TreeView treeView1, ToolStripComboBox tsPendrives)
+        {
+            try
+            {
+                var copyDialog = new CopyDialog();
+                copyDialog.Show();
+
+                var movie = (Movie)treeView1.SelectedNode.Tag;
+                var stt = new SendToThread()
+                {
+                    Dialog = copyDialog,
+                    Source = movie.FilePath,
+                    Destination = Path.Combine(tsPendrives.SelectedItem.ToString(), movie.FolderName)
+                };
+                var thread = new Thread(stt.SendTo);
+                thread.Start();
+            }
+            catch
+            {
+
             }
         }
     }
