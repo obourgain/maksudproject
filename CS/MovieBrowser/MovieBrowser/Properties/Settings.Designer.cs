@@ -26,12 +26,12 @@ namespace MovieBrowser.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("DivXNL-Team  DVDRip DVDR XviD TS V2 XVID FEEL")]
-        public string Ignore {
+        public string IgnoreWords {
             get {
-                return ((string)(this["Ignore"]));
+                return ((string)(this["IgnoreWords"]));
             }
             set {
-                this["Ignore"] = value;
+                this["IgnoreWords"] = value;
             }
         }
         
