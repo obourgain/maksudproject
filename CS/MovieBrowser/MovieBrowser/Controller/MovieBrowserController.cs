@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -13,8 +14,30 @@ using ShellLib;
 
 namespace MovieBrowser.Controller
 {
+    public class DebugEventArgs : EventArgs
+    {
+        public string Text { get; set; }
+        public DebugEventArgs(string text)
+        {
+            Text = text;
+        }
+
+        public override string ToString()
+        {
+            return Text;
+        }
+    }
+
     public class MovieBrowserController
     {
+        public event EventHandler OnDebugTextFired;
+
+        public void InvokeOnDebugTextFired(string text)
+        {
+            var handler = OnDebugTextFired;
+            if (handler != null) handler(this, new EventArgs() { });
+        }
+
         public const string GoogleSearch = "http://www.google.com/search?q=";
         public const string ImdbSearch = "http://www.imdb.com/find?s=all&q=";
         public const string ImdbTitle = "http://www.imdb.com/title/";
@@ -23,46 +46,44 @@ namespace MovieBrowser.Controller
         private readonly MovieNode _selectedNode = null;
 
         public WebBrowser Browser { get; set; }
-        public TreeView MovieFolderTree { get; set; }
-        public TextBox TextIgnore { get; set; }
-        public TextBox TextBox1 { get; set; }
-        public ListView ListView1 { get; set; }
+        //public TreeView MovieFolderTree { get; set; }
+        //public ListView ListView1 { get; set; }
 
-        public void LoadAllFolders()
+
+        public void LoadAllFolders(TreeView movieFolderTree)
         {
-            MovieFolderTree.Nodes.Clear();
-            if (Properties.Settings.Default.Paths != null)
+            movieFolderTree.Nodes.Clear();
+            if (Properties.Settings.Default.Paths == null) return;
+            foreach (var path in Properties.Settings.Default.Paths)
             {
-                foreach (var path in Properties.Settings.Default.Paths)
-                {
-                    LoadFolder(path);
-                }
+                LoadFolderIntoTreeView(path, movieFolderTree);
             }
-            TextIgnore.Text = "" + Properties.Settings.Default.Ignore;
+        }
 
-
-            ListView1.Items.Clear();
+        public void LoadListViewMovies(ListView listView1)
+        {
+            listView1.Items.Clear();
             var entities = new MovieDbEntities();
             var list = entities.Movies.ToList();
             foreach (var movie in list)
             {
-                ListView1.Items.Add(new MovieListViewItem(movie));
+                listView1.Items.Add(new MovieListViewItem(movie));
             }
         }
 
-        public void LoadFolderDialog()
+        public void LoadFolderIntoTreeViewDialog(TreeView treeView)
         {
             if (_dialog.ShowDialog() == DialogResult.OK)
             {
-                LoadFolder(_dialog.SelectedPath);
+                LoadFolderIntoTreeView(_dialog.SelectedPath, treeView);
             }
         }
-        private void LoadFolder(string folderPath)
+        private static void LoadFolderIntoTreeView(string folderPath, TreeView treeView)
         {
 
             var movie = Movie.FromFolderName(folderPath);
             var treeNode = new MovieNode(movie);
-            MovieFolderTree.Nodes.Add(treeNode);
+            treeView.Nodes.Add(treeNode);
 
             FolderBrowseRecursively(treeNode, folderPath);
         }
@@ -91,23 +112,6 @@ namespace MovieBrowser.Controller
             }
         }
 
-        //public void SearchMovie(String address, Movie movie)
-        //{
-        //    try
-        //    {
-        //        _selectedNode = (MovieNode)treeView1.SelectedNode;
-        //        var movie = (Movie)_selectedNode.Tag;
-        //        if (address.Equals(ImdbSearch) && movie != null && !string.IsNullOrEmpty(movie.ImdbId))
-        //        {
-        //            Navigate(ImdbTitle + movie.ImdbId);
-        //        }
-        //        else
-        //        {
-        //            Navigate(address + IgnoreWords(_selectedNode.Text));
-        //        }
-        //    }
-        //    catch { }
-        //}
         public void SearchMovie(String address, Movie movie)
         {
             try
@@ -123,10 +127,10 @@ namespace MovieBrowser.Controller
             }
             catch { }
         }
-        private string IgnoreWords(string text)
+        private static string IgnoreWords(string text)
         {
             text = text.ToLower();
-            string[] ignored = TextIgnore.Text.ToLower().Split();
+            string[] ignored = Properties.Settings.Default.IgnoreWords.ToLower().Split();
             text = ignored.Aggregate(text, (current, s) => string.IsNullOrEmpty(s) ? current : current.Replace(s, ""));
             text = text.Replace(".", " ");
             return text;
@@ -140,7 +144,7 @@ namespace MovieBrowser.Controller
 
                 var newdir = filename.FilePath.Substring(0, filename.FilePath.LastIndexOf("\\") + 1);
 
-                var movie = ParseMovieInfo();
+                var movie = ParseMovieInfo(Browser.Url.AbsolutePath, Browser.DocumentText);
                 //Directory.Move(filename, newdir);
                 newdir += HttpHelper.Decode(movie.FolderName).Clean();
 
@@ -157,9 +161,9 @@ namespace MovieBrowser.Controller
             }
         }
 
-        public void SaveIgnoreList()
+        public string UpdateIgnoreWords()
         {
-            string[] words = TextIgnore.Text.ToLower().Split();
+            string[] words = Properties.Settings.Default.IgnoreWords.ToLower().Split();
             //Array.Sort(words);
 
             var t = (from s in words
@@ -168,33 +172,34 @@ namespace MovieBrowser.Controller
 
             string s2 = string.Join(" ", t);
 
-            TextIgnore.Text = s2;
-            Properties.Settings.Default.Ignore = s2;
+            Properties.Settings.Default.IgnoreWords = s2;
             Properties.Settings.Default.Save();
+
+            return s2;
         }
 
-        public void SaveFolderList()
+        public void SaveFolderListTree(TreeView movieFolderTree)
         {
             Properties.Settings.Default.Paths = new StringCollection();
 
-            foreach (MovieNode node in MovieFolderTree.Nodes)
+            foreach (MovieNode node in movieFolderTree.Nodes)
             {
                 Properties.Settings.Default.Paths.Add(((Movie)node.Tag).FilePath);
             }
             Properties.Settings.Default.Save();
         }
 
-        public Movie ParseMovieInfo()
+        public Movie ParseMovieInfo(string url, string src)
         {
-            var src = Browser.DocumentText;
+            //var src = Browser.DocumentText;
             var rating = Regex.Match(src, @"<span class=""rating-rating"">([\d.]+)<span>").Groups[1].Value;
             var match = Regex.Match(src, @"<title>(.+?) \(.*?([\d.]+)\)");
 
-            var imdbId = Regex.Match(Browser.Url.AbsolutePath, @"/title/(tt\d+)/").Groups[1].Value;
+            var imdbId = Regex.Match(url, @"/title/(tt\d+)/").Groups[1].Value;
 
-            TextBox1.AppendText("Title: " + match.Groups[1].Value + "\r\n");
-            TextBox1.AppendText("Year: " + match.Groups[2].Value + "\r\n");
-            TextBox1.AppendText("Rating: " + rating + "\r\n");
+            InvokeOnDebugTextFired("Title: " + match.Groups[1].Value + "\r\n");
+            InvokeOnDebugTextFired("Year: " + match.Groups[2].Value + "\r\n");
+            InvokeOnDebugTextFired("Rating: " + rating + "\r\n");
             var movie = new Movie
             {
                 Rating = Convert.ToDouble(rating),
@@ -207,13 +212,13 @@ namespace MovieBrowser.Controller
 
         }
 
-        public void DeleteNode()
+        public void DeleteNode(TreeView movieFolderTree)
         {
             try
             {
 
                 if (MessageBox.Show(@"Sure To Delete", @"Delete Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    MovieFolderTree.SelectedNode.Remove();
+                    movieFolderTree.SelectedNode.Remove();
             }
             finally
             {
@@ -221,12 +226,12 @@ namespace MovieBrowser.Controller
             }
         }
 
-        public void Open()
+        public void Open(string path)
         {
             var execute = new ShellExecute
             {
                 Verb = ShellExecute.OpenFile,
-                Path = ((Movie)MovieFolderTree.SelectedNode.Tag).FilePath
+                Path = path
             };
             execute.Execute();
         }
@@ -244,10 +249,13 @@ namespace MovieBrowser.Controller
             var title = match.Groups[1].Value;
             if (!string.IsNullOrEmpty(title))
             {
-                TextBox1.AppendText("Redirect!...\r\n");
-                Browser.Navigate("http://www.imdb.com/title/" + title);
+                var url = "http://www.imdb.com/title/" + title;
+                InvokeOnDebugTextFired(string.Format("Redirect to '{0}'...\r\n", url));
+                Browser.Navigate(url);
             }
         }
+
+
         public void LoadPenDrives(ToolStripComboBox tsPendrives)
         {
             tsPendrives.Items.Clear();
@@ -276,9 +284,9 @@ namespace MovieBrowser.Controller
 
         }
 
-        public void UpdateMovieDataBaseFromFileSystem()
+        public void UpdateMovieDataBaseFromFileSystem(TreeView treeView)
         {
-            foreach (var node in MovieFolderTree.Nodes)
+            foreach (var node in treeView.Nodes)
             {
                 UpdateMovieDataBaseFromFileSystem((MovieNode)node);
             }
