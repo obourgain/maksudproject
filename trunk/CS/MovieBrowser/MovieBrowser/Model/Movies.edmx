@@ -12,15 +12,15 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="ImdbId" Type="nchar" MaxLength="100" />
-          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ImdbId" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="Year" Type="int" Nullable="false" />
           <Property Name="Rating" Type="float" Nullable="false" />
           <Property Name="Country" Type="nvarchar" MaxLength="100" />
           <Property Name="Language" Type="nvarchar" MaxLength="100" />
-          <Property Name="Runtime" Type="nvarchar" MaxLength="100" />
           <Property Name="ReleaseDate" Type="nvarchar" MaxLength="100" />
-          <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Runtime" Type="nvarchar" MaxLength="100" />
         </EntityType>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -33,15 +33,15 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="String" Name="ImdbId" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Type="String" Name="Title" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="ImdbId" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Year" Nullable="false" />
           <Property Type="Double" Name="Rating" Nullable="false" />
           <Property Type="String" Name="Country" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Language" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Runtime" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ReleaseDate" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="Int64" Name="Id" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="Runtime" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -52,15 +52,15 @@
           <EntitySetMapping Name="Movies">
             <EntityTypeMapping TypeName="MovieDbModel.Movie">
               <MappingFragment StoreEntitySet="Movie">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
                 <ScalarProperty Name="Runtime" ColumnName="Runtime" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
                 <ScalarProperty Name="Language" ColumnName="Language" />
                 <ScalarProperty Name="Country" ColumnName="Country" />
                 <ScalarProperty Name="Rating" ColumnName="Rating" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ImdbId" ColumnName="ImdbId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

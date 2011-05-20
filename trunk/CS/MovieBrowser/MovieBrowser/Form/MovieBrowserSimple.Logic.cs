@@ -15,7 +15,7 @@ namespace MovieBrowser.Form
 {
     partial class MovieBrowserSimple
     {
-        #region Code
+
         private void LoadAllFolders()
         {
             treeView1.Nodes.Clear();
@@ -28,6 +28,18 @@ namespace MovieBrowser.Form
                 }
             }
             textIgnore.Text = "" + Properties.Settings.Default.Ignore;
+
+            var entities = new MovieDbEntities();
+
+            var list = entities.Movies.ToList();
+
+            foreach (var movie in list)
+            {
+                var listItem = new ListViewItem {Text = movie.Title};
+                listItem.SubItems.Add(movie.ImdbId);
+                listItem.SubItems.Add(movie.Rating.ToString());
+                listView1.Items.Add(listItem);
+            }
         }
         private void LoadFolderDialog()
         {
@@ -217,6 +229,16 @@ namespace MovieBrowser.Form
                 tsPendrives.Items.Add(t);
             }
         }
-        #endregion
+
+        private void AddMovieToDb()
+        {
+
+            var movie = ParseMovieInfo();
+
+            var entities = new MovieDbEntities();
+            entities.AddToMovies(movie);
+            entities.SaveChanges();
+
+        }
     }
 }
