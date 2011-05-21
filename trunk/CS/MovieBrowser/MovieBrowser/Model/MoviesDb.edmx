@@ -1,0 +1,503 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MovieDbModel.Store" Alias="Self" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+        <EntityContainer Name="MovieDbModelStoreContainer">
+          <EntitySet Name="Country" EntityType="MovieDbModel.Store.Country" store:Type="Tables" />
+          <EntitySet Name="Genre" EntityType="MovieDbModel.Store.Genre" store:Type="Tables" />
+          <EntitySet Name="Keyword" EntityType="MovieDbModel.Store.Keyword" store:Type="Tables" />
+          <EntitySet Name="Movie" EntityType="MovieDbModel.Store.Movie" store:Type="Tables" />
+          <EntitySet Name="MovieCountry" EntityType="MovieDbModel.Store.MovieCountry" store:Type="Tables" />
+          <EntitySet Name="MovieGenre" EntityType="MovieDbModel.Store.MovieGenre" store:Type="Tables" />
+          <EntitySet Name="MovieKeyword" EntityType="MovieDbModel.Store.MovieKeyword" store:Type="Tables" />
+          <AssociationSet Name="FK_MovieCountry_0" Association="MovieDbModel.Store.FK_MovieCountry_0">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="MovieCountry" EntitySet="MovieCountry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieCountry_1" Association="MovieDbModel.Store.FK_MovieCountry_1">
+            <End Role="Movie" EntitySet="Movie" />
+            <End Role="MovieCountry" EntitySet="MovieCountry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieGenre_0" Association="MovieDbModel.Store.FK_MovieGenre_0">
+            <End Role="Movie" EntitySet="Movie" />
+            <End Role="MovieGenre" EntitySet="MovieGenre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieGenre_1" Association="MovieDbModel.Store.FK_MovieGenre_1">
+            <End Role="Genre" EntitySet="Genre" />
+            <End Role="MovieGenre" EntitySet="MovieGenre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieKeyword_0" Association="MovieDbModel.Store.FK_MovieKeyword_0">
+            <End Role="Movie" EntitySet="Movie" />
+            <End Role="MovieKeyword" EntitySet="MovieKeyword" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieKeyword_1" Association="MovieDbModel.Store.FK_MovieKeyword_1">
+            <End Role="Keyword" EntitySet="Keyword" />
+            <End Role="MovieKeyword" EntitySet="MovieKeyword" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Rated" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Keyword">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Rated" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ImdbId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Year" Type="integer" Nullable="false" />
+          <Property Name="Rating" Type="float" Nullable="false" />
+          <Property Name="Language" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReleaseDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="Runtime" Type="nvarchar" MaxLength="50" />
+          <Property Name="MPPA" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MovieCountry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="MovieId" Type="integer" Nullable="false" />
+          <Property Name="CountryId" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MovieGenre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="MovieId" Type="integer" Nullable="false" />
+          <Property Name="GenreId" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MovieKeyword">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="MovieId" Type="integer" Nullable="false" />
+          <Property Name="KeywordId" Type="integer" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_MovieCountry_0">
+          <End Role="Country" Type="MovieDbModel.Store.Country" Multiplicity="1" />
+          <End Role="MovieCountry" Type="MovieDbModel.Store.MovieCountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MovieCountry">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieCountry_1">
+          <End Role="Movie" Type="MovieDbModel.Store.Movie" Multiplicity="1" />
+          <End Role="MovieCountry" Type="MovieDbModel.Store.MovieCountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MovieCountry">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieGenre_0">
+          <End Role="Movie" Type="MovieDbModel.Store.Movie" Multiplicity="1" />
+          <End Role="MovieGenre" Type="MovieDbModel.Store.MovieGenre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MovieGenre">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieGenre_1">
+          <End Role="Genre" Type="MovieDbModel.Store.Genre" Multiplicity="1" />
+          <End Role="MovieGenre" Type="MovieDbModel.Store.MovieGenre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MovieGenre">
+              <PropertyRef Name="GenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieKeyword_0">
+          <End Role="Movie" Type="MovieDbModel.Store.Movie" Multiplicity="1" />
+          <End Role="MovieKeyword" Type="MovieDbModel.Store.MovieKeyword" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MovieKeyword">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieKeyword_1">
+          <End Role="Keyword" Type="MovieDbModel.Store.Keyword" Multiplicity="1" />
+          <End Role="MovieKeyword" Type="MovieDbModel.Store.MovieKeyword" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Keyword">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MovieKeyword">
+              <PropertyRef Name="KeywordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MovieDbModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
+        <EntityContainer Name="MovieDbEntities">
+          <EntitySet Name="Countries" EntityType="MovieDbModel.Country" />
+          <EntitySet Name="Genres" EntityType="MovieDbModel.Genre" />
+          <EntitySet Name="Keywords" EntityType="MovieDbModel.Keyword" />
+          <EntitySet Name="Movies" EntityType="MovieDbModel.Movie" />
+          <EntitySet Name="MovieCountries" EntityType="MovieDbModel.MovieCountry" />
+          <EntitySet Name="MovieGenres" EntityType="MovieDbModel.MovieGenre" />
+          <EntitySet Name="MovieKeywords" EntityType="MovieDbModel.MovieKeyword" />
+          <AssociationSet Name="FK_MovieCountry_0" Association="MovieDbModel.FK_MovieCountry_0">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="MovieCountry" EntitySet="MovieCountries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieGenre_1" Association="MovieDbModel.FK_MovieGenre_1">
+            <End Role="Genre" EntitySet="Genres" />
+            <End Role="MovieGenre" EntitySet="MovieGenres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieKeyword_1" Association="MovieDbModel.FK_MovieKeyword_1">
+            <End Role="Keyword" EntitySet="Keywords" />
+            <End Role="MovieKeyword" EntitySet="MovieKeywords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieCountry_1" Association="MovieDbModel.FK_MovieCountry_1">
+            <End Role="Movie" EntitySet="Movies" />
+            <End Role="MovieCountry" EntitySet="MovieCountries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieGenre_0" Association="MovieDbModel.FK_MovieGenre_0">
+            <End Role="Movie" EntitySet="Movies" />
+            <End Role="MovieGenre" EntitySet="MovieGenres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieKeyword_0" Association="MovieDbModel.FK_MovieKeyword_0">
+            <End Role="Movie" EntitySet="Movies" />
+            <End Role="MovieKeyword" EntitySet="MovieKeywords" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MovieCountries" Relationship="MovieDbModel.FK_MovieCountry_0" FromRole="Country" ToRole="MovieCountry" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="Rated" Nullable="false" />
+          <NavigationProperty Name="MovieGenres" Relationship="MovieDbModel.FK_MovieGenre_1" FromRole="Genre" ToRole="MovieGenre" />
+        </EntityType>
+        <EntityType Name="Keyword">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="Rated" Nullable="false" />
+          <NavigationProperty Name="MovieKeywords" Relationship="MovieDbModel.FK_MovieKeyword_1" FromRole="Keyword" ToRole="MovieKeyword" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="ImdbId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="Year" Nullable="false" />
+          <Property Type="Double" Name="Rating" Nullable="false" />
+          <Property Type="String" Name="Language" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ReleaseDate" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Runtime" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MPPA" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MovieCountries" Relationship="MovieDbModel.FK_MovieCountry_1" FromRole="Movie" ToRole="MovieCountry" />
+          <NavigationProperty Name="MovieGenres" Relationship="MovieDbModel.FK_MovieGenre_0" FromRole="Movie" ToRole="MovieGenre" />
+          <NavigationProperty Name="MovieKeywords" Relationship="MovieDbModel.FK_MovieKeyword_0" FromRole="Movie" ToRole="MovieKeyword" />
+        </EntityType>
+        <EntityType Name="MovieCountry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <NavigationProperty Name="Country" Relationship="MovieDbModel.FK_MovieCountry_0" FromRole="MovieCountry" ToRole="Country" />
+          <NavigationProperty Name="Movie" Relationship="MovieDbModel.FK_MovieCountry_1" FromRole="MovieCountry" ToRole="Movie" />
+        </EntityType>
+        <EntityType Name="MovieGenre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <NavigationProperty Name="Genre" Relationship="MovieDbModel.FK_MovieGenre_1" FromRole="MovieGenre" ToRole="Genre" />
+          <NavigationProperty Name="Movie" Relationship="MovieDbModel.FK_MovieGenre_0" FromRole="MovieGenre" ToRole="Movie" />
+        </EntityType>
+        <EntityType Name="MovieKeyword">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <NavigationProperty Name="Keyword" Relationship="MovieDbModel.FK_MovieKeyword_1" FromRole="MovieKeyword" ToRole="Keyword" />
+          <NavigationProperty Name="Movie" Relationship="MovieDbModel.FK_MovieKeyword_0" FromRole="MovieKeyword" ToRole="Movie" />
+        </EntityType>
+        <Association Name="FK_MovieCountry_0">
+          <End Type="MovieDbModel.Country" Role="Country" Multiplicity="1" />
+          <End Type="MovieDbModel.MovieCountry" Role="MovieCountry" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_MovieGenre_1">
+          <End Type="MovieDbModel.Genre" Role="Genre" Multiplicity="1" />
+          <End Type="MovieDbModel.MovieGenre" Role="MovieGenre" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_MovieKeyword_1">
+          <End Type="MovieDbModel.Keyword" Role="Keyword" Multiplicity="1" />
+          <End Type="MovieDbModel.MovieKeyword" Role="MovieKeyword" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_MovieCountry_1">
+          <End Type="MovieDbModel.Movie" Role="Movie" Multiplicity="1" />
+          <End Type="MovieDbModel.MovieCountry" Role="MovieCountry" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_MovieGenre_0">
+          <End Type="MovieDbModel.Movie" Role="Movie" Multiplicity="1" />
+          <End Type="MovieDbModel.MovieGenre" Role="MovieGenre" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_MovieKeyword_0">
+          <End Type="MovieDbModel.Movie" Role="Movie" Multiplicity="1" />
+          <End Type="MovieDbModel.MovieKeyword" Role="MovieKeyword" Multiplicity="*" />
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
+        <EntityContainerMapping StorageEntityContainer="MovieDbModelStoreContainer" CdmEntityContainer="MovieDbEntities">
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="MovieDbModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genres">
+            <EntityTypeMapping TypeName="MovieDbModel.Genre">
+              <MappingFragment StoreEntitySet="Genre">
+                <ScalarProperty Name="Rated" ColumnName="Rated" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Keywords">
+            <EntityTypeMapping TypeName="MovieDbModel.Keyword">
+              <MappingFragment StoreEntitySet="Keyword">
+                <ScalarProperty Name="Rated" ColumnName="Rated" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movies">
+            <EntityTypeMapping TypeName="MovieDbModel.Movie">
+              <MappingFragment StoreEntitySet="Movie">
+                <ScalarProperty Name="MPPA" ColumnName="MPPA" />
+                <ScalarProperty Name="Runtime" ColumnName="Runtime" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ImdbId" ColumnName="ImdbId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovieCountries">
+            <EntityTypeMapping TypeName="MovieDbModel.MovieCountry">
+              <MappingFragment StoreEntitySet="MovieCountry">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovieGenres">
+            <EntityTypeMapping TypeName="MovieDbModel.MovieGenre">
+              <MappingFragment StoreEntitySet="MovieGenre">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovieKeywords">
+            <EntityTypeMapping TypeName="MovieDbModel.MovieKeyword">
+              <MappingFragment StoreEntitySet="MovieKeyword">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_MovieCountry_0" TypeName="MovieDbModel.FK_MovieCountry_0" StoreEntitySet="MovieCountry">
+            <EndProperty Name="MovieCountry">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Country">
+              <ScalarProperty Name="Id" ColumnName="CountryId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_MovieGenre_1" TypeName="MovieDbModel.FK_MovieGenre_1" StoreEntitySet="MovieGenre">
+            <EndProperty Name="MovieGenre">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Genre">
+              <ScalarProperty Name="Id" ColumnName="GenreId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_MovieKeyword_1" TypeName="MovieDbModel.FK_MovieKeyword_1" StoreEntitySet="MovieKeyword">
+            <EndProperty Name="MovieKeyword">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Keyword">
+              <ScalarProperty Name="Id" ColumnName="KeywordId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_MovieCountry_1" TypeName="MovieDbModel.FK_MovieCountry_1" StoreEntitySet="MovieCountry">
+            <EndProperty Name="MovieCountry">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Movie">
+              <ScalarProperty Name="Id" ColumnName="MovieId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_MovieGenre_0" TypeName="MovieDbModel.FK_MovieGenre_0" StoreEntitySet="MovieGenre">
+            <EndProperty Name="MovieGenre">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Movie">
+              <ScalarProperty Name="Id" ColumnName="MovieId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_MovieKeyword_0" TypeName="MovieDbModel.FK_MovieKeyword_0" StoreEntitySet="MovieKeyword">
+            <EndProperty Name="MovieKeyword">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Movie">
+              <ScalarProperty Name="Id" ColumnName="MovieId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="MoviesDb">
+        <EntityTypeShape EntityType="MovieDbModel.Country" Width="1.5" PointX="0.75" PointY="0.75" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="MovieDbModel.Genre" Width="1.5" PointX="0.75" PointY="8.375" Height="1.9802864583333317" />
+        <EntityTypeShape EntityType="MovieDbModel.Keyword" Width="1.5" PointX="0.75" PointY="11.625" Height="1.9802864583333353" />
+        <EntityTypeShape EntityType="MovieDbModel.Movie" Width="1.5" PointX="0.75" PointY="4" Height="3.3263964843750031" />
+        <EntityTypeShape EntityType="MovieDbModel.MovieCountry" Width="1.5" PointX="3" PointY="4.875" Height="1.595683593749996" />
+        <EntityTypeShape EntityType="MovieDbModel.MovieGenre" Width="1.5" PointX="3" PointY="1.875" Height="1.595683593749996" />
+        <EntityTypeShape EntityType="MovieDbModel.MovieKeyword" Width="1.5" PointX="3" PointY="7.875" Height="1.595683593749996" />
+        <AssociationConnector Association="MovieDbModel.FK_MovieCountry_0" >
+          <ConnectorPoint PointX="2.25" PointY="2.5379850260416674" />
+          <ConnectorPoint PointX="2.625" PointY="2.9129850260416674" />
+          <ConnectorPoint PointX="2.625" PointY="5.672841796874998" />
+          <ConnectorPoint PointX="2.7291666666666665" PointY="5.6728417968749971" />
+          <ConnectorPoint PointX="2.8958333333333335" PointY="5.672841796874998" />
+          <ConnectorPoint PointX="3" PointY="5.672841796874998" />
+        </AssociationConnector>
+        <AssociationConnector Association="MovieDbModel.FK_MovieGenre_1" >
+          <ConnectorPoint PointX="2.25" PointY="8.43846053846154" />
+          <ConnectorPoint PointX="2.8125" PointY="7.8759605384615394" />
+          <ConnectorPoint PointX="2.8125" PointY="2.672841796874998" />
+          <ConnectorPoint PointX="3" PointY="2.672841796874998" />
+        </AssociationConnector>
+        <AssociationConnector Association="MovieDbModel.FK_MovieKeyword_1" >
+          <ConnectorPoint PointX="2.25" PointY="12.615143229166668" />
+          <ConnectorPoint PointX="3.75" PointY="12.615143229166668" />
+          <ConnectorPoint PointX="3.75" PointY="9.470683593749996" />
+        </AssociationConnector>
+        <AssociationConnector Association="MovieDbModel.FK_MovieCountry_1" >
+          <ConnectorPoint PointX="2.25" PointY="5.211420898437499" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="5.2114208984374981" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="5.211420898437499" />
+          <ConnectorPoint PointX="2.7291666666666665" PointY="5.2114208984374981" />
+          <ConnectorPoint PointX="2.8958333333333335" PointY="5.211420898437499" />
+          <ConnectorPoint PointX="3" PointY="5.211420898437499" />
+        </AssociationConnector>
+        <AssociationConnector Association="MovieDbModel.FK_MovieGenre_0" >
+          <ConnectorPoint PointX="2.25" PointY="4.0623066923076925" />
+          <ConnectorPoint PointX="2.4375" PointY="3.625" />
+          <ConnectorPoint PointX="2.4375" PointY="4.033183593749996" />
+          <ConnectorPoint PointX="2.5660744349011204" PointY="3.9046091588488747" />
+          <ConnectorPoint PointX="2.6839255650988791" PointY="3.7867580286511169" />
+          <ConnectorPoint PointX="2.7535744349011204" PointY="3.7171091588488747" />
+          <ConnectorPoint PointX="2.8714255650988791" PointY="3.5992580286511169" />
+          <ConnectorPoint PointX="3" PointY="3.470683593749996" />
+        </AssociationConnector>
+        <AssociationConnector Association="MovieDbModel.FK_MovieKeyword_0" >
+          <ConnectorPoint PointX="2.25" PointY="7.3263964843750031" />
+          <ConnectorPoint PointX="2.625" PointY="7.7013964843750031" />
+          <ConnectorPoint PointX="2.625" PointY="7.5" />
+          <ConnectorPoint PointX="2.7535744349011213" PointY="7.6285744349011209" />
+          <ConnectorPoint PointX="2.8714255650988791" PointY="7.7464255650988791" />
+          <ConnectorPoint PointX="3" PointY="7.875" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
