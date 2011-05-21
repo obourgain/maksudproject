@@ -10,10 +10,9 @@ namespace MovieBrowser.Model
     public partial class Movie
     {
 
-        public Movie()
-        {
-            Id = Guid.NewGuid();
-        }
+        public List<Genre> Genres { get; set; }
+        public List<Country> Countries { get; set; }
+        public List<Keyword> Keywords { get; set; }
 
         public static readonly List<string> MovieFiles = new List<string>() { "avi", "mkv", "flv", "mp4" };
         public static readonly List<string> SubtitleFiles = new List<string>() { "srt", "sub" };
@@ -91,5 +90,6 @@ namespace MovieBrowser.Model
                 }
             }
         }
+
     }
 }

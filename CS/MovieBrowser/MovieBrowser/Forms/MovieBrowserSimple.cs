@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -7,6 +8,7 @@ using CommonUtilities.Extensions;
 using CommonUtilities.FileSystem;
 using MovieBrowser.Controller;
 using MovieBrowser.Model;
+using System.Linq;
 
 namespace MovieBrowser.Forms
 {
@@ -105,7 +107,7 @@ namespace MovieBrowser.Forms
         {
             try
             {
-                _controller.ParseMovieInfo(webBrowser1.Url.AbsolutePath, webBrowser1.DocumentText);
+                _controller.ParseMovieInfo(webBrowser1.DocumentText);
             }
             catch { }
         }
@@ -154,7 +156,8 @@ namespace MovieBrowser.Forms
         }
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            _controller.AddMovieToDb(_controller.ParseMovieInfo(webBrowser1.Url.AbsolutePath, webBrowser1.DocumentText));
+            //_controller.AddMovieToDb(_controller.ParseMovieInfo( webBrowser1.DocumentText));
+            _controller.CollectAndAddMovieToDb(webBrowser1.DocumentText);
         }
         private void UpdateMovieDatabaseToolStripMenuItemClick(object sender, EventArgs e)
         {
@@ -169,6 +172,110 @@ namespace MovieBrowser.Forms
         {
             if (e.KeyCode == Keys.Enter) ListView1DoubleClick(sender, e);
         }
+
+        private void updateMovieInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<Movie> movies = new List<Movie>();
+            foreach (MovieNode node in treeView1.SelectedNode.Nodes)
+            {
+                movies.Add(node.Movie);
+            }
+
+            new UpdateMovieInformation(movies).Show();
+
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count == 0)
+            {
+                return;
+            }
+            var movie = listView1.SelectedItems[0].Text;
+
+            LoadMovieInfo(movie);
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (treeView1.SelectedNode != null)
+            {
+                Movie mm = (Movie)treeView1.SelectedNode.Tag;
+
+                if (mm.IsValidMovie)
+                    LoadMovieInfo(mm.ImdbId);
+            }
+        }
+
+        void LoadMovieInfo(string imdbId)
+        {
+            var db = new MovieDbEntities();
+
+            lblImdbId.Text = imdbId;
+
+            var movie = db.Movies.Where(a => a.ImdbId == imdbId).FirstOrDefault();
+            if (movie == null)
+            {
+                lblMovieTitle.Text = "";
+                lblRating.Text = "";
+                lblRuntime.Text = "";
+                lblMPAA.Text = "";
+
+
+                listCountries.Items.Clear();
+                listKeywords.Items.Clear();
+                listGenres.Items.Clear();
+
+
+                return;
+            }
+            else
+            {
+                lblMovieTitle.Text = HttpUtility.HttpHelper.HtmlDecode(movie.Title);
+                lblRating.Text = movie.Rating + "";
+                lblRuntime.Text = movie.Runtime + "";
+                lblMPAA.Text = movie.MPPA;
+
+                var listC = db.MovieCountries.Where(a => a.Movie.Id == movie.Id).Select(o => o.Country).ToList();
+                listCountries.Items.Clear();
+                foreach (var country in listC)
+                {
+                    var item = new ListViewItem(country.Name);
+                    item.SubItems.Add(country.Code);
+                    listCountries.Items.Add(item);
+                }
+
+                var listK = db.MovieKeywords.Where(a => a.Movie.Id == movie.Id).Select(o => o.Keyword).ToList();
+                listKeywords.Items.Clear();
+                foreach (var country in listK)
+                {
+                    var item = new ListViewItem(country.Name);
+                    item.SubItems.Add(country.Code);
+                    listKeywords.Items.Add(item);
+                }
+
+                var listG = db.MovieGenres.Where(a => a.Movie.Id == movie.Id).Select(o => o.Genre).ToList();
+                listGenres.Items.Clear();
+                foreach (var country in listG)
+                {
+                    var item = new ListViewItem(country.Name);
+                    item.SubItems.Add(country.Code);
+                    listGenres.Items.Add(item);
+                }
+
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string src = HttpUtility.HttpHelper.DownloadWebPage(MovieBrowserController.ImdbTitle + lblImdbId.Text);
+
+            _controller.CollectAndAddMovieToDb(src);
+
+            MessageBox.Show("Finished...");
+        }
+
+
     }
 
     public class SendToThread
