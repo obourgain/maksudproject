@@ -52,9 +52,22 @@ namespace HttpUtility
         }
 
 
-        public static string Decode(string data)
+        public static string HtmlDecode(string data)
         {
             return System.Web.HttpUtility.HtmlDecode(data);
+        }
+        public static string HtmlEncode(string data)
+        {
+            return System.Web.HttpUtility.HtmlEncode(data);
+        }
+
+        public static string UrlDecode(string data)
+        {
+            return System.Web.HttpUtility.UrlDecode(data);
+        }
+        public static string UrlEncode(string data)
+        {
+            return System.Web.HttpUtility.UrlEncode(data);
         }
     }
 }
