@@ -412,7 +412,7 @@
             this.button1.TabIndex = 16;
             this.button1.Text = "Collect";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Button1Click);
             // 
             // lblMPAA
             // 
@@ -679,7 +679,7 @@
             this.tsSearchImdb.Name = "tsSearchImdb";
             this.tsSearchImdb.Size = new System.Drawing.Size(56, 22);
             this.tsSearchImdb.Text = "IMDB";
-            this.tsSearchImdb.Click += new System.EventHandler(this.tsSearchImdbClick);
+            this.tsSearchImdb.Click += new System.EventHandler(this.TsSearchImdbClick);
             // 
             // tsSearchGoogle
             // 
@@ -688,7 +688,7 @@
             this.tsSearchGoogle.Name = "tsSearchGoogle";
             this.tsSearchGoogle.Size = new System.Drawing.Size(65, 22);
             this.tsSearchGoogle.Text = "Google";
-            this.tsSearchGoogle.Click += new System.EventHandler(this.tsSearchGoogleClick);
+            this.tsSearchGoogle.Click += new System.EventHandler(this.TsSearchGoogleClick);
             // 
             // tsDelete
             // 
@@ -697,7 +697,7 @@
             this.tsDelete.Name = "tsDelete";
             this.tsDelete.Size = new System.Drawing.Size(60, 22);
             this.tsDelete.Text = "Delete";
-            this.tsDelete.Click += new System.EventHandler(this.tsDeleteClick);
+            this.tsDelete.Click += new System.EventHandler(this.TsDeleteClick);
             // 
             // tsOpenInExplorer
             // 
