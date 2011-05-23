@@ -169,7 +169,7 @@ namespace MovieBrowser.Controller
             return newdir;
         }
 
-        public void UpdateMovie(Movie filename)
+        public void UpdateMovie(Movie nodeMovie)
         {
             try
             {
@@ -374,9 +374,6 @@ namespace MovieBrowser.Controller
                     Source = movie.FilePath,
                     Destination = Path.Combine(tsPendrives.SelectedItem.ToString(), movie.FolderName)
                 };
-                //var thread = new Thread(stt.SendTo);
-                //thread.Start();
-
                 stt.SendTo();
             }
             catch (Exception exception)
@@ -494,7 +491,7 @@ namespace MovieBrowser.Controller
 
         public Movie GuessMovie(string srcHtml)
         {
-            Movie movie = new Movie();
+            var movie = new Movie();
 
             var match = Regex.Match(srcHtml, @"Media from&nbsp;<a href=""/title/(tt[0-9]+)/"".+?>(.+?)</a>(\s*\(([0-9]+?)\))?");
             movie.ImdbId = match.Groups[1].Value;

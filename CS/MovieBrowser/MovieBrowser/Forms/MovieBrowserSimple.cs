@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using CommonUtilities;
@@ -31,7 +32,7 @@ namespace MovieBrowser.Forms
         {
             _controller.LoadFolderIntoTreeViewDialog(treeView1);
         }
-        private void tsSearchImdbClick(object sender, EventArgs e)
+        private void TsSearchImdbClick(object sender, EventArgs e)
         {
             TreeView1DoubleClick(sender, e);
         }
@@ -46,17 +47,17 @@ namespace MovieBrowser.Forms
         }
         private void SearchToolStripMenuItemClick(object sender, EventArgs e)
         {
-            tsSearchImdbClick(sender, e);
+            TsSearchImdbClick(sender, e);
         }
         private void GoogleToolStripMenuItemClick(object sender, EventArgs e)
         {
             TreeView1DoubleClick(sender, e);
         }
-        private void tsSearchGoogleClick(object sender, EventArgs e)
+        private void TsSearchGoogleClick(object sender, EventArgs e)
         {
             GoogleToolStripMenuItemClick(sender, e);
         }
-        private void tsDeleteClick(object sender, EventArgs e)
+        private void TsDeleteClick(object sender, EventArgs e)
         {
             _controller.DeleteNode(treeView1);
         }
@@ -156,8 +157,9 @@ namespace MovieBrowser.Forms
         }
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            //_controller.AddMovieToDb(_controller.ParseMovieInfo( webBrowser1.DocumentText));
-            _controller.CollectAndAddMovieToDb(webBrowser1.DocumentText);
+            var information = new CollectInformation { Html = webBrowser1.DocumentText, MovieController = _controller, MovieNode = null };
+            var thread = new Thread(information.Collect);
+            thread.Start();
         }
         private void UpdateMovieDatabaseToolStripMenuItemClick(object sender, EventArgs e)
         {
@@ -175,11 +177,7 @@ namespace MovieBrowser.Forms
 
         private void updateMovieInformationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<Movie> movies = new List<Movie>();
-            foreach (MovieNode node in treeView1.SelectedNode.Nodes)
-            {
-                movies.Add(node.Movie);
-            }
+            var movies = (from MovieNode node in treeView1.SelectedNode.Nodes select node.Movie).ToList();
 
             new UpdateMovieInformation(movies).Show();
 
@@ -193,21 +191,10 @@ namespace MovieBrowser.Forms
             }
             var movie = listView1.SelectedItems[0].Text;
 
-            LoadMovieInfo(movie);
+            LoadImdbInfo(movie);
         }
 
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            if (treeView1.SelectedNode != null)
-            {
-                Movie mm = (Movie)treeView1.SelectedNode.Tag;
-
-                if (mm.IsValidMovie)
-                    LoadMovieInfo(mm.ImdbId);
-            }
-        }
-
-        void LoadMovieInfo(string imdbId)
+        void LoadImdbInfo(string imdbId)
         {
             var db = new MovieDbEntities();
 
@@ -266,14 +253,56 @@ namespace MovieBrowser.Forms
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1Click(object sender, EventArgs e)
         {
-            string src = HttpUtility.HttpHelper.DownloadWebPage(MovieBrowserController.ImdbTitle + lblImdbId.Text);
-
-            _controller.CollectAndAddMovieToDb(src);
-
-            MessageBox.Show("Finished...");
+            var information = new CollectInformation { MovieController = _controller, MovieNode = (MovieNode)treeView1.SelectedNode };
+            var thread = new Thread(information.Collect);
+            thread.Start();
         }
+
+        private class CollectInformation
+        {
+            public MovieNode MovieNode { private get; set; }
+            public MovieBrowserController MovieController { private get; set; }
+            public string Html { get; set; }
+
+            private delegate void FireTextDelegate(string text);
+            private void FireText(string value)
+            {
+
+            }
+
+            public void Collect()
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(Html))
+                        Html = HttpUtility.HttpHelper.DownloadWebPage(MovieBrowserController.ImdbTitle + MovieNode.Movie.ImdbId);
+
+                    var movie = MovieController.CollectAndAddMovieToDb(Html);
+                    if (MovieNode != null)
+                    {
+                        MovieNode.Tag = movie;
+                        MovieController.UpdateMovie(movie);
+                    }
+                    MessageBox.Show(@"Finished...");
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(@"Problem Collecting Information.\r\n{0}", exception.Message);
+                }
+            }
+
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if(treeView1.SelectedNode !=null)
+            LoadImdbInfo(((Movie)treeView1.SelectedNode.Tag).ImdbId);
+        }
+
+
+
 
 
     }
