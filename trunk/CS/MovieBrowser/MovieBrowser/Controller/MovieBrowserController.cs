@@ -485,6 +485,11 @@ namespace MovieBrowser.Controller
                 return null;
             }
         }
+        public string ParseMoviePoster(string html)
+        {
+            var regex = new Regex("<td rowspan=\"2\" id=\"img_primary\">.+?<img src=\"(http://.+?)\"", RegexOptions.Singleline);
+            return regex.Match(html).Groups[1].Value;
+        }
         #endregion
 
         #region Db Access
