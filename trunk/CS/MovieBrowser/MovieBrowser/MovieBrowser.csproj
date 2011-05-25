@@ -72,7 +72,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\DebugEventArgs.cs" />
     <Compile Include="Controller\MovieBrowserController.cs" />
+    <Compile Include="Controller\MovieEventArgs.cs" />
     <Compile Include="Forms\UpdateMovieInformation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,7 +114,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Database\MovieDb.sqlite" />
     <EntityDeploy Include="Model\MoviesDb.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

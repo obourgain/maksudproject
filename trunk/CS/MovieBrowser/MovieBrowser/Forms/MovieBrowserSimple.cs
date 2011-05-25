@@ -11,10 +11,13 @@ using MovieBrowser.Controller;
 using MovieBrowser.Model;
 using System.Linq;
 
+
 namespace MovieBrowser.Forms
 {
+
     public partial class MovieBrowserSimple : Form
     {
+       
         readonly MovieBrowserController _controller = new MovieBrowserController();
 
         public MovieBrowserSimple()
@@ -23,11 +26,26 @@ namespace MovieBrowser.Forms
             treeView1.TreeViewNodeSorter = new MovieComparer();
 
             _controller.Browser = webBrowser1;
-            _controller.OnDebugTextFired += (sender, e) => textBox1.AppendText(e.ToString());
+            _controller.OnDebugTextFired += _controller_OnDebugTextFired;
             _controller.IntelligentSearch = intelligentTrackerToolStripMenuItem.Checked;
         }
 
-        //Events
+
+        #region ThreadSafe Access
+        void _controller_OnDebugTextFired(object sender, EventArgs e)
+        {
+            if (textBox1.InvokeRequired)
+            {
+                textBox1.Invoke(new EventHandler(_controller_OnDebugTextFired), sender, e);
+            }
+            else
+            {
+                textBox1.Text = ((DebugEventArgs)e).Text;
+            }
+        }
+        #endregion
+
+
         private void ToolStripButton1Click(object sender, EventArgs e)
         {
             _controller.LoadFolderIntoTreeViewDialog(treeView1);
@@ -83,6 +101,8 @@ namespace MovieBrowser.Forms
         }
         private void MovieBrowserSimpleLoad(object sender, EventArgs e)
         {
+            Logger.Error("test",1);
+
             textIgnore.Text = "" + Properties.Settings.Default.IgnoreWords;
             _controller.LoadAllFolders(treeView1);
             _controller.LoadListViewMovies(listView1);
@@ -218,7 +238,7 @@ namespace MovieBrowser.Forms
             }
             else
             {
-                lblMovieTitle.Text = HttpUtility.HttpHelper.HtmlDecode(movie.Title);
+                lblMovieTitle.Text = HttpHelper.HtmlDecode(movie.Title);
                 lblRating.Text = movie.Rating + "";
                 lblRuntime.Text = movie.Runtime + "";
                 lblMPAA.Text = movie.MPPA;
@@ -277,10 +297,10 @@ namespace MovieBrowser.Forms
                 try
                 {
                     if (string.IsNullOrEmpty(Html))
-                        Html = HttpUtility.HttpHelper.DownloadWebPage(MovieBrowserController.ImdbTitle + MovieNode.Movie.ImdbId);
+                        Html = HttpHelper.FetchWebPage(MovieBrowserController.ImdbTitle + MovieNode.Movie.ImdbId);
 
                     var movie = MovieController.CollectAndAddMovieToDb(Html);
-                    if (MovieNode != null)
+                    if (MovieNode != null && movie != null)
                     {
                         MovieNode.Tag = movie;
                         MovieController.UpdateMovie(movie);
@@ -295,16 +315,11 @@ namespace MovieBrowser.Forms
 
         }
 
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        private void TreeView1AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if(treeView1.SelectedNode !=null)
-            LoadImdbInfo(((Movie)treeView1.SelectedNode.Tag).ImdbId);
+            if (treeView1.SelectedNode != null)
+                LoadImdbInfo(((Movie)treeView1.SelectedNode.Tag).ImdbId);
         }
-
-
-
-
-
     }
 
     public class SendToThread

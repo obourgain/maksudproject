@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using CommonUtilities;
 using MovieBrowser.Controller;
 using MovieBrowser.Model;
 
@@ -42,14 +44,14 @@ namespace MovieBrowser.Forms
                 if (movie.IsValidMovie)
                 {
                     FireText("Found Exact Match: ImdbId= " + movie.ImdbId);
-                    String src = HttpUtility.HttpHelper.DownloadWebPage(MovieBrowserController.ImdbTitle + movie.ImdbId);
+                    var src = HttpHelper.FetchWebPage(MovieBrowserController.ImdbTitle + movie.ImdbId);
                     controller.CollectAndAddMovieToDb(src);
                     FireText("Finished: ImdbId= " + movie.ImdbId);
                 }
                 else
                 {
                     FireText("Trying ... to Guess...");
-                    String src = HttpUtility.HttpHelper.DownloadWebPage(MovieBrowserController.ImdbSearch + HttpUtility.HttpHelper.UrlEncode(movie.Title));
+                    var src = HttpHelper.FetchWebPage(MovieBrowserController.ImdbSearch + HttpHelper.UrlEncode(movie.Title));
                     var m = controller.GuessMovie(src);
 
                     var item = new ListViewItem(movie.Title);
@@ -70,7 +72,7 @@ namespace MovieBrowser.Forms
             FireText("DONE.... I am FINISHED...");
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1Click(object sender, EventArgs e)
         {
             backgroundWorker1.RunWorkerAsync();
         }
@@ -78,6 +80,7 @@ namespace MovieBrowser.Forms
         private delegate void AddItemDelegate(object value);
         private void AddItem(object value)
         {
+            
             if (this.listView1.InvokeRequired)
             {
                 // This is a worker thread so delegate the task.
@@ -143,7 +146,7 @@ namespace MovieBrowser.Forms
             foreach (var movie in _update)
             {
                 FireText("#" + i++ + "/" + count + " Found Exact Match: ImdbId= " + movie.ImdbId);
-                String src = HttpUtility.HttpHelper.DownloadWebPage(MovieBrowserController.ImdbTitle + movie.ImdbId);
+                String src = HttpHelper.FetchWebPage(MovieBrowserController.ImdbTitle + movie.ImdbId);
                 var m = controller.CollectAndAddMovieToDb(src);
                 FireText("Finished: ImdbId= " + movie.ImdbId);
 

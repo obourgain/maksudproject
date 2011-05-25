@@ -207,7 +207,7 @@
             this.treeView1.ShowNodeToolTips = true;
             this.treeView1.Size = new System.Drawing.Size(317, 340);
             this.treeView1.TabIndex = 1;
-            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1AfterSelect);
             this.treeView1.DoubleClick += new System.EventHandler(this.TreeView1DoubleClick);
             this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TreeView1KeyDown);
             // 
@@ -399,7 +399,7 @@
             this.tpInformation.Location = new System.Drawing.Point(4, 26);
             this.tpInformation.Name = "tpInformation";
             this.tpInformation.Padding = new System.Windows.Forms.Padding(3);
-            this.tpInformation.Size = new System.Drawing.Size(656, 321);
+            this.tpInformation.Size = new System.Drawing.Size(656, 319);
             this.tpInformation.TabIndex = 4;
             this.tpInformation.Text = "Movie Info";
             this.tpInformation.UseVisualStyleBackColor = true;

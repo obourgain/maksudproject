@@ -133,31 +133,6 @@ namespace CommonUtilities.FileSystem
             var dialog = new FileCopyDialog();
             dialog.Show();
             dialog.CopyFiles(list);
-
-            //// Check if the target directory exists, if not, create it.
-            //if (Directory.Exists(target.FullName) == false)
-            //{
-            //    Directory.CreateDirectory(target.FullName);
-            //}
-
-            //// Copy each file into it’s new directory.
-            //foreach (var fi in source.GetFiles())
-            //{
-            //    //if (onCopyFileChanged != null)
-            //    //    onCopyFileChanged(string.Format(@"Copying {0}\{1}", target.FullName, fi.Name));
-
-            //    //onCopyFileChanged.SetPropertyThreadSafe(() => onCopyFileChanged.CopyText, string.Format( @"Copying {0}\{1}", target.FullName, fi.Name));
-
-            //    Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
-            //    fi.CopyTo(Path.Combine(target.ToString(), fi.Name), true);
-            //}
-
-            //// Copy each subdirectory using recursion.
-            //foreach (var diSourceSubDir in source.GetDirectories())
-            //{
-            //    var nextTargetSubDir = target.CreateSubdirectory(diSourceSubDir.Name);
-            //    CopyAllRecursive(diSourceSubDir, nextTargetSubDir, onCopyFileChanged);
-            //}
         }
     }
 }
