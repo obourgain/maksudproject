@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Net;
-using System.Text;
 
-namespace HttpUtility
+namespace CommonUtilities
 {
     public class HttpHelper
     {
@@ -14,7 +10,7 @@ namespace HttpUtility
         /// </summary>
         /// <param name="url">URL of the webpage</param>
         /// <returns>Website content</returns>
-        public static string DownloadWebPage(string url)
+        public static string FetchWebPage(string url)
         {
             try
             {

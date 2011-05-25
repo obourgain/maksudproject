@@ -10,52 +10,50 @@ using System.Threading;
 using System.Windows.Forms;
 using CommonUtilities;
 using CommonUtilities.FileSystem;
-using HttpUtility;
 using MovieBrowser.Forms;
 using MovieBrowser.Model;
 using ShellLib;
 
 namespace MovieBrowser.Controller
 {
-    public class DebugEventArgs : EventArgs
-    {
-        public string Text { get; set; }
-        public DebugEventArgs(string text)
-        {
-            Text = text;
-        }
-
-        public override string ToString()
-        {
-            return Text;
-        }
-    }
-
     public class MovieBrowserController
     {
-        public event EventHandler OnDebugTextFired;
 
+        #region Event
+        public event EventHandler OnDebugTextFired;
         public void InvokeOnDebugTextFired(string text)
         {
-            var handler = OnDebugTextFired;
-            if (handler != null) handler(this, new EventArgs() { });
+            EventHandler handler = OnDebugTextFired;
+            if (handler != null) handler(this, new DebugEventArgs(text));
         }
 
+        public event EventHandler OnMovieInformationCollected;
+        public void InvokeOnMovieInformationCollected(Movie movie, string message)
+        {
+            EventHandler handler = OnMovieInformationCollected;
+            if (handler != null) handler(this, new MovieEventArgs(movie, message));
+        }
+        #endregion
+
+
+
+        #region Constants
         public const string GoogleSearch = "http://www.google.com/search?q=";
         public const string ImdbSearch = "http://www.imdb.com/find?s=all&q=";
         public const string ImdbTitle = "http://www.imdb.com/title/";
         public const string ImdbKeywordUrl = "http://www.imdb.com/title/{0}/keywords";
+        #endregion
+
 
         readonly FolderBrowserDialog _dialog = new FolderBrowserDialog();
+
         private MovieNode _selectedNode = null;
 
         public WebBrowser Browser { get; set; }
-        //public TreeView MovieFolderTree { get; set; }
-        //public ListView ListView1 { get; set; }
+
         public bool RecentSearch { get; set; }
 
         public bool IntelligentSearch { get; set; }
-
 
         public void LoadAllFolders(TreeView movieFolderTree)
         {
@@ -85,6 +83,7 @@ namespace MovieBrowser.Controller
                 LoadFolderIntoTreeView(_dialog.SelectedPath, treeView);
             }
         }
+
         private static void LoadFolderIntoTreeView(string folderPath, TreeView treeView)
         {
 
@@ -94,6 +93,7 @@ namespace MovieBrowser.Controller
 
             FolderBrowseRecursively(treeNode, folderPath);
         }
+
         private static void FolderBrowseRecursively(MovieNode treeNode, string selectedPath)
         {
 
@@ -128,6 +128,7 @@ namespace MovieBrowser.Controller
             }
             catch { }
         }
+
         public void SearchMovie(string address, Movie movie)
         {
             try
@@ -145,6 +146,7 @@ namespace MovieBrowser.Controller
             }
             catch { }
         }
+
         private static string IgnoreWords(string text)
         {
             text = text.ToLower();
@@ -153,7 +155,6 @@ namespace MovieBrowser.Controller
             text = text.Replace(".", " ");
             return text;
         }
-
 
         public void UpdateMovie()
         {
@@ -216,59 +217,6 @@ namespace MovieBrowser.Controller
             Properties.Settings.Default.Save();
         }
 
-        public Movie ParseMovieInfo(string src)
-        {
-            try
-            {
-                var movie = new Movie();
-
-                //var src = Browser.DocumentText;
-                var rating = Regex.Match(src, @"<span class=""rating-rating"">([\d.]+)<span>").Groups[1].Value;
-                var match = Regex.Match(src, @"<title>(.+?) \(.*?([\d.]+)\)");
-                var imdbId = Regex.Match(src, @"<meta property=""og:url"" content=""http://www\.imdb\.com/title/(tt[0-9]+?)/"" />").Groups[1].Value;
-
-                InvokeOnDebugTextFired("Title: " + match.Groups[1].Value + "\r\n");
-                InvokeOnDebugTextFired("Year: " + match.Groups[2].Value + "\r\n");
-                InvokeOnDebugTextFired("Rating: " + rating + "\r\n");
-
-                movie.Rating = Convert.ToDouble(rating);
-                movie.Title = HttpHelper.UrlDecode(match.Groups[1].Value);
-                movie.Year = Convert.ToInt32(match.Groups[2].Value);
-                movie.ImdbId = imdbId;
-                movie.FilePath = "";
-                movie.Runtime = Regex.Match(src, @"<.+?>Runtime:</.+?>\s+(.+?)\s+</div>").Groups[1].Value;
-                movie.MPPA = Regex.Match(src, @"<div class=""infobar"">\s*(<img.+?title=""(.+?)"".+?>)").Groups[2].Value;
-
-                movie.Genres = new List<Genre>();
-                var genres = Regex.Matches(src, @"<a href=""/genre/(.+?)"">(.+?)</a>");
-                foreach (Match m in genres)
-                {
-                    movie.Genres.Add(new Genre() { Code = m.Groups[1].Value, Name = m.Groups[2].Value });
-                }
-
-                movie.Countries = new List<Country>();
-                var countries = Regex.Matches(src, @"<a href=""/country/(.+?)"">(.+?)</a>");
-                foreach (Match m in countries)
-                {
-                    movie.Countries.Add(new Country() { Code = m.Groups[1].Value, Name = m.Groups[2].Value });
-                }
-
-                string keywordSrc = HttpUtility.HttpHelper.DownloadWebPage(string.Format(ImdbKeywordUrl, imdbId));
-                movie.Keywords = new List<Keyword>();
-                var keywords = Regex.Matches(keywordSrc, @"<a href=""/keyword/(.+?)/"">(.+?)</a>");
-                foreach (Match m in keywords)
-                {
-                    movie.Keywords.Add(new Keyword() { Code = m.Groups[1].Value, Name = m.Groups[2].Value });
-                }
-
-                return movie;
-            }
-            catch (Exception exception)
-            {
-                return null;
-            }
-        }
-
         public void DeleteNode(TreeView movieFolderTree)
         {
             try
@@ -292,6 +240,7 @@ namespace MovieBrowser.Controller
             };
             execute.Execute();
         }
+
         void Navigate(string url)
         {
             Browser.Navigate(url);
@@ -324,23 +273,6 @@ namespace MovieBrowser.Controller
                 tsPendrives.Items.Add(t);
             }
             if (ss.Count > 0) tsPendrives.SelectedIndex = 0;
-        }
-
-        public void AddMovieToDb(Movie movie)
-        {
-            var entities = new MovieDbEntities();
-
-            if (entities.Movies.Where(o => o.ImdbId.Equals(movie.ImdbId)).ToList().Count() == 0)
-            {
-                entities.AddToMovies(movie);
-                entities.SaveChanges();
-            }
-            else
-            {
-                //Already exists
-                Console.WriteLine(@"Exists: {0}", movie.ImdbId);
-            }
-
         }
 
         public void UpdateMovieDataBaseFromFileSystem(TreeView treeView)
@@ -384,9 +316,7 @@ namespace MovieBrowser.Controller
 
         public Movie CollectAndAddMovieToDb(string src)
         {
-            //string title = _selectedNode.Movie.ImdbId;
-            //string src = HttpHelper.DownloadWebPage(ImdbTitle + title);
-            Movie parseMovieInfo = ParseMovieInfo(src);
+            var parseMovieInfo = ParseMovieInfo(src);
 
             if (parseMovieInfo == null) return null;
 
@@ -501,5 +431,79 @@ namespace MovieBrowser.Controller
             movie.Year = year;
             return movie;
         }
+
+        #region Imdb Parser
+        public Movie ParseMovieInfo(string src)
+        {
+            try
+            {
+                var movie = new Movie();
+
+                //var src = Browser.DocumentText;
+                var rating = Regex.Match(src, @"<span class=""rating-rating"">([\d.]+)<span>").Groups[1].Value;
+                var match = Regex.Match(src, @"<title>(.+?) \(.*?([\d.]+)\)");
+                var imdbId = Regex.Match(src, @"<meta property=""og:url"" content=""http://www\.imdb\.com/title/(tt[0-9]+?)/"" />").Groups[1].Value;
+
+                InvokeOnDebugTextFired("Title: " + match.Groups[1].Value + "\r\n");
+                InvokeOnDebugTextFired("Year: " + match.Groups[2].Value + "\r\n");
+                InvokeOnDebugTextFired("Rating: " + rating + "\r\n");
+
+                movie.Rating = Convert.ToDouble(rating);
+                movie.Title = HttpHelper.UrlDecode(match.Groups[1].Value);
+                movie.Year = Convert.ToInt32(match.Groups[2].Value);
+                movie.ImdbId = imdbId;
+                movie.FilePath = "";
+                movie.Runtime = Regex.Match(src, @"<.+?>Runtime:</.+?>\s+(.+?)\s+</div>").Groups[1].Value;
+                movie.MPPA = Regex.Match(src, @"<div class=""infobar"">\s*(<img.+?title=""(.+?)"".+?>)").Groups[2].Value;
+
+                movie.Genres = new List<Genre>();
+                var genres = Regex.Matches(src, @"<a href=""/genre/(.+?)"">(.+?)</a>");
+                foreach (Match m in genres)
+                {
+                    movie.Genres.Add(new Genre() { Code = m.Groups[1].Value, Name = m.Groups[2].Value });
+                }
+
+                movie.Countries = new List<Country>();
+                var countries = Regex.Matches(src, @"<a href=""/country/(.+?)"">(.+?)</a>");
+                foreach (Match m in countries)
+                {
+                    movie.Countries.Add(new Country() { Code = m.Groups[1].Value, Name = m.Groups[2].Value });
+                }
+
+                var keywordSrc = HttpHelper.FetchWebPage(string.Format(ImdbKeywordUrl, imdbId));
+                movie.Keywords = new List<Keyword>();
+                var keywords = Regex.Matches(keywordSrc, @"<a href=""/keyword/(.+?)/"">(.+?)</a>");
+                foreach (Match m in keywords)
+                {
+                    movie.Keywords.Add(new Keyword() { Code = m.Groups[1].Value, Name = m.Groups[2].Value });
+                }
+
+                return movie;
+            }
+            catch (Exception exception)
+            {
+                return null;
+            }
+        }
+        #endregion
+
+        #region Db Access
+        public void AddMovieToDb(Movie movie)
+        {
+            var entities = new MovieDbEntities();
+
+            if (entities.Movies.Where(o => o.ImdbId.Equals(movie.ImdbId)).ToList().Count() == 0)
+            {
+                entities.AddToMovies(movie);
+                entities.SaveChanges();
+            }
+            else
+            {
+                //Already exists
+                Console.WriteLine(@"Exists: {0}", movie.ImdbId);
+            }
+        }
+        #endregion
+
     }
 }
