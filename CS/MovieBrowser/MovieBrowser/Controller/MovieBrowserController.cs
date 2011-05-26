@@ -164,7 +164,7 @@ namespace MovieBrowser.Controller
         public string ChangeFolderName(Movie original)
         {
             var newdir = original.FilePath.Substring(0, original.FilePath.LastIndexOf("\\") + 1);
-            newdir += HttpHelper.UrlDecode(original.FolderName).Clean();
+            newdir += HttpHelper.HtmlDecode(HttpHelper.UrlDecode(original.FolderName)).Clean();
             Directory.Move(original.FilePath, newdir);
 
             return newdir;
@@ -449,7 +449,7 @@ namespace MovieBrowser.Controller
                 InvokeOnDebugTextFired("Rating: " + rating + "\r\n");
 
                 movie.Rating = Convert.ToDouble(rating);
-                movie.Title = HttpHelper.UrlDecode(match.Groups[1].Value);
+                movie.Title = HttpHelper.HtmlDecode(HttpHelper.UrlDecode(match.Groups[1].Value));
                 movie.Year = Convert.ToInt32(match.Groups[2].Value);
                 movie.ImdbId = imdbId;
                 movie.FilePath = "";

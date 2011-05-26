@@ -21,7 +21,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("MovieDbModel", "FK_PersonalNote_0", "User", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MovieBrowser.Model.User), "PersonalNote", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MovieBrowser.Model.PersonalNote))]
 
 // Original file name:
-// Generation date: 5/26/2011 12:27:51 AM
+// Generation date: 5/26/2011 4:08:45 PM
 namespace MovieBrowser.Model
 {
     
@@ -2255,13 +2255,15 @@ namespace MovieBrowser.Model
         /// <param name="id">Initial value of Id.</param>
         /// <param name="username">Initial value of Username.</param>
         /// <param name="password">Initial value of Password.</param>
+        /// <param name="email">Initial value of Email.</param>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static User CreateUser(long id, string username, string password)
+        public static User CreateUser(long id, string username, string password, string email)
         {
             User user = new User();
             user.Id = id;
             user.Username = username;
             user.Password = password;
+            user.Email = email;
             return user;
         }
         /// <summary>
@@ -2345,6 +2347,33 @@ namespace MovieBrowser.Model
         partial void OnPasswordChanging(string value);
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnPasswordChanged();
+        /// <summary>
+        /// There are no comments for property Email in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public string Email
+        {
+            get
+            {
+                return this._Email;
+            }
+            set
+            {
+                this.OnEmailChanging(value);
+                this.ReportPropertyChanging("Email");
+                this._Email = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("Email");
+                this.OnEmailChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private string _Email;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnEmailChanging(string value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnEmailChanged();
         /// <summary>
         /// There are no comments for PersonalNotes in the schema.
         /// </summary>

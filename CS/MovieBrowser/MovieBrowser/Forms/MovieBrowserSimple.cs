@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using BrightIdeasSoftware;
 using CommonUtilities;
 using CommonUtilities.Extensions;
 using CommonUtilities.FileSystem;
@@ -17,7 +19,7 @@ namespace MovieBrowser.Forms
 
     public partial class MovieBrowserSimple : Form
     {
-       
+
         readonly MovieBrowserController _controller = new MovieBrowserController();
 
         public MovieBrowserSimple()
@@ -40,7 +42,7 @@ namespace MovieBrowser.Forms
             }
             else
             {
-                textBox1.Text = ((DebugEventArgs)e).Text;
+                textBox1.AppendText(((DebugEventArgs)e).Text);
             }
         }
         #endregion
@@ -101,12 +103,14 @@ namespace MovieBrowser.Forms
         }
         private void MovieBrowserSimpleLoad(object sender, EventArgs e)
         {
-            Logger.Error("test",1);
-
             textIgnore.Text = "" + Properties.Settings.Default.IgnoreWords;
             _controller.LoadAllFolders(treeView1);
-            _controller.LoadListViewMovies(listView1);
             _controller.LoadPenDrives(tsPendrives);
+
+            var entities = new MovieDbEntities();
+
+            dataListView1.UseTranslucentHotItem = true;
+            dataListView1.DataSource = entities.Movies.ToList();
         }
         private void WebBrowser1DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
@@ -151,7 +155,6 @@ namespace MovieBrowser.Forms
         private void ToolStripButton9Click(object sender, EventArgs e)
         {
             _controller.LoadAllFolders(treeView1);
-            _controller.LoadListViewMovies(listView1);
         }
         private void UpdateToolStripMenuItemClick(object sender, EventArgs e)
         {
@@ -185,14 +188,9 @@ namespace MovieBrowser.Forms
         {
             _controller.UpdateMovieDataBaseFromFileSystem(treeView1);
         }
-        private void ListView1DoubleClick(object sender, EventArgs e)
-        {
-            try { _controller.SearchMovie(MovieBrowserController.ImdbSearch, (Movie)listView1.SelectedItems[0].Tag); }
-            catch { }
-        }
         private void ListView1KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter) ListView1DoubleClick(sender, e);
+            if (e.KeyCode == Keys.Enter) DataListView1SelectedIndexChanged(sender, e);
         }
 
         private void updateMovieInformationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -203,16 +201,7 @@ namespace MovieBrowser.Forms
 
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (listView1.SelectedItems.Count == 0)
-            {
-                return;
-            }
-            var movie = listView1.SelectedItems[0].Text;
 
-            LoadImdbInfo(movie);
-        }
 
         void LoadImdbInfo(string imdbId)
         {
@@ -286,12 +275,6 @@ namespace MovieBrowser.Forms
             public MovieBrowserController MovieController { private get; set; }
             public string Html { get; set; }
 
-            private delegate void FireTextDelegate(string text);
-            private void FireText(string value)
-            {
-
-            }
-
             public void Collect()
             {
                 try
@@ -320,6 +303,72 @@ namespace MovieBrowser.Forms
             if (treeView1.SelectedNode != null)
                 LoadImdbInfo(((Movie)treeView1.SelectedNode.Tag).ImdbId);
         }
+
+        private void DataListView1SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var movie = (Movie)(dataListView1.SelectedObject);
+                LoadImdbInfo(movie.ImdbId);
+            }
+            catch { }
+        }
+
+
+        private void toolStripTextBoxSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                _controller.SearchMovie(MovieBrowserController.ImdbSearch, new Movie() { Title = toolStripTextBoxSearch.Text });
+            }
+        }
+
+        private void DataListView1DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                var movie = (Movie)(dataListView1.SelectedObject);
+                _controller.SearchMovie(MovieBrowserController.ImdbSearch, movie);
+            }
+            catch
+            {
+            }
+        }
+
+        private void DataListView1KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+                DataListView1DoubleClick(sender, e);
+        }
+
+
+        //
+        private static void TimedFilter(DataListView olv, string txt, TextMatchFilter.MatchKind matchKind = TextMatchFilter.MatchKind.Text)
+        {
+            TextMatchFilter filter = null;
+            if (!String.IsNullOrEmpty(txt))
+                filter = new TextMatchFilter(olv, txt, matchKind);
+
+            // Setup a default renderer to draw the filter matches
+            olv.DefaultRenderer = filter == null ? null : new HighlightTextRenderer(filter);
+
+            // Some lists have renderers already installed
+            var highlightingRenderer = olv.GetColumn(0).Renderer as HighlightTextRenderer;
+            if (highlightingRenderer != null)
+                highlightingRenderer.Filter = filter;
+
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            olv.ModelFilter = filter;
+            stopWatch.Stop();
+        }
+
+        private void TextBox2TextChanged(object sender, EventArgs e)
+        {
+            TimedFilter(dataListView1, textSearch.Text);
+        }
+
+      
     }
 
     public class SendToThread

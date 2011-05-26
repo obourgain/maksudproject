@@ -91,5 +91,13 @@ namespace MovieBrowser.Model
             }
         }
 
+
+        public string TitleCleaned
+        {
+            get
+            {
+                return HttpHelper.HtmlDecode(Title);
+            }
+        }
     }
 }
