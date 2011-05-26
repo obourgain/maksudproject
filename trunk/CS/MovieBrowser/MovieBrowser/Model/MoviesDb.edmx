@@ -168,6 +168,7 @@
           <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Director_0">
           <End Role="Person" Type="MovieDbModel.Store.Person" Multiplicity="1" />
@@ -490,6 +491,7 @@
           <Property Type="String" Name="Username" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Password" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PersonalNotes" Relationship="MovieDbModel.FK_PersonalNote_0" FromRole="User" ToRole="PersonalNote" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Director_0">
           <End Type="MovieDbModel.Person" Role="Person" Multiplicity="1" />
@@ -667,6 +669,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="MovieDbModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
