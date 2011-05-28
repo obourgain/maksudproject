@@ -46,7 +46,7 @@ namespace CommonUtilities.FileSystem
             return extensions.Contains(@this);
         }
 
-        public static string Clean(this string @this)
+        public static string CleanFileName(this string @this)
         {
             return Regex.Replace(@this, @"[\\/:*?""<>|]+", "");
         }

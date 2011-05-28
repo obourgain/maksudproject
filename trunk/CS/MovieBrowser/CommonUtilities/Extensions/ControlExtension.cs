@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace CommonUtilities.Extensions
 {
-    public static class ControlExtensions
+    public static class ControlExtension
     {
         private delegate void SetPropertyThreadSafeDelegate<TResult>(Control @this, Expression<Func<TResult>> property, TResult value);
 
