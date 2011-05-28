@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>1305357557_Video.ico</ApplicationIcon>
+    <ApplicationIcon>mb.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -58,9 +58,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Library\ObjectListView.dll</HintPath>
     </Reference>
+    <Reference Include="RatingControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\RatingControl.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -70,11 +75,35 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="VistaUIApi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\VistaUIApi.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsFormsAero, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\DebugEventArgs.cs" />
+    <Compile Include="Parser\ImdbParser.cs" />
     <Compile Include="Controller\MovieBrowserController.cs" />
     <Compile Include="Controller\MovieEventArgs.cs" />
+    <Compile Include="Forms\IgnoreListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\IgnoreListForm.Designer.cs">
+      <DependentUpon>IgnoreListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\KeywordsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\KeywordsForm.Designer.cs">
+      <DependentUpon>KeywordsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SearchForm.Designer.cs">
+      <DependentUpon>SearchForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\UpdateMovieInformation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,22 +127,28 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\IgnoreListForm.resx">
+      <DependentUpon>IgnoreListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\KeywordsForm.resx">
+      <DependentUpon>KeywordsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MovieBrowserSimple.resx">
       <DependentUpon>MovieBrowserSimple.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UpdateMovieInformation.resx">
       <DependentUpon>UpdateMovieInformation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
@@ -144,11 +179,34 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="1305357557_Video.ico" />
+    <None Include="Images\folder_add.png" />
+    <None Include="Images\save.png" />
+    <None Include="Images\refresh.png" />
+    <None Include="Images\imdb.png" />
+    <None Include="Images\google.png" />
+    <None Include="Images\delete.png" />
+    <None Include="Images\explorer.png" />
+    <None Include="Images\ignore_list.png" />
+    <None Include="Images\pen_drives.png" />
+    <None Include="Images\update.png" />
+    <None Include="Images\movie_db.png" />
+    <None Include="Images\check_list_dis.png" />
+    <None Include="Images\hate_it_dis.png" />
+    <None Include="Images\like_it_dis.png" />
+    <None Include="Images\seen_it_dis.png" />
+    <None Include="Images\have_it_dis.png" />
+    <None Include="Images\send_to.png" />
+    <Content Include="mb.ico" />
+    <None Include="Images\check_list.png" />
+    <None Include="Images\hate_it.png" />
     <Content Include="Library\ObjectListView.dll" />
+    <Content Include="Library\RatingControl.dll" />
+    <Content Include="Library\VistaUIApi.dll" />
+    <Content Include="Library\WindowsFormsAero.dll" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

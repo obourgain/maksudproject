@@ -9,15 +9,32 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using CommonUtilities;
+using CommonUtilities.Extensions;
 using CommonUtilities.FileSystem;
 using MovieBrowser.Forms;
 using MovieBrowser.Model;
+using MovieBrowser.Parser;
 using ShellLib;
 
 namespace MovieBrowser.Controller
 {
     public class MovieBrowserController
     {
+        public bool DbLoggedIn { get; set; }
+
+        public MovieBrowserController()
+        {
+            try
+            {
+                var entities = new MovieDbEntities();
+                if (entities.Movies.ToList().Count >= 0)
+                    DbLoggedIn = true;
+            }
+            catch
+            {
+                DbLoggedIn = false;
+            }
+        }
 
         #region Event
         public event EventHandler OnDebugTextFired;
@@ -54,6 +71,22 @@ namespace MovieBrowser.Controller
         public bool RecentSearch { get; set; }
 
         public bool IntelligentSearch { get; set; }
+
+        public List<Movie> MoviesList
+        {
+            get
+            {
+                try
+                {
+                    return (new MovieDbEntities()).Movies.ToList();
+                }
+                catch
+                {
+                    return new List<Movie>();
+                }
+            }
+
+        }
 
         public void LoadAllFolders(TreeView movieFolderTree)
         {
@@ -248,8 +281,7 @@ namespace MovieBrowser.Controller
 
         public void Redirect(string srcurl, string src)
         {
-            var match = Regex.Match(src, "Media from&nbsp;<a href=\"/title/(tt[0-9]+)/");
-            var title = match.Groups[1].Value;
+            var title = ImdbParser.MediaFrom(src);
             if (!string.IsNullOrEmpty(title))
             {
                 var url = "http://www.imdb.com/title/" + title;
@@ -335,10 +367,9 @@ namespace MovieBrowser.Controller
                 movie.Title = parseMovieInfo.Title;
                 movie.Year = parseMovieInfo.Year;
                 movie.Rating = parseMovieInfo.Rating;
-                movie.Language = parseMovieInfo.Language;
                 movie.ReleaseDate = parseMovieInfo.ReleaseDate;
                 movie.Runtime = parseMovieInfo.Runtime;
-                movie.MPPA = parseMovieInfo.MPPA;
+                movie.MPAA = parseMovieInfo.MPAA;
 
                 db.SaveChanges();
             }
@@ -362,6 +393,29 @@ namespace MovieBrowser.Controller
                     {
                         movieGenre = new MovieGenre { Movie = movie, Genre = genre };
                         db.AddToMovieGenres(movieGenre);
+                        db.SaveChanges();
+                    }
+                }
+            }
+
+            if (parseMovieInfo.Languages.Count > 0)
+            {
+                foreach (var g in parseMovieInfo.Languages)
+                {
+                    var genre = db.Languages.Where(o => o.Name == g.Name).FirstOrDefault();
+                    if (genre == null)
+                    {
+                        genre = new Language() { Name = g.Name, Code = g.Code };
+                        db.AddToLanguages(genre);
+                        db.SaveChanges();
+                    }
+
+                    var movieGenre = db.MovieLanguages.Where(o => o.Movie.Id == movie.Id && o.Language.Id == genre.Id).FirstOrDefault();
+
+                    if (movieGenre == null)
+                    {
+                        movieGenre = new MovieLanguage() { Movie = movie, Language = genre };
+                        db.AddToMovieLanguages(movieGenre);
                         db.SaveChanges();
                     }
                 }
@@ -421,62 +475,43 @@ namespace MovieBrowser.Controller
 
         public Movie GuessMovie(string srcHtml)
         {
-            var movie = new Movie();
-
-            var match = Regex.Match(srcHtml, @"Media from&nbsp;<a href=""/title/(tt[0-9]+)/"".+?>(.+?)</a>(\s*\(([0-9]+?)\))?");
-            movie.ImdbId = match.Groups[1].Value;
-            movie.Title = match.Groups[2].Value;
-            int year = 0;
-            Int32.TryParse(match.Groups[4].Value, out year);
-            movie.Year = year;
-            return movie;
+            return ImdbParser.GuessMovie(srcHtml);
         }
 
         #region Imdb Parser
-        public Movie ParseMovieInfo(string src)
+        public Movie ParseMovieInfo(string html)
         {
             try
             {
                 var movie = new Movie();
 
                 //var src = Browser.DocumentText;
-                var rating = Regex.Match(src, @"<span class=""rating-rating"">([\d.]+)<span>").Groups[1].Value;
-                var match = Regex.Match(src, @"<title>(.+?) \(.*?([\d.]+)\)");
-                var imdbId = Regex.Match(src, @"<meta property=""og:url"" content=""http://www\.imdb\.com/title/(tt[0-9]+?)/"" />").Groups[1].Value;
+                var rating = ImdbParser.ParseRating(html);
+                var title = ImdbParser.ParseTitle(html);
+                var year = ImdbParser.ParseYear(html);
+                var imdbId = ImdbParser.ParseId(html);
 
-                InvokeOnDebugTextFired("Title: " + match.Groups[1].Value + "\r\n");
-                InvokeOnDebugTextFired("Year: " + match.Groups[2].Value + "\r\n");
+                InvokeOnDebugTextFired("Title: " + title + "\r\n");
+                InvokeOnDebugTextFired("Year: " + year + "\r\n");
                 InvokeOnDebugTextFired("Rating: " + rating + "\r\n");
 
                 movie.Rating = Convert.ToDouble(rating);
-                movie.Title = HttpHelper.HtmlDecode(HttpHelper.UrlDecode(match.Groups[1].Value));
-                movie.Year = Convert.ToInt32(match.Groups[2].Value);
+                movie.Title = HttpHelper.HtmlDecode(HttpHelper.UrlDecode(ImdbParser.ParseTitle(html)));
+                movie.Year = Convert.ToInt32(year);
                 movie.ImdbId = imdbId;
                 movie.FilePath = "";
-                movie.Runtime = Regex.Match(src, @"<.+?>Runtime:</.+?>\s+(.+?)\s+</div>").Groups[1].Value;
-                movie.MPPA = Regex.Match(src, @"<div class=""infobar"">\s*(<img.+?title=""(.+?)"".+?>)").Groups[2].Value;
+                movie.Runtime = ImdbParser.ParseRuntime(html);
+                movie.MPAA = ImdbParser.ParseMpaa(html);
+                movie.MPAAReason = ImdbParser.ParseMpaaReason(html);
+                movie.Highlight = ImdbParser.ParseHighlight(html);
+                movie.Genres = ImdbParser.ParseGenres(html);
+                movie.Countries = ImdbParser.ParseCountries(html);
+                movie.Languages = ImdbParser.ParseLanguages(html);
 
-                movie.Genres = new List<Genre>();
-                var genres = Regex.Matches(src, @"<a href=""/genre/(.+?)"">(.+?)</a>");
-                foreach (Match m in genres)
-                {
-                    movie.Genres.Add(new Genre() { Code = m.Groups[1].Value, Name = m.Groups[2].Value });
-                }
-
-                movie.Countries = new List<Country>();
-                var countries = Regex.Matches(src, @"<a href=""/country/(.+?)"">(.+?)</a>");
-                foreach (Match m in countries)
-                {
-                    movie.Countries.Add(new Country() { Code = m.Groups[1].Value, Name = m.Groups[2].Value });
-                }
 
                 var keywordSrc = HttpHelper.FetchWebPage(string.Format(ImdbKeywordUrl, imdbId));
-                movie.Keywords = new List<Keyword>();
-                var keywords = Regex.Matches(keywordSrc, @"<a href=""/keyword/(.+?)/"">(.+?)</a>");
-                foreach (Match m in keywords)
-                {
-                    movie.Keywords.Add(new Keyword() { Code = m.Groups[1].Value, Name = m.Groups[2].Value });
-                }
+                movie.Keywords = ImdbParser.ParseKeywords(keywordSrc);
+
 
                 return movie;
             }
@@ -485,11 +520,7 @@ namespace MovieBrowser.Controller
                 return null;
             }
         }
-        public string ParseMoviePoster(string html)
-        {
-            var regex = new Regex("<td rowspan=\"2\" id=\"img_primary\">.+?<img src=\"(http://.+?)\"", RegexOptions.Singleline);
-            return regex.Match(html).Groups[1].Value;
-        }
+
         #endregion
 
         #region Db Access
@@ -510,5 +541,25 @@ namespace MovieBrowser.Controller
         }
         #endregion
 
+        public void RemoveMovie(string imdbId)
+        {
+
+            var entities = new MovieDbEntities();
+
+            entities.DeleteObjects(entities.MovieGenres.Where(o => o.Movie.ImdbId == imdbId));
+            entities.DeleteObjects(entities.MovieCountries.Where(o => o.Movie.ImdbId == imdbId));
+            entities.DeleteObjects(entities.MovieKeywords.Where(o => o.Movie.ImdbId == imdbId));
+            entities.DeleteObjects(entities.MovieLanguages.Where(o => o.Movie.ImdbId == imdbId));
+            entities.DeleteObjects(entities.Movies.Where(o => o.ImdbId == imdbId));
+
+            entities.SaveChanges();
+        }
+
+        public void RemoveAllInfo()
+        {
+            var entities = new MovieDbEntities();
+            entities.DeleteObjects(entities.Keywords);
+            entities.SaveChanges();
+        }
     }
 }
