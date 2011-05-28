@@ -6,13 +6,14 @@ using CommonUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MovieBrowser.Controller;
 using MovieBrowser.Model;
+using MovieBrowser.Parser;
 
 namespace MovieBrowserTest
 {
     [TestClass]
     public class UnitTest1
     {
-
+        MovieBrowserController _controller = new MovieBrowserController();
 
 
         [TestMethod]
@@ -34,7 +35,7 @@ namespace MovieBrowserTest
         [TestMethod]
         public void TestParseTitle()
         {
-            MovieBrowserController _controller = new MovieBrowserController();
+            
             const string url = "http://www.imdb.com/title/tt0822847/";
             var html = HttpHelper.FetchWebPage(url);
 
@@ -45,7 +46,6 @@ namespace MovieBrowserTest
         [TestMethod]
         public void TestParseTitleCredits()
         {
-            MovieBrowserController _controller = new MovieBrowserController();
             const string url = "http://www.imdb.com/title/tt0822847/fullcredits";
             var html = HttpHelper.FetchWebPage(url);
 
@@ -57,12 +57,13 @@ namespace MovieBrowserTest
         [TestMethod]
         public void TestParseMoviePoster()
         {
-            var _controller = new MovieBrowserController();
             const string url = "http://www.imdb.com/title/tt0822847";
             var html = HttpHelper.FetchWebPage(url);
 
-            var movie = _controller.ParseMoviePoster(html);
+            var movie = ImdbParser.ParseMoviePoster(html);
             Assert.IsTrue(movie == "http://ia.media-imdb.com/images/M/MV5BMTQ1MTAwODc3OV5BMl5BanBnXkFtZTcwNzI0MDQ3NA@@._V1._SY317_.jpg"); 
         }
+
+
     }
 }
