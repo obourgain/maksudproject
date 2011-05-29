@@ -44,8 +44,8 @@ namespace MovieBrowser.Forms
                 if (movie.IsValidMovie)
                 {
                     FireText("Found Exact Match: ImdbId= " + movie.ImdbId);
-                    var src = HttpHelper.FetchWebPage(MovieBrowserController.ImdbTitle + movie.ImdbId);
-                    controller.CollectAndAddMovieToDb(src);
+                    //var src = HttpHelper.FetchWebPage(MovieBrowserController.ImdbTitle + movie.ImdbId);
+                    controller.CollectAndAddMovieToDb(movie);
                     FireText("Finished: ImdbId= " + movie.ImdbId);
                 }
                 else
@@ -80,7 +80,7 @@ namespace MovieBrowser.Forms
         private delegate void AddItemDelegate(object value);
         private void AddItem(object value)
         {
-            
+
             if (this.listView1.InvokeRequired)
             {
                 // This is a worker thread so delegate the task.
@@ -146,8 +146,8 @@ namespace MovieBrowser.Forms
             foreach (var movie in _update)
             {
                 FireText("#" + i++ + "/" + count + " Found Exact Match: ImdbId= " + movie.ImdbId);
-                String src = HttpHelper.FetchWebPage(MovieBrowserController.ImdbTitle + movie.ImdbId);
-                var m = controller.CollectAndAddMovieToDb(src);
+                //String src = HttpHelper.FetchWebPage(MovieBrowserController.ImdbTitle + movie.ImdbId);
+                var m = controller.CollectAndAddMovieToDb(movie);
                 FireText("Finished: ImdbId= " + movie.ImdbId);
 
                 m.FilePath = movie.FilePath;

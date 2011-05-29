@@ -2,16 +2,18 @@
 
 namespace MovieBrowser.Controller
 {
-    public class DebugEventArgs : EventArgs
+    public class TextEventArgs : EventArgs
     {
         public string Text { get; set; }
+        public string Title { get; set; }
+        public object Data { get; set; }
 
-        public DebugEventArgs(string text)
+        public TextEventArgs(string text)
         {
             Text = text;
         }
 
-        public DebugEventArgs()
+        public TextEventArgs()
         {
 
         }

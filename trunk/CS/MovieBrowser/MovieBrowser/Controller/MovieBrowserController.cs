@@ -8,6 +8,7 @@ using System.Net.Mime;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using BrightIdeasSoftware;
 using CommonUtilities;
 using CommonUtilities.Extensions;
 using CommonUtilities.FileSystem;
@@ -18,7 +19,7 @@ using ShellLib;
 
 namespace MovieBrowser.Controller
 {
-    public class MovieBrowserController
+    public partial class MovieBrowserController
     {
         public bool DbLoggedIn { get; set; }
 
@@ -40,15 +41,22 @@ namespace MovieBrowser.Controller
         public event EventHandler OnDebugTextFired;
         public void InvokeOnDebugTextFired(string text)
         {
-            EventHandler handler = OnDebugTextFired;
-            if (handler != null) handler(this, new DebugEventArgs(text));
+            var handler = OnDebugTextFired;
+            if (handler != null) handler(this, new TextEventArgs(text));
         }
 
         public event EventHandler OnMovieInformationCollected;
         public void InvokeOnMovieInformationCollected(Movie movie, string message)
         {
-            EventHandler handler = OnMovieInformationCollected;
+            var handler = OnMovieInformationCollected;
             if (handler != null) handler(this, new MovieEventArgs(movie, message));
+        }
+
+        public event EventHandler OnNotificationFired;
+        public void InvokeOnNotificationFired(string text)
+        {
+            var handler = OnNotificationFired;
+            if (handler != null) handler(this, new TextEventArgs(text));
         }
         #endregion
 
@@ -64,7 +72,7 @@ namespace MovieBrowser.Controller
 
         readonly FolderBrowserDialog _dialog = new FolderBrowserDialog();
 
-        private MovieNode _selectedNode = null;
+        private OLVListItem _selectedOlvListItem = null;
 
         public WebBrowser Browser { get; set; }
 
@@ -152,12 +160,12 @@ namespace MovieBrowser.Controller
             }
         }
 
-        public void SearchMovieTree(string address, MovieNode movie)
+        public void SearchMovieTree(string address, OLVListItem movie)
         {
             try
             {
-                _selectedNode = movie;
-                SearchMovie(address, movie.Movie);
+                _selectedOlvListItem = movie;
+                SearchMovie(address, (Movie)movie.RowObject);
             }
             catch { }
         }
@@ -191,34 +199,37 @@ namespace MovieBrowser.Controller
 
         public void UpdateMovie()
         {
-            UpdateMovie(_selectedNode.Movie);
+            UpdateMovie(_selectedOlvListItem);
         }
 
         public string ChangeFolderName(Movie original)
         {
             var newdir = original.FilePath.Substring(0, original.FilePath.LastIndexOf("\\") + 1);
-            newdir += HttpHelper.HtmlDecode(HttpHelper.UrlDecode(original.FolderName)).Clean();
+            newdir += original.FolderName.CleanFileName();
             Directory.Move(original.FilePath, newdir);
 
             return newdir;
         }
 
-        public void UpdateMovie(Movie nodeMovie)
+        public void UpdateMovie(OLVListItem nodeMovie)
         {
             try
             {
+
+                var rowMovie = ((Movie)_selectedOlvListItem.RowObject);
                 var movie = ParseMovieInfo(Browser.DocumentText);
-                movie.FilePath = _selectedNode.Movie.FilePath;
+                if (movie == null) return;
 
-                movie.FilePath = ChangeFolderName(movie);
-                movie.IsValidMovie = true;
+                movie.FilePath = rowMovie.FilePath;
 
-                _selectedNode.Text = movie.TitleWithRating;
-                _selectedNode.Tag = movie;
-                _selectedNode.SelectedImageIndex = _selectedNode.ImageIndex = movie.ImageIndex;
+                rowMovie.FilePath = ChangeFolderName(movie);
+                rowMovie.IsValidMovie = true;
+
+                InvokeOnNotificationFired("Movie: " + rowMovie.Title + " is updated.");
             }
-            catch
+            catch (Exception exception)
             {
+                Logger.Exception(exception, 2);
             }
         }
 
@@ -346,9 +357,14 @@ namespace MovieBrowser.Controller
             }
         }
 
-        public Movie CollectAndAddMovieToDb(string src)
+        public Movie CollectAndAddMovieToDb(Movie movie2, string html = null)
         {
-            var parseMovieInfo = ParseMovieInfo(src);
+            InvokeOnNotificationFired("Started collecting movie: " + movie2.Title);
+
+            if (string.IsNullOrEmpty(html))
+                html = HttpHelper.FetchWebPage(MovieBrowserController.ImdbTitle + movie2.ImdbId);
+
+            var parseMovieInfo = ParseMovieInfo(html);
 
             if (parseMovieInfo == null) return null;
 
@@ -363,14 +379,7 @@ namespace MovieBrowser.Controller
             }
             else
             {
-                movie.ImdbId = parseMovieInfo.ImdbId;
-                movie.Title = parseMovieInfo.Title;
-                movie.Year = parseMovieInfo.Year;
-                movie.Rating = parseMovieInfo.Rating;
-                movie.ReleaseDate = parseMovieInfo.ReleaseDate;
-                movie.Runtime = parseMovieInfo.Runtime;
-                movie.MPAA = parseMovieInfo.MPAA;
-
+                movie.CopyFromMovie(parseMovieInfo);
                 db.SaveChanges();
             }
 
@@ -446,6 +455,9 @@ namespace MovieBrowser.Controller
 
             }
 
+            var keywordSrc = HttpHelper.FetchWebPage(string.Format(ImdbKeywordUrl, parseMovieInfo.ImdbId));
+            parseMovieInfo.Keywords = ImdbParser.ParseKeywords(keywordSrc);
+
             if (parseMovieInfo.Keywords.Count > 0)
             {
                 foreach (var g in parseMovieInfo.Keywords)
@@ -469,6 +481,8 @@ namespace MovieBrowser.Controller
                 }
 
             }
+
+            InvokeOnNotificationFired("Fiished collecting movie: " + movie2.Title);
 
             return movie;
         }
@@ -507,10 +521,6 @@ namespace MovieBrowser.Controller
                 movie.Genres = ImdbParser.ParseGenres(html);
                 movie.Countries = ImdbParser.ParseCountries(html);
                 movie.Languages = ImdbParser.ParseLanguages(html);
-
-
-                var keywordSrc = HttpHelper.FetchWebPage(string.Format(ImdbKeywordUrl, imdbId));
-                movie.Keywords = ImdbParser.ParseKeywords(keywordSrc);
 
 
                 return movie;
@@ -560,6 +570,86 @@ namespace MovieBrowser.Controller
             var entities = new MovieDbEntities();
             entities.DeleteObjects(entities.Keywords);
             entities.SaveChanges();
+        }
+
+
+        private MoviePersonalNote GetNote(MovieDbEntities db, User loggedInUser, Movie rowMovie)
+        {
+            var user = db.Users.Where(o => o.Username == loggedInUser.Username).FirstOrDefault();
+            var movie = db.Movies.Where(o => o.ImdbId == rowMovie.ImdbId).FirstOrDefault();
+
+            if (movie == null)
+            {
+                db.AddToMovies(rowMovie);
+                movie = rowMovie;
+            }
+
+            var personalNote = db.MoviePersonalNotes.Where(o => o.User.Id == loggedInUser.Id && o.Movie.Id == movie.Id).FirstOrDefault();
+
+            if (personalNote == null)
+            {
+                personalNote = new MoviePersonalNote { Comment = "", Movie = movie, User = user };
+                db.AddToMoviePersonalNotes(personalNote);
+            }
+            return personalNote;
+        }
+
+
+
+        public MoviePersonalNote UpdateUserRating(User loggedInUser, Movie rowMovie, double rating)
+        {
+            var db = new MovieDbEntities();
+            var note = GetNote(db, loggedInUser, rowMovie);
+            note.Rating = rating;
+            db.SaveChanges();
+            return note;
+        }
+
+        public MoviePersonalNote ToggleWanted(User loggedInUser, Movie rowMovie)
+        {
+            var db = new MovieDbEntities();
+            var note = GetNote(db, loggedInUser, rowMovie);
+            note.Wishlist = !note.Wishlist;
+            db.SaveChanges();
+            return note;
+        }
+        public MoviePersonalNote SetFavourite(User loggedInUser, Movie rowMovie, bool val)
+        {
+            var db = new MovieDbEntities();
+            var note = GetNote(db, loggedInUser, rowMovie);
+
+            if (val)
+            {
+                if (note.Favourite > 0)
+                    note.Favourite = 0;
+                else
+                    note.Favourite = 1;
+            }
+            else
+            {
+                if (note.Favourite < 0)
+                    note.Favourite = 0;
+                else
+                    note.Favourite = -1;
+            }
+            db.SaveChanges();
+            return note;
+        }
+        public MoviePersonalNote ToggleSeenIt(User loggedInUser, Movie rowMovie)
+        {
+            var db = new MovieDbEntities();
+            var note = GetNote(db, loggedInUser, rowMovie);
+            note.Seen = !note.Seen;
+            db.SaveChanges();
+            return note;
+        }
+        public MoviePersonalNote ToggleHaveIt(User loggedInUser, Movie rowMovie)
+        {
+            var db = new MovieDbEntities();
+            var note = GetNote(db, loggedInUser, rowMovie);
+            note.Have = !note.Have;
+            db.SaveChanges();
+            return note;
         }
     }
 }

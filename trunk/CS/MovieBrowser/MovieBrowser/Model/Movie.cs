@@ -17,6 +17,12 @@ namespace MovieBrowser.Model
 
         public static readonly List<string> MovieFiles = new List<string>() { "avi", "mkv", "flv", "mp4" };
         public static readonly List<string> SubtitleFiles = new List<string>() { "srt", "sub" };
+        public List<Movie> Children { get; set; }
+
+        public Movie()
+        {
+            Children = new List<Movie>();
+        }
 
         public string TitleWithRating
         {
@@ -99,6 +105,27 @@ namespace MovieBrowser.Model
             {
                 return HttpHelper.HtmlDecode(Title);
             }
+        }
+
+        public Movie CopyFromMovie(Movie movie)
+        {
+            this.ImdbId = movie.ImdbId;
+            this.Rating = movie.Rating;
+            this.Title = movie.Title;
+            this.Year = movie.Year;
+            this.ImdbId = movie.ImdbId;
+            this.FilePath = movie.FilePath;
+            this.Runtime = movie.Runtime;
+            this.MPAA = movie.MPAA;
+            this.MPAAReason = movie.MPAAReason;
+            this.Highlight = movie.Highlight;
+            //
+            this.Genres = movie.Genres;
+            this.Countries = movie.Countries;
+            this.Languages = movie.Languages;
+            this.Keywords = movie.Keywords;
+
+            return this;
         }
     }
 }
