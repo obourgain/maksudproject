@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Threading;
@@ -18,8 +19,8 @@ namespace MovieBrowser.Forms
 
     public partial class MovieBrowserSimple : Form
     {
-
-
+        private User _loggedInUser = null;
+        private Movie _movie = null;
         readonly MovieBrowserController _controller = new MovieBrowserController();
 
         public MovieBrowserSimple()
@@ -29,9 +30,21 @@ namespace MovieBrowser.Forms
 
             _controller.Browser = webBrowser1;
             _controller.OnDebugTextFired += _controller_OnDebugTextFired;
+            _controller.OnNotificationFired += DesktopNotify;
             _controller.IntelligentSearch = intelligentTrackerToolStripMenuItem.Checked;
 
+            InitializeTree();
 
+        }
+
+        private bool IsAuthorized
+        {
+            get
+            {
+
+
+                return _loggedInUser != null;
+            }
         }
 
 
@@ -44,20 +57,15 @@ namespace MovieBrowser.Forms
             }
             else
             {
-                textBox1.AppendText(((DebugEventArgs)e).Text);
+                textBox1.AppendText(((TextEventArgs)e).Text);
             }
         }
 
-        void UpdateTreeItem(object sender, EventArgs e)
+        void DesktopNotify(object sender, EventArgs e)
         {
-            if (treeListView1.InvokeRequired)
-            {
-                treeListView1.Invoke(new EventHandler(UpdateTreeItem), sender, e);
-            }
-            else
-            {
-                //
-            }
+            notifyIcon1.BalloonTipTitle = ((TextEventArgs)e).Title;
+            notifyIcon1.BalloonTipText = ((TextEventArgs)e).Text;
+            notifyIcon1.ShowBalloonTip(200);
         }
         #endregion
 
@@ -76,12 +84,7 @@ namespace MovieBrowser.Forms
         }
         private void TreeView1DoubleClick(object sender, EventArgs e)
         {
-            //if (treeView1.SelectedNode == null) return;
 
-            //if (treeView1.SelectedNode.Nodes.Count == 0)
-            //    _controller.Open(((Movie)treeView1.SelectedNode.Tag).FilePath);
-            //else
-            //    _controller.SearchMovieTree(MovieBrowserController.ImdbSearch, (MovieNode)treeView1.SelectedNode);
         }
         private void SearchToolStripMenuItemClick(object sender, EventArgs e)
         {
@@ -121,20 +124,33 @@ namespace MovieBrowser.Forms
         }
         private void MovieBrowserSimpleLoad(object sender, EventArgs e)
         {
-            //_controller.LoadAllFolders(treeView1);
+
+            Login();
+
             _controller.LoadPenDrives(comboPendrives);
 
             dataListView1.UseTranslucentHotItem = true;
             dataListView1.DataSource = _controller.MoviesList;
 
-            var paths = Properties.Settings.Default.Paths;
-
-
+            var paths = (from object a in Properties.Settings.Default.Paths select (string)a).ToList();
             LoadTree(paths);
-
-
-
         }
+
+        private void Login()
+        {
+            if (_loggedInUser == null)
+            {
+                var form = new LoginForm();
+                form.LoggedIn += (sender, args) =>
+                {
+                    var textEventArgs = (TextEventArgs)args;
+                    if (textEventArgs.Data != null)
+                        _loggedInUser = (User)textEventArgs.Data;
+                };
+                form.ShowDialog(this);
+            }
+        }
+
         private void WebBrowser1DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             try
@@ -216,50 +232,28 @@ namespace MovieBrowser.Forms
 
         private void updateMovieInformationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //var movies = (from MovieNode node in treeView1.SelectedNode.Nodes select node.Movie).ToList();
-
-            //new UpdateMovieInformation(movies).Show();
+            var movies = ((Movie)treeView1.SelectedObject).Children;
+            new UpdateMovieInformation(movies).Show();
         }
 
 
-        void LoadTree(StringCollection paths)
+        void InitializeTree()
         {
-            this.treeListView1.CanExpandGetter = delegate(object x)
+            this.treeView1.CanExpandGetter = delegate(object x)
             {
                 return ((Movie)x).IsFolder;
             };
 
-            this.treeListView1.ChildrenGetter = delegate(object x)
+            this.treeView1.ChildrenGetter = delegate(object x)
             {
-                Movie movie = (Movie)x;
+                var movie = (Movie)x;
                 try
                 {
-                    DirectoryInfo dir = new DirectoryInfo(movie.FilePath);
+                    var dir = new DirectoryInfo(movie.FilePath);
 
                     var members = dir.GetFileSystemInfos();
 
-                    ArrayList list = new ArrayList();
-
-                    foreach (var fileSystemInfo in members)
-                    {
-                        Movie m = Movie.FromFolderName(fileSystemInfo.FullName);
-                        list.Add(m);
-                    }
-
-                    return list;
-
-                    //return new ArrayList(dir.GetFileSystemInfos());
-
-                    // Test checking objects before they exist in the list
-
-                    //ArrayList list = new ArrayList(dir.GetFileSystemInfos());
-                    //ArrayList list2 = new ArrayList();
-                    //foreach (FileSystemInfo fsi in list) {
-                    //    if (fsi.Name.ToLowerInvariant().StartsWith("d"))
-                    //        list2.Add(fsi);
-                    //}
-                    //this.treeListView.CheckedObjects = list2;
-                    //return list;
+                    return movie.Children = members.Select(fileSystemInfo => Movie.FromFolderName(fileSystemInfo.FullName)).ToList();
                 }
                 catch (UnauthorizedAccessException ex)
                 {
@@ -272,37 +266,36 @@ namespace MovieBrowser.Forms
             // Show the size of files as GB, MB and KBs. Also, group them by
             // some meaningless divisions
             this.treeColumnSize.AspectGetter = delegate(object x)
-                                                   {
-                                                       Movie m = (Movie)x;
+            {
+                var m = (Movie)x;
 
-                                                       if (!m.IsFolder)
-                                                       {
+                if (!m.IsFolder)
+                {
 
-                                                           try
-                                                           {
-                                                               FileInfo fileInfo = new FileInfo(((Movie)x).FilePath);
+                    try
+                    {
+                        var fileInfo = new FileInfo(((Movie)x).FilePath);
 
-                                                               return fileInfo.Length;
-                                                           }
-                                                           catch (System.IO.FileNotFoundException)
-                                                           {
-                                                               // Mono 1.2.6 throws this for hidden files
-                                                               return (long)-2;
-                                                           }
-                                                       }
-                                                       else
-                                                       {
-                                                           return (long)-2;
-                                                       }
-                                                   };
+                        return fileInfo.Length;
+                    }
+                    catch (System.IO.FileNotFoundException)
+                    {
+                        // Mono 1.2.6 throws this for hidden files
+                        return (long)-2;
+                    }
+                }
+                else
+                {
+                    return (long)-2;
+                }
+            };
 
             // Draw the system icon next to the name
             //var helper = new SysImageListHelper(this.treeListView1);
             this.treeColumnTitle.ImageGetter = delegate(object x)
-                                                   {
-                                                       Movie m = (Movie)x;
-                                                       return m.ImageIndex;
-                                                   };
+            {
+                return ((Movie)x).ImageIndex;
+            };
 
 
 
@@ -311,7 +304,7 @@ namespace MovieBrowser.Forms
                 if ((long)x < 0) // folder
                     return "";
                 else
-                    return this.FormatFileSize((long)x);
+                    return FormatFileSize((long)x);
             };
 
             this.treeColumnYear.AspectToStringConverter = delegate(object x)
@@ -335,25 +328,25 @@ namespace MovieBrowser.Forms
             {
                 return ShellUtilities.GetFileType(((Movie)x).FilePath);
             };
+        }
 
+        private void LoadTree(IEnumerable<string> paths)
+        {
             var roots = new ArrayList();
-
             foreach (var root in paths)
             {
                 var movie = Movie.FromFolderName(root);
                 roots.Add(movie);
             }
-
-
-            treeListView1.Roots = roots;
-
+            treeView1.Roots = roots;
         }
-        string FormatFileSize(long size)
-        {
-            int[] limits = new int[] { 1024 * 1024 * 1024, 1024 * 1024, 1024 };
-            string[] units = new string[] { "GB", "MB", "KB" };
 
-            for (int i = 0; i < limits.Length; i++)
+        static string FormatFileSize(long size)
+        {
+            var limits = new int[] { 1024 * 1024 * 1024, 1024 * 1024, 1024 };
+            var units = new string[] { "GB", "MB", "KB" };
+
+            for (var i = 0; i < limits.Length; i++)
             {
                 if (size >= limits[i])
                     return String.Format("{0:#,##0.##} " + units[i], ((double)size / limits[i]));
@@ -362,40 +355,53 @@ namespace MovieBrowser.Forms
             return String.Format("{0} bytes", size); ;
         }
 
-        void LoadImdbInfo(string imdbId)
+        void LoadImdbInfo(Movie rowMovie)
         {
+            _movie = rowMovie;
+
             var db = new MovieDbEntities();
 
-            lblImdbId.Text = imdbId;
+            lblImdbId.Text = rowMovie.ImdbId;
 
-            var movie = db.Movies.Where(a => a.ImdbId == imdbId).FirstOrDefault();
+            var movie = db.Movies.Where(a => a.ImdbId == rowMovie.ImdbId).FirstOrDefault();
             if (movie == null)
             {
-                lblTitle.Text = "";
-                lblRating.Text = "";
-                lblRuntime.Text = "";
-                lblMPAA.Text = "";
-                textMpaaReason.Text = "";
-                textHighlight.Text = "";
-                lblYear.Text = "";
-
 
                 listCountries.Items.Clear();
                 listKeywords.Items.Clear();
                 listGenres.Items.Clear();
 
+                if (rowMovie.IsValidMovie)
+                {
+                    lblTitle.Text = rowMovie.Title;
+                    lblRating.Text = rowMovie.Rating + "";
+                    lblYear.Text = rowMovie.Year + "";
+                }
+                else
+                {
+                    lblTitle.Text = "";
+                    lblRating.Text = "";
+                    lblYear.Text = "";
+                }
+
+                lblRuntime.Text = "";
+                lblMPAA.Text = "";
+                textMpaaReason.Text = "";
+                textHighlight.Text = "";
 
                 return;
             }
             else
             {
-                lblTitle.Text = HttpHelper.HtmlDecode(movie.Title);
+                lblTitle.Text = movie.Title;
                 lblRating.Text = movie.Rating + "";
+                lblYear.Text = movie.Year + "";
+
                 lblRuntime.Text = movie.Runtime;
                 lblMPAA.Text = movie.MPAA;
                 textMpaaReason.Text = movie.MPAAReason;
                 textHighlight.Text = movie.Highlight;
-                lblYear.Text = movie.Year + "";
+
 
                 var listC = db.MovieCountries.Where(a => a.Movie.Id == movie.Id).Select(o => o.Country).ToList();
                 listCountries.Items.Clear();
@@ -425,14 +431,46 @@ namespace MovieBrowser.Forms
                 }
 
             }
+
+            if (IsAuthorized)
+            {
+                var personalNote =
+                    db.MoviePersonalNotes.Where(o => o.User.Id == _loggedInUser.Id && o.Movie.ImdbId == rowMovie.ImdbId).FirstOrDefault();
+
+                LoadPersonalNote(personalNote);
+            }
+            else
+            {
+                LoadPersonalNote(null);
+            }
         }
 
-        private void Button1Click(object sender, EventArgs e)
+
+        void LoadPersonalNote(MoviePersonalNote note)
         {
-            var information = new CollectInformation { MovieController = _controller, MovieNode = (OLVListItem)treeListView1.SelectedItem };
-            var thread = new Thread(information.Collect);
-            thread.Start();
+            if (note == null)
+            {
+                rsUserRating.Rating = 0;
+
+                pbDislike.Image = Properties.Resources.hate_it_dis;
+                pbHaveIt.Image = Properties.Resources.have_it_dis;
+                pbLike.Image = Properties.Resources.like_it_dis;
+                pbSeenIt.Image = Properties.Resources.seen_it_dis;
+                pbWanted.Image = Properties.Resources.check_list_dis;
+            }
+            else
+            {
+                rsUserRating.Rating = note.Rating;
+
+                pbDislike.Image = note.Favourite < 0 ? Properties.Resources.hate_it : Properties.Resources.hate_it_dis;
+                pbLike.Image = note.Favourite > 0 ? Properties.Resources.like_it : Properties.Resources.like_it_dis;
+                pbHaveIt.Image = note.Have ? Properties.Resources.have_it : Properties.Resources.have_it_dis;
+                pbSeenIt.Image = note.Seen ? Properties.Resources.seen_it : Properties.Resources.seen_it_dis;
+                pbWanted.Image = note.Wishlist ? Properties.Resources.check_list : Properties.Resources.check_list_dis;
+            }
+
         }
+
 
         private class CollectInformation
         {
@@ -444,20 +482,14 @@ namespace MovieBrowser.Forms
             {
                 try
                 {
-                    Movie movie2 = (Movie) MovieNode.RowObject;
+                    var movie2 = (Movie)MovieNode.RowObject;
 
-                    if (string.IsNullOrEmpty(Html))
-                        Html = HttpHelper.FetchWebPage(MovieBrowserController.ImdbTitle + movie2.ImdbId);
-
-                    this.MovieNode.RowObject = movie2;
-
-                    var movie = MovieController.CollectAndAddMovieToDb(Html);
+                    var movie = MovieController.CollectAndAddMovieToDb(movie2);
                     if (MovieNode != null && movie != null)
                     {
-                        MovieNode.Tag = movie;
-                        MovieController.UpdateMovie(movie);
+                        MovieController.UpdateMovie(MovieNode);
                     }
-                    MessageBox.Show(@"Finished...");
+
                 }
                 catch (Exception exception)
                 {
@@ -467,18 +499,13 @@ namespace MovieBrowser.Forms
 
         }
 
-        private void TreeView1AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            //if (treeView1.SelectedNode != null)
-            //     LoadImdbInfo(((Movie)treeView1.SelectedNode.Tag).ImdbId);
-        }
 
         private void DataListView1SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
                 var movie = (Movie)(dataListView1.SelectedObject);
-                LoadImdbInfo(movie.ImdbId);
+                LoadImdbInfo(movie);
             }
             catch { }
         }
@@ -523,12 +550,12 @@ namespace MovieBrowser.Forms
 
         private void searchTextBox1_SearchStarted(object sender, EventArgs e)
         {
-            TimedFilter(this.treeListView1, searchTextBox1.Text);
+            TimedFilter(this.treeView1, searchTextBox1.Text);
         }
 
         private void searchTextBox1_SearchCancelled(object sender, EventArgs e)
         {
-            TimedFilter(this.treeListView1, "");
+            TimedFilter(this.treeView1, "");
         }
 
         private void searchTextBox2_SearchStarted(object sender, EventArgs e)
@@ -561,8 +588,8 @@ namespace MovieBrowser.Forms
 
         private void treeListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (treeListView1.SelectedObject != null)
-                LoadImdbInfo(((Movie)treeListView1.SelectedObject).ImdbId);
+            if (treeView1.SelectedObject != null)
+                LoadImdbInfo((Movie)treeView1.SelectedObject);
         }
 
         /****************************************************************/
@@ -587,12 +614,12 @@ namespace MovieBrowser.Forms
 
         private void tbOpenExplorer_Click(object sender, EventArgs e)
         {
-            _controller.Open(((Movie)treeListView1.SelectedObject).FilePath);
+            _controller.Open(((Movie)treeView1.SelectedObject).FilePath);
         }
 
         private void tbSearchImdb_Click(object sender, EventArgs e)
         {
-            _controller.SearchMovie(Controller.MovieBrowserController.ImdbSearch, (Movie)treeListView1.SelectedObject);
+            _controller.SearchMovie(Controller.MovieBrowserController.ImdbSearch, (Movie)treeView1.SelectedObject);
         }
 
         private void tbIgnoreList_Click(object sender, EventArgs e)
@@ -603,24 +630,37 @@ namespace MovieBrowser.Forms
 
         private void tbUpdateFolder_Click(object sender, EventArgs e)
         {
-            _controller.UpdateMovie();
+            _controller.UpdateMovie((OLVListItem)treeView1.SelectedItem);
         }
 
         private void tbAddToDb_Click(object sender, EventArgs e)
         {
-            // var information = new CollectInformation { MovieController = _controller, Movie = (Movie)treeView1.SelectedNode };
-            // var thread = new Thread(information.Collect);
-            // thread.Start();
+            CollectAndUpdate();
+        }
+
+        private void CollectAndUpdate()
+        {
+            var information = new CollectInformation { MovieController = _controller, MovieNode = (OLVListItem)treeView1.SelectedItem };
+            var thread = new Thread(information.Collect);
+            thread.Start();
         }
 
         private void rsUserRating_RatingValueChanged(object sender, RatingControl.RatingChangedEventArgs e)
         {
-
+            if (IsAuthorized)
+                _controller.UpdateUserRating(_loggedInUser, _movie, rsUserRating.Rating);
+            else
+            {
+                rsUserRating.Rating = 0;
+            }
         }
 
         private void pbWanted_Click(object sender, EventArgs e)
         {
-
+            if (IsAuthorized)
+            {
+                LoadPersonalNote(_controller.ToggleWanted(_loggedInUser, _movie));
+            }
         }
 
         private void tbRemoveFolders_Click(object sender, EventArgs e)
@@ -638,7 +678,60 @@ namespace MovieBrowser.Forms
 
         }
 
+        private void treeListView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedObject == null) return;
 
+            var movie = (Movie)treeView1.SelectedObject;
+
+            if (movie.IsValidMovie || movie.IsFolder)
+                _controller.SearchMovieTree(MovieBrowserController.ImdbSearch, (OLVListItem)treeView1.SelectedItem);
+            else
+                _controller.Open(movie.FilePath);
+        }
+
+        private void refreshFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<string> strs = (from object root in treeView1.Roots select ((Movie)root).FilePath).ToList();
+            LoadTree(strs);
+        }
+
+        private void buttonCollect_Click(object sender, EventArgs e)
+        {
+            CollectAndUpdate();
+        }
+
+        private void pbLike_Click(object sender, EventArgs e)
+        {
+            if (IsAuthorized)
+            {
+                LoadPersonalNote(_controller.SetFavourite(_loggedInUser, _movie, true));
+            }
+        }
+
+        private void pbSeenIt_Click(object sender, EventArgs e)
+        {
+            if (IsAuthorized)
+            {
+                LoadPersonalNote(_controller.ToggleSeenIt(_loggedInUser, _movie));
+            }
+        }
+
+        private void pbHaveIt_Click(object sender, EventArgs e)
+        {
+            if (IsAuthorized)
+            {
+                LoadPersonalNote(_controller.ToggleHaveIt(_loggedInUser, _movie));
+            }
+        }
+
+        private void pbDislike_Click(object sender, EventArgs e)
+        {
+            if (IsAuthorized)
+            {
+                LoadPersonalNote(_controller.SetFavourite(_loggedInUser, _movie, false));
+            }
+        }
 
     }
 

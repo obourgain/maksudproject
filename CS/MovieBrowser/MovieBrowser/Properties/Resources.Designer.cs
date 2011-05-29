@@ -60,6 +60,13 @@ namespace MovieBrowser.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap check_list {
+            get {
+                object obj = ResourceManager.GetObject("check_list", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap check_list_dis {
             get {
                 object obj = ResourceManager.GetObject("check_list_dis", resourceCulture);
@@ -109,6 +116,13 @@ namespace MovieBrowser.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap have_it {
+            get {
+                object obj = ResourceManager.GetObject("have_it", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap have_it_dis {
             get {
                 object obj = ResourceManager.GetObject("have_it_dis", resourceCulture);
@@ -126,6 +140,13 @@ namespace MovieBrowser.Properties {
         public static System.Drawing.Bitmap imdb {
             get {
                 object obj = ResourceManager.GetObject("imdb", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap like_it {
+            get {
+                object obj = ResourceManager.GetObject("like_it", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -161,6 +182,13 @@ namespace MovieBrowser.Properties {
         public static System.Drawing.Bitmap save {
             get {
                 object obj = ResourceManager.GetObject("save", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap seen_it {
+            get {
+                object obj = ResourceManager.GetObject("seen_it", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

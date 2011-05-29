@@ -29,7 +29,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("MovieDbModel", "FK_UserList_0", "User", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MovieBrowser.Model.User), "UserList", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MovieBrowser.Model.UserList))]
 
 // Original file name:
-// Generation date: 5/27/2011 11:40:58 PM
+// Generation date: 5/29/2011 10:00:52 PM
 namespace MovieBrowser.Model
 {
     
@@ -2497,18 +2497,18 @@ namespace MovieBrowser.Model
         /// <param name="seen">Initial value of Seen.</param>
         /// <param name="favourite">Initial value of Favourite.</param>
         /// <param name="wishlist">Initial value of Wishlist.</param>
-        /// <param name="recommend">Initial value of Recommend.</param>
+        /// <param name="have">Initial value of Have.</param>
         /// <param name="rating">Initial value of Rating.</param>
         /// <param name="comment">Initial value of Comment.</param>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static MoviePersonalNote CreateMoviePersonalNote(long id, bool seen, bool favourite, bool wishlist, bool recommend, double rating, string comment)
+        public static MoviePersonalNote CreateMoviePersonalNote(long id, bool seen, int favourite, bool wishlist, bool have, double rating, string comment)
         {
             MoviePersonalNote moviePersonalNote = new MoviePersonalNote();
             moviePersonalNote.Id = id;
             moviePersonalNote.Seen = seen;
             moviePersonalNote.Favourite = favourite;
             moviePersonalNote.Wishlist = wishlist;
-            moviePersonalNote.Recommend = recommend;
+            moviePersonalNote.Have = have;
             moviePersonalNote.Rating = rating;
             moviePersonalNote.Comment = comment;
             return moviePersonalNote;
@@ -2573,7 +2573,7 @@ namespace MovieBrowser.Model
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public bool Favourite
+        public int Favourite
         {
             get
             {
@@ -2589,9 +2589,9 @@ namespace MovieBrowser.Model
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private bool _Favourite;
+        private int _Favourite;
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnFavouriteChanging(bool value);
+        partial void OnFavouriteChanging(int value);
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnFavouriteChanged();
         /// <summary>
@@ -2622,32 +2622,32 @@ namespace MovieBrowser.Model
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnWishlistChanged();
         /// <summary>
-        /// There are no comments for property Recommend in the schema.
+        /// There are no comments for property Have in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public bool Recommend
+        public bool Have
         {
             get
             {
-                return this._Recommend;
+                return this._Have;
             }
             set
             {
-                this.OnRecommendChanging(value);
-                this.ReportPropertyChanging("Recommend");
-                this._Recommend = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("Recommend");
-                this.OnRecommendChanged();
+                this.OnHaveChanging(value);
+                this.ReportPropertyChanging("Have");
+                this._Have = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Have");
+                this.OnHaveChanged();
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private bool _Recommend;
+        private bool _Have;
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnRecommendChanging(bool value);
+        partial void OnHaveChanging(bool value);
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnRecommendChanged();
+        partial void OnHaveChanged();
         /// <summary>
         /// There are no comments for property Rating in the schema.
         /// </summary>
