@@ -605,7 +605,7 @@ namespace MovieBrowser.Forms
             VistaUIApi.Dialog.FolderBrowserDialog dialog = new FolderBrowserDialog();
             if (dialog.ShowDialog(this) == DialogResult.OK)
             {
-                //    _controller.LoadFolderIntoTreeViewDialog(treeView1);
+               //
             }
         }
 

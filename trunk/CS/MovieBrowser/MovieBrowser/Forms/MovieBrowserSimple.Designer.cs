@@ -64,6 +64,7 @@ namespace MovieBrowser.Forms
             this.searchTextBox2 = new WindowsFormsAero.SearchTextBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnRefresh = new System.Windows.Forms.Button();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
             this.tabInformation = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -93,6 +94,9 @@ namespace MovieBrowser.Forms
             this.label8 = new System.Windows.Forms.Label();
             this.lblRuntime = new System.Windows.Forms.TextBox();
             this.horizontalPanel2 = new WindowsFormsAero.HorizontalPanel();
+            this.buttonModifyList = new System.Windows.Forms.Button();
+            this.buttonAddToList = new System.Windows.Forms.Button();
+            this.comboBox1 = new WindowsFormsAero.ComboBox();
             this.pbHaveIt = new System.Windows.Forms.PictureBox();
             this.pbSeenIt = new System.Windows.Forms.PictureBox();
             this.pbDislike = new System.Windows.Forms.PictureBox();
@@ -204,6 +208,7 @@ namespace MovieBrowser.Forms
             // 
             this.tabMovies.Controls.Add(this.tpMoviesTree);
             this.tabMovies.Controls.Add(this.tpMovies2);
+            this.tabMovies.Controls.Add(this.tabPage3);
             this.tabMovies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabMovies.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabMovies.Location = new System.Drawing.Point(0, 0);
@@ -503,6 +508,16 @@ namespace MovieBrowser.Forms
             this.btnRefresh.TabIndex = 2;
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 26);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(501, 290);
+            this.tabPage3.TabIndex = 4;
+            this.tabPage3.Text = "Search";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // toolStripContainer2
             // 
@@ -809,6 +824,9 @@ namespace MovieBrowser.Forms
             // horizontalPanel2
             // 
             this.horizontalPanel2.BackColor = System.Drawing.Color.Transparent;
+            this.horizontalPanel2.Controls.Add(this.buttonModifyList);
+            this.horizontalPanel2.Controls.Add(this.buttonAddToList);
+            this.horizontalPanel2.Controls.Add(this.comboBox1);
             this.horizontalPanel2.Controls.Add(this.pbHaveIt);
             this.horizontalPanel2.Controls.Add(this.pbSeenIt);
             this.horizontalPanel2.Controls.Add(this.pbDislike);
@@ -824,11 +842,39 @@ namespace MovieBrowser.Forms
             this.horizontalPanel2.Size = new System.Drawing.Size(347, 100);
             this.horizontalPanel2.TabIndex = 28;
             // 
+            // buttonModifyList
+            // 
+            this.buttonModifyList.Image = global::MovieBrowser.Properties.Resources.modify;
+            this.buttonModifyList.Location = new System.Drawing.Point(299, 68);
+            this.buttonModifyList.Name = "buttonModifyList";
+            this.buttonModifyList.Size = new System.Drawing.Size(24, 24);
+            this.buttonModifyList.TabIndex = 35;
+            this.buttonModifyList.UseVisualStyleBackColor = true;
+            // 
+            // buttonAddToList
+            // 
+            this.buttonAddToList.Image = global::MovieBrowser.Properties.Resources.add;
+            this.buttonAddToList.Location = new System.Drawing.Point(269, 68);
+            this.buttonAddToList.Name = "buttonAddToList";
+            this.buttonAddToList.Size = new System.Drawing.Size(24, 24);
+            this.buttonAddToList.TabIndex = 34;
+            this.buttonAddToList.UseVisualStyleBackColor = true;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(79, 68);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(184, 23);
+            this.comboBox1.TabIndex = 33;
+            // 
             // pbHaveIt
             // 
             this.pbHaveIt.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbHaveIt.Image = global::MovieBrowser.Properties.Resources.have_it_dis;
-            this.pbHaveIt.Location = new System.Drawing.Point(231, 48);
+            this.pbHaveIt.Location = new System.Drawing.Point(231, 30);
             this.pbHaveIt.Name = "pbHaveIt";
             this.pbHaveIt.Size = new System.Drawing.Size(32, 32);
             this.pbHaveIt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -840,7 +886,7 @@ namespace MovieBrowser.Forms
             // 
             this.pbSeenIt.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbSeenIt.Image = global::MovieBrowser.Properties.Resources.seen_it_dis;
-            this.pbSeenIt.Location = new System.Drawing.Point(193, 48);
+            this.pbSeenIt.Location = new System.Drawing.Point(193, 30);
             this.pbSeenIt.Name = "pbSeenIt";
             this.pbSeenIt.Size = new System.Drawing.Size(32, 32);
             this.pbSeenIt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -852,7 +898,7 @@ namespace MovieBrowser.Forms
             // 
             this.pbDislike.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbDislike.Image = global::MovieBrowser.Properties.Resources.hate_it_dis;
-            this.pbDislike.Location = new System.Drawing.Point(155, 54);
+            this.pbDislike.Location = new System.Drawing.Point(155, 30);
             this.pbDislike.Name = "pbDislike";
             this.pbDislike.Size = new System.Drawing.Size(32, 32);
             this.pbDislike.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -875,7 +921,7 @@ namespace MovieBrowser.Forms
             // 
             this.pbLike.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbLike.Image = global::MovieBrowser.Properties.Resources.like_it_dis;
-            this.pbLike.Location = new System.Drawing.Point(117, 39);
+            this.pbLike.Location = new System.Drawing.Point(117, 30);
             this.pbLike.Name = "pbLike";
             this.pbLike.Size = new System.Drawing.Size(32, 32);
             this.pbLike.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -887,7 +933,7 @@ namespace MovieBrowser.Forms
             // 
             this.pbWanted.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbWanted.Image = global::MovieBrowser.Properties.Resources.check_list_dis;
-            this.pbWanted.Location = new System.Drawing.Point(79, 48);
+            this.pbWanted.Location = new System.Drawing.Point(79, 30);
             this.pbWanted.Name = "pbWanted";
             this.pbWanted.Size = new System.Drawing.Size(32, 32);
             this.pbWanted.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -964,7 +1010,7 @@ namespace MovieBrowser.Forms
             this.tbSendTo});
             this.tsMainToolStrip.Location = new System.Drawing.Point(3, 0);
             this.tsMainToolStrip.Name = "tsMainToolStrip";
-            this.tsMainToolStrip.Size = new System.Drawing.Size(383, 25);
+            this.tsMainToolStrip.Size = new System.Drawing.Size(414, 25);
             this.tsMainToolStrip.TabIndex = 0;
             // 
             // tbBrowseFolders
@@ -1334,6 +1380,10 @@ namespace MovieBrowser.Forms
         private System.Windows.Forms.Button btnAddToDb;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton tbAddToDb;
+        private WindowsFormsAero.ComboBox comboBox1;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button buttonModifyList;
+        private System.Windows.Forms.Button buttonAddToList;
     }
 }
 
