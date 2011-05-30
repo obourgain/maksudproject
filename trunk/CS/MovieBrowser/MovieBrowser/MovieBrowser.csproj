@@ -208,6 +208,8 @@
     <None Include="Images\like_it.png" />
     <None Include="Images\seen_it.png" />
     <None Include="Images\have_it.png" />
+    <None Include="Images\pb_movie.png" />
+    <None Include="Images\pb_update.png" />
     <Content Include="mb.ico" />
     <None Include="Images\check_list.png" />
     <None Include="Images\hate_it.png" />

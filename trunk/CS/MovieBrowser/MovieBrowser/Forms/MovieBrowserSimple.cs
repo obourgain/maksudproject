@@ -388,8 +388,6 @@ namespace MovieBrowser.Forms
                 lblMPAA.Text = "";
                 textMpaaReason.Text = "";
                 textHighlight.Text = "";
-
-                return;
             }
             else
             {
@@ -448,8 +446,12 @@ namespace MovieBrowser.Forms
 
         void LoadPersonalNote(MoviePersonalNote note)
         {
+
+
             if (note == null)
             {
+                _controller_OnDebugTextFired(this, new TextEventArgs("note is null\r\n"));
+
                 rsUserRating.Rating = 0;
 
                 pbDislike.Image = Properties.Resources.hate_it_dis;
@@ -460,6 +462,8 @@ namespace MovieBrowser.Forms
             }
             else
             {
+                _controller_OnDebugTextFired(this, new TextEventArgs("note=" + note.Movie.Title + "\r\n"));
+
                 rsUserRating.Rating = note.Rating;
 
                 pbDislike.Image = note.Favourite < 0 ? Properties.Resources.hate_it : Properties.Resources.hate_it_dis;
@@ -482,9 +486,12 @@ namespace MovieBrowser.Forms
             {
                 try
                 {
-                    var movie2 = (Movie)MovieNode.RowObject;
-
-                    var movie = MovieController.CollectAndAddMovieToDb(movie2);
+                    Movie movie2 = null;
+                    if (MovieNode != null)
+                    {
+                        movie2 = (Movie)MovieNode.RowObject;
+                    }
+                    var movie = MovieController.CollectAndAddMovieToDb(movie2, Html);
                     if (MovieNode != null && movie != null)
                     {
                         MovieController.UpdateMovie(MovieNode);
@@ -630,17 +637,17 @@ namespace MovieBrowser.Forms
 
         private void tbUpdateFolder_Click(object sender, EventArgs e)
         {
-            _controller.UpdateMovie((OLVListItem)treeView1.SelectedItem);
+
         }
 
         private void tbAddToDb_Click(object sender, EventArgs e)
         {
-            CollectAndUpdate();
+
         }
 
-        private void CollectAndUpdate()
+        private void CollectAndUpdate(OLVListItem selectedItem, string html = null)
         {
-            var information = new CollectInformation { MovieController = _controller, MovieNode = (OLVListItem)treeView1.SelectedItem };
+            var information = new CollectInformation { MovieController = _controller, MovieNode = selectedItem, Html = html };
             var thread = new Thread(information.Collect);
             thread.Start();
         }
@@ -696,11 +703,6 @@ namespace MovieBrowser.Forms
             LoadTree(strs);
         }
 
-        private void buttonCollect_Click(object sender, EventArgs e)
-        {
-            CollectAndUpdate();
-        }
-
         private void pbLike_Click(object sender, EventArgs e)
         {
             if (IsAuthorized)
@@ -732,6 +734,28 @@ namespace MovieBrowser.Forms
                 LoadPersonalNote(_controller.SetFavourite(_loggedInUser, _movie, false));
             }
         }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            _controller.UpdateMovie((OLVListItem)treeView1.SelectedItem);
+        }
+
+        private void btnAddToDb_Click(object sender, EventArgs e)
+        {
+            CollectAndUpdate((OLVListItem)treeView1.SelectedItem);
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            CollectAndUpdate((OLVListItem)dataListView1.SelectedItem);
+        }
+
+        private void tbAddToDb_Click_1(object sender, EventArgs e)
+        {
+            CollectAndUpdate(null, webBrowser1.DocumentText);
+        }
+
+
 
     }
 

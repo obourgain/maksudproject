@@ -165,6 +165,20 @@ namespace MovieBrowser.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap pb_movie {
+            get {
+                object obj = ResourceManager.GetObject("pb_movie", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap pb_update {
+            get {
+                object obj = ResourceManager.GetObject("pb_update", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap pen_drives {
             get {
                 object obj = ResourceManager.GetObject("pen_drives", resourceCulture);
