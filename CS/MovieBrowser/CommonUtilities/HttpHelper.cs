@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 
 namespace CommonUtilities
@@ -41,8 +42,9 @@ namespace CommonUtilities
 
                 return pageContent;
             }
-            catch
+            catch (Exception exception)
             {
+                Logger.Exception(exception, 1, "FetchWebPage");
                 return "";
             }
         }

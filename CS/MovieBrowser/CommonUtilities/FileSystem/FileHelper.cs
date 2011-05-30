@@ -48,7 +48,7 @@ namespace CommonUtilities.FileSystem
 
         public static string CleanFileName(this string @this)
         {
-            return Regex.Replace(@this, @"[\\/:*?""<>|]+", "");
+            return Regex.Replace(@this.Clean(), @"[\\/:*?""<>|]+", "");
         }
 
         public static List<UsbDeviceInfo> GetUsbDevices()

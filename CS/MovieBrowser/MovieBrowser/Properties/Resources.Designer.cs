@@ -60,6 +60,13 @@ namespace MovieBrowser.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap add {
+            get {
+                object obj = ResourceManager.GetObject("add", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap check_list {
             get {
                 object obj = ResourceManager.GetObject("check_list", resourceCulture);
@@ -154,6 +161,13 @@ namespace MovieBrowser.Properties {
         public static System.Drawing.Bitmap like_it_dis {
             get {
                 object obj = ResourceManager.GetObject("like_it_dis", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap modify {
+            get {
+                object obj = ResourceManager.GetObject("modify", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
