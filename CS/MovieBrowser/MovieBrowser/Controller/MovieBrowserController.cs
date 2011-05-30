@@ -359,10 +359,11 @@ namespace MovieBrowser.Controller
 
         public Movie CollectAndAddMovieToDb(Movie movie2, string html = null)
         {
-            InvokeOnNotificationFired("Started collecting movie: " + movie2.Title);
-
             if (string.IsNullOrEmpty(html))
+            {
+                InvokeOnNotificationFired("Started collecting movie: " + movie2.Title);
                 html = HttpHelper.FetchWebPage(MovieBrowserController.ImdbTitle + movie2.ImdbId);
+            }
 
             var parseMovieInfo = ParseMovieInfo(html);
 
@@ -482,7 +483,7 @@ namespace MovieBrowser.Controller
 
             }
 
-            InvokeOnNotificationFired("Fiished collecting movie: " + movie2.Title);
+            InvokeOnNotificationFired("Fiished collecting movie: " + movie.Title);
 
             return movie;
         }
