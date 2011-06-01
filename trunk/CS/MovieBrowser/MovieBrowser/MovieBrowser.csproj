@@ -83,31 +83,37 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\TextEventArgs.cs" />
-    <Compile Include="Forms\LoginForm.cs">
+    <Compile Include="Forms\Db\MovieListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\LoginForm.Designer.cs">
+    <Compile Include="Forms\Db\MovieListForm.Designer.cs">
+      <DependentUpon>MovieListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Dialogs\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Dialogs\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserListForm.cs">
+    <Compile Include="Forms\Db\UsersForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UserListForm.Designer.cs">
-      <DependentUpon>UserListForm.cs</DependentUpon>
+    <Compile Include="Forms\Db\UsersForm.Designer.cs">
+      <DependentUpon>UsersForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Parser\ImdbParser.cs" />
     <Compile Include="Controller\MovieBrowserController.cs" />
     <Compile Include="Controller\MovieEventArgs.cs" />
-    <Compile Include="Forms\IgnoreListForm.cs">
+    <Compile Include="Forms\Dialogs\IgnoreListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\IgnoreListForm.Designer.cs">
+    <Compile Include="Forms\Dialogs\IgnoreListForm.Designer.cs">
       <DependentUpon>IgnoreListForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\KeywordsForm.cs">
+    <Compile Include="Forms\Db\KeywordsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\KeywordsForm.Designer.cs">
+    <Compile Include="Forms\Db\KeywordsForm.Designer.cs">
       <DependentUpon>KeywordsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\SearchForm.cs">
@@ -144,13 +150,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Forms\IgnoreListForm.resx">
+    <EmbeddedResource Include="Forms\Db\MovieListForm.resx">
+      <DependentUpon>MovieListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Dialogs\IgnoreListForm.resx">
       <DependentUpon>IgnoreListForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\KeywordsForm.resx">
+    <EmbeddedResource Include="Forms\Db\KeywordsForm.resx">
       <DependentUpon>KeywordsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\LoginForm.resx">
+    <EmbeddedResource Include="Forms\Dialogs\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MovieBrowserSimple.resx">
@@ -160,8 +169,8 @@
     <EmbeddedResource Include="Forms\UpdateMovieInformation.resx">
       <DependentUpon>UpdateMovieInformation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserListForm.resx">
-      <DependentUpon>UserListForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Db\UsersForm.resx">
+      <DependentUpon>UsersForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -176,6 +185,7 @@
       <LastGenOutput>MoviesDb.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="Properties\DataSources\MovieBrowser.Model.MovieDbEntities.datasource" />
+    <None Include="Properties\DataSources\MovieBrowser.Model.User.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

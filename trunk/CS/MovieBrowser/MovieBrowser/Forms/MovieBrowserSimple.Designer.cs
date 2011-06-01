@@ -81,6 +81,15 @@ namespace MovieBrowser.Forms
             this.tbAddToDb = new System.Windows.Forms.ToolStripButton();
             this.tbRefreshDb = new System.Windows.Forms.ToolStripButton();
             this.tbDeleteFromDb = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbWantToWatch = new System.Windows.Forms.ToolStripButton();
+            this.tbLikeIt = new System.Windows.Forms.ToolStripButton();
+            this.tbDislikeIt = new System.Windows.Forms.ToolStripButton();
+            this.tbSeenIt = new System.Windows.Forms.ToolStripButton();
+            this.tbHaveIt = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.txtUserRating = new System.Windows.Forms.ToolStripTextBox();
+            this.tbRateIt = new System.Windows.Forms.ToolStripButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
             this.tabInformation = new System.Windows.Forms.TabControl();
@@ -123,6 +132,8 @@ namespace MovieBrowser.Forms
             this.label10 = new System.Windows.Forms.Label();
             this.lblMPAA = new System.Windows.Forms.TextBox();
             this.textMpaaReason = new System.Windows.Forms.TextBox();
+            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.tbUserManagement = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -134,16 +145,8 @@ namespace MovieBrowser.Forms
             this.extraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.tbWantToWatch = new System.Windows.Forms.ToolStripButton();
-            this.tbLikeIt = new System.Windows.Forms.ToolStripButton();
-            this.tbDislikeIt = new System.Windows.Forms.ToolStripButton();
-            this.tbSeenIt = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tbHaveIt = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.txtUserRating = new System.Windows.Forms.ToolStripTextBox();
-            this.tbRateIt = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
+            this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -171,6 +174,7 @@ namespace MovieBrowser.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pbDislike)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLike)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWanted)).BeginInit();
+            this.toolStrip3.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -187,6 +191,10 @@ namespace MovieBrowser.Forms
             this.toolStripContainer1.Size = new System.Drawing.Size(1247, 447);
             this.toolStripContainer1.TabIndex = 0;
             this.toolStripContainer1.Text = "toolStripContainer1";
+            // 
+            // toolStripContainer1.TopToolStripPanel
+            // 
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip3);
             // 
             // splitContainer1
             // 
@@ -679,6 +687,81 @@ namespace MovieBrowser.Forms
             this.tbDeleteFromDb.Text = "Delete";
             this.tbDeleteFromDb.Click += new System.EventHandler(this.tbDeleteFromDb_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tbWantToWatch
+            // 
+            this.tbWantToWatch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbWantToWatch.Image = global::MovieBrowser.Properties.Resources.check_list;
+            this.tbWantToWatch.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbWantToWatch.Name = "tbWantToWatch";
+            this.tbWantToWatch.Size = new System.Drawing.Size(23, 22);
+            this.tbWantToWatch.Text = "Watch";
+            this.tbWantToWatch.Click += new System.EventHandler(this.tbWantToWatch_Click);
+            // 
+            // tbLikeIt
+            // 
+            this.tbLikeIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbLikeIt.Image = global::MovieBrowser.Properties.Resources.like_it;
+            this.tbLikeIt.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbLikeIt.Name = "tbLikeIt";
+            this.tbLikeIt.Size = new System.Drawing.Size(23, 22);
+            this.tbLikeIt.Text = "Like It";
+            this.tbLikeIt.Click += new System.EventHandler(this.tbLikeIt_Click);
+            // 
+            // tbDislikeIt
+            // 
+            this.tbDislikeIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbDislikeIt.Image = global::MovieBrowser.Properties.Resources.hate_it;
+            this.tbDislikeIt.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbDislikeIt.Name = "tbDislikeIt";
+            this.tbDislikeIt.Size = new System.Drawing.Size(23, 22);
+            this.tbDislikeIt.Text = "Dislike It";
+            this.tbDislikeIt.ToolTipText = "Dislike It";
+            this.tbDislikeIt.Click += new System.EventHandler(this.tbDislikeIt_Click);
+            // 
+            // tbSeenIt
+            // 
+            this.tbSeenIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbSeenIt.Image = global::MovieBrowser.Properties.Resources.seen_it;
+            this.tbSeenIt.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbSeenIt.Name = "tbSeenIt";
+            this.tbSeenIt.Size = new System.Drawing.Size(23, 22);
+            this.tbSeenIt.Text = "Seen It";
+            this.tbSeenIt.Click += new System.EventHandler(this.tbSeenIt_Click);
+            // 
+            // tbHaveIt
+            // 
+            this.tbHaveIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbHaveIt.Image = global::MovieBrowser.Properties.Resources.have_it;
+            this.tbHaveIt.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbHaveIt.Name = "tbHaveIt";
+            this.tbHaveIt.Size = new System.Drawing.Size(23, 22);
+            this.tbHaveIt.Text = "Have It";
+            this.tbHaveIt.Click += new System.EventHandler(this.tbHaveIt_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // txtUserRating
+            // 
+            this.txtUserRating.Name = "txtUserRating";
+            this.txtUserRating.Size = new System.Drawing.Size(48, 25);
+            // 
+            // tbRateIt
+            // 
+            this.tbRateIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbRateIt.Image = global::MovieBrowser.Properties.Resources.movie_db;
+            this.tbRateIt.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbRateIt.Name = "tbRateIt";
+            this.tbRateIt.Size = new System.Drawing.Size(23, 22);
+            this.tbRateIt.Text = "Rate It";
+            // 
             // tabPage3
             // 
             this.tabPage3.Location = new System.Drawing.Point(4, 26);
@@ -996,6 +1079,7 @@ namespace MovieBrowser.Forms
             this.buttonModifyList.Size = new System.Drawing.Size(24, 24);
             this.buttonModifyList.TabIndex = 35;
             this.buttonModifyList.UseVisualStyleBackColor = true;
+            this.buttonModifyList.Click += new System.EventHandler(this.buttonModifyList_Click);
             // 
             // buttonAddToList
             // 
@@ -1136,6 +1220,26 @@ namespace MovieBrowser.Forms
             this.textMpaaReason.Size = new System.Drawing.Size(264, 23);
             this.textMpaaReason.TabIndex = 22;
             // 
+            // toolStrip3
+            // 
+            this.toolStrip3.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbUserManagement});
+            this.toolStrip3.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip3.Name = "toolStrip3";
+            this.toolStrip3.Size = new System.Drawing.Size(51, 25);
+            this.toolStrip3.TabIndex = 0;
+            // 
+            // tbUserManagement
+            // 
+            this.tbUserManagement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tbUserManagement.Image = ((System.Drawing.Image)(resources.GetObject("tbUserManagement.Image")));
+            this.tbUserManagement.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbUserManagement.Name = "tbUserManagement";
+            this.tbUserManagement.Size = new System.Drawing.Size(39, 22);
+            this.tbUserManagement.Text = "Users";
+            this.tbUserManagement.Click += new System.EventHandler(this.tbUserManagement_Click);
+            // 
             // toolStripButton2
             // 
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -1225,81 +1329,6 @@ namespace MovieBrowser.Forms
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             // 
-            // tbWantToWatch
-            // 
-            this.tbWantToWatch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbWantToWatch.Image = global::MovieBrowser.Properties.Resources.check_list;
-            this.tbWantToWatch.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbWantToWatch.Name = "tbWantToWatch";
-            this.tbWantToWatch.Size = new System.Drawing.Size(23, 22);
-            this.tbWantToWatch.Text = "Watch";
-            this.tbWantToWatch.Click += new System.EventHandler(this.tbWantToWatch_Click);
-            // 
-            // tbLikeIt
-            // 
-            this.tbLikeIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbLikeIt.Image = global::MovieBrowser.Properties.Resources.like_it;
-            this.tbLikeIt.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbLikeIt.Name = "tbLikeIt";
-            this.tbLikeIt.Size = new System.Drawing.Size(23, 22);
-            this.tbLikeIt.Text = "Like It";
-            this.tbLikeIt.Click += new System.EventHandler(this.tbLikeIt_Click);
-            // 
-            // tbDislikeIt
-            // 
-            this.tbDislikeIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbDislikeIt.Image = global::MovieBrowser.Properties.Resources.hate_it;
-            this.tbDislikeIt.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbDislikeIt.Name = "tbDislikeIt";
-            this.tbDislikeIt.Size = new System.Drawing.Size(23, 22);
-            this.tbDislikeIt.Text = "Dislike It";
-            this.tbDislikeIt.ToolTipText = "Dislike It";
-            this.tbDislikeIt.Click += new System.EventHandler(this.tbDislikeIt_Click);
-            // 
-            // tbSeenIt
-            // 
-            this.tbSeenIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbSeenIt.Image = global::MovieBrowser.Properties.Resources.seen_it;
-            this.tbSeenIt.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbSeenIt.Name = "tbSeenIt";
-            this.tbSeenIt.Size = new System.Drawing.Size(23, 22);
-            this.tbSeenIt.Text = "Seen It";
-            this.tbSeenIt.Click += new System.EventHandler(this.tbSeenIt_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tbHaveIt
-            // 
-            this.tbHaveIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbHaveIt.Image = global::MovieBrowser.Properties.Resources.have_it;
-            this.tbHaveIt.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbHaveIt.Name = "tbHaveIt";
-            this.tbHaveIt.Size = new System.Drawing.Size(23, 22);
-            this.tbHaveIt.Text = "Have It";
-            this.tbHaveIt.Click += new System.EventHandler(this.tbHaveIt_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // txtUserRating
-            // 
-            this.txtUserRating.Name = "txtUserRating";
-            this.txtUserRating.Size = new System.Drawing.Size(48, 25);
-            // 
-            // tbRateIt
-            // 
-            this.tbRateIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbRateIt.Image = global::MovieBrowser.Properties.Resources.movie_db;
-            this.tbRateIt.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbRateIt.Name = "tbRateIt";
-            this.tbRateIt.Size = new System.Drawing.Size(23, 22);
-            this.tbRateIt.Text = "Rate It";
-            // 
             // MovieBrowserSimple
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1314,6 +1343,8 @@ namespace MovieBrowser.Forms
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MovieBrowserSimpleFormClosing);
             this.Load += new System.EventHandler(this.MovieBrowserSimpleLoad);
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -1351,6 +1382,8 @@ namespace MovieBrowser.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pbDislike)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLike)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWanted)).EndInit();
+            this.toolStrip3.ResumeLayout(false);
+            this.toolStrip3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1467,6 +1500,8 @@ namespace MovieBrowser.Forms
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripTextBox txtUserRating;
         private System.Windows.Forms.ToolStripButton tbRateIt;
+        private System.Windows.Forms.ToolStrip toolStrip3;
+        private System.Windows.Forms.ToolStripButton tbUserManagement;
     }
 }
 

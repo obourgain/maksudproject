@@ -1,4 +1,4 @@
-﻿namespace MovieBrowser.Forms
+﻿namespace MovieBrowser.Forms.Dialogs
 {
     partial class LoginForm
     {
@@ -144,7 +144,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "LoginForm";
+            this.Text = "Log In";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.ResumeLayout(false);

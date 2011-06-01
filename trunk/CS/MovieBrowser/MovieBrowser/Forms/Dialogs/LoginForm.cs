@@ -1,23 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MovieBrowser.Controller;
 using MovieBrowser.Model;
 using WindowsFormsAero.Dwm;
 using WindowsFormsAero.Dwm.Helpers;
 
-namespace MovieBrowser.Forms
+namespace MovieBrowser.Forms.Dialogs
 {
     public partial class LoginForm : GlassForm
     {
         private TextEventArgs _args;
-
         public event EventHandler LoggedIn;
+
+        MovieDbEntities db;
+
 
         public void InvokeLoggedIn(EventArgs e)
         {
@@ -25,8 +22,9 @@ namespace MovieBrowser.Forms
             if (handler != null) handler(this, e);
         }
 
-        public LoginForm()
+        public LoginForm(MovieDbEntities context = null)
         {
+            db = context ?? new MovieDbEntities();
             InitializeComponent();
 
             GlassMargins = new Margins(0, 0, 48, 48);
@@ -38,7 +36,6 @@ namespace MovieBrowser.Forms
             if (textPassword.Text.Trim().Length == 0) return;
 
 
-            var db = new Model.MovieDbEntities();
 
             var user = db.Users.Where(o => o.Username == textUsername.Text).FirstOrDefault();
             if (user == null)

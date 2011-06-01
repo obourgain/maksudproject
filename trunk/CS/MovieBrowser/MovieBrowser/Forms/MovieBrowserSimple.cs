@@ -9,6 +9,8 @@ using BrightIdeasSoftware;
 using CommonUtilities;
 using CommonUtilities.FileSystem;
 using MovieBrowser.Controller;
+using MovieBrowser.Forms.Db;
+using MovieBrowser.Forms.Dialogs;
 using MovieBrowser.Model;
 using System.Linq;
 using FolderBrowserDialog = VistaUIApi.Dialog.FolderBrowserDialog;
@@ -130,7 +132,7 @@ namespace MovieBrowser.Forms
             _controller.LoadPenDrives(comboPendrives);
 
             dataListView1.UseTranslucentHotItem = true;
-            dataListView1.DataSource = _controller.MoviesList;
+            dataListView1.DataSource = _controller.Movies;
 
             var paths = (from object a in Properties.Settings.Default.Paths select (string)a).ToList();
             LoadTree(paths);
@@ -146,7 +148,7 @@ namespace MovieBrowser.Forms
         {
             if (_loggedInUser == null)
             {
-                var form = new LoginForm();
+                var form = new LoginForm(_controller.Db);
                 form.LoggedIn += (sender, args) =>
                 {
                     var textEventArgs = (TextEventArgs)args;
@@ -764,7 +766,7 @@ namespace MovieBrowser.Forms
 
         private void btnReloadDbList_Click(object sender, EventArgs e)
         {
-            dataListView1.DataSource = _controller.MoviesList;
+            dataListView1.DataSource = _controller.Movies;
         }
 
 
@@ -797,7 +799,7 @@ namespace MovieBrowser.Forms
 
         private void tbRefreshDb_Click(object sender, EventArgs e)
         {
-            dataListView1.DataSource = _controller.MoviesList;
+            dataListView1.DataSource = _controller.Movies;
         }
 
         private void tbWantToWatch_Click(object sender, EventArgs e)
@@ -853,6 +855,19 @@ namespace MovieBrowser.Forms
                     _controller.ToggleHaveIt(_loggedInUser, movie);
                 }
             }
+        }
+
+        private void tbUserManagement_Click(object sender, EventArgs e)
+        {
+            Form form = new UsersForm();
+            form.ShowDialog(this);
+
+        }
+
+        private void buttonModifyList_Click(object sender, EventArgs e)
+        {
+            if (IsAuthorized)
+                new MovieListForm(_loggedInUser, _controller.Db).ShowDialog(this);
         }
     }
 
