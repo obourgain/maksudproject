@@ -176,7 +176,7 @@
             this.panel2.Location = new System.Drawing.Point(220, 120);
             this.panel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(15, 16, 15, 16);
+            this.panel2.Padding = new System.Windows.Forms.Padding(10);
             this.panel2.Size = new System.Drawing.Size(544, 186);
             this.panel2.TabIndex = 4;
             // 
@@ -190,10 +190,10 @@
             this.dataListView1.DataSource = null;
             this.dataListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataListView1.FullRowSelect = true;
-            this.dataListView1.Location = new System.Drawing.Point(15, 16);
+            this.dataListView1.Location = new System.Drawing.Point(10, 10);
             this.dataListView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dataListView1.Name = "dataListView1";
-            this.dataListView1.Size = new System.Drawing.Size(514, 154);
+            this.dataListView1.Size = new System.Drawing.Size(524, 166);
             this.dataListView1.TabIndex = 4;
             this.dataListView1.UseCompatibleStateImageBehavior = false;
             this.dataListView1.View = System.Windows.Forms.View.Details;
