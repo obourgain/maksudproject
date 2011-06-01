@@ -6,9 +6,10 @@ namespace MovieBrowser.Forms.Db
 {
     public partial class UsersForm : Form
     {
-        readonly MovieDbEntities _entities = new MovieDbEntities();
-        public UsersForm()
+        private readonly MovieDbEntities _entities;
+        public UsersForm(MovieDbEntities context)
         {
+            _entities = context;
             InitializeComponent();
             var data = _entities.Users;
             dataListView1.DataSource = data;
@@ -33,6 +34,8 @@ namespace MovieBrowser.Forms.Db
             {
                 u = new User { Username = textUsername.Text, Password = textPassword.Text };
                 _entities.AddToUsers(u);
+
+                dataListView1.DataSource = _entities.Users;
             }
             else
             {

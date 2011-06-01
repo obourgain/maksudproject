@@ -113,7 +113,7 @@
             this.panel2.Location = new System.Drawing.Point(220, 62);
             this.panel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(15, 16, 15, 16);
+            this.panel2.Padding = new System.Windows.Forms.Padding(10);
             this.panel2.Size = new System.Drawing.Size(394, 205);
             this.panel2.TabIndex = 6;
             // 
@@ -126,10 +126,10 @@
             this.dataListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataListView1.FullRowSelect = true;
             this.dataListView1.HideSelection = false;
-            this.dataListView1.Location = new System.Drawing.Point(15, 16);
+            this.dataListView1.Location = new System.Drawing.Point(10, 10);
             this.dataListView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dataListView1.Name = "dataListView1";
-            this.dataListView1.Size = new System.Drawing.Size(364, 173);
+            this.dataListView1.Size = new System.Drawing.Size(374, 185);
             this.dataListView1.TabIndex = 4;
             this.dataListView1.UseCompatibleStateImageBehavior = false;
             this.dataListView1.View = System.Windows.Forms.View.Details;
@@ -150,7 +150,7 @@
             this.panel1.Location = new System.Drawing.Point(220, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(15, 16, 15, 16);
+            this.panel1.Padding = new System.Windows.Forms.Padding(10);
             this.panel1.Size = new System.Drawing.Size(394, 62);
             this.panel1.TabIndex = 5;
             // 
@@ -165,7 +165,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 19);
+            this.label1.Location = new System.Drawing.Point(15, 13);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 17);
