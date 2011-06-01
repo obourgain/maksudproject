@@ -1,4 +1,4 @@
-﻿namespace MovieBrowser.Forms
+﻿namespace MovieBrowser.Forms.Dialogs
 {
     partial class IgnoreListForm
     {

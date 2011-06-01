@@ -22,19 +22,30 @@ namespace MovieBrowser.Controller
 {
     public partial class MovieBrowserController
     {
+        #region Private Variables
+        readonly FolderBrowserDialog _dialog = new FolderBrowserDialog();
+        private OLVListItem _selectedOlvListItem = null;
+        private MovieDbEntities entities;
+        #endregion
+
+
+        #region Properties
         public bool DbLoggedIn { get; set; }
+        public MovieDbEntities Db { get { return entities; } }
+        #endregion
+
 
         public MovieBrowserController()
         {
             try
             {
-                var entities = new MovieDbEntities();
-                if (entities.Movies.ToList().Count >= 0)
-                    DbLoggedIn = true;
+                entities = new MovieDbEntities();
+                DbLoggedIn = false;
+
             }
             catch
             {
-                DbLoggedIn = false;
+
             }
         }
 
@@ -71,9 +82,7 @@ namespace MovieBrowser.Controller
         #endregion
 
 
-        readonly FolderBrowserDialog _dialog = new FolderBrowserDialog();
 
-        private OLVListItem _selectedOlvListItem = null;
 
         public WebBrowser Browser { get; set; }
 
@@ -81,20 +90,12 @@ namespace MovieBrowser.Controller
 
         public bool IntelligentSearch { get; set; }
 
-        public List<Movie> MoviesList
+        public List<Movie> Movies
         {
             get
             {
-                try
-                {
-                    return (new MovieDbEntities()).Movies.ToList();
-                }
-                catch
-                {
-                    return new List<Movie>();
-                }
+                return entities.Movies.ToList();
             }
-
         }
 
         public void LoadAllFolders(TreeView movieFolderTree)
@@ -110,7 +111,6 @@ namespace MovieBrowser.Controller
         public void LoadListViewMovies(ListView listView1)
         {
             listView1.Items.Clear();
-            var entities = new MovieDbEntities();
             var list = entities.Movies.ToList();
             foreach (var movie in list)
             {
@@ -373,19 +373,19 @@ namespace MovieBrowser.Controller
 
             if (parseMovieInfo == null) return null;
 
-            var db = new MovieDbEntities();
 
-            var movie = db.Movies.Where(o => o.ImdbId == parseMovieInfo.ImdbId).FirstOrDefault();
+
+            var movie = entities.Movies.Where(o => o.ImdbId == parseMovieInfo.ImdbId).FirstOrDefault();
             if (movie == null)
             {
                 movie = parseMovieInfo;
-                db.AddToMovies(movie);
-                db.SaveChanges();
+                entities.AddToMovies(movie);
+                entities.SaveChanges();
             }
             else
             {
                 movie.CopyFromMovie(parseMovieInfo);
-                db.SaveChanges();
+                entities.SaveChanges();
             }
 
 
@@ -393,21 +393,21 @@ namespace MovieBrowser.Controller
             {
                 foreach (var g in parseMovieInfo.Genres)
                 {
-                    var genre = db.Genres.Where(o => o.Name == g.Name).FirstOrDefault();
+                    var genre = entities.Genres.Where(o => o.Name == g.Name).FirstOrDefault();
                     if (genre == null)
                     {
                         genre = new Genre() { Name = g.Name, Code = g.Code, Rated = 0 };
-                        db.AddToGenres(genre);
-                        db.SaveChanges();
+                        entities.AddToGenres(genre);
+                        entities.SaveChanges();
                     }
 
-                    var movieGenre = db.MovieGenres.Where(o => o.Movie.Id == movie.Id && o.Genre.Id == genre.Id).FirstOrDefault();
+                    var movieGenre = entities.MovieGenres.Where(o => o.Movie.Id == movie.Id && o.Genre.Id == genre.Id).FirstOrDefault();
 
                     if (movieGenre == null)
                     {
                         movieGenre = new MovieGenre { Movie = movie, Genre = genre };
-                        db.AddToMovieGenres(movieGenre);
-                        db.SaveChanges();
+                        entities.AddToMovieGenres(movieGenre);
+                        entities.SaveChanges();
                     }
                 }
             }
@@ -416,21 +416,21 @@ namespace MovieBrowser.Controller
             {
                 foreach (var g in parseMovieInfo.Languages)
                 {
-                    var genre = db.Languages.Where(o => o.Name == g.Name).FirstOrDefault();
+                    var genre = entities.Languages.Where(o => o.Name == g.Name).FirstOrDefault();
                     if (genre == null)
                     {
                         genre = new Language() { Name = g.Name, Code = g.Code };
-                        db.AddToLanguages(genre);
-                        db.SaveChanges();
+                        entities.AddToLanguages(genre);
+                        entities.SaveChanges();
                     }
 
-                    var movieGenre = db.MovieLanguages.Where(o => o.Movie.Id == movie.Id && o.Language.Id == genre.Id).FirstOrDefault();
+                    var movieGenre = entities.MovieLanguages.Where(o => o.Movie.Id == movie.Id && o.Language.Id == genre.Id).FirstOrDefault();
 
                     if (movieGenre == null)
                     {
                         movieGenre = new MovieLanguage() { Movie = movie, Language = genre };
-                        db.AddToMovieLanguages(movieGenre);
-                        db.SaveChanges();
+                        entities.AddToMovieLanguages(movieGenre);
+                        entities.SaveChanges();
                     }
                 }
             }
@@ -440,21 +440,21 @@ namespace MovieBrowser.Controller
             {
                 foreach (var g in parseMovieInfo.Countries)
                 {
-                    var country = db.Countries.Where(o => o.Name == g.Name).FirstOrDefault();
+                    var country = entities.Countries.Where(o => o.Name == g.Name).FirstOrDefault();
                     if (country == null)
                     {
                         country = new Country() { Name = g.Name, Code = g.Code };
-                        db.AddToCountries(country);
-                        db.SaveChanges();
+                        entities.AddToCountries(country);
+                        entities.SaveChanges();
                     }
 
-                    var movieCountry = db.MovieCountries.Where(o => o.Movie.Id == movie.Id && o.Country.Id == country.Id).FirstOrDefault();
+                    var movieCountry = entities.MovieCountries.Where(o => o.Movie.Id == movie.Id && o.Country.Id == country.Id).FirstOrDefault();
 
                     if (movieCountry == null)
                     {
                         movieCountry = new MovieCountry() { Movie = movie, Country = country };
-                        db.AddToMovieCountries(movieCountry);
-                        db.SaveChanges();
+                        entities.AddToMovieCountries(movieCountry);
+                        entities.SaveChanges();
                     }
                 }
 
@@ -467,21 +467,21 @@ namespace MovieBrowser.Controller
             {
                 foreach (var g in parseMovieInfo.Keywords)
                 {
-                    var keyword = db.Keywords.Where(o => o.Name == g.Name).FirstOrDefault();
+                    var keyword = entities.Keywords.Where(o => o.Name == g.Name).FirstOrDefault();
                     if (keyword == null)
                     {
                         keyword = new Keyword() { Name = g.Name, Code = g.Code };
-                        db.AddToKeywords(keyword);
-                        db.SaveChanges();
+                        entities.AddToKeywords(keyword);
+                        entities.SaveChanges();
                     }
 
-                    var movieGenre = db.MovieKeywords.Where(o => o.Movie.Id == movie.Id && o.Keyword.Id == keyword.Id).FirstOrDefault();
+                    var movieGenre = entities.MovieKeywords.Where(o => o.Movie.Id == movie.Id && o.Keyword.Id == keyword.Id).FirstOrDefault();
 
                     if (movieGenre == null)
                     {
                         movieGenre = new MovieKeyword() { Movie = movie, Keyword = keyword };
-                        db.AddToMovieKeywords(movieGenre);
-                        db.SaveChanges();
+                        entities.AddToMovieKeywords(movieGenre);
+                        entities.SaveChanges();
                     }
                 }
 
@@ -559,8 +559,6 @@ namespace MovieBrowser.Controller
         public void RemoveMovie(string imdbId)
         {
 
-            var entities = new MovieDbEntities();
-
             entities.DeleteObjects(entities.MovieGenres.Where(o => o.Movie.ImdbId == imdbId));
             entities.DeleteObjects(entities.MovieCountries.Where(o => o.Movie.ImdbId == imdbId));
             entities.DeleteObjects(entities.MovieKeywords.Where(o => o.Movie.ImdbId == imdbId));
@@ -572,7 +570,7 @@ namespace MovieBrowser.Controller
 
         public void RemoveAllInfo()
         {
-            var entities = new MovieDbEntities();
+
             entities.DeleteObjects(entities.Keywords);
             entities.SaveChanges();
         }
@@ -603,25 +601,25 @@ namespace MovieBrowser.Controller
 
         public MoviePersonalNote UpdateUserRating(User loggedInUser, Movie rowMovie, double rating)
         {
-            var db = new MovieDbEntities();
-            var note = GetNote(db, loggedInUser, rowMovie);
+
+            var note = GetNote(entities, loggedInUser, rowMovie);
             note.Rating = rating;
-            db.SaveChanges();
+            entities.SaveChanges();
             return note;
         }
 
         public MoviePersonalNote ToggleWanted(User loggedInUser, Movie rowMovie)
         {
-            var db = new MovieDbEntities();
-            var note = GetNote(db, loggedInUser, rowMovie);
+
+            var note = GetNote(entities, loggedInUser, rowMovie);
             note.Wishlist = !note.Wishlist;
-            db.SaveChanges();
+            entities.SaveChanges();
             return note;
         }
         public MoviePersonalNote SetFavourite(User loggedInUser, Movie rowMovie, bool val)
         {
-            var db = new MovieDbEntities();
-            var note = GetNote(db, loggedInUser, rowMovie);
+
+            var note = GetNote(entities, loggedInUser, rowMovie);
 
             if (val)
             {
@@ -637,23 +635,21 @@ namespace MovieBrowser.Controller
                 else
                     note.Favourite = -1;
             }
-            db.SaveChanges();
+            entities.SaveChanges();
             return note;
         }
         public MoviePersonalNote ToggleSeenIt(User loggedInUser, Movie rowMovie)
         {
-            var db = new MovieDbEntities();
-            var note = GetNote(db, loggedInUser, rowMovie);
+            var note = GetNote(entities, loggedInUser, rowMovie);
             note.Seen = !note.Seen;
-            db.SaveChanges();
+            entities.SaveChanges();
             return note;
         }
         public MoviePersonalNote ToggleHaveIt(User loggedInUser, Movie rowMovie)
         {
-            var db = new MovieDbEntities();
-            var note = GetNote(db, loggedInUser, rowMovie);
+            var note = GetNote(entities, loggedInUser, rowMovie);
             note.Have = !note.Have;
-            db.SaveChanges();
+            entities.SaveChanges();
             return note;
         }
 

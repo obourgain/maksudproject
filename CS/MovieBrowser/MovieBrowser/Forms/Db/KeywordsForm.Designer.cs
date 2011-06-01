@@ -1,4 +1,4 @@
-﻿namespace MovieBrowser.Forms
+﻿namespace MovieBrowser.Forms.Db
 {
     partial class KeywordsForm
     {
