@@ -75,5 +75,10 @@ namespace MovieBrowser.Forms
         {
             InvokeLoggedIn(_args);
         }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            textUsername.Focus();
+        }
     }
 }

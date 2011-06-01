@@ -207,6 +207,13 @@ namespace MovieBrowser.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap refresh16 {
+            get {
+                object obj = ResourceManager.GetObject("refresh16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap save {
             get {
                 object obj = ResourceManager.GetObject("save", resourceCulture);
