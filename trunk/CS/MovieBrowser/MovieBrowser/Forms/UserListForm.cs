@@ -22,7 +22,6 @@ namespace MovieBrowser.Forms
 
 
             var data = _entities.UserLists.Where(o => o.User.Id == _user.Id);
-
             objectListView1.SetObjects(data);
         }
     }

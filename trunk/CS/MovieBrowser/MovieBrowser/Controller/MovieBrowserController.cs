@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.Objects;
@@ -250,13 +251,13 @@ namespace MovieBrowser.Controller
             return s2;
         }
 
-        public void SaveFolderListTree(TreeView movieFolderTree)
+        public void SaveFolderListTree(ArrayList movieFolderTree)
         {
             Properties.Settings.Default.Paths = new StringCollection();
 
-            foreach (MovieNode node in movieFolderTree.Nodes)
+            foreach (Movie node in movieFolderTree)
             {
-                Properties.Settings.Default.Paths.Add(((Movie)node.Tag).FilePath);
+                Properties.Settings.Default.Paths.Add(node.FilePath);
             }
             Properties.Settings.Default.Save();
         }
@@ -339,17 +340,20 @@ namespace MovieBrowser.Controller
             }
         }
 
-        public void SendTo(TreeView treeView1, ToolStripComboBox tsPendrives)
+        public void SendTo(List<Movie> movies, ToolStripComboBox tsPendrives)
         {
             try
             {
-                var movie = (Movie)treeView1.SelectedNode.Tag;
-                var stt = new SendToThread()
+                foreach (var movie in movies)
                 {
-                    Source = movie.FilePath,
-                    Destination = Path.Combine(tsPendrives.SelectedItem.ToString(), movie.FolderName)
-                };
-                stt.SendTo();
+                    var stt = new SendToThread()
+                    {
+                        Source = movie.FilePath,
+                        Destination = Path.Combine(tsPendrives.SelectedItem.ToString(), movie.FolderName)
+                    };
+                    stt.SendTo();
+                }
+
             }
             catch (Exception exception)
             {
@@ -652,5 +656,6 @@ namespace MovieBrowser.Controller
             db.SaveChanges();
             return note;
         }
+
     }
 }
