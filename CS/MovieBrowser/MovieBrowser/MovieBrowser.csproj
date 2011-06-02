@@ -101,6 +101,7 @@
     <Compile Include="Forms\Db\UsersForm.Designer.cs">
       <DependentUpon>UsersForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Keyword.cs" />
     <Compile Include="Parser\ImdbParser.cs" />
     <Compile Include="Controller\MovieBrowserController.cs" />
     <Compile Include="Controller\MovieEventArgs.cs" />
@@ -150,6 +151,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Util\ComponentUtility.cs" />
     <EmbeddedResource Include="Forms\Db\MovieListForm.resx">
       <DependentUpon>MovieListForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -165,6 +167,9 @@
     <EmbeddedResource Include="Forms\MovieBrowserSimple.resx">
       <DependentUpon>MovieBrowserSimple.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SearchForm.resx">
+      <DependentUpon>SearchForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UpdateMovieInformation.resx">
       <DependentUpon>UpdateMovieInformation.cs</DependentUpon>

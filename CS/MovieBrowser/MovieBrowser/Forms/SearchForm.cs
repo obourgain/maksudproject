@@ -15,5 +15,17 @@ namespace MovieBrowser.Forms
         {
             InitializeComponent();
         }
+
+        private void textRatingFrom_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                double d = double.Parse(textRatingTo.Text);
+            }
+            catch (Exception)
+            {
+                textRatingFrom.Text = "";
+            }
+        }
     }
 }

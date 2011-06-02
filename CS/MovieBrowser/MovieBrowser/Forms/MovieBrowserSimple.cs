@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -13,6 +14,7 @@ using MovieBrowser.Forms.Db;
 using MovieBrowser.Forms.Dialogs;
 using MovieBrowser.Model;
 using System.Linq;
+using MovieBrowser.Util;
 using FolderBrowserDialog = VistaUIApi.Dialog.FolderBrowserDialog;
 
 
@@ -24,6 +26,17 @@ namespace MovieBrowser.Forms
         private User _loggedInUser = null;
         private Movie _movie = null;
         readonly MovieBrowserController _controller = new MovieBrowserController();
+        private readonly Color[] _hardnessBackground = new[]
+                                                           {
+                                                               Color.White, Color.LightGreen, Color.Aquamarine,
+                                                               Color.Yellow, Color.Pink, Color.Red
+                                                           };
+
+        private readonly Color[] _hardnessForeground = new[]
+                                                           {
+                                                               Color.Black, Color.Navy, Color.Black, Color.Black,
+                                                               Color.Black, Color.White
+                                                           };
 
         public MovieBrowserSimple()
         {
@@ -136,6 +149,7 @@ namespace MovieBrowser.Forms
 
             var paths = (from object a in Properties.Settings.Default.Paths select (string)a).ToList();
             LoadTree(paths);
+
         }
 
         private void ReloadTreeRoot()
@@ -363,12 +377,8 @@ namespace MovieBrowser.Forms
         void LoadImdbInfo(Movie rowMovie)
         {
             _movie = rowMovie;
-
-            var db = new MovieDbEntities();
-
             lblImdbId.Text = rowMovie.ImdbId;
-
-            var movie = db.Movies.Where(a => a.ImdbId == rowMovie.ImdbId).FirstOrDefault();
+            var movie = _controller.Db.Movies.Where(a => a.ImdbId == rowMovie.ImdbId).FirstOrDefault();
             if (movie == null)
             {
 
@@ -406,7 +416,7 @@ namespace MovieBrowser.Forms
                 textHighlight.Text = movie.Highlight;
 
 
-                var listC = db.MovieCountries.Where(a => a.Movie.Id == movie.Id).Select(o => o.Country).ToList();
+                var listC = _controller.Db.MovieCountries.Where(a => a.Movie.Id == movie.Id).Select(o => o.Country).ToList();
                 listCountries.Items.Clear();
                 foreach (var country in listC)
                 {
@@ -415,16 +425,10 @@ namespace MovieBrowser.Forms
                     listCountries.Items.Add(item);
                 }
 
-                var listK = db.MovieKeywords.Where(a => a.Movie.Id == movie.Id).Select(o => o.Keyword).ToList();
-                listKeywords.Items.Clear();
-                foreach (var country in listK)
-                {
-                    var item = new ListViewItem(country.Name);
-                    item.SubItems.Add(country.Code);
-                    listKeywords.Items.Add(item);
-                }
+                var listK = _controller.Db.MovieKeywords.Where(a => a.Movie.Id == movie.Id).Select(o => o.Keyword).ToList();
+                listKeywords.DataSource = listK;
 
-                var listG = db.MovieGenres.Where(a => a.Movie.Id == movie.Id).Select(o => o.Genre).ToList();
+                var listG = _controller.Db.MovieGenres.Where(a => a.Movie.Id == movie.Id).Select(o => o.Genre).ToList();
                 listGenres.Items.Clear();
                 foreach (var country in listG)
                 {
@@ -437,8 +441,7 @@ namespace MovieBrowser.Forms
 
             if (IsAuthorized)
             {
-                var personalNote =
-                    db.MoviePersonalNotes.Where(o => o.User.Id == _loggedInUser.Id && o.Movie.ImdbId == rowMovie.ImdbId).FirstOrDefault();
+                var personalNote = _controller.Db.MoviePersonalNotes.Where(o => o.User.Id == _loggedInUser.Id && o.Movie.ImdbId == rowMovie.ImdbId).FirstOrDefault();
 
                 LoadPersonalNote(personalNote);
             }
@@ -563,41 +566,26 @@ namespace MovieBrowser.Forms
 
         private void searchTextBox1_SearchStarted(object sender, EventArgs e)
         {
-            TimedFilter(this.treeView1, searchTextBox1.Text);
+            ComponentUtility.TimedFilter(this.treeView1, searchTextBox1.Text);
         }
 
         private void searchTextBox1_SearchCancelled(object sender, EventArgs e)
         {
-            TimedFilter(this.treeView1, "");
+            ComponentUtility.TimedFilter(this.treeView1, "");
         }
 
         private void searchTextBox2_SearchStarted(object sender, EventArgs e)
         {
-            TimedFilter(this.dataListView1, searchTextBox2.Text);
+            ComponentUtility.TimedFilter(this.dataListView1, searchTextBox2.Text);
         }
 
         private void searchTextBox2_SearchCancelled(object sender, EventArgs e)
         {
-            TimedFilter(this.dataListView1, "");
+            ComponentUtility.TimedFilter(this.dataListView1, "");
         }
 
 
-        private static void TimedFilter(ObjectListView olv, string txt, TextMatchFilter.MatchKind matchKind = TextMatchFilter.MatchKind.Text)
-        {
-            TextMatchFilter filter = null;
-            if (!String.IsNullOrEmpty(txt))
-                filter = new TextMatchFilter(olv, txt, matchKind);
 
-            // Setup a default renderer to draw the filter matches
-            olv.DefaultRenderer = filter == null ? null : new HighlightTextRenderer(filter);
-
-            // Some lists have renderers already installed
-            var highlightingRenderer = olv.GetColumn(0).Renderer as HighlightTextRenderer;
-            if (highlightingRenderer != null)
-                highlightingRenderer.Filter = filter;
-
-            olv.ModelFilter = filter;
-        }
 
         private void treeListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -859,7 +847,7 @@ namespace MovieBrowser.Forms
 
         private void tbUserManagement_Click(object sender, EventArgs e)
         {
-            Form form = new UsersForm();
+            Form form = new UsersForm(_controller.Db);
             form.ShowDialog(this);
 
         }
@@ -867,7 +855,39 @@ namespace MovieBrowser.Forms
         private void buttonModifyList_Click(object sender, EventArgs e)
         {
             if (IsAuthorized)
+            {
                 new MovieListForm(_loggedInUser, _controller.Db).ShowDialog(this);
+
+                comboUserList.Items.Clear();
+
+                foreach (UserList movieUserList in _controller.Db.UserLists.Where(o => o.User.Id == _loggedInUser.Id))
+                {
+                    comboUserList.Items.Add(movieUserList.ListName);
+                }
+            }
+        }
+
+        private void tbKeywordManagement_Click(object sender, EventArgs e)
+        {
+            new KeywordsForm(_controller.Db).ShowDialog(this);
+        }
+
+        private void listKeywords_FormatRow(object sender, FormatRowEventArgs e)
+        {
+            var w = (Keyword)e.Model;
+            e.Item.ForeColor = _hardnessForeground[w.Rated];
+            e.Item.BackColor = _hardnessBackground[w.Rated];
+            e.Item.Font = w.Rated > 0 ? new Font(listKeywords.Font, FontStyle.Bold) : new Font(listKeywords.Font, FontStyle.Regular);
+        }
+
+        private void buttonAddToList_Click(object sender, EventArgs e)
+        {
+            if(comboUserList.SelectedIndex>=0)
+            {
+
+                MovieUserList a = new MovieUserList();
+                
+            }
         }
     }
 
