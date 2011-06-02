@@ -52,23 +52,11 @@ namespace MovieBrowser.Forms
             this.panel2 = new System.Windows.Forms.Panel();
             this.searchTextBox1 = new WindowsFormsAero.SearchTextBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.tbBrowseFolders = new System.Windows.Forms.ToolStripButton();
-            this.tbRemoveFolders = new System.Windows.Forms.ToolStripButton();
-            this.tbRefreshFolders = new System.Windows.Forms.ToolStripButton();
-            this.tbSaveFolders = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.pbUpdateTree = new System.Windows.Forms.ToolStripButton();
-            this.pbAddTreeItemToDb = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.tbSearchImdb = new System.Windows.Forms.ToolStripButton();
-            this.tbSearchGoogle = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.tbOpenExplorer = new System.Windows.Forms.ToolStripButton();
-            this.tbIgnoreList = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.comboPendrives = new System.Windows.Forms.ToolStripComboBox();
-            this.tbLoadPendrives = new System.Windows.Forms.ToolStripButton();
-            this.tbSendTo = new System.Windows.Forms.ToolStripButton();
             this.tpMovies2 = new System.Windows.Forms.TabPage();
             this.dataListView1 = new BrightIdeasSoftware.DataListView();
             this.olvTitle = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -78,18 +66,9 @@ namespace MovieBrowser.Forms
             this.panel1 = new System.Windows.Forms.Panel();
             this.searchTextBox2 = new WindowsFormsAero.SearchTextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.tbAddToDb = new System.Windows.Forms.ToolStripButton();
-            this.tbRefreshDb = new System.Windows.Forms.ToolStripButton();
-            this.tbDeleteFromDb = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tbWantToWatch = new System.Windows.Forms.ToolStripButton();
-            this.tbLikeIt = new System.Windows.Forms.ToolStripButton();
-            this.tbDislikeIt = new System.Windows.Forms.ToolStripButton();
-            this.tbSeenIt = new System.Windows.Forms.ToolStripButton();
-            this.tbHaveIt = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.txtUserRating = new System.Windows.Forms.ToolStripTextBox();
-            this.tbRateIt = new System.Windows.Forms.ToolStripButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
             this.tabInformation = new System.Windows.Forms.TabControl();
@@ -121,23 +100,14 @@ namespace MovieBrowser.Forms
             this.label8 = new System.Windows.Forms.Label();
             this.lblRuntime = new System.Windows.Forms.TextBox();
             this.horizontalPanel2 = new WindowsFormsAero.HorizontalPanel();
-            this.buttonModifyList = new System.Windows.Forms.Button();
-            this.buttonAddToList = new System.Windows.Forms.Button();
             this.comboUserList = new WindowsFormsAero.ComboBox();
-            this.pbHaveIt = new System.Windows.Forms.PictureBox();
-            this.pbSeenIt = new System.Windows.Forms.PictureBox();
-            this.pbDislike = new System.Windows.Forms.PictureBox();
             this.lblImdbId = new System.Windows.Forms.Label();
-            this.pbLike = new System.Windows.Forms.PictureBox();
-            this.pbWanted = new System.Windows.Forms.PictureBox();
             this.rsUserRating = new RatingControl.RatingStar();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.lblMPAA = new System.Windows.Forms.TextBox();
             this.textMpaaReason = new System.Windows.Forms.TextBox();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.tbUserManagement = new System.Windows.Forms.ToolStripButton();
-            this.tbKeywordManagement = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -149,6 +119,38 @@ namespace MovieBrowser.Forms
             this.extraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.toolStrip4 = new System.Windows.Forms.ToolStrip();
+            this.tbBrowseFolders = new System.Windows.Forms.ToolStripButton();
+            this.tbRemoveFolders = new System.Windows.Forms.ToolStripButton();
+            this.tbRefreshFolders = new System.Windows.Forms.ToolStripButton();
+            this.tbSaveFolders = new System.Windows.Forms.ToolStripButton();
+            this.pbUpdateTree = new System.Windows.Forms.ToolStripButton();
+            this.pbAddTreeItemToDb = new System.Windows.Forms.ToolStripButton();
+            this.tbSearchImdb = new System.Windows.Forms.ToolStripButton();
+            this.tbSearchGoogle = new System.Windows.Forms.ToolStripButton();
+            this.tbOpenExplorer = new System.Windows.Forms.ToolStripButton();
+            this.tbIgnoreList = new System.Windows.Forms.ToolStripButton();
+            this.tbLoadPendrives = new System.Windows.Forms.ToolStripButton();
+            this.tbSendTo = new System.Windows.Forms.ToolStripButton();
+            this.tbAddToDb = new System.Windows.Forms.ToolStripButton();
+            this.tbRefreshDb = new System.Windows.Forms.ToolStripButton();
+            this.tbDeleteFromDb = new System.Windows.Forms.ToolStripButton();
+            this.tbWantToWatch = new System.Windows.Forms.ToolStripButton();
+            this.tbLikeIt = new System.Windows.Forms.ToolStripButton();
+            this.tbDislikeIt = new System.Windows.Forms.ToolStripButton();
+            this.tbSeenIt = new System.Windows.Forms.ToolStripButton();
+            this.tbHaveIt = new System.Windows.Forms.ToolStripButton();
+            this.tbRateIt = new System.Windows.Forms.ToolStripButton();
+            this.tbIntelligent = new System.Windows.Forms.ToolStripButton();
+            this.buttonModifyList = new System.Windows.Forms.Button();
+            this.buttonAddToList = new System.Windows.Forms.Button();
+            this.pbHaveIt = new System.Windows.Forms.PictureBox();
+            this.pbSeenIt = new System.Windows.Forms.PictureBox();
+            this.pbDislike = new System.Windows.Forms.PictureBox();
+            this.pbLike = new System.Windows.Forms.PictureBox();
+            this.pbWanted = new System.Windows.Forms.PictureBox();
+            this.tbUserManagement = new System.Windows.Forms.ToolStripButton();
+            this.tbKeywordManagement = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -175,12 +177,13 @@ namespace MovieBrowser.Forms
             ((System.ComponentModel.ISupportInitialize)(this.listKeywords)).BeginInit();
             this.horizontalPanel1.SuspendLayout();
             this.horizontalPanel2.SuspendLayout();
+            this.toolStrip3.SuspendLayout();
+            this.toolStrip4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHaveIt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSeenIt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbDislike)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLike)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWanted)).BeginInit();
-            this.toolStrip3.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -403,120 +406,20 @@ namespace MovieBrowser.Forms
             this.toolStrip2.TabIndex = 6;
             this.toolStrip2.Text = "toolStrip2";
             // 
-            // tbBrowseFolders
-            // 
-            this.tbBrowseFolders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbBrowseFolders.Image = global::MovieBrowser.Properties.Resources.folder_add;
-            this.tbBrowseFolders.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbBrowseFolders.Name = "tbBrowseFolders";
-            this.tbBrowseFolders.Size = new System.Drawing.Size(23, 22);
-            this.tbBrowseFolders.Text = "Browse";
-            this.tbBrowseFolders.Click += new System.EventHandler(this.tbBrowseFolders_Click);
-            // 
-            // tbRemoveFolders
-            // 
-            this.tbRemoveFolders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbRemoveFolders.Image = global::MovieBrowser.Properties.Resources.delete;
-            this.tbRemoveFolders.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbRemoveFolders.Name = "tbRemoveFolders";
-            this.tbRemoveFolders.Size = new System.Drawing.Size(23, 22);
-            this.tbRemoveFolders.Text = "Remove Selected Folder";
-            this.tbRemoveFolders.Click += new System.EventHandler(this.tbRemoveFolders_Click);
-            // 
-            // tbRefreshFolders
-            // 
-            this.tbRefreshFolders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbRefreshFolders.Image = global::MovieBrowser.Properties.Resources.refresh;
-            this.tbRefreshFolders.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbRefreshFolders.Name = "tbRefreshFolders";
-            this.tbRefreshFolders.Size = new System.Drawing.Size(23, 22);
-            this.tbRefreshFolders.Text = "Refresh Folders";
-            this.tbRefreshFolders.Click += new System.EventHandler(this.tbRefreshFolders_Click);
-            // 
-            // tbSaveFolders
-            // 
-            this.tbSaveFolders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbSaveFolders.Image = global::MovieBrowser.Properties.Resources.save;
-            this.tbSaveFolders.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbSaveFolders.Name = "tbSaveFolders";
-            this.tbSaveFolders.Size = new System.Drawing.Size(23, 22);
-            this.tbSaveFolders.Text = "Save";
-            this.tbSaveFolders.Click += new System.EventHandler(this.tbSaveFolders_Click);
-            // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
-            // 
-            // pbUpdateTree
-            // 
-            this.pbUpdateTree.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.pbUpdateTree.Image = global::MovieBrowser.Properties.Resources.pb_update;
-            this.pbUpdateTree.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.pbUpdateTree.Name = "pbUpdateTree";
-            this.pbUpdateTree.Size = new System.Drawing.Size(23, 22);
-            this.pbUpdateTree.Text = "Update";
-            this.pbUpdateTree.Click += new System.EventHandler(this.pbUpdateTree_Click);
-            // 
-            // pbAddTreeItemToDb
-            // 
-            this.pbAddTreeItemToDb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.pbAddTreeItemToDb.Image = global::MovieBrowser.Properties.Resources.pb_movie;
-            this.pbAddTreeItemToDb.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.pbAddTreeItemToDb.Name = "pbAddTreeItemToDb";
-            this.pbAddTreeItemToDb.Size = new System.Drawing.Size(23, 22);
-            this.pbAddTreeItemToDb.Text = "toolStripButton3";
-            this.pbAddTreeItemToDb.Click += new System.EventHandler(this.pbAddTreeItemToDb_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
-            // tbSearchImdb
-            // 
-            this.tbSearchImdb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbSearchImdb.Image = global::MovieBrowser.Properties.Resources.imdb;
-            this.tbSearchImdb.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbSearchImdb.Name = "tbSearchImdb";
-            this.tbSearchImdb.Size = new System.Drawing.Size(23, 22);
-            this.tbSearchImdb.Text = "Imdb Search";
-            this.tbSearchImdb.Click += new System.EventHandler(this.tbSearchImdb_Click);
-            // 
-            // tbSearchGoogle
-            // 
-            this.tbSearchGoogle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbSearchGoogle.Image = global::MovieBrowser.Properties.Resources.google;
-            this.tbSearchGoogle.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbSearchGoogle.Name = "tbSearchGoogle";
-            this.tbSearchGoogle.Size = new System.Drawing.Size(23, 22);
-            this.tbSearchGoogle.Text = "Search Google";
-            this.tbSearchGoogle.Click += new System.EventHandler(this.tbSearchGoogle_Click);
-            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tbOpenExplorer
-            // 
-            this.tbOpenExplorer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbOpenExplorer.Image = global::MovieBrowser.Properties.Resources.explorer;
-            this.tbOpenExplorer.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbOpenExplorer.Name = "tbOpenExplorer";
-            this.tbOpenExplorer.Size = new System.Drawing.Size(23, 22);
-            this.tbOpenExplorer.Text = "Open in Explorer";
-            this.tbOpenExplorer.Click += new System.EventHandler(this.tbOpenExplorer_Click);
-            // 
-            // tbIgnoreList
-            // 
-            this.tbIgnoreList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbIgnoreList.Image = global::MovieBrowser.Properties.Resources.ignore_list;
-            this.tbIgnoreList.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbIgnoreList.Name = "tbIgnoreList";
-            this.tbIgnoreList.Size = new System.Drawing.Size(23, 22);
-            this.tbIgnoreList.Text = "Ignore List";
-            this.tbIgnoreList.Click += new System.EventHandler(this.tbIgnoreList_Click);
             // 
             // toolStripSeparator7
             // 
@@ -528,26 +431,6 @@ namespace MovieBrowser.Forms
             this.comboPendrives.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboPendrives.Name = "comboPendrives";
             this.comboPendrives.Size = new System.Drawing.Size(75, 25);
-            // 
-            // tbLoadPendrives
-            // 
-            this.tbLoadPendrives.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbLoadPendrives.Image = global::MovieBrowser.Properties.Resources.pen_drives;
-            this.tbLoadPendrives.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbLoadPendrives.Name = "tbLoadPendrives";
-            this.tbLoadPendrives.Size = new System.Drawing.Size(23, 22);
-            this.tbLoadPendrives.Text = "Load Pen Drives";
-            this.tbLoadPendrives.Click += new System.EventHandler(this.tbLoadPendrives_Click);
-            // 
-            // tbSendTo
-            // 
-            this.tbSendTo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbSendTo.Image = global::MovieBrowser.Properties.Resources.send_to;
-            this.tbSendTo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbSendTo.Name = "tbSendTo";
-            this.tbSendTo.Size = new System.Drawing.Size(23, 22);
-            this.tbSendTo.Text = "Send To Pendrive";
-            this.tbSendTo.Click += new System.EventHandler(this.tbSendTo_Click);
             // 
             // tpMovies2
             // 
@@ -665,91 +548,10 @@ namespace MovieBrowser.Forms
             this.toolStrip1.Size = new System.Drawing.Size(495, 25);
             this.toolStrip1.TabIndex = 5;
             // 
-            // tbAddToDb
-            // 
-            this.tbAddToDb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbAddToDb.Image = global::MovieBrowser.Properties.Resources.update;
-            this.tbAddToDb.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbAddToDb.Name = "tbAddToDb";
-            this.tbAddToDb.Size = new System.Drawing.Size(23, 22);
-            this.tbAddToDb.Text = "Collect";
-            this.tbAddToDb.Click += new System.EventHandler(this.tbAddToDb_Click);
-            // 
-            // tbRefreshDb
-            // 
-            this.tbRefreshDb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbRefreshDb.Image = global::MovieBrowser.Properties.Resources.refresh16;
-            this.tbRefreshDb.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbRefreshDb.Name = "tbRefreshDb";
-            this.tbRefreshDb.Size = new System.Drawing.Size(23, 22);
-            this.tbRefreshDb.Text = "Refresh";
-            this.tbRefreshDb.Click += new System.EventHandler(this.tbRefreshDb_Click);
-            // 
-            // tbDeleteFromDb
-            // 
-            this.tbDeleteFromDb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbDeleteFromDb.Image = global::MovieBrowser.Properties.Resources.delete;
-            this.tbDeleteFromDb.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbDeleteFromDb.Name = "tbDeleteFromDb";
-            this.tbDeleteFromDb.Size = new System.Drawing.Size(23, 22);
-            this.tbDeleteFromDb.Text = "Delete";
-            this.tbDeleteFromDb.Click += new System.EventHandler(this.tbDeleteFromDb_Click);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tbWantToWatch
-            // 
-            this.tbWantToWatch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbWantToWatch.Image = global::MovieBrowser.Properties.Resources.check_list;
-            this.tbWantToWatch.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbWantToWatch.Name = "tbWantToWatch";
-            this.tbWantToWatch.Size = new System.Drawing.Size(23, 22);
-            this.tbWantToWatch.Text = "Watch";
-            this.tbWantToWatch.Click += new System.EventHandler(this.tbWantToWatch_Click);
-            // 
-            // tbLikeIt
-            // 
-            this.tbLikeIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbLikeIt.Image = global::MovieBrowser.Properties.Resources.like_it;
-            this.tbLikeIt.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbLikeIt.Name = "tbLikeIt";
-            this.tbLikeIt.Size = new System.Drawing.Size(23, 22);
-            this.tbLikeIt.Text = "Like It";
-            this.tbLikeIt.Click += new System.EventHandler(this.tbLikeIt_Click);
-            // 
-            // tbDislikeIt
-            // 
-            this.tbDislikeIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbDislikeIt.Image = global::MovieBrowser.Properties.Resources.hate_it;
-            this.tbDislikeIt.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbDislikeIt.Name = "tbDislikeIt";
-            this.tbDislikeIt.Size = new System.Drawing.Size(23, 22);
-            this.tbDislikeIt.Text = "Dislike It";
-            this.tbDislikeIt.ToolTipText = "Dislike It";
-            this.tbDislikeIt.Click += new System.EventHandler(this.tbDislikeIt_Click);
-            // 
-            // tbSeenIt
-            // 
-            this.tbSeenIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbSeenIt.Image = global::MovieBrowser.Properties.Resources.seen_it;
-            this.tbSeenIt.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbSeenIt.Name = "tbSeenIt";
-            this.tbSeenIt.Size = new System.Drawing.Size(23, 22);
-            this.tbSeenIt.Text = "Seen It";
-            this.tbSeenIt.Click += new System.EventHandler(this.tbSeenIt_Click);
-            // 
-            // tbHaveIt
-            // 
-            this.tbHaveIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbHaveIt.Image = global::MovieBrowser.Properties.Resources.have_it;
-            this.tbHaveIt.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbHaveIt.Name = "tbHaveIt";
-            this.tbHaveIt.Size = new System.Drawing.Size(23, 22);
-            this.tbHaveIt.Text = "Have It";
-            this.tbHaveIt.Click += new System.EventHandler(this.tbHaveIt_Click);
             // 
             // toolStripSeparator2
             // 
@@ -760,15 +562,6 @@ namespace MovieBrowser.Forms
             // 
             this.txtUserRating.Name = "txtUserRating";
             this.txtUserRating.Size = new System.Drawing.Size(48, 25);
-            // 
-            // tbRateIt
-            // 
-            this.tbRateIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbRateIt.Image = global::MovieBrowser.Properties.Resources.movie_db;
-            this.tbRateIt.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbRateIt.Name = "tbRateIt";
-            this.tbRateIt.Size = new System.Drawing.Size(23, 22);
-            this.tbRateIt.Text = "Rate It";
             // 
             // tabPage3
             // 
@@ -811,6 +604,7 @@ namespace MovieBrowser.Forms
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.webBrowser1);
+            this.tabPage2.Controls.Add(this.toolStrip4);
             this.tabPage2.Location = new System.Drawing.Point(4, 26);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -822,11 +616,11 @@ namespace MovieBrowser.Forms
             // webBrowser1
             // 
             this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(3, 3);
+            this.webBrowser1.Location = new System.Drawing.Point(3, 28);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.ScriptErrorsSuppressed = true;
-            this.webBrowser1.Size = new System.Drawing.Size(720, 261);
+            this.webBrowser1.Size = new System.Drawing.Size(720, 236);
             this.webBrowser1.TabIndex = 0;
             this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WebBrowser1DocumentCompleted);
             this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WebBrowser1Navigated);
@@ -1124,26 +918,6 @@ namespace MovieBrowser.Forms
             this.horizontalPanel2.Size = new System.Drawing.Size(347, 100);
             this.horizontalPanel2.TabIndex = 28;
             // 
-            // buttonModifyList
-            // 
-            this.buttonModifyList.Image = global::MovieBrowser.Properties.Resources.modify;
-            this.buttonModifyList.Location = new System.Drawing.Point(299, 68);
-            this.buttonModifyList.Name = "buttonModifyList";
-            this.buttonModifyList.Size = new System.Drawing.Size(24, 24);
-            this.buttonModifyList.TabIndex = 35;
-            this.buttonModifyList.UseVisualStyleBackColor = true;
-            this.buttonModifyList.Click += new System.EventHandler(this.buttonModifyList_Click);
-            // 
-            // buttonAddToList
-            // 
-            this.buttonAddToList.Image = global::MovieBrowser.Properties.Resources.add;
-            this.buttonAddToList.Location = new System.Drawing.Point(269, 68);
-            this.buttonAddToList.Name = "buttonAddToList";
-            this.buttonAddToList.Size = new System.Drawing.Size(24, 24);
-            this.buttonAddToList.TabIndex = 34;
-            this.buttonAddToList.UseVisualStyleBackColor = true;
-            this.buttonAddToList.Click += new System.EventHandler(this.buttonAddToList_Click);
-            // 
             // comboUserList
             // 
             this.comboUserList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -1153,42 +927,6 @@ namespace MovieBrowser.Forms
             this.comboUserList.Name = "comboUserList";
             this.comboUserList.Size = new System.Drawing.Size(184, 23);
             this.comboUserList.TabIndex = 33;
-            // 
-            // pbHaveIt
-            // 
-            this.pbHaveIt.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbHaveIt.Image = global::MovieBrowser.Properties.Resources.have_it_dis;
-            this.pbHaveIt.Location = new System.Drawing.Point(231, 30);
-            this.pbHaveIt.Name = "pbHaveIt";
-            this.pbHaveIt.Size = new System.Drawing.Size(32, 32);
-            this.pbHaveIt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbHaveIt.TabIndex = 32;
-            this.pbHaveIt.TabStop = false;
-            this.pbHaveIt.Click += new System.EventHandler(this.pbHaveIt_Click);
-            // 
-            // pbSeenIt
-            // 
-            this.pbSeenIt.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbSeenIt.Image = global::MovieBrowser.Properties.Resources.seen_it_dis;
-            this.pbSeenIt.Location = new System.Drawing.Point(193, 30);
-            this.pbSeenIt.Name = "pbSeenIt";
-            this.pbSeenIt.Size = new System.Drawing.Size(32, 32);
-            this.pbSeenIt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbSeenIt.TabIndex = 31;
-            this.pbSeenIt.TabStop = false;
-            this.pbSeenIt.Click += new System.EventHandler(this.pbSeenIt_Click);
-            // 
-            // pbDislike
-            // 
-            this.pbDislike.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbDislike.Image = global::MovieBrowser.Properties.Resources.hate_it_dis;
-            this.pbDislike.Location = new System.Drawing.Point(155, 30);
-            this.pbDislike.Name = "pbDislike";
-            this.pbDislike.Size = new System.Drawing.Size(32, 32);
-            this.pbDislike.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbDislike.TabIndex = 30;
-            this.pbDislike.TabStop = false;
-            this.pbDislike.Click += new System.EventHandler(this.pbDislike_Click);
             // 
             // lblImdbId
             // 
@@ -1200,30 +938,6 @@ namespace MovieBrowser.Forms
             this.lblImdbId.TabIndex = 13;
             this.lblImdbId.Text = "tt";
             this.lblImdbId.Visible = false;
-            // 
-            // pbLike
-            // 
-            this.pbLike.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbLike.Image = global::MovieBrowser.Properties.Resources.like_it_dis;
-            this.pbLike.Location = new System.Drawing.Point(117, 30);
-            this.pbLike.Name = "pbLike";
-            this.pbLike.Size = new System.Drawing.Size(32, 32);
-            this.pbLike.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbLike.TabIndex = 29;
-            this.pbLike.TabStop = false;
-            this.pbLike.Click += new System.EventHandler(this.pbLike_Click);
-            // 
-            // pbWanted
-            // 
-            this.pbWanted.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbWanted.Image = global::MovieBrowser.Properties.Resources.check_list_dis;
-            this.pbWanted.Location = new System.Drawing.Point(79, 30);
-            this.pbWanted.Name = "pbWanted";
-            this.pbWanted.Size = new System.Drawing.Size(32, 32);
-            this.pbWanted.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbWanted.TabIndex = 28;
-            this.pbWanted.TabStop = false;
-            this.pbWanted.Click += new System.EventHandler(this.pbWanted_Click);
             // 
             // rsUserRating
             // 
@@ -1284,26 +998,6 @@ namespace MovieBrowser.Forms
             this.toolStrip3.Name = "toolStrip3";
             this.toolStrip3.Size = new System.Drawing.Size(113, 25);
             this.toolStrip3.TabIndex = 0;
-            // 
-            // tbUserManagement
-            // 
-            this.tbUserManagement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tbUserManagement.Image = ((System.Drawing.Image)(resources.GetObject("tbUserManagement.Image")));
-            this.tbUserManagement.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbUserManagement.Name = "tbUserManagement";
-            this.tbUserManagement.Size = new System.Drawing.Size(39, 22);
-            this.tbUserManagement.Text = "Users";
-            this.tbUserManagement.Click += new System.EventHandler(this.tbUserManagement_Click);
-            // 
-            // tbKeywordManagement
-            // 
-            this.tbKeywordManagement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tbKeywordManagement.Image = ((System.Drawing.Image)(resources.GetObject("tbKeywordManagement.Image")));
-            this.tbKeywordManagement.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbKeywordManagement.Name = "tbKeywordManagement";
-            this.tbKeywordManagement.Size = new System.Drawing.Size(62, 22);
-            this.tbKeywordManagement.Text = "Keywords";
-            this.tbKeywordManagement.Click += new System.EventHandler(this.tbKeywordManagement_Click);
             // 
             // toolStripButton2
             // 
@@ -1394,6 +1088,337 @@ namespace MovieBrowser.Forms
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             // 
+            // toolStrip4
+            // 
+            this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbIntelligent});
+            this.toolStrip4.Location = new System.Drawing.Point(3, 3);
+            this.toolStrip4.Name = "toolStrip4";
+            this.toolStrip4.Size = new System.Drawing.Size(720, 25);
+            this.toolStrip4.TabIndex = 1;
+            this.toolStrip4.Text = "toolStrip4";
+            // 
+            // tbBrowseFolders
+            // 
+            this.tbBrowseFolders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbBrowseFolders.Image = global::MovieBrowser.Properties.Resources.folder_add;
+            this.tbBrowseFolders.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbBrowseFolders.Name = "tbBrowseFolders";
+            this.tbBrowseFolders.Size = new System.Drawing.Size(23, 22);
+            this.tbBrowseFolders.Text = "Browse";
+            this.tbBrowseFolders.Click += new System.EventHandler(this.tbBrowseFolders_Click);
+            // 
+            // tbRemoveFolders
+            // 
+            this.tbRemoveFolders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbRemoveFolders.Image = global::MovieBrowser.Properties.Resources.delete;
+            this.tbRemoveFolders.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbRemoveFolders.Name = "tbRemoveFolders";
+            this.tbRemoveFolders.Size = new System.Drawing.Size(23, 22);
+            this.tbRemoveFolders.Text = "Remove Selected Folder";
+            this.tbRemoveFolders.Click += new System.EventHandler(this.tbRemoveFolders_Click);
+            // 
+            // tbRefreshFolders
+            // 
+            this.tbRefreshFolders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbRefreshFolders.Image = global::MovieBrowser.Properties.Resources.refresh;
+            this.tbRefreshFolders.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbRefreshFolders.Name = "tbRefreshFolders";
+            this.tbRefreshFolders.Size = new System.Drawing.Size(23, 22);
+            this.tbRefreshFolders.Text = "Refresh Folders";
+            this.tbRefreshFolders.Click += new System.EventHandler(this.tbRefreshFolders_Click);
+            // 
+            // tbSaveFolders
+            // 
+            this.tbSaveFolders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbSaveFolders.Image = global::MovieBrowser.Properties.Resources.save;
+            this.tbSaveFolders.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbSaveFolders.Name = "tbSaveFolders";
+            this.tbSaveFolders.Size = new System.Drawing.Size(23, 22);
+            this.tbSaveFolders.Text = "Save";
+            this.tbSaveFolders.Click += new System.EventHandler(this.tbSaveFolders_Click);
+            // 
+            // pbUpdateTree
+            // 
+            this.pbUpdateTree.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.pbUpdateTree.Image = global::MovieBrowser.Properties.Resources.pb_update;
+            this.pbUpdateTree.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pbUpdateTree.Name = "pbUpdateTree";
+            this.pbUpdateTree.Size = new System.Drawing.Size(23, 22);
+            this.pbUpdateTree.Text = "Update";
+            this.pbUpdateTree.Click += new System.EventHandler(this.pbUpdateTree_Click);
+            // 
+            // pbAddTreeItemToDb
+            // 
+            this.pbAddTreeItemToDb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.pbAddTreeItemToDb.Image = global::MovieBrowser.Properties.Resources.pb_movie;
+            this.pbAddTreeItemToDb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pbAddTreeItemToDb.Name = "pbAddTreeItemToDb";
+            this.pbAddTreeItemToDb.Size = new System.Drawing.Size(23, 22);
+            this.pbAddTreeItemToDb.Text = "toolStripButton3";
+            this.pbAddTreeItemToDb.Click += new System.EventHandler(this.pbAddTreeItemToDb_Click);
+            // 
+            // tbSearchImdb
+            // 
+            this.tbSearchImdb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbSearchImdb.Image = global::MovieBrowser.Properties.Resources.imdb;
+            this.tbSearchImdb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbSearchImdb.Name = "tbSearchImdb";
+            this.tbSearchImdb.Size = new System.Drawing.Size(23, 22);
+            this.tbSearchImdb.Text = "Imdb Search";
+            this.tbSearchImdb.Click += new System.EventHandler(this.tbSearchImdb_Click);
+            // 
+            // tbSearchGoogle
+            // 
+            this.tbSearchGoogle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbSearchGoogle.Image = global::MovieBrowser.Properties.Resources.google;
+            this.tbSearchGoogle.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbSearchGoogle.Name = "tbSearchGoogle";
+            this.tbSearchGoogle.Size = new System.Drawing.Size(23, 22);
+            this.tbSearchGoogle.Text = "Search Google";
+            this.tbSearchGoogle.Click += new System.EventHandler(this.tbSearchGoogle_Click);
+            // 
+            // tbOpenExplorer
+            // 
+            this.tbOpenExplorer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbOpenExplorer.Image = global::MovieBrowser.Properties.Resources.explorer;
+            this.tbOpenExplorer.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbOpenExplorer.Name = "tbOpenExplorer";
+            this.tbOpenExplorer.Size = new System.Drawing.Size(23, 22);
+            this.tbOpenExplorer.Text = "Open in Explorer";
+            this.tbOpenExplorer.Click += new System.EventHandler(this.tbOpenExplorer_Click);
+            // 
+            // tbIgnoreList
+            // 
+            this.tbIgnoreList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbIgnoreList.Image = global::MovieBrowser.Properties.Resources.ignore_list;
+            this.tbIgnoreList.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbIgnoreList.Name = "tbIgnoreList";
+            this.tbIgnoreList.Size = new System.Drawing.Size(23, 22);
+            this.tbIgnoreList.Text = "Ignore List";
+            this.tbIgnoreList.Click += new System.EventHandler(this.tbIgnoreList_Click);
+            // 
+            // tbLoadPendrives
+            // 
+            this.tbLoadPendrives.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbLoadPendrives.Image = global::MovieBrowser.Properties.Resources.pen_drives;
+            this.tbLoadPendrives.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbLoadPendrives.Name = "tbLoadPendrives";
+            this.tbLoadPendrives.Size = new System.Drawing.Size(23, 22);
+            this.tbLoadPendrives.Text = "Load Pen Drives";
+            this.tbLoadPendrives.Click += new System.EventHandler(this.tbLoadPendrives_Click);
+            // 
+            // tbSendTo
+            // 
+            this.tbSendTo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbSendTo.Image = global::MovieBrowser.Properties.Resources.send_to;
+            this.tbSendTo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbSendTo.Name = "tbSendTo";
+            this.tbSendTo.Size = new System.Drawing.Size(23, 22);
+            this.tbSendTo.Text = "Send To Pendrive";
+            this.tbSendTo.Click += new System.EventHandler(this.tbSendTo_Click);
+            // 
+            // tbAddToDb
+            // 
+            this.tbAddToDb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbAddToDb.Image = global::MovieBrowser.Properties.Resources.update;
+            this.tbAddToDb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbAddToDb.Name = "tbAddToDb";
+            this.tbAddToDb.Size = new System.Drawing.Size(23, 22);
+            this.tbAddToDb.Text = "Collect";
+            this.tbAddToDb.Click += new System.EventHandler(this.tbAddToDb_Click);
+            // 
+            // tbRefreshDb
+            // 
+            this.tbRefreshDb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbRefreshDb.Image = global::MovieBrowser.Properties.Resources.refresh16;
+            this.tbRefreshDb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbRefreshDb.Name = "tbRefreshDb";
+            this.tbRefreshDb.Size = new System.Drawing.Size(23, 22);
+            this.tbRefreshDb.Text = "Refresh";
+            this.tbRefreshDb.Click += new System.EventHandler(this.tbRefreshDb_Click);
+            // 
+            // tbDeleteFromDb
+            // 
+            this.tbDeleteFromDb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbDeleteFromDb.Image = global::MovieBrowser.Properties.Resources.delete;
+            this.tbDeleteFromDb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbDeleteFromDb.Name = "tbDeleteFromDb";
+            this.tbDeleteFromDb.Size = new System.Drawing.Size(23, 22);
+            this.tbDeleteFromDb.Text = "Delete";
+            this.tbDeleteFromDb.Click += new System.EventHandler(this.tbDeleteFromDb_Click);
+            // 
+            // tbWantToWatch
+            // 
+            this.tbWantToWatch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbWantToWatch.Image = global::MovieBrowser.Properties.Resources.check_list;
+            this.tbWantToWatch.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbWantToWatch.Name = "tbWantToWatch";
+            this.tbWantToWatch.Size = new System.Drawing.Size(23, 22);
+            this.tbWantToWatch.Text = "Watch";
+            this.tbWantToWatch.Click += new System.EventHandler(this.tbWantToWatch_Click);
+            // 
+            // tbLikeIt
+            // 
+            this.tbLikeIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbLikeIt.Image = global::MovieBrowser.Properties.Resources.like_it;
+            this.tbLikeIt.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbLikeIt.Name = "tbLikeIt";
+            this.tbLikeIt.Size = new System.Drawing.Size(23, 22);
+            this.tbLikeIt.Text = "Like It";
+            this.tbLikeIt.Click += new System.EventHandler(this.tbLikeIt_Click);
+            // 
+            // tbDislikeIt
+            // 
+            this.tbDislikeIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbDislikeIt.Image = global::MovieBrowser.Properties.Resources.hate_it;
+            this.tbDislikeIt.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbDislikeIt.Name = "tbDislikeIt";
+            this.tbDislikeIt.Size = new System.Drawing.Size(23, 22);
+            this.tbDislikeIt.Text = "Dislike It";
+            this.tbDislikeIt.ToolTipText = "Dislike It";
+            this.tbDislikeIt.Click += new System.EventHandler(this.tbDislikeIt_Click);
+            // 
+            // tbSeenIt
+            // 
+            this.tbSeenIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbSeenIt.Image = global::MovieBrowser.Properties.Resources.seen_it;
+            this.tbSeenIt.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbSeenIt.Name = "tbSeenIt";
+            this.tbSeenIt.Size = new System.Drawing.Size(23, 22);
+            this.tbSeenIt.Text = "Seen It";
+            this.tbSeenIt.Click += new System.EventHandler(this.tbSeenIt_Click);
+            // 
+            // tbHaveIt
+            // 
+            this.tbHaveIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbHaveIt.Image = global::MovieBrowser.Properties.Resources.have_it;
+            this.tbHaveIt.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbHaveIt.Name = "tbHaveIt";
+            this.tbHaveIt.Size = new System.Drawing.Size(23, 22);
+            this.tbHaveIt.Text = "Have It";
+            this.tbHaveIt.Click += new System.EventHandler(this.tbHaveIt_Click);
+            // 
+            // tbRateIt
+            // 
+            this.tbRateIt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbRateIt.Image = global::MovieBrowser.Properties.Resources.movie_db;
+            this.tbRateIt.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbRateIt.Name = "tbRateIt";
+            this.tbRateIt.Size = new System.Drawing.Size(23, 22);
+            this.tbRateIt.Text = "Rate It";
+            // 
+            // tbIntelligent
+            // 
+            this.tbIntelligent.Checked = true;
+            this.tbIntelligent.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tbIntelligent.Image = global::MovieBrowser.Properties.Resources.intel;
+            this.tbIntelligent.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbIntelligent.Name = "tbIntelligent";
+            this.tbIntelligent.Size = new System.Drawing.Size(80, 22);
+            this.tbIntelligent.Text = "Intelligent";
+            this.tbIntelligent.Click += new System.EventHandler(this.tbIntelligent_Click);
+            // 
+            // buttonModifyList
+            // 
+            this.buttonModifyList.Image = global::MovieBrowser.Properties.Resources.modify;
+            this.buttonModifyList.Location = new System.Drawing.Point(299, 68);
+            this.buttonModifyList.Name = "buttonModifyList";
+            this.buttonModifyList.Size = new System.Drawing.Size(24, 24);
+            this.buttonModifyList.TabIndex = 35;
+            this.buttonModifyList.UseVisualStyleBackColor = true;
+            this.buttonModifyList.Click += new System.EventHandler(this.buttonModifyList_Click);
+            // 
+            // buttonAddToList
+            // 
+            this.buttonAddToList.Image = global::MovieBrowser.Properties.Resources.add;
+            this.buttonAddToList.Location = new System.Drawing.Point(269, 68);
+            this.buttonAddToList.Name = "buttonAddToList";
+            this.buttonAddToList.Size = new System.Drawing.Size(24, 24);
+            this.buttonAddToList.TabIndex = 34;
+            this.buttonAddToList.UseVisualStyleBackColor = true;
+            this.buttonAddToList.Click += new System.EventHandler(this.buttonAddToList_Click);
+            // 
+            // pbHaveIt
+            // 
+            this.pbHaveIt.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbHaveIt.Image = global::MovieBrowser.Properties.Resources.have_it_dis;
+            this.pbHaveIt.Location = new System.Drawing.Point(231, 30);
+            this.pbHaveIt.Name = "pbHaveIt";
+            this.pbHaveIt.Size = new System.Drawing.Size(32, 32);
+            this.pbHaveIt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbHaveIt.TabIndex = 32;
+            this.pbHaveIt.TabStop = false;
+            this.pbHaveIt.Click += new System.EventHandler(this.pbHaveIt_Click);
+            // 
+            // pbSeenIt
+            // 
+            this.pbSeenIt.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbSeenIt.Image = global::MovieBrowser.Properties.Resources.seen_it_dis;
+            this.pbSeenIt.Location = new System.Drawing.Point(193, 30);
+            this.pbSeenIt.Name = "pbSeenIt";
+            this.pbSeenIt.Size = new System.Drawing.Size(32, 32);
+            this.pbSeenIt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbSeenIt.TabIndex = 31;
+            this.pbSeenIt.TabStop = false;
+            this.pbSeenIt.Click += new System.EventHandler(this.pbSeenIt_Click);
+            // 
+            // pbDislike
+            // 
+            this.pbDislike.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbDislike.Image = global::MovieBrowser.Properties.Resources.hate_it_dis;
+            this.pbDislike.Location = new System.Drawing.Point(155, 30);
+            this.pbDislike.Name = "pbDislike";
+            this.pbDislike.Size = new System.Drawing.Size(32, 32);
+            this.pbDislike.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbDislike.TabIndex = 30;
+            this.pbDislike.TabStop = false;
+            this.pbDislike.Click += new System.EventHandler(this.pbDislike_Click);
+            // 
+            // pbLike
+            // 
+            this.pbLike.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbLike.Image = global::MovieBrowser.Properties.Resources.like_it_dis;
+            this.pbLike.Location = new System.Drawing.Point(117, 30);
+            this.pbLike.Name = "pbLike";
+            this.pbLike.Size = new System.Drawing.Size(32, 32);
+            this.pbLike.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbLike.TabIndex = 29;
+            this.pbLike.TabStop = false;
+            this.pbLike.Click += new System.EventHandler(this.pbLike_Click);
+            // 
+            // pbWanted
+            // 
+            this.pbWanted.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbWanted.Image = global::MovieBrowser.Properties.Resources.check_list_dis;
+            this.pbWanted.Location = new System.Drawing.Point(79, 30);
+            this.pbWanted.Name = "pbWanted";
+            this.pbWanted.Size = new System.Drawing.Size(32, 32);
+            this.pbWanted.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbWanted.TabIndex = 28;
+            this.pbWanted.TabStop = false;
+            this.pbWanted.Click += new System.EventHandler(this.pbWanted_Click);
+            // 
+            // tbUserManagement
+            // 
+            this.tbUserManagement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tbUserManagement.Image = ((System.Drawing.Image)(resources.GetObject("tbUserManagement.Image")));
+            this.tbUserManagement.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbUserManagement.Name = "tbUserManagement";
+            this.tbUserManagement.Size = new System.Drawing.Size(39, 22);
+            this.tbUserManagement.Text = "Users";
+            this.tbUserManagement.Click += new System.EventHandler(this.tbUserManagement_Click);
+            // 
+            // tbKeywordManagement
+            // 
+            this.tbKeywordManagement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tbKeywordManagement.Image = ((System.Drawing.Image)(resources.GetObject("tbKeywordManagement.Image")));
+            this.tbKeywordManagement.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbKeywordManagement.Name = "tbKeywordManagement";
+            this.tbKeywordManagement.Size = new System.Drawing.Size(62, 22);
+            this.tbKeywordManagement.Text = "Keywords";
+            this.tbKeywordManagement.Click += new System.EventHandler(this.tbKeywordManagement_Click);
+            // 
             // MovieBrowserSimple
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1434,6 +1459,7 @@ namespace MovieBrowser.Forms
             this.toolStripContainer2.PerformLayout();
             this.tabInformation.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tpInformation.ResumeLayout(false);
@@ -1444,13 +1470,15 @@ namespace MovieBrowser.Forms
             this.horizontalPanel1.PerformLayout();
             this.horizontalPanel2.ResumeLayout(false);
             this.horizontalPanel2.PerformLayout();
+            this.toolStrip3.ResumeLayout(false);
+            this.toolStrip3.PerformLayout();
+            this.toolStrip4.ResumeLayout(false);
+            this.toolStrip4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHaveIt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSeenIt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbDislike)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLike)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWanted)).EndInit();
-            this.toolStrip3.ResumeLayout(false);
-            this.toolStrip3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1573,6 +1601,8 @@ namespace MovieBrowser.Forms
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.ToolStrip toolStrip4;
+        private System.Windows.Forms.ToolStripButton tbIntelligent;
     }
 }
 

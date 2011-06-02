@@ -237,6 +237,7 @@
     <None Include="Images\add.png" />
     <None Include="Images\modify.png" />
     <None Include="Images\refresh16.png" />
+    <None Include="Images\intel.png" />
     <Content Include="mb.ico" />
     <None Include="Images\check_list.png" />
     <None Include="Images\hate_it.png" />

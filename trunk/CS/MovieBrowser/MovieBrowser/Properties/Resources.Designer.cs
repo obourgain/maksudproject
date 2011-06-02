@@ -151,6 +151,13 @@ namespace MovieBrowser.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap intel {
+            get {
+                object obj = ResourceManager.GetObject("intel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap like_it {
             get {
                 object obj = ResourceManager.GetObject("like_it", resourceCulture);

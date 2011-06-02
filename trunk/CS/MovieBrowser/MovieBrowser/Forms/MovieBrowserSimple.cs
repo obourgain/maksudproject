@@ -885,9 +885,15 @@ namespace MovieBrowser.Forms
             if(comboUserList.SelectedIndex>=0)
             {
 
-                MovieUserList a = new MovieUserList();
+                var a = new MovieUserList();
                 
             }
+        }
+
+        private void tbIntelligent_Click(object sender, EventArgs e)
+        {
+            tbIntelligent.Checked = !tbIntelligent.Checked;
+            _controller.IntelligentSearch = tbIntelligent.Checked;
         }
     }
 
