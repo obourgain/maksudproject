@@ -340,7 +340,7 @@ namespace MovieBrowser.Controller
             }
         }
 
-        public void SendTo(List<Movie> movies, ToolStripComboBox tsPendrives)
+        public void SendTo(IEnumerable<Movie> movies, ToolStripComboBox tsPendrives)
         {
             try
             {
@@ -563,7 +563,12 @@ namespace MovieBrowser.Controller
             entities.DeleteObjects(entities.MovieCountries.Where(o => o.Movie.ImdbId == imdbId));
             entities.DeleteObjects(entities.MovieKeywords.Where(o => o.Movie.ImdbId == imdbId));
             entities.DeleteObjects(entities.MovieLanguages.Where(o => o.Movie.ImdbId == imdbId));
+            entities.DeleteObjects(entities.MoviePersonalNotes.Where(o => o.Movie.ImdbId == imdbId));
+            entities.DeleteObjects(entities.MovieUserLists.Where(o => o.Movie.ImdbId == imdbId));
+
+
             entities.DeleteObjects(entities.Movies.Where(o => o.ImdbId == imdbId));
+
 
             entities.SaveChanges();
         }
@@ -608,11 +613,14 @@ namespace MovieBrowser.Controller
             return note;
         }
 
-        public MoviePersonalNote ToggleWanted(User loggedInUser, Movie rowMovie)
+        public MoviePersonalNote ToggleWanted(User loggedInUser, Movie rowMovie, bool? value = null)
         {
 
             var note = GetNote(entities, loggedInUser, rowMovie);
-            note.Wishlist = !note.Wishlist;
+            if (value != null)
+                note.Wishlist = value.Value;
+            else
+                note.Wishlist = !note.Wishlist;
             entities.SaveChanges();
             return note;
         }
@@ -638,20 +646,28 @@ namespace MovieBrowser.Controller
             entities.SaveChanges();
             return note;
         }
-        public MoviePersonalNote ToggleSeenIt(User loggedInUser, Movie rowMovie)
+        public MoviePersonalNote ToggleSeenIt(User loggedInUser, Movie rowMovie, bool? val = null)
         {
             var note = GetNote(entities, loggedInUser, rowMovie);
-            note.Seen = !note.Seen;
+            note.Seen = val ?? !note.Seen;
             entities.SaveChanges();
             return note;
         }
-        public MoviePersonalNote ToggleHaveIt(User loggedInUser, Movie rowMovie)
+        public MoviePersonalNote ToggleHaveIt(User loggedInUser, Movie rowMovie, bool? val = null)
         {
             var note = GetNote(entities, loggedInUser, rowMovie);
-            note.Have = !note.Have;
+            note.Have = val ?? !note.Have;
             entities.SaveChanges();
             return note;
         }
 
+        public void AddToUserList(Movie movie, string selectedText)
+        {
+            var list = entities.UserLists.Where(o => o.ListName == selectedText).FirstOrDefault();
+            if (list == null) return;
+            var a = new MovieUserList { UserList = list, Movie = movie };
+            entities.AddToMovieUserLists(a);
+            entities.SaveChanges();
+        }
     }
 }

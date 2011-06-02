@@ -149,7 +149,7 @@ namespace MovieBrowser.Forms
 
             var paths = (from object a in Properties.Settings.Default.Paths select (string)a).ToList();
             LoadTree(paths);
-
+            LoadUserList();
         }
 
         private void ReloadTreeRoot()
@@ -189,48 +189,15 @@ namespace MovieBrowser.Forms
             {
             }
         }
-        private void ToolStripButton7Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _controller.ParseMovieInfo(webBrowser1.DocumentText);
-            }
-            catch { }
-        }
-        private void ToolStripButton6Click(object sender, EventArgs e)
-        {
 
-        }
-        private void TsOpenInExplorerClick(object sender, EventArgs e)
-        {
-            //
-        }
-        private void TsUpdateIgnoreListClick(object sender, EventArgs e)
-        {
-
-
-        }
         private void WebBrowser1Navigated(object sender, WebBrowserNavigatedEventArgs e)
         {
             textBox1.AppendText("Navigated to " + e.Url.AbsoluteUri + "\r\n");
         }
-        private void ToolStripButton9Click(object sender, EventArgs e)
-        {
-            //_controller.LoadAllFolders(treeView1);
-        }
+
         private void UpdateToolStripMenuItemClick(object sender, EventArgs e)
         {
             _controller.UpdateMovie();
-        }
-        private void TsSaveFoldersClick(object sender, EventArgs e)
-        {
-            //  _controller.SaveFolderListTree(treeView1);
-        }
-        private void SortToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            // treeView1.TreeViewNodeSorter = new MovieComparer();
-
-            //  treeView1.Sort();
         }
 
 
@@ -239,14 +206,6 @@ namespace MovieBrowser.Forms
             var information = new CollectInformation { Html = webBrowser1.DocumentText, MovieController = _controller, MovieNode = null };
             var thread = new Thread(information.Collect);
             thread.Start();
-        }
-        private void UpdateMovieDatabaseToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            //_controller.UpdateMovieDataBaseFromFileSystem(treeView1);
-        }
-        private void ListView1KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter) DataListView1SelectedIndexChanged(sender, e);
         }
 
         private void updateMovieInformationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -373,6 +332,56 @@ namespace MovieBrowser.Forms
 
             return String.Format("{0} bytes", size); ;
         }
+        private void LoadDbInfo(Movie pmovie)
+        {
+
+            lblImdbId.Text = pmovie.ImdbId;
+            var movie = _controller.Db.Movies.Where(a => a.ImdbId == pmovie.ImdbId).FirstOrDefault();
+            if (movie != null)
+            {
+                var note = _controller.Db.MoviePersonalNotes.Where(o => o.User.Id == _loggedInUser.Id && o.Movie.ImdbId == movie.ImdbId).FirstOrDefault();
+                if (!IsAuthorized || note == null)
+                {
+                    _controller_OnDebugTextFired(this, new TextEventArgs("note is null\r\n"));
+
+                    txtUserRating.Text = "";
+
+                    tbDislikeIt.Image = Properties.Resources.hate_it_dis;
+                    tbHaveIt.Image = Properties.Resources.have_it_dis;
+                    tbLikeIt.Image = Properties.Resources.like_it_dis;
+                    tbSeenIt.Image = Properties.Resources.seen_it_dis;
+                    tbWantToWatch.Image = Properties.Resources.check_list_dis;
+
+                    tbDislikeIt.Checked = false;
+                    tbHaveIt.Checked = false;
+                    tbLikeIt.Checked = false;
+                    tbSeenIt.Checked = false;
+                    tbWantToWatch.Checked = false;
+                }
+                else
+                {
+                    _controller_OnDebugTextFired(this, new TextEventArgs("note=" + note.Movie.Title + "\r\n"));
+
+                    txtUserRating.Text = note.Rating + "";
+
+                    tbDislikeIt.Image = note.Favourite < 0 ? Properties.Resources.hate_it : Properties.Resources.hate_it_dis;
+                    tbLikeIt.Image = note.Favourite > 0 ? Properties.Resources.like_it : Properties.Resources.like_it_dis;
+                    tbHaveIt.Image = note.Have ? Properties.Resources.have_it : Properties.Resources.have_it_dis;
+                    tbSeenIt.Image = note.Seen ? Properties.Resources.seen_it : Properties.Resources.seen_it_dis;
+                    tbWantToWatch.Image = note.Wishlist ? Properties.Resources.check_list : Properties.Resources.check_list_dis;
+
+                    tbDislikeIt.Checked = note.Favourite == -1;
+                    tbHaveIt.Checked = note.Have;
+                    tbLikeIt.Checked = note.Favourite == 1;
+                    tbSeenIt.Checked = note.Seen;
+                    tbWantToWatch.Checked = note.Wishlist;
+                }
+            }
+            else
+            {
+
+            }
+        }
 
         void LoadImdbInfo(Movie rowMovie)
         {
@@ -403,6 +412,8 @@ namespace MovieBrowser.Forms
                 lblMPAA.Text = "";
                 textMpaaReason.Text = "";
                 textHighlight.Text = "";
+
+
             }
             else
             {
@@ -443,6 +454,20 @@ namespace MovieBrowser.Forms
             {
                 var personalNote = _controller.Db.MoviePersonalNotes.Where(o => o.User.Id == _loggedInUser.Id && o.Movie.ImdbId == rowMovie.ImdbId).FirstOrDefault();
 
+
+                comboUserList.SelectedIndex = -1;
+
+
+                var mul = _controller.Db.MovieUserLists.Where(o => o.UserList.User.Id == _loggedInUser.Id && o.Movie.ImdbId == rowMovie.ImdbId).FirstOrDefault();
+                if (mul != null)
+                {
+                    for (int i = 0; i < comboUserList.Items.Count; i++)
+                    {
+                        var item = comboUserList.Items[i];
+                        if (item.ToString() == mul.UserList.ListName)
+                            comboUserList.SelectedIndex = i;
+                    }
+                }
                 LoadPersonalNote(personalNote);
             }
             else
@@ -487,6 +512,7 @@ namespace MovieBrowser.Forms
         private class CollectInformation
         {
             public OLVListItem MovieNode { private get; set; }
+            public Movie ParsedMovie { get; set; }
             public MovieBrowserController MovieController { private get; set; }
             public string Html { private get; set; }
 
@@ -494,12 +520,13 @@ namespace MovieBrowser.Forms
             {
                 try
                 {
-                    Movie movie2 = null;
+
                     if (MovieNode != null)
                     {
-                        movie2 = (Movie)MovieNode.RowObject;
+                        ParsedMovie = (Movie)MovieNode.RowObject;
                     }
-                    var movie = MovieController.CollectAndAddMovieToDb(movie2, Html);
+
+                    var movie = MovieController.CollectAndAddMovieToDb(ParsedMovie, Html);
                     if (MovieNode != null && movie != null)
                     {
                         MovieController.UpdateMovie(MovieNode);
@@ -522,9 +549,13 @@ namespace MovieBrowser.Forms
                 var movie = (Movie)(dataListView1.SelectedObject);
                 LoadImdbInfo(movie);
 
+                LoadDbInfo(movie);
+
             }
             catch { }
         }
+
+
 
 
         private void toolStripTextBoxSearch_KeyDown(object sender, KeyEventArgs e)
@@ -635,11 +666,9 @@ namespace MovieBrowser.Forms
 
         }
 
-
-
-        private void CollectAndUpdate(OLVListItem selectedItem, string html = null)
+        private void CollectAndUpdate(OLVListItem selectedItem, string html = null, Movie movie = null)
         {
-            var information = new CollectInformation { MovieController = _controller, MovieNode = selectedItem, Html = html };
+            var information = new CollectInformation { MovieController = new MovieBrowserController(), MovieNode = selectedItem, Html = html, ParsedMovie = movie };
             var thread = new Thread(information.Collect);
             thread.Start();
         }
@@ -740,10 +769,7 @@ namespace MovieBrowser.Forms
         private void tbAddToDb_Click(object sender, EventArgs e)
         {
             CollectAndUpdate(null, webBrowser1.DocumentText);
-            //List<Movie> list = ((List<Movie>)dataListView1.DataSource);
-            //list.Add(m);
 
-            //dataListView1.RefreshObjects(list);
 
         }
 
@@ -783,6 +809,8 @@ namespace MovieBrowser.Forms
 
         private void tbDeleteFromDb_Click(object sender, EventArgs e)
         {
+            if (dataListView1.SelectedObject != null)
+                _controller.RemoveMovie(((Movie)dataListView1.SelectedObject).ImdbId);
         }
 
         private void tbRefreshDb_Click(object sender, EventArgs e)
@@ -792,55 +820,65 @@ namespace MovieBrowser.Forms
 
         private void tbWantToWatch_Click(object sender, EventArgs e)
         {
+            tbWantToWatch.Checked = !tbWantToWatch.Checked;
             foreach (Movie movie in dataListView1.SelectedObjects)
             {
                 if (IsAuthorized)
                 {
-                    _controller.ToggleWanted(_loggedInUser, movie);
+
+                    _controller.ToggleWanted(_loggedInUser, movie, tbWantToWatch.Checked);
                 }
             }
         }
 
         private void tbLikeIt_Click(object sender, EventArgs e)
         {
+            tbLikeIt.Checked = !tbLikeIt.Checked;
             foreach (Movie movie in dataListView1.SelectedObjects)
             {
                 if (IsAuthorized)
                 {
-                    _controller.SetFavourite(_loggedInUser, movie, true);
+
+                    _controller.SetFavourite(_loggedInUser, movie, tbLikeIt.Checked);
                 }
             }
         }
 
         private void tbDislikeIt_Click(object sender, EventArgs e)
         {
+            tbDislikeIt.Checked = !tbDislikeIt.Checked;
             foreach (Movie movie in dataListView1.SelectedObjects)
             {
                 if (IsAuthorized)
                 {
-                    _controller.SetFavourite(_loggedInUser, movie, false);
+
+                    _controller.SetFavourite(_loggedInUser, movie, tbDislikeIt.Checked);
                 }
             }
         }
 
         private void tbSeenIt_Click(object sender, EventArgs e)
         {
+            tbSeenIt.Checked = !tbSeenIt.Checked;
             foreach (Movie movie in dataListView1.SelectedObjects)
             {
                 if (IsAuthorized)
                 {
-                    _controller.ToggleSeenIt(_loggedInUser, movie);
+
+                    _controller.ToggleSeenIt(_loggedInUser, movie, tbSeenIt.Checked);
                 }
             }
         }
 
         private void tbHaveIt_Click(object sender, EventArgs e)
         {
+            tbHaveIt.Checked = !tbHaveIt.Checked;
             foreach (Movie movie in dataListView1.SelectedObjects)
             {
                 if (IsAuthorized)
                 {
-                    _controller.ToggleHaveIt(_loggedInUser, movie);
+
+                    _controller.ToggleHaveIt(_loggedInUser, movie, tbHaveIt.Checked);
                 }
             }
         }
@@ -858,12 +896,17 @@ namespace MovieBrowser.Forms
             {
                 new MovieListForm(_loggedInUser, _controller.Db).ShowDialog(this);
 
-                comboUserList.Items.Clear();
+                LoadUserList();
+            }
+        }
 
-                foreach (UserList movieUserList in _controller.Db.UserLists.Where(o => o.User.Id == _loggedInUser.Id))
-                {
-                    comboUserList.Items.Add(movieUserList.ListName);
-                }
+        private void LoadUserList()
+        {
+            comboUserList.Items.Clear();
+
+            foreach (UserList movieUserList in _controller.Db.UserLists.Where(o => o.User.Id == _loggedInUser.Id))
+            {
+                comboUserList.Items.Add(movieUserList.ListName);
             }
         }
 
@@ -882,11 +925,9 @@ namespace MovieBrowser.Forms
 
         private void buttonAddToList_Click(object sender, EventArgs e)
         {
-            if(comboUserList.SelectedIndex>=0)
+            if (comboUserList.SelectedIndex >= 0)
             {
-
-                var a = new MovieUserList();
-                
+                _controller.AddToUserList(_movie, comboUserList.SelectedItem.ToString());
             }
         }
 
@@ -894,6 +935,17 @@ namespace MovieBrowser.Forms
         {
             tbIntelligent.Checked = !tbIntelligent.Checked;
             _controller.IntelligentSearch = tbIntelligent.Checked;
+        }
+
+        private void tbUpdateDb_Click(object sender, EventArgs e)
+        {
+            if (dataListView1.SelectedObject != null)
+                CollectAndUpdate(null, null, (Movie)dataListView1.SelectedObject);
+        }
+
+        private void tbAddToDbFromBrowser_Click(object sender, EventArgs e)
+        {
+            CollectAndUpdate(null, webBrowser1.DocumentText);
         }
     }
 
