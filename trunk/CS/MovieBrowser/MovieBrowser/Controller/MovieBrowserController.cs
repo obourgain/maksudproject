@@ -262,6 +262,7 @@ namespace MovieBrowser.Controller
             if (movie == null)
             {
                 movie = parseMovieInfo;
+                movie.IsUpdated = false;
                 _entities.AddToMovies(movie);
                 _entities.SaveChanges();
             }
@@ -358,6 +359,9 @@ namespace MovieBrowser.Controller
             }
             InvokeOnNotificationFired("Fiished collecting movie: " + movie.Title);
 
+            movie.IsUpdated = true;
+            _entities.SaveChanges();
+
             return movie;
         }
 
@@ -418,7 +422,7 @@ namespace MovieBrowser.Controller
                 _entities.AddToGenres(genre);
                 _entities.SaveChanges();
             }
-            return g;
+            return genre;
         }
 
         public static Movie GuessMovie(string srcHtml)
@@ -473,21 +477,21 @@ namespace MovieBrowser.Controller
         #endregion
 
         #region Db Access
-        public void AddMovieToDb(Movie movie)
-        {
-            var entities = new MovieDbEntities();
+        //public void AddMovieToDb(Movie movie)
+        //{
+        //    var entities = new MovieDbEntities();
 
-            if (entities.Movies.Where(o => o.ImdbId.Equals(movie.ImdbId)).ToList().Count() == 0)
-            {
-                entities.AddToMovies(movie);
-                entities.SaveChanges();
-            }
-            else
-            {
-                //Already exists
-                Console.WriteLine(@"Exists: {0}", movie.ImdbId);
-            }
-        }
+        //    if (entities.Movies.Where(o => o.ImdbId.Equals(movie.ImdbId)).ToList().Count() == 0)
+        //    {
+        //        entities.AddToMovies(movie);
+        //        entities.SaveChanges();
+        //    }
+        //    else
+        //    {
+        //        //Already exists
+        //        Console.WriteLine(@"Exists: {0}", movie.ImdbId);
+        //    }
+        //}
         #endregion
 
         public void RemoveMovie(string imdbId)
@@ -522,6 +526,7 @@ namespace MovieBrowser.Controller
 
             if (movie == null)
             {
+                rowMovie.IsUpdated = false;
                 db.AddToMovies(rowMovie);
                 movie = rowMovie;
             }

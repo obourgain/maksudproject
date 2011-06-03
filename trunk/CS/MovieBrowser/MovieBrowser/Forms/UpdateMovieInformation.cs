@@ -45,7 +45,17 @@ namespace MovieBrowser.Forms
                 {
                     FireText("Found Exact Match: ImdbId= " + movie.ImdbId);
                     //var src = HttpHelper.FetchWebPage(MovieBrowserController.ImdbTitle + movie.ImdbId);
-                    controller.CollectAndAddMovieToDb(movie);
+
+                    var dbMovie = controller.Db.Movies.Where(o => o.ImdbId == movie.ImdbId).FirstOrDefault();
+
+                    if (dbMovie == null || !dbMovie.IsUpdated)
+                    {
+                        controller.CollectAndAddMovieToDb(movie);
+                    }
+                    else
+                    {
+                        FireText("Movie: " + movie.Title + " is marked as updated. Skipping.");
+                    }
                     FireText("Finished: ImdbId= " + movie.ImdbId);
                 }
                 else
@@ -96,15 +106,22 @@ namespace MovieBrowser.Forms
         private delegate void FireTextDelegate(string text);
         private void FireText(string value)
         {
-            if (this.textBox1.InvokeRequired)
+            try
             {
-                // This is a worker thread so delegate the task.
-                this.textBox1.Invoke(new FireTextDelegate(this.FireText), value);
+                if (this.textBox1.InvokeRequired)
+                {
+                    // This is a worker thread so delegate the task.
+                    this.textBox1.Invoke(new FireTextDelegate(this.FireText), value);
+                }
+                else
+                {
+                    // This is the UI thread so perform the task.
+                    textBox1.AppendText(value + "\r\n");
+                }
             }
-            else
+            catch (Exception exception)
             {
-                // This is the UI thread so perform the task.
-                textBox1.AppendText(value + "\r\n");
+                Logger.Exception(exception, 124);
             }
         }
 

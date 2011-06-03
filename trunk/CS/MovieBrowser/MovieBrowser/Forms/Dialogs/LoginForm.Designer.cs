@@ -41,10 +41,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Palatino Linotype", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(18, 56);
+            this.label1.Font = new System.Drawing.Font("Corbel", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 58);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 28);
+            this.label1.Size = new System.Drawing.Size(113, 26);
             this.label1.TabIndex = 0;
             this.label1.Text = "User Name:";
             // 
@@ -63,7 +63,7 @@
             // themedLabel2
             // 
             this.themedLabel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.themedLabel2.Font = new System.Drawing.Font("Cooper Black", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.themedLabel2.Font = new System.Drawing.Font("Candara", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.themedLabel2.Location = new System.Drawing.Point(0, 205);
             this.themedLabel2.Name = "themedLabel2";
             this.themedLabel2.Padding = new System.Windows.Forms.Padding(5);
@@ -76,27 +76,27 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Palatino Linotype", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(18, 129);
+            this.label2.Font = new System.Drawing.Font("Corbel", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(12, 129);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(110, 28);
+            this.label2.Size = new System.Drawing.Size(100, 26);
             this.label2.TabIndex = 3;
             this.label2.Text = "Password:";
             // 
             // textUsername
             // 
             this.textUsername.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textUsername.Location = new System.Drawing.Point(23, 87);
+            this.textUsername.Location = new System.Drawing.Point(12, 87);
             this.textUsername.Name = "textUsername";
-            this.textUsername.Size = new System.Drawing.Size(221, 39);
+            this.textUsername.Size = new System.Drawing.Size(232, 39);
             this.textUsername.TabIndex = 4;
             // 
             // textPassword
             // 
             this.textPassword.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textPassword.Location = new System.Drawing.Point(23, 158);
+            this.textPassword.Location = new System.Drawing.Point(12, 158);
             this.textPassword.Name = "textPassword";
-            this.textPassword.Size = new System.Drawing.Size(221, 39);
+            this.textPassword.Size = new System.Drawing.Size(232, 39);
             this.textPassword.TabIndex = 5;
             this.textPassword.UseSystemPasswordChar = true;
             // 

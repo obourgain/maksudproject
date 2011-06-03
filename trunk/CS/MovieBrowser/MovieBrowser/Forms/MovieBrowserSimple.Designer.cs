@@ -48,6 +48,7 @@ namespace MovieBrowser.Forms
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.updateMovieInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.searchTextBox1 = new WindowsFormsAero.SearchTextBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
@@ -90,7 +91,17 @@ namespace MovieBrowser.Forms
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.txtUserRating = new System.Windows.Forms.ToolStripTextBox();
             this.tbRateIt = new System.Windows.Forms.ToolStripButton();
+            this.tbUpdated = new System.Windows.Forms.ToolStripButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.horizontalPanel3 = new WindowsFormsAero.HorizontalPanel();
+            this.datalistResult = new BrightIdeasSoftware.DataListView();
+            this.olvColumn7 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn8 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn9 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn10 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.searchTextForSearchResult = new WindowsFormsAero.SearchTextBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.clSearch = new WindowsFormsAero.CommandLink();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
             this.tabInformation = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -183,6 +194,10 @@ namespace MovieBrowser.Forms
             ((System.ComponentModel.ISupportInitialize)(this.dataListView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.horizontalPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.datalistResult)).BeginInit();
+            this.panel3.SuspendLayout();
             this.toolStripContainer2.ContentPanel.SuspendLayout();
             this.toolStripContainer2.SuspendLayout();
             this.tabInformation.SuspendLayout();
@@ -300,6 +315,7 @@ namespace MovieBrowser.Forms
             this.treeView1.ShowImagesOnSubItems = true;
             this.treeView1.ShowItemToolTips = true;
             this.treeView1.Size = new System.Drawing.Size(397, 234);
+            this.treeView1.SmallImageList = this.imageList1;
             this.treeView1.TabIndex = 1;
             this.treeView1.UseCompatibleStateImageBehavior = false;
             this.treeView1.UseFiltering = true;
@@ -367,6 +383,16 @@ namespace MovieBrowser.Forms
             this.refreshFolderToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.refreshFolderToolStripMenuItem.Text = "Refresh Folder";
             this.refreshFolderToolStripMenuItem.Click += new System.EventHandler(this.refreshFolderToolStripMenuItem_Click);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "movie.png");
+            this.imageList1.Images.SetKeyName(1, "folder.png");
+            this.imageList1.Images.SetKeyName(2, "movie_file.png");
+            this.imageList1.Images.SetKeyName(3, "subtitle.png");
+            this.imageList1.Images.SetKeyName(4, "file.png");
             // 
             // panel2
             // 
@@ -562,7 +588,7 @@ namespace MovieBrowser.Forms
             this.tbSendTo.Image = global::MovieBrowser.Properties.Resources.send_to;
             this.tbSendTo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbSendTo.Name = "tbSendTo";
-            this.tbSendTo.Size = new System.Drawing.Size(23, 22);
+            this.tbSendTo.Size = new System.Drawing.Size(23, 20);
             this.tbSendTo.Text = "Send To Pendrive";
             this.tbSendTo.Click += new System.EventHandler(this.tbSendTo_Click);
             // 
@@ -677,7 +703,8 @@ namespace MovieBrowser.Forms
             this.tbHaveIt,
             this.toolStripSeparator2,
             this.txtUserRating,
-            this.tbRateIt});
+            this.tbRateIt,
+            this.tbUpdated});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(397, 25);
@@ -799,8 +826,20 @@ namespace MovieBrowser.Forms
             this.tbRateIt.Text = "Rate It";
             this.tbRateIt.Click += new System.EventHandler(this.tbRateIt_Click);
             // 
+            // tbUpdated
+            // 
+            this.tbUpdated.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tbUpdated.Image = ((System.Drawing.Image)(resources.GetObject("tbUpdated.Image")));
+            this.tbUpdated.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbUpdated.Name = "tbUpdated";
+            this.tbUpdated.Size = new System.Drawing.Size(56, 22);
+            this.tbUpdated.Text = "Updated";
+            this.tbUpdated.Click += new System.EventHandler(this.tbUpdated_Click);
+            // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.horizontalPanel3);
+            this.tabPage3.Controls.Add(this.panel3);
             this.tabPage3.Location = new System.Drawing.Point(4, 26);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -808,6 +847,110 @@ namespace MovieBrowser.Forms
             this.tabPage3.TabIndex = 4;
             this.tabPage3.Text = "Search";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // horizontalPanel3
+            // 
+            this.horizontalPanel3.BackColor = System.Drawing.Color.Transparent;
+            this.horizontalPanel3.Controls.Add(this.datalistResult);
+            this.horizontalPanel3.Controls.Add(this.searchTextForSearchResult);
+            this.horizontalPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.horizontalPanel3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.horizontalPanel3.Location = new System.Drawing.Point(3, 73);
+            this.horizontalPanel3.Name = "horizontalPanel3";
+            this.horizontalPanel3.Padding = new System.Windows.Forms.Padding(10);
+            this.horizontalPanel3.Size = new System.Drawing.Size(397, 216);
+            this.horizontalPanel3.TabIndex = 1;
+            // 
+            // datalistResult
+            // 
+            this.datalistResult.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.datalistResult.AllColumns.Add(this.olvColumn7);
+            this.datalistResult.AllColumns.Add(this.olvColumn8);
+            this.datalistResult.AllColumns.Add(this.olvColumn9);
+            this.datalistResult.AllColumns.Add(this.olvColumn10);
+            this.datalistResult.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn7,
+            this.olvColumn8,
+            this.olvColumn9,
+            this.olvColumn10});
+            this.datalistResult.Cursor = System.Windows.Forms.Cursors.Default;
+            this.datalistResult.DataSource = null;
+            this.datalistResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.datalistResult.FullRowSelect = true;
+            this.datalistResult.GridLines = true;
+            this.datalistResult.HideSelection = false;
+            this.datalistResult.Location = new System.Drawing.Point(10, 34);
+            this.datalistResult.Name = "datalistResult";
+            this.datalistResult.OverlayText.Text = "";
+            this.datalistResult.OwnerDraw = true;
+            this.datalistResult.Size = new System.Drawing.Size(377, 172);
+            this.datalistResult.TabIndex = 8;
+            this.datalistResult.UseAlternatingBackColors = true;
+            this.datalistResult.UseCompatibleStateImageBehavior = false;
+            this.datalistResult.UseExplorerTheme = true;
+            this.datalistResult.UseFiltering = true;
+            this.datalistResult.UseHotItem = true;
+            this.datalistResult.UseOverlays = false;
+            this.datalistResult.UseTranslucentHotItem = true;
+            this.datalistResult.View = System.Windows.Forms.View.Details;
+            this.datalistResult.SelectedIndexChanged += new System.EventHandler(this.datalistResult_SelectedIndexChanged);
+            // 
+            // olvColumn7
+            // 
+            this.olvColumn7.AspectName = "TitleCleaned";
+            this.olvColumn7.Text = "Title";
+            this.olvColumn7.UseInitialLetterForGroup = true;
+            this.olvColumn7.Width = 200;
+            // 
+            // olvColumn8
+            // 
+            this.olvColumn8.AspectName = "ImdbId";
+            this.olvColumn8.Text = "ImdbId";
+            this.olvColumn8.Width = 100;
+            // 
+            // olvColumn9
+            // 
+            this.olvColumn9.AspectName = "Rating";
+            this.olvColumn9.Text = "Rating";
+            // 
+            // olvColumn10
+            // 
+            this.olvColumn10.AspectName = "Year";
+            this.olvColumn10.Text = "Year";
+            // 
+            // searchTextForSearchResult
+            // 
+            this.searchTextForSearchResult.ActiveFont = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchTextForSearchResult.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.searchTextForSearchResult.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.searchTextForSearchResult.Dock = System.Windows.Forms.DockStyle.Top;
+            this.searchTextForSearchResult.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchTextForSearchResult.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.searchTextForSearchResult.Location = new System.Drawing.Point(10, 10);
+            this.searchTextForSearchResult.Name = "searchTextForSearchResult";
+            this.searchTextForSearchResult.Size = new System.Drawing.Size(377, 24);
+            this.searchTextForSearchResult.TabIndex = 7;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.clSearch);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(397, 70);
+            this.panel3.TabIndex = 0;
+            // 
+            // clSearch
+            // 
+            this.clSearch.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.clSearch.Location = new System.Drawing.Point(10, 10);
+            this.clSearch.Name = "clSearch";
+            this.clSearch.ShowShield = true;
+            this.clSearch.Size = new System.Drawing.Size(200, 50);
+            this.clSearch.TabIndex = 0;
+            this.clSearch.Text = "Search Criteria";
+            this.clSearch.UseVisualStyleBackColor = true;
+            this.clSearch.Click += new System.EventHandler(this.clSearch_Click);
             // 
             // toolStripContainer2
             // 
@@ -1692,6 +1835,10 @@ namespace MovieBrowser.Forms
             this.panel1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.horizontalPanel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.datalistResult)).EndInit();
+            this.panel3.ResumeLayout(false);
             this.toolStripContainer2.ContentPanel.ResumeLayout(false);
             this.toolStripContainer2.ResumeLayout(false);
             this.toolStripContainer2.PerformLayout();
@@ -1867,6 +2014,17 @@ namespace MovieBrowser.Forms
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ToolStripButton tbUpdated;
+        private WindowsFormsAero.HorizontalPanel horizontalPanel3;
+        private System.Windows.Forms.Panel panel3;
+        private DataListView datalistResult;
+        private OLVColumn olvColumn7;
+        private OLVColumn olvColumn8;
+        private OLVColumn olvColumn9;
+        private OLVColumn olvColumn10;
+        private WindowsFormsAero.SearchTextBox searchTextForSearchResult;
+        private WindowsFormsAero.CommandLink clSearch;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
 

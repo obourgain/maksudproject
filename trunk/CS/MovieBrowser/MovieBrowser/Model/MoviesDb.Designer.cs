@@ -33,7 +33,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("MovieDbModel", "FK_UserList_0", "User", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MovieBrowser.Model.User), "UserList", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MovieBrowser.Model.UserList))]
 
 // Original file name:
-// Generation date: 6/3/2011 10:38:14 AM
+// Generation date: 6/3/2011 11:39:03 AM
 namespace MovieBrowser.Model
 {
     
@@ -1423,8 +1423,9 @@ namespace MovieBrowser.Model
         /// <param name="title">Initial value of Title.</param>
         /// <param name="year">Initial value of Year.</param>
         /// <param name="rating">Initial value of Rating.</param>
+        /// <param name="isUpdated">Initial value of IsUpdated.</param>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static Movie CreateMovie(long id, string imdbId, string title, long year, double rating)
+        public static Movie CreateMovie(long id, string imdbId, string title, long year, double rating, bool isUpdated)
         {
             Movie movie = new Movie();
             movie.Id = id;
@@ -1432,6 +1433,7 @@ namespace MovieBrowser.Model
             movie.Title = title;
             movie.Year = year;
             movie.Rating = rating;
+            movie.IsUpdated = isUpdated;
             return movie;
         }
         /// <summary>
@@ -1704,6 +1706,33 @@ namespace MovieBrowser.Model
         partial void OnHighlightChanging(string value);
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnHighlightChanged();
+        /// <summary>
+        /// There are no comments for property IsUpdated in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public bool IsUpdated
+        {
+            get
+            {
+                return this._IsUpdated;
+            }
+            set
+            {
+                this.OnIsUpdatedChanging(value);
+                this.ReportPropertyChanging("IsUpdated");
+                this._IsUpdated = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("IsUpdated");
+                this.OnIsUpdatedChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private bool _IsUpdated;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnIsUpdatedChanging(bool value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnIsUpdatedChanged();
         /// <summary>
         /// There are no comments for Actors in the schema.
         /// </summary>
