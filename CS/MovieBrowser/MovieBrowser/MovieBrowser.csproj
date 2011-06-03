@@ -52,6 +52,9 @@
   <PropertyGroup>
     <ApplicationIcon>mb.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="ObjectListView, Version=2.4.1.38133, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
@@ -63,9 +66,12 @@
       <HintPath>Library\RatingControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Design" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -100,6 +106,12 @@
     </Compile>
     <Compile Include="Forms\Db\UsersForm.Designer.cs">
       <DependentUpon>UsersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Keyword.cs" />
     <Compile Include="Parser\ImdbParser.cs" />
@@ -152,6 +164,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Util\ComponentUtility.cs" />
+    <Compile Include="Util\InstallDb.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Util\InstallDb.Designer.cs">
+      <DependentUpon>InstallDb.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Forms\Db\MovieListForm.resx">
       <DependentUpon>MovieListForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -163,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Dialogs\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MovieBrowserSimple.resx">
       <DependentUpon>MovieBrowserSimple.cs</DependentUpon>
@@ -238,6 +259,9 @@
     <None Include="Images\modify.png" />
     <None Include="Images\refresh16.png" />
     <None Include="Images\intel.png" />
+    <Content Include="Library\System.Data.SQLite.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="mb.ico" />
     <None Include="Images\check_list.png" />
     <None Include="Images\hate_it.png" />
