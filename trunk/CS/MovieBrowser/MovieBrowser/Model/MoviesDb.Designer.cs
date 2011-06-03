@@ -33,7 +33,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("MovieDbModel", "FK_UserList_0", "User", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MovieBrowser.Model.User), "UserList", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MovieBrowser.Model.UserList))]
 
 // Original file name:
-// Generation date: 6/3/2011 11:39:03 AM
+// Generation date: 6/4/2011 1:21:50 AM
 namespace MovieBrowser.Model
 {
     

@@ -107,12 +107,6 @@
     <Compile Include="Forms\Db\UsersForm.Designer.cs">
       <DependentUpon>UsersForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Model\Keyword.cs" />
     <Compile Include="Parser\ImdbParser.cs" />
     <Compile Include="Controller\MovieBrowserController.cs" />
@@ -181,9 +175,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Dialogs\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MovieBrowserSimple.resx">
       <DependentUpon>MovieBrowserSimple.cs</DependentUpon>
