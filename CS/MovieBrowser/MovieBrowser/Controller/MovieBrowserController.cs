@@ -2,12 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Data.Objects;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using CommonUtilities;
@@ -20,18 +16,17 @@ using ShellLib;
 
 namespace MovieBrowser.Controller
 {
-    public partial class MovieBrowserController
+    public class MovieBrowserController
     {
         #region Private Variables
-        readonly FolderBrowserDialog _dialog = new FolderBrowserDialog();
-        private OLVListItem _selectedOlvListItem = null;
-        private MovieDbEntities entities;
+
+        private readonly MovieDbEntities _entities;
         #endregion
 
 
         #region Properties
         public bool DbLoggedIn { get; set; }
-        public MovieDbEntities Db { get { return entities; } }
+        public MovieDbEntities Db { get { return _entities; } }
         #endregion
 
 
@@ -39,7 +34,7 @@ namespace MovieBrowser.Controller
         {
             try
             {
-                entities = new MovieDbEntities();
+                _entities = new MovieDbEntities();
                 DbLoggedIn = false;
 
             }
@@ -72,17 +67,12 @@ namespace MovieBrowser.Controller
         }
         #endregion
 
-
-
         #region Constants
         public const string GoogleSearch = "http://www.google.com/search?q=";
         public const string ImdbSearch = "http://www.imdb.com/find?s=all&q=";
         public const string ImdbTitle = "http://www.imdb.com/title/";
         public const string ImdbKeywordUrl = "http://www.imdb.com/title/{0}/keywords";
         #endregion
-
-
-
 
         public WebBrowser Browser { get; set; }
 
@@ -94,70 +84,7 @@ namespace MovieBrowser.Controller
         {
             get
             {
-                return entities.Movies.ToList();
-            }
-        }
-
-        public void LoadAllFolders(TreeView movieFolderTree)
-        {
-            movieFolderTree.Nodes.Clear();
-            if (Properties.Settings.Default.Paths == null) return;
-            foreach (var path in Properties.Settings.Default.Paths)
-            {
-                LoadFolderIntoTreeView(path, movieFolderTree);
-            }
-        }
-
-        public void LoadListViewMovies(ListView listView1)
-        {
-            listView1.Items.Clear();
-            var list = entities.Movies.ToList();
-            foreach (var movie in list)
-            {
-                listView1.Items.Add(new MovieListViewItem(movie));
-            }
-        }
-
-        public void LoadFolderIntoTreeViewDialog(TreeView treeView)
-        {
-            if (_dialog.ShowDialog() == DialogResult.OK)
-            {
-                LoadFolderIntoTreeView(_dialog.SelectedPath, treeView);
-            }
-        }
-
-        private static void LoadFolderIntoTreeView(string folderPath, TreeView treeView)
-        {
-
-            var movie = Movie.FromFolderName(folderPath);
-            var treeNode = new MovieNode(movie);
-            treeView.Nodes.Add(treeNode);
-
-            FolderBrowseRecursively(treeNode, folderPath);
-        }
-
-        private static void FolderBrowseRecursively(MovieNode treeNode, string selectedPath)
-        {
-
-            var directories = Directory.GetDirectories(selectedPath);
-            if (directories.Count() == 0) return;
-
-            foreach (var directory in directories)
-            {
-                var movie = Movie.FromFolderName(directory);
-                var tn = new MovieNode(movie);
-                treeNode.Nodes.Add(tn);
-
-
-                var files = Directory.GetFiles(directory);
-                foreach (var file in files)
-                {
-                    movie = Movie.FromFolderName(file);
-                    var node = new MovieNode(movie);
-                    tn.Nodes.Add(node);
-                }
-
-                FolderBrowseRecursively(tn, directory);
+                return _entities.Movies.ToList();
             }
         }
 
@@ -165,10 +92,10 @@ namespace MovieBrowser.Controller
         {
             try
             {
-                _selectedOlvListItem = movie;
                 SearchMovie(address, (Movie)movie.RowObject);
             }
-            catch { }
+            catch (Exception exception)
+            { Logger.Exception(exception, 134); }
         }
 
         public void SearchMovie(string address, Movie movie)
@@ -198,12 +125,7 @@ namespace MovieBrowser.Controller
             return text;
         }
 
-        public void UpdateMovie()
-        {
-            UpdateMovie(_selectedOlvListItem);
-        }
-
-        public string ChangeFolderName(Movie original)
+        public static string ChangeFolderName(Movie original)
         {
             var newdir = original.FilePath.Substring(0, original.FilePath.LastIndexOf("\\") + 1);
             newdir += original.FolderName.CleanFileName();
@@ -212,20 +134,17 @@ namespace MovieBrowser.Controller
             return newdir;
         }
 
-        public void UpdateMovie(OLVListItem nodeMovie)
+        public void UpdateMovieNode(OLVListItem nodeMovie, Movie movie)
         {
             try
             {
-
-                var rowMovie = ((Movie)_selectedOlvListItem.RowObject);
-                var movie = ParseMovieInfo(Browser.DocumentText);
+                var rowMovie = ((Movie)nodeMovie.RowObject);
+                //var movie = CollectAndAddMovieToDb(rowMovie, Browser.DocumentText, false);
                 if (movie == null) return;
 
                 movie.FilePath = rowMovie.FilePath;
-
-                rowMovie.FilePath = ChangeFolderName(movie);
-                rowMovie.IsValidMovie = true;
-
+                movie.FilePath = ChangeFolderName(movie);
+                rowMovie.CopyFromMovie(movie);
                 InvokeOnNotificationFired("Movie: " + rowMovie.Title + " is updated.");
             }
             catch (Exception exception)
@@ -234,7 +153,7 @@ namespace MovieBrowser.Controller
             }
         }
 
-        public string UpdateIgnoreWords()
+        public static string UpdateIgnoreWords()
         {
             string[] words = Properties.Settings.Default.IgnoreWords.ToLower().Split();
             //Array.Sort(words);
@@ -251,7 +170,7 @@ namespace MovieBrowser.Controller
             return s2;
         }
 
-        public void SaveFolderListTree(ArrayList movieFolderTree)
+        public static void SaveFolderListTree(ArrayList movieFolderTree)
         {
             Properties.Settings.Default.Paths = new StringCollection();
 
@@ -262,21 +181,7 @@ namespace MovieBrowser.Controller
             Properties.Settings.Default.Save();
         }
 
-        public void DeleteNode(TreeView movieFolderTree)
-        {
-            try
-            {
-
-                if (MessageBox.Show(@"Sure To Delete", @"Delete Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    movieFolderTree.SelectedNode.Remove();
-            }
-            finally
-            {
-
-            }
-        }
-
-        public void Open(string path)
+        public static void Open(string path)
         {
             var execute = new ShellExecute
             {
@@ -307,7 +212,7 @@ namespace MovieBrowser.Controller
                 RecentSearch = false;
         }
 
-        public void LoadPenDrives(ToolStripComboBox tsPendrives)
+        public static void LoadPenDrives(ToolStripComboBox tsPendrives)
         {
             tsPendrives.Items.Clear();
 
@@ -319,38 +224,16 @@ namespace MovieBrowser.Controller
             if (ss.Count > 0) tsPendrives.SelectedIndex = 0;
         }
 
-        public void UpdateMovieDataBaseFromFileSystem(TreeView treeView)
-        {
-            foreach (var node in treeView.Nodes)
-            {
-                UpdateMovieDataBaseFromFileSystem((MovieNode)node);
-            }
-        }
-
-        public void UpdateMovieDataBaseFromFileSystem(MovieNode movieNode)
-        {
-            if (movieNode.Movie.IsValidMovie)
-            {
-                AddMovieToDb(movieNode.Movie);
-            }
-
-            foreach (var node in movieNode.Nodes)
-            {
-                UpdateMovieDataBaseFromFileSystem((MovieNode)node);
-            }
-        }
-
-        public void SendTo(IEnumerable<Movie> movies, ToolStripComboBox tsPendrives)
+        public static void SendTo(IEnumerable<Movie> movies, ToolStripComboBox tsPendrives)
         {
             try
             {
-                foreach (var movie in movies)
+                foreach (var stt in movies.Select(movie => new SendToThread()
+                                                               {
+                                                                   Source = movie.FilePath,
+                                                                   Destination = Path.Combine(tsPendrives.SelectedItem.ToString(), movie.FolderName)
+                                                               }))
                 {
-                    var stt = new SendToThread()
-                    {
-                        Source = movie.FilePath,
-                        Destination = Path.Combine(tsPendrives.SelectedItem.ToString(), movie.FolderName)
-                    };
                     stt.SendTo();
                 }
 
@@ -361,138 +244,184 @@ namespace MovieBrowser.Controller
             }
         }
 
-        public Movie CollectAndAddMovieToDb(Movie movie2, string html = null)
+        public Movie CollectAndAddMovieToDb(Movie movie2, string moviePage = null, bool collectKeyword = true)
         {
-            if (string.IsNullOrEmpty(html))
+            if (string.IsNullOrEmpty(moviePage))
             {
                 InvokeOnNotificationFired("Started collecting movie: " + movie2.Title);
-                html = HttpHelper.FetchWebPage(MovieBrowserController.ImdbTitle + movie2.ImdbId);
+                moviePage = HttpHelper.FetchWebPage(MovieBrowserController.ImdbTitle + movie2.ImdbId);
             }
 
-            var parseMovieInfo = ParseMovieInfo(html);
+            var parseMovieInfo = ParseMovieInfo(moviePage);
 
             if (parseMovieInfo == null) return null;
 
 
 
-            var movie = entities.Movies.Where(o => o.ImdbId == parseMovieInfo.ImdbId).FirstOrDefault();
+            var movie = _entities.Movies.Where(o => o.ImdbId == parseMovieInfo.ImdbId).FirstOrDefault();
             if (movie == null)
             {
                 movie = parseMovieInfo;
-                entities.AddToMovies(movie);
-                entities.SaveChanges();
+                _entities.AddToMovies(movie);
+                _entities.SaveChanges();
             }
             else
             {
                 movie.CopyFromMovie(parseMovieInfo);
-                entities.SaveChanges();
+                _entities.SaveChanges();
+            }
+
+            foreach (var g in parseMovieInfo.Genres)
+            {
+                var genre = GetGenre(g);
+                var movieGenre = _entities.MovieGenres.Where(o => o.Movie.Id == movie.Id && o.Genre.Id == genre.Id).FirstOrDefault();
+
+                if (movieGenre != null) continue;
+                movieGenre = new MovieGenre { Movie = movie, Genre = genre };
+                _entities.AddToMovieGenres(movieGenre);
+                _entities.SaveChanges();
+            }
+
+            foreach (var g in parseMovieInfo.Languages)
+            {
+                var language = GetLanguage(g);
+                var movieLanguage = _entities.MovieLanguages.Where(o => o.Movie.Id == movie.Id && o.Language.Id == language.Id).FirstOrDefault();
+
+                if (movieLanguage != null) continue;
+                movieLanguage = new MovieLanguage { Movie = movie, Language = language };
+                _entities.AddToMovieLanguages(movieLanguage);
+                _entities.SaveChanges();
+            }
+
+            foreach (var g in parseMovieInfo.Countries)
+            {
+                var country = GetCountry(g);
+                var movieCountry = _entities.MovieCountries.Where(o => o.Movie.Id == movie.Id && o.Country.Id == country.Id).FirstOrDefault();
+
+                if (movieCountry != null) continue;
+                movieCountry = new MovieCountry { Movie = movie, Country = country };
+                _entities.AddToMovieCountries(movieCountry);
+                _entities.SaveChanges();
+            }
+
+            foreach (var g in parseMovieInfo.PersonDirectors)
+            {
+                var person = GetPerson(g);
+                var director = _entities.Directors.Where(o => o.Movie.Id == movie.Id && o.Person.Id == person.Id).FirstOrDefault();
+
+                if (director != null) continue;
+                director = new Director { Movie = movie, Person = person };
+                _entities.AddToDirectors(director);
+                _entities.SaveChanges();
+            }
+
+            foreach (var g in parseMovieInfo.PersonStars)
+            {
+                var person = GetPerson(g);
+                var star = _entities.Stars.Where(o => o.Movie.Id == movie.Id && o.Person.Id == person.Id).FirstOrDefault();
+
+                if (star != null) continue;
+                star = new Star { Movie = movie, Person = person };
+                _entities.AddToStars(star);
+                _entities.SaveChanges();
+            }
+
+            foreach (var g in parseMovieInfo.PersonWriters)
+            {
+                var person = GetPerson(g);
+                var writer = _entities.Writers.Where(o => o.Movie.Id == movie.Id && o.Person.Id == person.Id).FirstOrDefault();
+
+                if (writer != null) continue;
+                writer = new Writer { Movie = movie, Person = person };
+                _entities.AddToWriters(writer);
+                _entities.SaveChanges();
             }
 
 
-            if (parseMovieInfo.Genres.Count > 0)
+            if (collectKeyword)
             {
-                foreach (var g in parseMovieInfo.Genres)
-                {
-                    var genre = entities.Genres.Where(o => o.Name == g.Name).FirstOrDefault();
-                    if (genre == null)
-                    {
-                        genre = new Genre() { Name = g.Name, Code = g.Code, Rated = 0 };
-                        entities.AddToGenres(genre);
-                        entities.SaveChanges();
-                    }
+                var keywordPage = HttpHelper.FetchWebPage(string.Format(ImdbKeywordUrl, parseMovieInfo.ImdbId));
+                parseMovieInfo.Keywords = ImdbParser.ParseKeywords(keywordPage);
 
-                    var movieGenre = entities.MovieGenres.Where(o => o.Movie.Id == movie.Id && o.Genre.Id == genre.Id).FirstOrDefault();
-
-                    if (movieGenre == null)
-                    {
-                        movieGenre = new MovieGenre { Movie = movie, Genre = genre };
-                        entities.AddToMovieGenres(movieGenre);
-                        entities.SaveChanges();
-                    }
-                }
-            }
-
-            if (parseMovieInfo.Languages.Count > 0)
-            {
-                foreach (var g in parseMovieInfo.Languages)
-                {
-                    var genre = entities.Languages.Where(o => o.Name == g.Name).FirstOrDefault();
-                    if (genre == null)
-                    {
-                        genre = new Language() { Name = g.Name, Code = g.Code };
-                        entities.AddToLanguages(genre);
-                        entities.SaveChanges();
-                    }
-
-                    var movieGenre = entities.MovieLanguages.Where(o => o.Movie.Id == movie.Id && o.Language.Id == genre.Id).FirstOrDefault();
-
-                    if (movieGenre == null)
-                    {
-                        movieGenre = new MovieLanguage() { Movie = movie, Language = genre };
-                        entities.AddToMovieLanguages(movieGenre);
-                        entities.SaveChanges();
-                    }
-                }
-            }
-
-
-            if (parseMovieInfo.Countries.Count > 0)
-            {
-                foreach (var g in parseMovieInfo.Countries)
-                {
-                    var country = entities.Countries.Where(o => o.Name == g.Name).FirstOrDefault();
-                    if (country == null)
-                    {
-                        country = new Country() { Name = g.Name, Code = g.Code };
-                        entities.AddToCountries(country);
-                        entities.SaveChanges();
-                    }
-
-                    var movieCountry = entities.MovieCountries.Where(o => o.Movie.Id == movie.Id && o.Country.Id == country.Id).FirstOrDefault();
-
-                    if (movieCountry == null)
-                    {
-                        movieCountry = new MovieCountry() { Movie = movie, Country = country };
-                        entities.AddToMovieCountries(movieCountry);
-                        entities.SaveChanges();
-                    }
-                }
-
-            }
-
-            var keywordSrc = HttpHelper.FetchWebPage(string.Format(ImdbKeywordUrl, parseMovieInfo.ImdbId));
-            parseMovieInfo.Keywords = ImdbParser.ParseKeywords(keywordSrc);
-
-            if (parseMovieInfo.Keywords.Count > 0)
-            {
                 foreach (var g in parseMovieInfo.Keywords)
                 {
-                    var keyword = entities.Keywords.Where(o => o.Name == g.Name).FirstOrDefault();
-                    if (keyword == null)
-                    {
-                        keyword = new Keyword() { Name = g.Name, Code = g.Code };
-                        entities.AddToKeywords(keyword);
-                        entities.SaveChanges();
-                    }
+                    var keyword = GetKeyword(g);
+                    var movieKeyword =
+                        _entities.MovieKeywords.Where(o => o.Movie.Id == movie.Id && o.Keyword.Id == keyword.Id).
+                            FirstOrDefault();
 
-                    var movieGenre = entities.MovieKeywords.Where(o => o.Movie.Id == movie.Id && o.Keyword.Id == keyword.Id).FirstOrDefault();
-
-                    if (movieGenre == null)
-                    {
-                        movieGenre = new MovieKeyword() { Movie = movie, Keyword = keyword };
-                        entities.AddToMovieKeywords(movieGenre);
-                        entities.SaveChanges();
-                    }
+                    if (movieKeyword != null) continue;
+                    movieKeyword = new MovieKeyword { Movie = movie, Keyword = keyword };
+                    _entities.AddToMovieKeywords(movieKeyword);
+                    _entities.SaveChanges();
                 }
-
             }
-
             InvokeOnNotificationFired("Fiished collecting movie: " + movie.Title);
 
             return movie;
         }
 
-        public Movie GuessMovie(string srcHtml)
+        private Person GetPerson(Person g)
+        {
+            var person = _entities.People.Where(o => o.ImdbId == g.ImdbId).FirstOrDefault();
+            if (person == null)
+            {
+                person = new Person() { Name = g.Name, ImdbId = g.ImdbId };
+                _entities.AddToPeople(person);
+                _entities.SaveChanges();
+            }
+            return person;
+        }
+
+        private Keyword GetKeyword(Keyword g)
+        {
+            var keyword = _entities.Keywords.Where(o => o.Code == g.Code).FirstOrDefault();
+            if (keyword == null)
+            {
+                keyword = new Keyword { Name = g.Name, Code = g.Code };
+                _entities.AddToKeywords(keyword);
+                _entities.SaveChanges();
+            }
+            return keyword;
+        }
+
+        private Country GetCountry(Country c)
+        {
+            var country = _entities.Countries.Where(o => o.Code == c.Code).FirstOrDefault();
+            if (country == null)
+            {
+                country = new Country { Name = c.Name, Code = c.Code };
+                _entities.AddToCountries(country);
+                _entities.SaveChanges();
+            }
+            return country;
+        }
+
+        private Language GetLanguage(Language l)
+        {
+            var language = _entities.Languages.Where(o => o.Code == l.Code).FirstOrDefault();
+            if (language == null)
+            {
+                language = new Language { Name = l.Name, Code = l.Code };
+                _entities.AddToLanguages(language);
+                _entities.SaveChanges();
+            }
+            return language;
+        }
+
+        private Genre GetGenre(Genre g)
+        {
+            var genre = _entities.Genres.Where(o => o.Code == g.Code).FirstOrDefault();
+            if (genre == null)
+            {
+                genre = new Genre { Name = g.Name, Code = g.Code, Rated = 0 };
+                _entities.AddToGenres(genre);
+                _entities.SaveChanges();
+            }
+            return g;
+        }
+
+        public static Movie GuessMovie(string srcHtml)
         {
             return ImdbParser.GuessMovie(srcHtml);
         }
@@ -527,11 +456,16 @@ namespace MovieBrowser.Controller
                 movie.Countries = ImdbParser.ParseCountries(html);
                 movie.Languages = ImdbParser.ParseLanguages(html);
 
+                movie.PersonStars = ImdbParser.ParseStars(html);
+                movie.PersonWriters = ImdbParser.ParseWriters(html);
+                movie.PersonDirectors = ImdbParser.ParseDirectors(html);
+
 
                 return movie;
             }
             catch (Exception exception)
             {
+                Logger.Exception(exception, 418);
                 return null;
             }
         }
@@ -559,29 +493,29 @@ namespace MovieBrowser.Controller
         public void RemoveMovie(string imdbId)
         {
 
-            entities.DeleteObjects(entities.MovieGenres.Where(o => o.Movie.ImdbId == imdbId));
-            entities.DeleteObjects(entities.MovieCountries.Where(o => o.Movie.ImdbId == imdbId));
-            entities.DeleteObjects(entities.MovieKeywords.Where(o => o.Movie.ImdbId == imdbId));
-            entities.DeleteObjects(entities.MovieLanguages.Where(o => o.Movie.ImdbId == imdbId));
-            entities.DeleteObjects(entities.MoviePersonalNotes.Where(o => o.Movie.ImdbId == imdbId));
-            entities.DeleteObjects(entities.MovieUserLists.Where(o => o.Movie.ImdbId == imdbId));
+            _entities.DeleteObjects(_entities.MovieGenres.Where(o => o.Movie.ImdbId == imdbId));
+            _entities.DeleteObjects(_entities.MovieCountries.Where(o => o.Movie.ImdbId == imdbId));
+            _entities.DeleteObjects(_entities.MovieKeywords.Where(o => o.Movie.ImdbId == imdbId));
+            _entities.DeleteObjects(_entities.MovieLanguages.Where(o => o.Movie.ImdbId == imdbId));
+            _entities.DeleteObjects(_entities.MoviePersonalNotes.Where(o => o.Movie.ImdbId == imdbId));
+            _entities.DeleteObjects(_entities.MovieUserLists.Where(o => o.Movie.ImdbId == imdbId));
 
 
-            entities.DeleteObjects(entities.Movies.Where(o => o.ImdbId == imdbId));
+            _entities.DeleteObjects(_entities.Movies.Where(o => o.ImdbId == imdbId));
 
 
-            entities.SaveChanges();
+            _entities.SaveChanges();
         }
 
         public void RemoveAllInfo()
         {
 
-            entities.DeleteObjects(entities.Keywords);
-            entities.SaveChanges();
+            _entities.DeleteObjects(_entities.Keywords);
+            _entities.SaveChanges();
         }
 
 
-        private MoviePersonalNote GetNote(MovieDbEntities db, User loggedInUser, Movie rowMovie)
+        private static MoviePersonalNote GetNote(MovieDbEntities db, User loggedInUser, Movie rowMovie)
         {
             var user = db.Users.Where(o => o.Username == loggedInUser.Username).FirstOrDefault();
             var movie = db.Movies.Where(o => o.ImdbId == rowMovie.ImdbId).FirstOrDefault();
@@ -602,32 +536,27 @@ namespace MovieBrowser.Controller
             return personalNote;
         }
 
-
-
         public MoviePersonalNote UpdateUserRating(User loggedInUser, Movie rowMovie, double rating)
         {
-
-            var note = GetNote(entities, loggedInUser, rowMovie);
+            var note = GetNote(_entities, loggedInUser, rowMovie);
             note.Rating = rating;
-            entities.SaveChanges();
+            _entities.SaveChanges();
             return note;
         }
 
         public MoviePersonalNote ToggleWanted(User loggedInUser, Movie rowMovie, bool? value = null)
         {
-
-            var note = GetNote(entities, loggedInUser, rowMovie);
+            var note = GetNote(_entities, loggedInUser, rowMovie);
             if (value != null)
                 note.Wishlist = value.Value;
             else
                 note.Wishlist = !note.Wishlist;
-            entities.SaveChanges();
+            _entities.SaveChanges();
             return note;
         }
         public MoviePersonalNote SetFavourite(User loggedInUser, Movie rowMovie, bool val)
         {
-
-            var note = GetNote(entities, loggedInUser, rowMovie);
+            var note = GetNote(_entities, loggedInUser, rowMovie);
 
             if (val)
             {
@@ -643,31 +572,39 @@ namespace MovieBrowser.Controller
                 else
                     note.Favourite = -1;
             }
-            entities.SaveChanges();
+            _entities.SaveChanges();
             return note;
         }
         public MoviePersonalNote ToggleSeenIt(User loggedInUser, Movie rowMovie, bool? val = null)
         {
-            var note = GetNote(entities, loggedInUser, rowMovie);
+            var note = GetNote(_entities, loggedInUser, rowMovie);
             note.Seen = val ?? !note.Seen;
-            entities.SaveChanges();
+            _entities.SaveChanges();
             return note;
         }
         public MoviePersonalNote ToggleHaveIt(User loggedInUser, Movie rowMovie, bool? val = null)
         {
-            var note = GetNote(entities, loggedInUser, rowMovie);
+            var note = GetNote(_entities, loggedInUser, rowMovie);
             note.Have = val ?? !note.Have;
-            entities.SaveChanges();
+            _entities.SaveChanges();
             return note;
         }
 
         public void AddToUserList(Movie movie, string selectedText)
         {
-            var list = entities.UserLists.Where(o => o.ListName == selectedText).FirstOrDefault();
+            var list = _entities.UserLists.Where(o => o.ListName == selectedText).FirstOrDefault();
             if (list == null) return;
             var a = new MovieUserList { UserList = list, Movie = movie };
-            entities.AddToMovieUserLists(a);
-            entities.SaveChanges();
+            _entities.AddToMovieUserLists(a);
+            _entities.SaveChanges();
+        }
+
+        public MoviePersonalNote RateIt(User loggedInUser, Movie rowMovie, double rating)
+        {
+            var note = GetNote(_entities, loggedInUser, rowMovie);
+            note.Rating = rating;
+            _entities.SaveChanges();
+            return note;
         }
     }
 }
