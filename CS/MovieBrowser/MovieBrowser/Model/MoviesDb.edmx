@@ -179,6 +179,7 @@
           <Property Name="MPAA" Type="nvarchar" MaxLength="50" />
           <Property Name="MPAAReason" Type="nvarchar" MaxLength="50" />
           <Property Name="Highlight" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsUpdated" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="MovieCountry">
           <Key>
@@ -728,6 +729,7 @@
           <Property Type="String" Name="MPAA" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="MPAAReason" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Highlight" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsUpdated" Nullable="false" />
           <NavigationProperty Name="Actors" Relationship="MovieDbModel.FK_Actor_1" FromRole="Movie" ToRole="Actor" />
           <NavigationProperty Name="Directors" Relationship="MovieDbModel.FK_Director_1" FromRole="Movie" ToRole="Director" />
           <NavigationProperty Name="MovieCountries" Relationship="MovieDbModel.FK_MovieCountry_1" FromRole="Movie" ToRole="MovieCountry" />
@@ -999,6 +1001,7 @@
           <EntitySetMapping Name="Movies">
             <EntityTypeMapping TypeName="MovieDbModel.Movie">
               <MappingFragment StoreEntitySet="Movie">
+                <ScalarProperty Name="IsUpdated" ColumnName="IsUpdated" />
                 <ScalarProperty Name="Highlight" ColumnName="Highlight" />
                 <ScalarProperty Name="MPAAReason" ColumnName="MPAAReason" />
                 <ScalarProperty Name="MPAA" ColumnName="MPAA" />
@@ -1307,11 +1310,11 @@
       <Diagram Name="MoviesDb">
         <EntityTypeShape EntityType="MovieDbModel.Actor" Width="1.5" PointX="3" PointY="14.5" Height="1.7879850260416674" />
         <EntityTypeShape EntityType="MovieDbModel.Country" Width="1.5" PointX="0.75" PointY="19.5" Height="1.7879850260416674" />
-        <EntityTypeShape EntityType="MovieDbModel.Director" Width="1.5" PointX="3" PointY="11.5" Height="1.595683593749996" />
-        <EntityTypeShape EntityType="MovieDbModel.Genre" Width="1.5" PointX="3.75" PointY="24.375" Height="1.9802864583333388" />
-        <EntityTypeShape EntityType="MovieDbModel.Keyword" Width="1.5" PointX="3.75" PointY="1.375" Height="1.9802864583333282" />
+        <EntityTypeShape EntityType="MovieDbModel.Director" Width="1.5" PointX="3" PointY="11.5" Height="1.5956835937500067" />
+        <EntityTypeShape EntityType="MovieDbModel.Genre" Width="1.5" PointX="3.75" PointY="24.375" Height="1.9802864583333246" />
+        <EntityTypeShape EntityType="MovieDbModel.Keyword" Width="1.5" PointX="3.75" PointY="1.375" Height="1.9802864583333246" />
         <EntityTypeShape EntityType="MovieDbModel.Language" Width="1.5" PointX="3.75" PointY="27.5" Height="1.7879850260416674" />
-        <EntityTypeShape EntityType="MovieDbModel.Movie" Width="1.5" PointX="0.75" PointY="12.875" Height="5.05710937500001" />
+        <EntityTypeShape EntityType="MovieDbModel.Movie" Width="1.5" PointX="0.75" PointY="12.75" Height="5.2494108072916692" />
         <EntityTypeShape EntityType="MovieDbModel.MovieCountry" Width="1.5" PointX="3" PointY="17.5" Height="1.5956835937500102" />
         <EntityTypeShape EntityType="MovieDbModel.MovieFilesystem" Width="1.5" PointX="3" PointY="21.75" Height="1.595683593749996" />
         <EntityTypeShape EntityType="MovieDbModel.MovieGenre" Width="1.5" PointX="6" PointY="14.5" Height="1.5956835937500102" />
@@ -1333,8 +1336,6 @@
         </AssociationConnector>
         <AssociationConnector Association="MovieDbModel.FK_Actor_1" >
           <ConnectorPoint PointX="2.25" PointY="15.393992513020834" />
-          <ConnectorPoint PointX="2.5416666666666665" PointY="15.393992513020834" />
-          <ConnectorPoint PointX="2.7083333333333335" PointY="15.393992513020834" />
           <ConnectorPoint PointX="3" PointY="15.393992513020834" />
         </AssociationConnector>
         <AssociationConnector Association="MovieDbModel.FK_MovieCountry_0" >
@@ -1348,19 +1349,18 @@
         </AssociationConnector>
         <AssociationConnector Association="MovieDbModel.FK_Director_0" >
           <ConnectorPoint PointX="5.09375275" PointY="6.4898893229166674" />
-          <ConnectorPoint PointX="5.09375275" PointY="12.297841796874998" />
-          <ConnectorPoint PointX="4.9583338333333336" PointY="12.297841796874998" />
-          <ConnectorPoint PointX="4.7916671666666675" PointY="12.297841796874998" />
-          <ConnectorPoint PointX="4.7708310833333334" PointY="12.297841796874998" />
-          <ConnectorPoint PointX="4.6041644166666673" PointY="12.297841796874998" />
-          <ConnectorPoint PointX="4.5" PointY="12.297841796874998" />
+          <ConnectorPoint PointX="5.09375275" PointY="12.297841796875003" />
+          <ConnectorPoint PointX="4.9583338333333336" PointY="12.297841796875003" />
+          <ConnectorPoint PointX="4.7916671666666675" PointY="12.297841796875003" />
+          <ConnectorPoint PointX="4.7708310833333334" PointY="12.297841796875003" />
+          <ConnectorPoint PointX="4.6041644166666673" PointY="12.297841796875003" />
+          <ConnectorPoint PointX="4.5" PointY="12.297841796875003" />
         </AssociationConnector>
         <AssociationConnector Association="MovieDbModel.FK_Director_1" >
-          <ConnectorPoint PointX="1.5" PointY="12.875" />
-          <ConnectorPoint PointX="1.5" PointY="12.187499500000001" />
-          <ConnectorPoint PointX="2.5416666666666665" PointY="12.187499500000001" />
-          <ConnectorPoint PointX="2.7083333333333335" PointY="12.187499500000001" />
-          <ConnectorPoint PointX="3" PointY="12.187499500000001" />
+          <ConnectorPoint PointX="2.25" PointY="12.922841796875003" />
+          <ConnectorPoint PointX="2.6979166666666665" PointY="12.922841796875003" />
+          <ConnectorPoint PointX="2.8645833333333335" PointY="12.922841796875003" />
+          <ConnectorPoint PointX="3" PointY="12.922841796875003" />
         </AssociationConnector>
         <AssociationConnector Association="MovieDbModel.FK_MovieGenre_1" >
           <ConnectorPoint PointX="5.25" PointY="24.376152846153843" />
@@ -1369,8 +1369,8 @@
           <ConnectorPoint PointX="6" PointY="15.297841796875005" />
         </AssociationConnector>
         <AssociationConnector Association="MovieDbModel.FK_MovieKeyword_1" >
-          <ConnectorPoint PointX="5.25" PointY="3.3552864583333282" />
-          <ConnectorPoint PointX="5.625" PointY="3.7302864583333282" />
+          <ConnectorPoint PointX="5.25" PointY="3.3552864583333246" />
+          <ConnectorPoint PointX="5.625" PointY="3.7302864583333246" />
           <ConnectorPoint PointX="5.625" PointY="12.297841796875005" />
           <ConnectorPoint PointX="5.666666666666667" PointY="12.297841796875005" />
           <ConnectorPoint PointX="5.833333333333333" PointY="12.297841796875005" />
@@ -1383,21 +1383,19 @@
           <ConnectorPoint PointX="6" PointY="18.297841796875005" />
         </AssociationConnector>
         <AssociationConnector Association="MovieDbModel.FK_MovieCountry_1" >
-          <ConnectorPoint PointX="2.25" PointY="17.716054687500005" />
-          <ConnectorPoint PointX="3" PointY="17.716054687500005" />
+          <ConnectorPoint PointX="2.25" PointY="17.749705403645834" />
+          <ConnectorPoint PointX="3" PointY="17.749705403645834" />
         </AssociationConnector>
         <AssociationConnector Association="MovieDbModel.FK_MovieFilesystem_0" >
-          <ConnectorPoint PointX="2.2130769230769225" PointY="17.93210937500001" />
-          <ConnectorPoint PointX="2.65625" PointY="18.375282451923088" />
+          <ConnectorPoint PointX="2.2130769230769243" PointY="17.999410807291667" />
+          <ConnectorPoint PointX="2.65625" PointY="18.442583884214745" />
           <ConnectorPoint PointX="2.65625" PointY="22.547841796874998" />
           <ConnectorPoint PointX="3" PointY="22.547841796874998" />
         </AssociationConnector>
         <AssociationConnector Association="MovieDbModel.FK_MovieGenre_0" >
-          <ConnectorPoint PointX="2.25" PointY="12.913075923076924" />
-          <ConnectorPoint PointX="2.40625" PointY="12.756825923076924" />
-          <ConnectorPoint PointX="2.40625" PointY="14.125" />
-          <ConnectorPoint PointX="2.5416666666666665" PointY="14.125" />
-          <ConnectorPoint PointX="2.7083333333333335" PointY="14.125" />
+          <ConnectorPoint PointX="2.25" PointY="12.751152846153847" />
+          <ConnectorPoint PointX="2.78125" PointY="12.219902846153847" />
+          <ConnectorPoint PointX="2.78125" PointY="14.125" />
           <ConnectorPoint PointX="4.6041644166666673" PointY="14.125" />
           <ConnectorPoint PointX="4.7708310833333334" PointY="14.125" />
           <ConnectorPoint PointX="4.7916671666666675" PointY="14.125" />
@@ -1406,19 +1404,25 @@
           <ConnectorPoint PointX="6.0011528461538459" PointY="14.5" />
         </AssociationConnector>
         <AssociationConnector Association="MovieDbModel.FK_MovieKeyword_0" >
-          <ConnectorPoint PointX="2.25" PointY="12.907306692307694" />
-          <ConnectorPoint PointX="2.78125" PointY="12.376056692307694" />
-          <ConnectorPoint PointX="2.78125" PointY="13.47068359375001" />
-          <ConnectorPoint PointX="4.6041644166666673" PointY="13.47068359375001" />
-          <ConnectorPoint PointX="4.7708310833333334" PointY="13.47068359375001" />
-          <ConnectorPoint PointX="4.7916671666666675" PointY="13.47068359375001" />
-          <ConnectorPoint PointX="4.9583338333333336" PointY="13.47068359375001" />
-          <ConnectorPoint PointX="5.6261528461538468" PointY="13.47068359375001" />
-          <ConnectorPoint PointX="6.0011528461538459" PointY="13.09568359375001" />
+          <ConnectorPoint PointX="2.25" PointY="12.788075923076924" />
+          <ConnectorPoint PointX="2.5" PointY="12.538075923076924" />
+          <ConnectorPoint PointX="2.5" PointY="11.125" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="11.125" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="11.125" />
+          <ConnectorPoint PointX="4.6041644166666673" PointY="11.125" />
+          <ConnectorPoint PointX="4.7708310833333334" PointY="11.125" />
+          <ConnectorPoint PointX="4.7916671666666675" PointY="11.125" />
+          <ConnectorPoint PointX="4.9583338333333336" PointY="11.125" />
+          <ConnectorPoint PointX="5.0104194166666671" PointY="11.125" />
+          <ConnectorPoint PointX="5.1770860833333332" PointY="11.125" />
+          <ConnectorPoint PointX="5.6261528461538459" PointY="11.125" />
+          <ConnectorPoint PointX="5.6910744349011217" PointY="11.189921588747273" />
+          <ConnectorPoint PointX="5.8089255650988791" PointY="11.307772718945031" />
+          <ConnectorPoint PointX="6.0011528461538459" PointY="11.5" />
         </AssociationConnector>
         <AssociationConnector Association="MovieDbModel.FK_MovieLanguage_1" >
-          <ConnectorPoint PointX="2.25" PointY="17.895185298076932" />
-          <ConnectorPoint PointX="2.5" PointY="18.145185298076932" />
+          <ConnectorPoint PointX="2.25" PointY="17.962486730368589" />
+          <ConnectorPoint PointX="2.5" PointY="18.212486730368589" />
           <ConnectorPoint PointX="2.5" PointY="19.47068359375001" />
           <ConnectorPoint PointX="2.5729166666666665" PointY="19.47068359375001" />
           <ConnectorPoint PointX="2.7395833333333335" PointY="19.47068359375001" />
@@ -1434,8 +1438,8 @@
           <ConnectorPoint PointX="6.0011528461538459" PointY="19.09568359375001" />
         </AssociationConnector>
         <AssociationConnector Association="MovieDbModel.FK_MoviePersonalNote_0" >
-          <ConnectorPoint PointX="2.2130769230769229" PointY="12.875" />
-          <ConnectorPoint PointX="2.625" PointY="12.463076923076923" />
+          <ConnectorPoint PointX="2.2130769230769229" PointY="12.75" />
+          <ConnectorPoint PointX="2.625" PointY="12.338076923076923" />
           <ConnectorPoint PointX="2.625" PointY="9.3747460937500051" />
           <ConnectorPoint PointX="3" PointY="9.3747460937500051" />
         </AssociationConnector>
@@ -1449,9 +1453,9 @@
           <ConnectorPoint PointX="9.75" PointY="16.09568359375001" />
         </AssociationConnector>
         <AssociationConnector Association="MovieDbModel.FK_Star_1" >
-          <ConnectorPoint PointX="2.25" PointY="16.143992513020834" />
-          <ConnectorPoint PointX="2.625" PointY="16.143992513020834" />
-          <ConnectorPoint PointX="2.625" PointY="13.34568359375001" />
+          <ConnectorPoint PointX="2.25" PointY="14.158417154947919" />
+          <ConnectorPoint PointX="2.5" PointY="14.158417154947919" />
+          <ConnectorPoint PointX="2.5" PointY="13.34568359375001" />
           <ConnectorPoint PointX="2.6979166666666665" PointY="13.34568359375001" />
           <ConnectorPoint PointX="2.8645833333333335" PointY="13.34568359375001" />
           <ConnectorPoint PointX="4.6041644166666673" PointY="13.34568359375001" />
@@ -1464,8 +1468,8 @@
           <ConnectorPoint PointX="6.75" PointY="10.09568359375001" />
         </AssociationConnector>
         <AssociationConnector Association="MovieDbModel.FK_Writer_1" >
-          <ConnectorPoint PointX="2.2499999999999996" PointY="17.93210937500001" />
-          <ConnectorPoint PointX="2.875" PointY="18.55710937500001" />
+          <ConnectorPoint PointX="2.2500000000000018" PointY="17.999410807291667" />
+          <ConnectorPoint PointX="2.875" PointY="18.624410807291667" />
           <ConnectorPoint PointX="2.875" PointY="21.0937505" />
           <ConnectorPoint PointX="5.541666666666667" PointY="21.0937505" />
           <ConnectorPoint PointX="5.708333333333333" PointY="21.0937505" />

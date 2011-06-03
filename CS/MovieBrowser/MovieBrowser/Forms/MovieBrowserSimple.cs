@@ -24,6 +24,7 @@ namespace MovieBrowser.Forms
     public partial class MovieBrowserSimple : Form
     {
         #region Fields
+        private SearchForm _searchForm;
         private User _loggedInUser = null;
         private Movie _movie = null;
         readonly MovieBrowserController _controller = new MovieBrowserController();
@@ -51,6 +52,8 @@ namespace MovieBrowser.Forms
             _controller.IntelligentSearch = intelligentTrackerToolStripMenuItem.Checked;
 
             InitializeTree();
+
+            _searchForm = new SearchForm(_controller);
 
         }
 
@@ -233,7 +236,6 @@ namespace MovieBrowser.Forms
                 var note = _controller.Db.MoviePersonalNotes.Where(o => o.User.Id == _loggedInUser.Id && o.Movie.ImdbId == movie.ImdbId).FirstOrDefault();
                 if (!IsAuthorized || note == null)
                 {
-                    _controller_OnDebugTextFired(this, new TextEventArgs("note is null\r\n"));
 
                     txtUserRating.Text = "";
 
@@ -310,6 +312,7 @@ namespace MovieBrowser.Forms
                 textMpaaReason.Text = "";
                 textHighlight.Text = "";
 
+                tbUpdated.Checked = false;
 
             }
             else
@@ -323,6 +326,7 @@ namespace MovieBrowser.Forms
                 textMpaaReason.Text = movie.MPAAReason;
                 textHighlight.Text = movie.Highlight;
 
+                tbUpdated.Checked = movie.IsUpdated;
 
                 var listC = _controller.Db.MovieCountries.Where(a => a.Movie.Id == movie.Id).Select(o => o.Country).ToList();
                 listCountries.Items.Clear();
@@ -385,8 +389,6 @@ namespace MovieBrowser.Forms
 
             if (note == null)
             {
-                _controller_OnDebugTextFired(this, new TextEventArgs("note is null\r\n"));
-
                 rsUserRating.Rating = 0;
 
                 pbDislike.Image = Properties.Resources.hate_it_dis;
@@ -918,6 +920,38 @@ namespace MovieBrowser.Forms
                 }
             }
 
+        }
+
+        private void tbUpdated_Click(object sender, EventArgs e)
+        {
+            tbUpdated.Checked = !tbUpdated.Checked;
+            foreach (Movie movie in dataListView1.SelectedObjects)
+            {
+                var m = _controller.Db.Movies.Where(o => o.ImdbId == movie.ImdbId).FirstOrDefault();
+                if (m == null) continue;
+                m.IsUpdated = tbUpdated.Checked;
+                movie.IsUpdated = tbUpdated.Checked;
+                _controller.Db.SaveChanges();
+            }
+        }
+
+        private void clSearch_Click(object sender, EventArgs e)
+        {
+            _searchForm.ShowDialog();
+
+            datalistResult.DataSource = _searchForm.SearchResult;
+        }
+
+        private void datalistResult_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var movie = (Movie)(datalistResult.SelectedObject);
+                LoadImdbInfo(movie);
+                LoadDbInfo(movie);
+
+            }
+            catch { }
         }
 
 
