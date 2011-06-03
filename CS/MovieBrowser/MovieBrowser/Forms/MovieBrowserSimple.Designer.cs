@@ -588,7 +588,7 @@ namespace MovieBrowser.Forms
             this.tbSendTo.Image = global::MovieBrowser.Properties.Resources.send_to;
             this.tbSendTo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbSendTo.Name = "tbSendTo";
-            this.tbSendTo.Size = new System.Drawing.Size(23, 20);
+            this.tbSendTo.Size = new System.Drawing.Size(23, 22);
             this.tbSendTo.Text = "Send To Pendrive";
             this.tbSendTo.Click += new System.EventHandler(this.tbSendTo_Click);
             // 

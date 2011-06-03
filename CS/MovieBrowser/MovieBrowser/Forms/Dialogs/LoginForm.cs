@@ -70,7 +70,8 @@ namespace MovieBrowser.Forms.Dialogs
 
         private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _args = new TextEventArgs("Fail") { Data = null };
+            if (_args == null)
+                _args = new TextEventArgs("Fail") { Data = null };
             InvokeLoggedIn(_args);
         }
 

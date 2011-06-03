@@ -25,7 +25,8 @@ namespace MovieBrowser.Controller
 
 
         #region Properties
-        public bool DbLoggedIn { get; set; }
+
+        private bool DbLoggedIn { get; set; }
         public MovieDbEntities Db { get { return _entities; } }
         #endregion
 
@@ -36,17 +37,17 @@ namespace MovieBrowser.Controller
             {
                 _entities = new MovieDbEntities();
                 DbLoggedIn = false;
-
             }
-            catch
+            catch (Exception exception)
             {
-
+                Logger.Exception(exception, 43);
             }
         }
 
         #region Event
         public event EventHandler OnDebugTextFired;
-        public void InvokeOnDebugTextFired(string text)
+
+        private void InvokeOnDebugTextFired(string text)
         {
             var handler = OnDebugTextFired;
             if (handler != null) handler(this, new TextEventArgs(text));
@@ -60,7 +61,8 @@ namespace MovieBrowser.Controller
         }
 
         public event EventHandler OnNotificationFired;
-        public void InvokeOnNotificationFired(string text)
+
+        private void InvokeOnNotificationFired(string text)
         {
             var handler = OnNotificationFired;
             if (handler != null) handler(this, new TextEventArgs(text));
@@ -70,8 +72,8 @@ namespace MovieBrowser.Controller
         #region Constants
         public const string GoogleSearch = "http://www.google.com/search?q=";
         public const string ImdbSearch = "http://www.imdb.com/find?s=all&q=";
-        public const string ImdbTitle = "http://www.imdb.com/title/";
-        public const string ImdbKeywordUrl = "http://www.imdb.com/title/{0}/keywords";
+        private const string ImdbTitle = "http://www.imdb.com/title/";
+        private const string ImdbKeywordUrl = "http://www.imdb.com/title/{0}/keywords";
         #endregion
 
         public WebBrowser Browser { get; set; }
@@ -113,7 +115,7 @@ namespace MovieBrowser.Controller
                     if (movie != null) Navigate(address + IgnoreWords(movie.Title));
                 }
             }
-            catch { }
+            catch (Exception exception) { Logger.Exception(exception, 116); }
         }
 
         private static string IgnoreWords(string text)
@@ -230,7 +232,7 @@ namespace MovieBrowser.Controller
         {
             try
             {
-                foreach (var stt in movies.Select(movie => new SendToThread()
+                foreach (var stt in movies.Select(movie => new SendToThread
                                                                {
                                                                    Source = movie.FilePath,
                                                                    Destination = Path.Combine(tsPendrives.SelectedItem.ToString(), movie.FolderName)
@@ -251,7 +253,7 @@ namespace MovieBrowser.Controller
             if (string.IsNullOrEmpty(moviePage))
             {
                 InvokeOnNotificationFired("Started collecting movie: " + movie2.Title);
-                moviePage = HttpHelper.FetchWebPage(MovieBrowserController.ImdbTitle + movie2.ImdbId);
+                moviePage = HttpHelper.FetchWebPage(ImdbTitle + movie2.ImdbId);
             }
 
             var parseMovieInfo = ParseMovieInfo(moviePage);
@@ -372,7 +374,7 @@ namespace MovieBrowser.Controller
             var person = _entities.People.Where(o => o.ImdbId == g.ImdbId).FirstOrDefault();
             if (person == null)
             {
-                person = new Person() { Name = g.Name, ImdbId = g.ImdbId };
+                person = new Person { Name = g.Name, ImdbId = g.ImdbId };
                 _entities.AddToPeople(person);
                 _entities.SaveChanges();
             }
@@ -523,24 +525,34 @@ namespace MovieBrowser.Controller
 
         private static MoviePersonalNote GetNote(MovieDbEntities db, User loggedInUser, Movie rowMovie)
         {
-            var user = db.Users.Where(o => o.Username == loggedInUser.Username).FirstOrDefault();
-            var movie = db.Movies.Where(o => o.ImdbId == rowMovie.ImdbId).FirstOrDefault();
-
-            if (movie == null)
+            try
             {
-                rowMovie.IsUpdated = false;
-                db.AddToMovies(rowMovie);
-                movie = rowMovie;
+                var user = db.Users.Where(o => o.Username == loggedInUser.Username).FirstOrDefault();
+                var movie = db.Movies.Where(o => o.ImdbId == rowMovie.ImdbId).FirstOrDefault();
+
+                if (movie == null)
+                {
+                    rowMovie.IsUpdated = false;
+                    db.AddToMovies(rowMovie);
+                    movie = rowMovie;
+                }
+
+                var personalNote =
+                    db.MoviePersonalNotes.Where(o => o.User.Id == loggedInUser.Id && o.Movie.Id == movie.Id).
+                        FirstOrDefault();
+
+                if (personalNote == null)
+                {
+                    personalNote = new MoviePersonalNote { Comment = "", Movie = movie, User = user };
+                    db.AddToMoviePersonalNotes(personalNote);
+                }
+                return personalNote;
             }
-
-            var personalNote = db.MoviePersonalNotes.Where(o => o.User.Id == loggedInUser.Id && o.Movie.Id == movie.Id).FirstOrDefault();
-
-            if (personalNote == null)
+            catch (Exception exp)
             {
-                personalNote = new MoviePersonalNote { Comment = "", Movie = movie, User = user };
-                db.AddToMoviePersonalNotes(personalNote);
+                Logger.Exception(exp, 550);
+                return null;
             }
-            return personalNote;
         }
 
         public MoviePersonalNote UpdateUserRating(User loggedInUser, Movie rowMovie, double rating)
