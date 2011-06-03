@@ -70,7 +70,7 @@ namespace MovieBrowser.Parser
             return regex.Match(html).Groups[1].Value;
         }
 
-        
+
 
         public static string MediaFrom(string html)
         {
@@ -96,9 +96,34 @@ namespace MovieBrowser.Parser
 
         public static List<Language> ParseLanguages(string html)
         {
-            
+
             var countries = Regex.Matches(html, @"<a href=""/language/(.+?)"">(.+?)</a>");
             return (from Match m in countries select new Language() { Code = m.Groups[1].Value, Name = m.Groups[2].Value.Clean() }).ToList();
+        }
+
+        private static List<Person> ParsePersons(string src)
+        {
+            var mc = Regex.Matches(src, @"<a.*?href=""/name/(nm[0-9]+)/"".*?>(.+?)</a>");
+            return (from Match match in mc select new Person() { Name = match.Groups[2].Value.Clean(), ImdbId = match.Groups[1].Value }).ToList();
+        }
+
+        public static List<Person> ParseDirectors(string html)
+        {
+            var str = Regex.Match(html, @"Directors?:\s*</h4>\s*(.+?)</div>", RegexOptions.Singleline).Groups[1].Value;
+            return ParsePersons(str);
+        }
+
+        public static List<Person> ParseWriters(string html)
+        {
+            var str = Regex.Match(html, @"Writers?:\s*</h4>\s*(.+?)</div>", RegexOptions.Singleline).Groups[1].Value;
+            return ParsePersons(str);
+        }
+
+        public static List<Person> ParseStars(string html)
+        {
+            var str = Regex.Match(html, @"Stars?:\s*</h4>\s*(.+?)</div>", RegexOptions.Singleline).Groups[1].Value;
+            return ParsePersons(str);
+            
         }
     }
 }
