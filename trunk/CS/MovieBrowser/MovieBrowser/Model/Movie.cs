@@ -15,8 +15,12 @@ namespace MovieBrowser.Model
         public List<Keyword> Keywords { get; set; }
         public List<Language> Languages { get; set; }
 
-        public static readonly List<string> MovieFiles = new List<string>() { "avi", "mkv", "flv", "mp4" };
-        public static readonly List<string> SubtitleFiles = new List<string>() { "srt", "sub" };
+        public static readonly List<string> MovieFiles = new List<string> { "avi", "mkv", "flv", "mp4" };
+        public static readonly List<string> SubtitleFiles = new List<string> { "srt", "sub" };
+        public List<Person> PersonWriters { get; set; }
+        public List<Person> PersonStars { get; set; }
+        public List<Person> PersonDirectors { get; set; }
+        //
         public List<Movie> Children { get; set; }
 
         public Movie()
@@ -71,7 +75,7 @@ namespace MovieBrowser.Model
                 return Directory.Exists(FilePath);
             }
         }
-        public bool IsValidMovie { get; set; }
+        public bool IsValidMovie { get; private set; }
         public string FilePath { get; set; }
 
         public string FolderName { get { return string.Format("{0} ({1}), [{2}] [{3}]", Title, Year, Rating, ImdbId); } }
@@ -124,7 +128,8 @@ namespace MovieBrowser.Model
             this.Countries = movie.Countries;
             this.Languages = movie.Languages;
             this.Keywords = movie.Keywords;
-
+            //
+            this.IsValidMovie = movie.IsValidMovie;
             return this;
         }
     }

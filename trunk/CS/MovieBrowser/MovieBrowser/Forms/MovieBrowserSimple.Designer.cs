@@ -48,7 +48,6 @@ namespace MovieBrowser.Forms
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.updateMovieInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.searchTextBox1 = new WindowsFormsAero.SearchTextBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
@@ -98,31 +97,52 @@ namespace MovieBrowser.Forms
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.toolStrip4 = new System.Windows.Forms.ToolStrip();
             this.tbIntelligent = new System.Windows.Forms.ToolStripButton();
+            this.tbAddToDbFromBrowser = new System.Windows.Forms.ToolStripButton();
+            this.tbUpdateTreeNode = new System.Windows.Forms.ToolStripButton();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tpInformation = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.listLanguages = new BrightIdeasSoftware.DataListView();
+            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.label1 = new System.Windows.Forms.Label();
             this.listKeywords = new BrightIdeasSoftware.DataListView();
-            this.olvColKeywordRated = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColKeyword = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.label2 = new System.Windows.Forms.Label();
+            this.olvColKeywordRated = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.listGenres = new System.Windows.Forms.ListView();
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label3 = new System.Windows.Forms.Label();
             this.listCountries = new System.Windows.Forms.ListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label2 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.listDirectors = new BrightIdeasSoftware.DataListView();
+            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.listStars = new BrightIdeasSoftware.DataListView();
+            this.olvColumn6 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.listWriters = new BrightIdeasSoftware.DataListView();
+            this.olvColumn5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.label6 = new System.Windows.Forms.Label();
+            this.listActors = new BrightIdeasSoftware.DataListView();
+            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.label7 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.horizontalPanel1 = new WindowsFormsAero.HorizontalPanel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textHighlight = new System.Windows.Forms.TextBox();
-            this.buttonClean = new System.Windows.Forms.Button();
-            this.lblYear = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblMPAA = new System.Windows.Forms.TextBox();
             this.lblTitle = new System.Windows.Forms.Label();
-            this.lblRating = new System.Windows.Forms.Label();
+            this.textMpaaReason = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lblRuntime = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textHighlight = new System.Windows.Forms.TextBox();
+            this.lblYear = new System.Windows.Forms.Label();
+            this.lblRating = new System.Windows.Forms.Label();
             this.horizontalPanel2 = new WindowsFormsAero.HorizontalPanel();
             this.buttonModifyList = new System.Windows.Forms.Button();
             this.buttonAddToList = new System.Windows.Forms.Button();
@@ -135,9 +155,6 @@ namespace MovieBrowser.Forms
             this.pbWanted = new System.Windows.Forms.PictureBox();
             this.rsUserRating = new RatingControl.RatingStar();
             this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.lblMPAA = new System.Windows.Forms.TextBox();
-            this.textMpaaReason = new System.Windows.Forms.TextBox();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.tbUserManagement = new System.Windows.Forms.ToolStripButton();
             this.tbKeywordManagement = new System.Windows.Forms.ToolStripButton();
@@ -150,7 +167,6 @@ namespace MovieBrowser.Forms
             this.extraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.tbAddToDbFromBrowser = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -175,8 +191,16 @@ namespace MovieBrowser.Forms
             this.tabPage1.SuspendLayout();
             this.tpInformation.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listLanguages)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.listKeywords)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listDirectors)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.listStars)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.listWriters)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.listActors)).BeginInit();
             this.horizontalPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.horizontalPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHaveIt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSeenIt)).BeginInit();
@@ -193,11 +217,11 @@ namespace MovieBrowser.Forms
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.horizontalPanel1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1247, 422);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1008, 422);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(1247, 447);
+            this.toolStripContainer1.Size = new System.Drawing.Size(1008, 447);
             this.toolStripContainer1.TabIndex = 0;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -218,8 +242,8 @@ namespace MovieBrowser.Forms
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.toolStripContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1247, 322);
-            this.splitContainer1.SplitterDistance = 509;
+            this.splitContainer1.Size = new System.Drawing.Size(1008, 322);
+            this.splitContainer1.SplitterDistance = 411;
             this.splitContainer1.TabIndex = 0;
             // 
             // tabMovies
@@ -232,7 +256,7 @@ namespace MovieBrowser.Forms
             this.tabMovies.Location = new System.Drawing.Point(0, 0);
             this.tabMovies.Name = "tabMovies";
             this.tabMovies.SelectedIndex = 0;
-            this.tabMovies.Size = new System.Drawing.Size(509, 322);
+            this.tabMovies.Size = new System.Drawing.Size(411, 322);
             this.tabMovies.TabIndex = 1;
             // 
             // tpMoviesTree
@@ -242,7 +266,7 @@ namespace MovieBrowser.Forms
             this.tpMoviesTree.Location = new System.Drawing.Point(4, 26);
             this.tpMoviesTree.Name = "tpMoviesTree";
             this.tpMoviesTree.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMoviesTree.Size = new System.Drawing.Size(501, 292);
+            this.tpMoviesTree.Size = new System.Drawing.Size(403, 292);
             this.tpMoviesTree.TabIndex = 3;
             this.tpMoviesTree.Text = "Movies Folders";
             this.tpMoviesTree.UseVisualStyleBackColor = true;
@@ -275,8 +299,7 @@ namespace MovieBrowser.Forms
             this.treeView1.ShowGroups = false;
             this.treeView1.ShowImagesOnSubItems = true;
             this.treeView1.ShowItemToolTips = true;
-            this.treeView1.Size = new System.Drawing.Size(495, 234);
-            this.treeView1.SmallImageList = this.imageList1;
+            this.treeView1.Size = new System.Drawing.Size(397, 234);
             this.treeView1.TabIndex = 1;
             this.treeView1.UseCompatibleStateImageBehavior = false;
             this.treeView1.UseFiltering = true;
@@ -284,6 +307,7 @@ namespace MovieBrowser.Forms
             this.treeView1.VirtualMode = true;
             this.treeView1.SelectedIndexChanged += new System.EventHandler(this.treeListView1_SelectedIndexChanged);
             this.treeView1.DoubleClick += new System.EventHandler(this.treeListView1_DoubleClick);
+            this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyDown);
             // 
             // treeColumnTitle
             // 
@@ -344,16 +368,6 @@ namespace MovieBrowser.Forms
             this.refreshFolderToolStripMenuItem.Text = "Refresh Folder";
             this.refreshFolderToolStripMenuItem.Click += new System.EventHandler(this.refreshFolderToolStripMenuItem_Click);
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "movie.png");
-            this.imageList1.Images.SetKeyName(1, "folder.png");
-            this.imageList1.Images.SetKeyName(2, "movie_file.png");
-            this.imageList1.Images.SetKeyName(3, "subtitle.png");
-            this.imageList1.Images.SetKeyName(4, "file.png");
-            // 
             // panel2
             // 
             this.panel2.Controls.Add(this.searchTextBox1);
@@ -361,7 +375,7 @@ namespace MovieBrowser.Forms
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(495, 52);
+            this.panel2.Size = new System.Drawing.Size(397, 52);
             this.panel2.TabIndex = 0;
             // 
             // searchTextBox1
@@ -374,7 +388,7 @@ namespace MovieBrowser.Forms
             this.searchTextBox1.ForeColor = System.Drawing.SystemColors.GrayText;
             this.searchTextBox1.Location = new System.Drawing.Point(0, 25);
             this.searchTextBox1.Name = "searchTextBox1";
-            this.searchTextBox1.Size = new System.Drawing.Size(495, 24);
+            this.searchTextBox1.Size = new System.Drawing.Size(397, 24);
             this.searchTextBox1.TabIndex = 7;
             this.searchTextBox1.SearchStarted += new System.EventHandler(this.searchTextBox1_SearchStarted);
             this.searchTextBox1.SearchCancelled += new System.EventHandler(this.searchTextBox1_SearchCancelled);
@@ -402,7 +416,7 @@ namespace MovieBrowser.Forms
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip2.Size = new System.Drawing.Size(495, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(397, 25);
             this.toolStrip2.TabIndex = 6;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -468,7 +482,7 @@ namespace MovieBrowser.Forms
             this.pbAddTreeItemToDb.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.pbAddTreeItemToDb.Name = "pbAddTreeItemToDb";
             this.pbAddTreeItemToDb.Size = new System.Drawing.Size(23, 22);
-            this.pbAddTreeItemToDb.Text = "toolStripButton3";
+            this.pbAddTreeItemToDb.Text = "Collect && Add to Database";
             this.pbAddTreeItemToDb.Click += new System.EventHandler(this.pbAddTreeItemToDb_Click);
             // 
             // toolStripSeparator5
@@ -559,7 +573,7 @@ namespace MovieBrowser.Forms
             this.tpMovies2.Location = new System.Drawing.Point(4, 26);
             this.tpMovies2.Name = "tpMovies2";
             this.tpMovies2.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMovies2.Size = new System.Drawing.Size(501, 292);
+            this.tpMovies2.Size = new System.Drawing.Size(403, 292);
             this.tpMovies2.TabIndex = 2;
             this.tpMovies2.Text = "Movies";
             this.tpMovies2.UseVisualStyleBackColor = true;
@@ -586,7 +600,7 @@ namespace MovieBrowser.Forms
             this.dataListView1.Name = "dataListView1";
             this.dataListView1.OverlayText.Text = "";
             this.dataListView1.OwnerDraw = true;
-            this.dataListView1.Size = new System.Drawing.Size(495, 233);
+            this.dataListView1.Size = new System.Drawing.Size(397, 233);
             this.dataListView1.TabIndex = 2;
             this.dataListView1.UseAlternatingBackColors = true;
             this.dataListView1.UseCompatibleStateImageBehavior = false;
@@ -630,7 +644,7 @@ namespace MovieBrowser.Forms
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(495, 53);
+            this.panel1.Size = new System.Drawing.Size(397, 53);
             this.panel1.TabIndex = 1;
             // 
             // searchTextBox2
@@ -643,7 +657,7 @@ namespace MovieBrowser.Forms
             this.searchTextBox2.ForeColor = System.Drawing.SystemColors.GrayText;
             this.searchTextBox2.Location = new System.Drawing.Point(0, 25);
             this.searchTextBox2.Name = "searchTextBox2";
-            this.searchTextBox2.Size = new System.Drawing.Size(495, 24);
+            this.searchTextBox2.Size = new System.Drawing.Size(397, 24);
             this.searchTextBox2.TabIndex = 6;
             this.searchTextBox2.SearchStarted += new System.EventHandler(this.searchTextBox2_SearchStarted);
             this.searchTextBox2.SearchCancelled += new System.EventHandler(this.searchTextBox2_SearchCancelled);
@@ -666,7 +680,7 @@ namespace MovieBrowser.Forms
             this.tbRateIt});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(495, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(397, 25);
             this.toolStrip1.TabIndex = 5;
             // 
             // tbUpdateDb
@@ -783,13 +797,14 @@ namespace MovieBrowser.Forms
             this.tbRateIt.Name = "tbRateIt";
             this.tbRateIt.Size = new System.Drawing.Size(23, 22);
             this.tbRateIt.Text = "Rate It";
+            this.tbRateIt.Click += new System.EventHandler(this.tbRateIt_Click);
             // 
             // tabPage3
             // 
             this.tabPage3.Location = new System.Drawing.Point(4, 26);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(501, 292);
+            this.tabPage3.Size = new System.Drawing.Size(403, 292);
             this.tabPage3.TabIndex = 4;
             this.tabPage3.Text = "Search";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -800,11 +815,11 @@ namespace MovieBrowser.Forms
             // toolStripContainer2.ContentPanel
             // 
             this.toolStripContainer2.ContentPanel.Controls.Add(this.tabInformation);
-            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(734, 297);
+            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(593, 297);
             this.toolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer2.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer2.Name = "toolStripContainer2";
-            this.toolStripContainer2.Size = new System.Drawing.Size(734, 322);
+            this.toolStripContainer2.Size = new System.Drawing.Size(593, 322);
             this.toolStripContainer2.TabIndex = 1;
             this.toolStripContainer2.Text = "toolStripContainer2";
             // 
@@ -819,7 +834,7 @@ namespace MovieBrowser.Forms
             this.tabInformation.Location = new System.Drawing.Point(0, 0);
             this.tabInformation.Name = "tabInformation";
             this.tabInformation.SelectedIndex = 0;
-            this.tabInformation.Size = new System.Drawing.Size(734, 297);
+            this.tabInformation.Size = new System.Drawing.Size(593, 297);
             this.tabInformation.TabIndex = 1;
             // 
             // tabPage2
@@ -829,7 +844,7 @@ namespace MovieBrowser.Forms
             this.tabPage2.Location = new System.Drawing.Point(4, 26);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(726, 267);
+            this.tabPage2.Size = new System.Drawing.Size(585, 267);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Browser";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -841,7 +856,7 @@ namespace MovieBrowser.Forms
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.ScriptErrorsSuppressed = true;
-            this.webBrowser1.Size = new System.Drawing.Size(720, 236);
+            this.webBrowser1.Size = new System.Drawing.Size(579, 236);
             this.webBrowser1.TabIndex = 0;
             this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WebBrowser1DocumentCompleted);
             this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WebBrowser1Navigated);
@@ -850,10 +865,11 @@ namespace MovieBrowser.Forms
             // 
             this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbIntelligent,
-            this.tbAddToDbFromBrowser});
+            this.tbAddToDbFromBrowser,
+            this.tbUpdateTreeNode});
             this.toolStrip4.Location = new System.Drawing.Point(3, 3);
             this.toolStrip4.Name = "toolStrip4";
-            this.toolStrip4.Size = new System.Drawing.Size(720, 25);
+            this.toolStrip4.Size = new System.Drawing.Size(579, 25);
             this.toolStrip4.TabIndex = 1;
             this.toolStrip4.Text = "toolStrip4";
             // 
@@ -868,13 +884,31 @@ namespace MovieBrowser.Forms
             this.tbIntelligent.Text = "Intelligent";
             this.tbIntelligent.Click += new System.EventHandler(this.tbIntelligent_Click);
             // 
+            // tbAddToDbFromBrowser
+            // 
+            this.tbAddToDbFromBrowser.Image = global::MovieBrowser.Properties.Resources.update;
+            this.tbAddToDbFromBrowser.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbAddToDbFromBrowser.Name = "tbAddToDbFromBrowser";
+            this.tbAddToDbFromBrowser.Size = new System.Drawing.Size(81, 22);
+            this.tbAddToDbFromBrowser.Text = "Add to Db";
+            this.tbAddToDbFromBrowser.Click += new System.EventHandler(this.tbAddToDbFromBrowser_Click);
+            // 
+            // tbUpdateTreeNode
+            // 
+            this.tbUpdateTreeNode.Image = global::MovieBrowser.Properties.Resources.pb_update;
+            this.tbUpdateTreeNode.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbUpdateTreeNode.Name = "tbUpdateTreeNode";
+            this.tbUpdateTreeNode.Size = new System.Drawing.Size(123, 22);
+            this.tbUpdateTreeNode.Text = "Update Tree Node";
+            this.tbUpdateTreeNode.Click += new System.EventHandler(this.tbUpdateTreeNode_Click);
+            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.textBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 26);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(726, 267);
+            this.tabPage1.Size = new System.Drawing.Size(585, 267);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Debug";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -885,7 +919,7 @@ namespace MovieBrowser.Forms
             this.textBox1.Location = new System.Drawing.Point(3, 3);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(720, 261);
+            this.textBox1.Size = new System.Drawing.Size(579, 261);
             this.textBox1.TabIndex = 0;
             // 
             // tpInformation
@@ -894,7 +928,7 @@ namespace MovieBrowser.Forms
             this.tpInformation.Location = new System.Drawing.Point(4, 26);
             this.tpInformation.Name = "tpInformation";
             this.tpInformation.Padding = new System.Windows.Forms.Padding(3);
-            this.tpInformation.Size = new System.Drawing.Size(726, 267);
+            this.tpInformation.Size = new System.Drawing.Size(585, 267);
             this.tpInformation.TabIndex = 4;
             this.tpInformation.Text = "Movie Info";
             this.tpInformation.UseVisualStyleBackColor = true;
@@ -905,20 +939,49 @@ namespace MovieBrowser.Forms
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.Controls.Add(this.listLanguages, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.listKeywords, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.listGenres, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.label3, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.listCountries, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(720, 261);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(579, 261);
             this.tableLayoutPanel1.TabIndex = 20;
+            // 
+            // listLanguages
+            // 
+            this.listLanguages.AllColumns.Add(this.olvColumn2);
+            this.listLanguages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn2});
+            this.listLanguages.DataSource = null;
+            this.listLanguages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listLanguages.FullRowSelect = true;
+            this.listLanguages.GridLines = true;
+            this.listLanguages.HasCollapsibleGroups = false;
+            this.listLanguages.Location = new System.Drawing.Point(196, 153);
+            this.listLanguages.Name = "listLanguages";
+            this.listLanguages.ShowGroups = false;
+            this.listLanguages.Size = new System.Drawing.Size(187, 105);
+            this.listLanguages.TabIndex = 21;
+            this.listLanguages.UseCompatibleStateImageBehavior = false;
+            this.listLanguages.View = System.Windows.Forms.View.Details;
+            // 
+            // olvColumn2
+            // 
+            this.olvColumn2.AspectName = "Name";
+            this.olvColumn2.Text = "Language";
+            this.olvColumn2.UseInitialLetterForGroup = true;
+            this.olvColumn2.Width = 200;
             // 
             // label1
             // 
@@ -931,43 +994,36 @@ namespace MovieBrowser.Forms
             // 
             // listKeywords
             // 
-            this.listKeywords.AllColumns.Add(this.olvColKeywordRated);
             this.listKeywords.AllColumns.Add(this.olvColKeyword);
+            this.listKeywords.AllColumns.Add(this.olvColKeywordRated);
             this.listKeywords.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColKeywordRated,
-            this.olvColKeyword});
+            this.olvColKeyword,
+            this.olvColKeywordRated});
             this.listKeywords.DataSource = null;
             this.listKeywords.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listKeywords.FullRowSelect = true;
             this.listKeywords.GridLines = true;
             this.listKeywords.Location = new System.Drawing.Point(3, 23);
             this.listKeywords.Name = "listKeywords";
-            this.listKeywords.Size = new System.Drawing.Size(234, 235);
+            this.tableLayoutPanel1.SetRowSpan(this.listKeywords, 3);
+            this.listKeywords.Size = new System.Drawing.Size(187, 235);
             this.listKeywords.TabIndex = 19;
             this.listKeywords.UseCompatibleStateImageBehavior = false;
             this.listKeywords.View = System.Windows.Forms.View.Details;
             this.listKeywords.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.listKeywords_FormatRow);
             // 
-            // olvColKeywordRated
-            // 
-            this.olvColKeywordRated.AspectName = "KeywordRating";
-            this.olvColKeywordRated.Text = "Rated";
-            // 
             // olvColKeyword
             // 
             this.olvColKeyword.AspectName = "Name";
+            this.olvColKeyword.IsTileViewColumn = true;
             this.olvColKeyword.Text = "Keyword";
             this.olvColKeyword.UseInitialLetterForGroup = true;
             this.olvColKeyword.Width = 200;
             // 
-            // label2
+            // olvColKeywordRated
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(243, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 17);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Countries";
+            this.olvColKeywordRated.AspectName = "KeywordRating";
+            this.olvColKeywordRated.Text = "Rated";
             // 
             // listGenres
             // 
@@ -975,9 +1031,9 @@ namespace MovieBrowser.Forms
             this.columnHeader5});
             this.listGenres.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listGenres.FullRowSelect = true;
-            this.listGenres.Location = new System.Drawing.Point(483, 23);
+            this.listGenres.Location = new System.Drawing.Point(389, 23);
             this.listGenres.Name = "listGenres";
-            this.listGenres.Size = new System.Drawing.Size(234, 235);
+            this.listGenres.Size = new System.Drawing.Size(187, 104);
             this.listGenres.TabIndex = 2;
             this.listGenres.UseCompatibleStateImageBehavior = false;
             this.listGenres.View = System.Windows.Forms.View.Details;
@@ -990,7 +1046,7 @@ namespace MovieBrowser.Forms
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(483, 0);
+            this.label3.Location = new System.Drawing.Point(389, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(50, 17);
             this.label3.TabIndex = 5;
@@ -1002,9 +1058,9 @@ namespace MovieBrowser.Forms
             this.columnHeader3});
             this.listCountries.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listCountries.FullRowSelect = true;
-            this.listCountries.Location = new System.Drawing.Point(243, 23);
+            this.listCountries.Location = new System.Drawing.Point(196, 23);
             this.listCountries.Name = "listCountries";
-            this.listCountries.Size = new System.Drawing.Size(234, 235);
+            this.listCountries.Size = new System.Drawing.Size(187, 104);
             this.listCountries.TabIndex = 1;
             this.listCountries.UseCompatibleStateImageBehavior = false;
             this.listCountries.View = System.Windows.Forms.View.Details;
@@ -1014,83 +1070,332 @@ namespace MovieBrowser.Forms
             this.columnHeader3.Text = "Name";
             this.columnHeader3.Width = 200;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(196, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(67, 17);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Countries";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(196, 130);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(74, 17);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "Languages";
+            // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.tableLayoutPanel3);
             this.tabPage4.Location = new System.Drawing.Point(4, 26);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(726, 267);
+            this.tabPage4.Size = new System.Drawing.Size(585, 267);
             this.tabPage4.TabIndex = 5;
             this.tabPage4.Text = "Personnels";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel3.Controls.Add(this.listDirectors, 2, 1);
+            this.tableLayoutPanel3.Controls.Add(this.listStars, 1, 1);
+            this.tableLayoutPanel3.Controls.Add(this.listWriters, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.label6, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.listActors, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.label7, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.label11, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.label12, 1, 2);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 5;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(579, 261);
+            this.tableLayoutPanel3.TabIndex = 21;
+            // 
+            // listDirectors
+            // 
+            this.listDirectors.AllColumns.Add(this.olvColumn1);
+            this.listDirectors.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn1});
+            this.listDirectors.DataSource = null;
+            this.listDirectors.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listDirectors.FullRowSelect = true;
+            this.listDirectors.GridLines = true;
+            this.listDirectors.HasCollapsibleGroups = false;
+            this.listDirectors.Location = new System.Drawing.Point(389, 23);
+            this.listDirectors.Name = "listDirectors";
+            this.listDirectors.ShowGroups = false;
+            this.listDirectors.Size = new System.Drawing.Size(187, 94);
+            this.listDirectors.TabIndex = 24;
+            this.listDirectors.UseCompatibleStateImageBehavior = false;
+            this.listDirectors.View = System.Windows.Forms.View.Details;
+            // 
+            // olvColumn1
+            // 
+            this.olvColumn1.AspectName = "Name";
+            this.olvColumn1.Text = "Name";
+            this.olvColumn1.UseInitialLetterForGroup = true;
+            this.olvColumn1.Width = 200;
+            // 
+            // listStars
+            // 
+            this.listStars.AllColumns.Add(this.olvColumn6);
+            this.listStars.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn6});
+            this.listStars.DataSource = null;
+            this.listStars.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listStars.FullRowSelect = true;
+            this.listStars.GridLines = true;
+            this.listStars.HasCollapsibleGroups = false;
+            this.listStars.Location = new System.Drawing.Point(196, 23);
+            this.listStars.Name = "listStars";
+            this.listStars.ShowGroups = false;
+            this.listStars.Size = new System.Drawing.Size(187, 94);
+            this.listStars.TabIndex = 23;
+            this.listStars.UseCompatibleStateImageBehavior = false;
+            this.listStars.View = System.Windows.Forms.View.Details;
+            // 
+            // olvColumn6
+            // 
+            this.olvColumn6.AspectName = "Name";
+            this.olvColumn6.Text = "Name";
+            this.olvColumn6.UseInitialLetterForGroup = true;
+            this.olvColumn6.Width = 200;
+            // 
+            // listWriters
+            // 
+            this.listWriters.AllColumns.Add(this.olvColumn5);
+            this.listWriters.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn5});
+            this.listWriters.DataSource = null;
+            this.listWriters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listWriters.FullRowSelect = true;
+            this.listWriters.GridLines = true;
+            this.listWriters.HasCollapsibleGroups = false;
+            this.listWriters.Location = new System.Drawing.Point(196, 143);
+            this.listWriters.Name = "listWriters";
+            this.listWriters.ShowGroups = false;
+            this.listWriters.Size = new System.Drawing.Size(187, 94);
+            this.listWriters.TabIndex = 22;
+            this.listWriters.UseCompatibleStateImageBehavior = false;
+            this.listWriters.View = System.Windows.Forms.View.Details;
+            // 
+            // olvColumn5
+            // 
+            this.olvColumn5.AspectName = "Name";
+            this.olvColumn5.Text = "Name";
+            this.olvColumn5.UseInitialLetterForGroup = true;
+            this.olvColumn5.Width = 200;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(47, 17);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "Actors";
+            // 
+            // listActors
+            // 
+            this.listActors.AllColumns.Add(this.olvColumn3);
+            this.listActors.AllColumns.Add(this.olvColumn4);
+            this.listActors.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn3,
+            this.olvColumn4});
+            this.listActors.DataSource = null;
+            this.listActors.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listActors.FullRowSelect = true;
+            this.listActors.GridLines = true;
+            this.listActors.Location = new System.Drawing.Point(3, 23);
+            this.listActors.Name = "listActors";
+            this.tableLayoutPanel3.SetRowSpan(this.listActors, 3);
+            this.listActors.Size = new System.Drawing.Size(187, 214);
+            this.listActors.TabIndex = 19;
+            this.listActors.UseCompatibleStateImageBehavior = false;
+            this.listActors.View = System.Windows.Forms.View.Details;
+            // 
+            // olvColumn3
+            // 
+            this.olvColumn3.AspectName = "Name";
+            this.olvColumn3.IsTileViewColumn = true;
+            this.olvColumn3.Text = "Keyword";
+            this.olvColumn3.UseInitialLetterForGroup = true;
+            this.olvColumn3.Width = 200;
+            // 
+            // olvColumn4
+            // 
+            this.olvColumn4.AspectName = "KeywordRating";
+            this.olvColumn4.Text = "Rated";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(389, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(64, 17);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "Directors";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(196, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(38, 17);
+            this.label11.TabIndex = 4;
+            this.label11.Text = "Stars";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(196, 120);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(53, 17);
+            this.label12.TabIndex = 20;
+            this.label12.Text = "Writers";
+            // 
             // horizontalPanel1
             // 
             this.horizontalPanel1.BackColor = System.Drawing.Color.Transparent;
-            this.horizontalPanel1.Controls.Add(this.label4);
-            this.horizontalPanel1.Controls.Add(this.button1);
-            this.horizontalPanel1.Controls.Add(this.textHighlight);
-            this.horizontalPanel1.Controls.Add(this.buttonClean);
+            this.horizontalPanel1.Controls.Add(this.tableLayoutPanel2);
             this.horizontalPanel1.Controls.Add(this.lblYear);
-            this.horizontalPanel1.Controls.Add(this.lblTitle);
             this.horizontalPanel1.Controls.Add(this.lblRating);
-            this.horizontalPanel1.Controls.Add(this.label8);
-            this.horizontalPanel1.Controls.Add(this.lblRuntime);
             this.horizontalPanel1.Controls.Add(this.horizontalPanel2);
-            this.horizontalPanel1.Controls.Add(this.label10);
-            this.horizontalPanel1.Controls.Add(this.lblMPAA);
-            this.horizontalPanel1.Controls.Add(this.textMpaaReason);
             this.horizontalPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.horizontalPanel1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.horizontalPanel1.Location = new System.Drawing.Point(0, 322);
             this.horizontalPanel1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 100);
             this.horizontalPanel1.Name = "horizontalPanel1";
-            this.horizontalPanel1.Size = new System.Drawing.Size(1247, 100);
+            this.horizontalPanel1.Size = new System.Drawing.Size(1008, 100);
             this.horizontalPanel1.TabIndex = 1;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 4;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.lblMPAA, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.lblTitle, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.textMpaaReason, 2, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label10, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label8, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.lblRuntime, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.label4, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.textHighlight, 3, 1);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(90, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 4;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(571, 100);
+            this.tableLayoutPanel2.TabIndex = 40;
+            // 
+            // lblMPAA
+            // 
+            this.lblMPAA.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblMPAA.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMPAA.Location = new System.Drawing.Point(3, 29);
+            this.lblMPAA.Name = "lblMPAA";
+            this.lblMPAA.ReadOnly = true;
+            this.lblMPAA.Size = new System.Drawing.Size(69, 23);
+            this.lblMPAA.TabIndex = 24;
+            // 
+            // lblTitle
+            // 
+            this.lblTitle.AutoSize = true;
+            this.tableLayoutPanel2.SetColumnSpan(this.lblTitle, 3);
+            this.lblTitle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblTitle.Font = new System.Drawing.Font("Cambria", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.Location = new System.Drawing.Point(3, 0);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(332, 26);
+            this.lblTitle.TabIndex = 34;
+            this.lblTitle.Text = ".";
+            // 
+            // textMpaaReason
+            // 
+            this.textMpaaReason.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textMpaaReason.Location = new System.Drawing.Point(108, 29);
+            this.textMpaaReason.Name = "textMpaaReason";
+            this.textMpaaReason.ReadOnly = true;
+            this.textMpaaReason.Size = new System.Drawing.Size(227, 23);
+            this.textMpaaReason.TabIndex = 22;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Dock = System.Windows.Forms.DockStyle.Right;
+            this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label10.Location = new System.Drawing.Point(80, 26);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(22, 26);
+            this.label10.TabIndex = 26;
+            this.label10.Text = "for";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Dock = System.Windows.Forms.DockStyle.Right;
+            this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label8.Location = new System.Drawing.Point(13, 52);
+            this.label8.Name = "label8";
+            this.label8.Padding = new System.Windows.Forms.Padding(2);
+            this.label8.Size = new System.Drawing.Size(59, 26);
+            this.label8.TabIndex = 30;
+            this.label8.Text = "Runtime:";
+            // 
+            // lblRuntime
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.lblRuntime, 2);
+            this.lblRuntime.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblRuntime.Location = new System.Drawing.Point(78, 55);
+            this.lblRuntime.Name = "lblRuntime";
+            this.lblRuntime.ReadOnly = true;
+            this.lblRuntime.Size = new System.Drawing.Size(257, 23);
+            this.lblRuntime.TabIndex = 29;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label4.Location = new System.Drawing.Point(463, 50);
+            this.label4.Location = new System.Drawing.Point(341, 11);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(60, 15);
+            this.label4.Size = new System.Drawing.Size(227, 15);
             this.label4.TabIndex = 39;
             this.label4.Text = "Highlight:";
             // 
-            // button1
-            // 
-            this.button1.AutoSize = true;
-            this.button1.Location = new System.Drawing.Point(819, 5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 27);
-            this.button1.TabIndex = 18;
-            this.button1.Text = "Clean All";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // textHighlight
             // 
+            this.textHighlight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textHighlight.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textHighlight.Location = new System.Drawing.Point(529, 47);
+            this.textHighlight.Location = new System.Drawing.Point(341, 29);
             this.textHighlight.Multiline = true;
             this.textHighlight.Name = "textHighlight";
             this.textHighlight.ReadOnly = true;
-            this.textHighlight.Size = new System.Drawing.Size(365, 48);
+            this.tableLayoutPanel2.SetRowSpan(this.textHighlight, 3);
+            this.textHighlight.Size = new System.Drawing.Size(227, 68);
             this.textHighlight.TabIndex = 38;
-            // 
-            // buttonClean
-            // 
-            this.buttonClean.AutoSize = true;
-            this.buttonClean.Location = new System.Drawing.Point(738, 6);
-            this.buttonClean.Name = "buttonClean";
-            this.buttonClean.Size = new System.Drawing.Size(75, 27);
-            this.buttonClean.TabIndex = 17;
-            this.buttonClean.Text = "Clean";
-            this.buttonClean.UseVisualStyleBackColor = true;
-            this.buttonClean.Visible = false;
-            this.buttonClean.Click += new System.EventHandler(this.buttonClean_Click);
             // 
             // lblYear
             // 
@@ -1101,44 +1406,17 @@ namespace MovieBrowser.Forms
             this.lblYear.Size = new System.Drawing.Size(0, 25);
             this.lblYear.TabIndex = 36;
             // 
-            // lblTitle
-            // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Palatino Linotype", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.Location = new System.Drawing.Point(101, 6);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(17, 28);
-            this.lblTitle.TabIndex = 34;
-            this.lblTitle.Text = ".";
-            // 
             // lblRating
             // 
+            this.lblRating.Dock = System.Windows.Forms.DockStyle.Left;
             this.lblRating.Font = new System.Drawing.Font("Segoe UI", 32.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRating.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblRating.Location = new System.Drawing.Point(5, 5);
+            this.lblRating.Location = new System.Drawing.Point(0, 0);
             this.lblRating.Name = "lblRating";
-            this.lblRating.Size = new System.Drawing.Size(90, 90);
+            this.lblRating.Size = new System.Drawing.Size(90, 100);
             this.lblRating.TabIndex = 33;
             this.lblRating.Text = ".";
             this.lblRating.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label8.Location = new System.Drawing.Point(165, 50);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(55, 15);
-            this.label8.TabIndex = 30;
-            this.label8.Text = "Runtime:";
-            // 
-            // lblRuntime
-            // 
-            this.lblRuntime.Location = new System.Drawing.Point(226, 47);
-            this.lblRuntime.Name = "lblRuntime";
-            this.lblRuntime.ReadOnly = true;
-            this.lblRuntime.Size = new System.Drawing.Size(231, 23);
-            this.lblRuntime.TabIndex = 29;
             // 
             // horizontalPanel2
             // 
@@ -1156,7 +1434,7 @@ namespace MovieBrowser.Forms
             this.horizontalPanel2.Controls.Add(this.label9);
             this.horizontalPanel2.Dock = System.Windows.Forms.DockStyle.Right;
             this.horizontalPanel2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.horizontalPanel2.Location = new System.Drawing.Point(900, 0);
+            this.horizontalPanel2.Location = new System.Drawing.Point(661, 0);
             this.horizontalPanel2.Name = "horizontalPanel2";
             this.horizontalPanel2.Size = new System.Drawing.Size(347, 100);
             this.horizontalPanel2.TabIndex = 28;
@@ -1284,33 +1562,6 @@ namespace MovieBrowser.Forms
             this.label9.TabIndex = 27;
             this.label9.Text = "User Rating:";
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label10.Location = new System.Drawing.Point(165, 75);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(22, 15);
-            this.label10.TabIndex = 26;
-            this.label10.Text = "for";
-            // 
-            // lblMPAA
-            // 
-            this.lblMPAA.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMPAA.Location = new System.Drawing.Point(101, 72);
-            this.lblMPAA.Name = "lblMPAA";
-            this.lblMPAA.ReadOnly = true;
-            this.lblMPAA.Size = new System.Drawing.Size(58, 23);
-            this.lblMPAA.TabIndex = 24;
-            // 
-            // textMpaaReason
-            // 
-            this.textMpaaReason.Location = new System.Drawing.Point(193, 72);
-            this.textMpaaReason.Name = "textMpaaReason";
-            this.textMpaaReason.ReadOnly = true;
-            this.textMpaaReason.Size = new System.Drawing.Size(264, 23);
-            this.textMpaaReason.TabIndex = 22;
-            // 
             // toolStrip3
             // 
             this.toolStrip3.Dock = System.Windows.Forms.DockStyle.None;
@@ -1362,18 +1613,12 @@ namespace MovieBrowser.Forms
             // searchToolStripMenuItem
             // 
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-            this.searchToolStripMenuItem.Text = "Search";
-            this.searchToolStripMenuItem.Click += new System.EventHandler(this.SearchToolStripMenuItemClick);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(67, 22);
             // 
             // googleToolStripMenuItem
             // 
             this.googleToolStripMenuItem.Name = "googleToolStripMenuItem";
-            this.googleToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.googleToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-            this.googleToolStripMenuItem.Text = "Google";
-            this.googleToolStripMenuItem.Click += new System.EventHandler(this.GoogleToolStripMenuItemClick);
+            this.googleToolStripMenuItem.Size = new System.Drawing.Size(67, 22);
             // 
             // parseToolStripMenuItem
             // 
@@ -1390,7 +1635,6 @@ namespace MovieBrowser.Forms
             this.intelligentTrackerToolStripMenuItem.Name = "intelligentTrackerToolStripMenuItem";
             this.intelligentTrackerToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.intelligentTrackerToolStripMenuItem.Text = "&Intelligent Tracker";
-            this.intelligentTrackerToolStripMenuItem.Click += new System.EventHandler(this.IntelligentTrackerToolStripMenuItemClick);
             // 
             // extraToolStripMenuItem
             // 
@@ -1413,20 +1657,11 @@ namespace MovieBrowser.Forms
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             // 
-            // tbAddToDbFromBrowser
-            // 
-            this.tbAddToDbFromBrowser.Image = global::MovieBrowser.Properties.Resources.update;
-            this.tbAddToDbFromBrowser.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbAddToDbFromBrowser.Name = "tbAddToDbFromBrowser";
-            this.tbAddToDbFromBrowser.Size = new System.Drawing.Size(81, 22);
-            this.tbAddToDbFromBrowser.Text = "Add to Db";
-            this.tbAddToDbFromBrowser.Click += new System.EventHandler(this.tbAddToDbFromBrowser_Click);
-            // 
             // MovieBrowserSimple
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1247, 447);
+            this.ClientSize = new System.Drawing.Size(1008, 447);
             this.Controls.Add(this.toolStripContainer1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1470,9 +1705,19 @@ namespace MovieBrowser.Forms
             this.tpInformation.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listLanguages)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.listKeywords)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listDirectors)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.listStars)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.listWriters)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.listActors)).EndInit();
             this.horizontalPanel1.ResumeLayout(false);
             this.horizontalPanel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.horizontalPanel2.ResumeLayout(false);
             this.horizontalPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHaveIt)).EndInit();
@@ -1524,8 +1769,6 @@ namespace MovieBrowser.Forms
         private BrightIdeasSoftware.OLVColumn olvImdbId;
         private BrightIdeasSoftware.OLVColumn olvRating;
         private BrightIdeasSoftware.OLVColumn olvYear;
-        private System.Windows.Forms.Button buttonClean;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TabPage tpMoviesTree;
         private System.Windows.Forms.Panel panel2;
         private BrightIdeasSoftware.TreeListView treeView1;
@@ -1599,13 +1842,31 @@ namespace MovieBrowser.Forms
         private DataListView listKeywords;
         private OLVColumn olvColKeyword;
         private OLVColumn olvColKeywordRated;
-        private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.ToolStrip toolStrip4;
         private System.Windows.Forms.ToolStripButton tbIntelligent;
         private System.Windows.Forms.ToolStripButton tbUpdateDb;
         private System.Windows.Forms.ToolStripButton tbAddToDbFromBrowser;
+        private System.Windows.Forms.ToolStripButton tbUpdateTreeNode;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private DataListView listLanguages;
+        private OLVColumn olvColumn2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private DataListView listDirectors;
+        private OLVColumn olvColumn1;
+        private DataListView listStars;
+        private OLVColumn olvColumn6;
+        private DataListView listWriters;
+        private OLVColumn olvColumn5;
+        private System.Windows.Forms.Label label6;
+        private DataListView listActors;
+        private OLVColumn olvColumn3;
+        private OLVColumn olvColumn4;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
     }
 }
 

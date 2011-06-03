@@ -52,7 +52,7 @@ namespace MovieBrowser.Forms
                 {
                     FireText("Trying ... to Guess...");
                     var src = HttpHelper.FetchWebPage(MovieBrowserController.ImdbSearch + HttpHelper.UrlEncode(movie.Title));
-                    var m = controller.GuessMovie(src);
+                    var m = MovieBrowserController.GuessMovie(src);
 
                     var item = new ListViewItem(movie.Title);
                     item.SubItems.Add(m.Title);
@@ -151,7 +151,7 @@ namespace MovieBrowser.Forms
                 FireText("Finished: ImdbId= " + movie.ImdbId);
 
                 m.FilePath = movie.FilePath;
-                controller.ChangeFolderName(m);
+                MovieBrowserController.ChangeFolderName(m);
             }
 
             FireText("DONE.... I am FINISHED...");

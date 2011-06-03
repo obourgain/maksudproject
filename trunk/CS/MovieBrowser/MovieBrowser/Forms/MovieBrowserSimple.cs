@@ -23,6 +23,7 @@ namespace MovieBrowser.Forms
 
     public partial class MovieBrowserSimple : Form
     {
+        #region Fields
         private User _loggedInUser = null;
         private Movie _movie = null;
         readonly MovieBrowserController _controller = new MovieBrowserController();
@@ -37,6 +38,7 @@ namespace MovieBrowser.Forms
                                                                Color.Black, Color.Navy, Color.Black, Color.Black,
                                                                Color.Black, Color.White
                                                            };
+        #endregion
 
         public MovieBrowserSimple()
         {
@@ -56,8 +58,6 @@ namespace MovieBrowser.Forms
         {
             get
             {
-
-
                 return _loggedInUser != null;
             }
         }
@@ -85,79 +85,12 @@ namespace MovieBrowser.Forms
         #endregion
 
 
-        private void ToolStripButton1Click(object sender, EventArgs e)
-        {
-
-
-
-
-
-        }
-        private void TsSearchImdbClick(object sender, EventArgs e)
-        {
-            TreeView1DoubleClick(sender, e);
-        }
-        private void TreeView1DoubleClick(object sender, EventArgs e)
-        {
-
-        }
-        private void SearchToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            TsSearchImdbClick(sender, e);
-        }
-        private void GoogleToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            TreeView1DoubleClick(sender, e);
-        }
-        private void TsSearchGoogleClick(object sender, EventArgs e)
-        {
-            GoogleToolStripMenuItemClick(sender, e);
-        }
-        private void TsDeleteClick(object sender, EventArgs e)
-        {
-            //_controller.DeleteNode(treeView1);
-        }
-        private void TreeView1KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                TreeView1DoubleClick(sender, e);
-            }
-            else if (e.KeyCode == Keys.Space)
-            {
-                //_controller.Open(((Movie)treeView1.SelectedNode.Tag).FilePath);
-            }
-        }
-        private void IntelligentTrackerToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            intelligentTrackerToolStripMenuItem.Checked = !intelligentTrackerToolStripMenuItem.Checked;
-            _controller.IntelligentSearch = intelligentTrackerToolStripMenuItem.Checked;
-        }
-        private void MovieBrowserSimpleFormClosing(object sender, FormClosingEventArgs e)
-        {
-            _controller.SaveFolderListTree((ArrayList)treeView1.Roots);
-        }
-        private void MovieBrowserSimpleLoad(object sender, EventArgs e)
-        {
-
-            Login();
-
-            _controller.LoadPenDrives(comboPendrives);
-
-            dataListView1.UseTranslucentHotItem = true;
-            dataListView1.DataSource = _controller.Movies;
-
-            var paths = (from object a in Properties.Settings.Default.Paths select (string)a).ToList();
-            LoadTree(paths);
-            LoadUserList();
-        }
-
+        #region Methods
         private void ReloadTreeRoot()
         {
-            List<string> strs = (from object root in treeView1.Roots select ((Movie)root).FilePath).ToList();
+            var strs = (from object root in treeView1.Roots select ((Movie)root).FilePath).ToList();
             LoadTree(strs);
         }
-
         private void Login()
         {
             if (_loggedInUser == null)
@@ -172,49 +105,6 @@ namespace MovieBrowser.Forms
                 form.ShowDialog(this);
             }
         }
-
-        private void WebBrowser1DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            try
-            {
-                textBox1.AppendText("Document Completed: " + webBrowser1.ReadyState + "\r\n");
-                if (_controller.RecentSearch && _controller.IntelligentSearch)
-                    _controller.Redirect(e.Url.AbsoluteUri, webBrowser1.DocumentText);
-                else
-                {
-                    _controller.RecentSearch = false;
-                }
-            }
-            catch (Exception)
-            {
-            }
-        }
-
-        private void WebBrowser1Navigated(object sender, WebBrowserNavigatedEventArgs e)
-        {
-            textBox1.AppendText("Navigated to " + e.Url.AbsoluteUri + "\r\n");
-        }
-
-        private void UpdateToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            _controller.UpdateMovie();
-        }
-
-
-        private void toolStripButton2_Click(object sender, EventArgs e)
-        {
-            var information = new CollectInformation { Html = webBrowser1.DocumentText, MovieController = _controller, MovieNode = null };
-            var thread = new Thread(information.Collect);
-            thread.Start();
-        }
-
-        private void updateMovieInformationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var movies = ((Movie)treeView1.SelectedObject).Children;
-            new UpdateMovieInformation(movies).Show();
-        }
-
-
         void InitializeTree()
         {
             this.treeView1.CanExpandGetter = delegate(object x)
@@ -332,6 +222,7 @@ namespace MovieBrowser.Forms
 
             return String.Format("{0} bytes", size); ;
         }
+
         private void LoadDbInfo(Movie pmovie)
         {
 
@@ -394,6 +285,12 @@ namespace MovieBrowser.Forms
                 listCountries.Items.Clear();
                 listKeywords.Items.Clear();
                 listGenres.Items.Clear();
+                listLanguages.Items.Clear();
+                //
+                listActors.Items.Clear();
+                listStars.Items.Clear();
+                listDirectors.Items.Clear();
+                listWriters.Items.Clear();
 
                 if (rowMovie.IsValidMovie)
                 {
@@ -436,8 +333,7 @@ namespace MovieBrowser.Forms
                     listCountries.Items.Add(item);
                 }
 
-                var listK = _controller.Db.MovieKeywords.Where(a => a.Movie.Id == movie.Id).Select(o => o.Keyword).ToList();
-                listKeywords.DataSource = listK;
+                listKeywords.DataSource = _controller.Db.MovieKeywords.Where(a => a.Movie.Id == movie.Id).Select(o => o.Keyword);
 
                 var listG = _controller.Db.MovieGenres.Where(a => a.Movie.Id == movie.Id).Select(o => o.Genre).ToList();
                 listGenres.Items.Clear();
@@ -447,6 +343,13 @@ namespace MovieBrowser.Forms
                     item.SubItems.Add(country.Code);
                     listGenres.Items.Add(item);
                 }
+
+                listLanguages.DataSource = _controller.Db.MovieLanguages.Where(a => a.Movie.Id == movie.Id).Select(o => o.Language);
+
+                listDirectors.DataSource = _controller.Db.Directors.Where(a => a.Movie.Id == movie.Id).Select(o => o.Person);
+                listWriters.DataSource = _controller.Db.Writers.Where(a => a.Movie.Id == movie.Id).Select(o => o.Person);
+                listActors.DataSource = _controller.Db.Actors.Where(a => a.Movie.Id == movie.Id).Select(o => o.Person);
+                listStars.DataSource = _controller.Db.Stars.Where(a => a.Movie.Id == movie.Id).Select(o => o.Person);
 
             }
 
@@ -475,7 +378,6 @@ namespace MovieBrowser.Forms
                 LoadPersonalNote(null);
             }
         }
-
 
         void LoadPersonalNote(MoviePersonalNote note)
         {
@@ -508,39 +410,117 @@ namespace MovieBrowser.Forms
 
         }
 
-
-        private class CollectInformation
+        private void MovieSearch()
         {
-            public OLVListItem MovieNode { private get; set; }
-            public Movie ParsedMovie { get; set; }
-            public MovieBrowserController MovieController { private get; set; }
-            public string Html { private get; set; }
+            if (treeView1.SelectedObject == null) return;
 
-            public void Collect()
-            {
-                try
-                {
+            var movie = (Movie)treeView1.SelectedObject;
 
-                    if (MovieNode != null)
-                    {
-                        ParsedMovie = (Movie)MovieNode.RowObject;
-                    }
-
-                    var movie = MovieController.CollectAndAddMovieToDb(ParsedMovie, Html);
-                    if (MovieNode != null && movie != null)
-                    {
-                        MovieController.UpdateMovie(MovieNode);
-                    }
-
-                }
-                catch (Exception exception)
-                {
-                    MessageBox.Show(@"Problem Collecting Information.", exception.Message);
-                }
-            }
-
+            if (movie.IsValidMovie || movie.IsFolder)
+                _controller.SearchMovieTree(MovieBrowserController.ImdbSearch, (OLVListItem)treeView1.SelectedItem);
+            else
+                MovieBrowserController.Open(movie.FilePath);
         }
 
+        private void LoadUserList()
+        {
+            if (IsAuthorized)
+            {
+                comboUserList.Items.Clear();
+
+                foreach (UserList movieUserList in _controller.Db.UserLists.Where(o => o.User.Id == _loggedInUser.Id))
+                {
+                    comboUserList.Items.Add(movieUserList.ListName);
+                }
+            }
+        }
+        private static void CollectAndUpdate(OLVListItem selectedItem, string html = null, Movie movie = null)
+        {
+            var information = new CollectInformation { MovieController = new MovieBrowserController(), MovieNode = selectedItem, Html = html, ParsedMovie = movie };
+            var thread = new Thread(information.Collect);
+            thread.Start();
+        }
+
+        private void UpdateTreeNode()
+        {
+            if (treeView1.SelectedItem != null)
+            {
+                CollectAndUpdate((OLVListItem)treeView1.SelectedItem, webBrowser1.DocumentText);
+                //_controller.UpdateMovie((OLVListItem) treeView1.SelectedItem);
+            }
+        }
+
+        #endregion
+
+        private void MovieBrowserSimpleFormClosing(object sender, FormClosingEventArgs e)
+        {
+            MovieBrowserController.SaveFolderListTree((ArrayList)treeView1.Roots);
+        }
+
+        private void MovieBrowserSimpleLoad(object sender, EventArgs e)
+        {
+            Login();
+
+            MovieBrowserController.LoadPenDrives(comboPendrives);
+
+            dataListView1.UseTranslucentHotItem = true;
+            dataListView1.DataSource = _controller.Movies;
+
+            var paths = (from object a in Properties.Settings.Default.Paths select (string)a).ToList();
+            LoadTree(paths);
+            LoadUserList();
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.M))
+            {
+                CollectAndUpdate((OLVListItem)treeView1.SelectedItem);
+                return true;
+            }
+
+            if (keyData == Keys.F8)
+            {
+                UpdateTreeNode();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void WebBrowser1DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            try
+            {
+                textBox1.AppendText("Document Completed: " + webBrowser1.ReadyState + "\r\n");
+                if (_controller.RecentSearch && _controller.IntelligentSearch)
+                    _controller.Redirect(e.Url.AbsoluteUri, webBrowser1.DocumentText);
+                else
+                {
+                    _controller.RecentSearch = false;
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void WebBrowser1Navigated(object sender, WebBrowserNavigatedEventArgs e)
+        {
+            textBox1.AppendText("Navigated to " + e.Url.AbsoluteUri + "\r\n");
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            var information = new CollectInformation { Html = webBrowser1.DocumentText, MovieController = _controller, MovieNode = null };
+            var thread = new Thread(information.Collect);
+            thread.Start();
+        }
+
+        private void updateMovieInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var movies = ((Movie)treeView1.SelectedObject).Children;
+            new UpdateMovieInformation(movies).Show();
+        }
 
         private void DataListView1SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -553,17 +533,6 @@ namespace MovieBrowser.Forms
 
             }
             catch { }
-        }
-
-
-
-
-        private void toolStripTextBoxSearch_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                //_controller.SearchMovie(MovieBrowserController.ImdbSearch, new Movie() { Title = toolStripTextBoxSearch.Text });
-            }
         }
 
         private void DataListView1DoubleClick(object sender, EventArgs e)
@@ -583,7 +552,6 @@ namespace MovieBrowser.Forms
             if (e.KeyCode == Keys.Return)
                 DataListView1DoubleClick(sender, e);
         }
-
 
         private void buttonClean_Click(object sender, EventArgs e)
         {
@@ -615,9 +583,6 @@ namespace MovieBrowser.Forms
             ComponentUtility.TimedFilter(this.dataListView1, "");
         }
 
-
-
-
         private void treeListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (treeView1.SelectedObject != null)
@@ -636,18 +601,18 @@ namespace MovieBrowser.Forms
 
         private void tbSaveFolders_Click(object sender, EventArgs e)
         {
-            _controller.SaveFolderListTree((ArrayList)treeView1.Roots);
+            MovieBrowserController.SaveFolderListTree((ArrayList)treeView1.Roots);
         }
 
         private void tbLoadPendrives_Click(object sender, EventArgs e)
         {
-            _controller.LoadPenDrives(comboPendrives);
+            MovieBrowserController.LoadPenDrives(comboPendrives);
         }
 
         private void tbOpenExplorer_Click(object sender, EventArgs e)
         {
             if (treeView1.SelectedItem != null)
-                _controller.Open(((Movie)treeView1.SelectedObject).FilePath);
+                MovieBrowserController.Open(((Movie)treeView1.SelectedObject).FilePath);
         }
 
         private void tbSearchImdb_Click(object sender, EventArgs e)
@@ -659,18 +624,6 @@ namespace MovieBrowser.Forms
         {
             var form = new IgnoreListForm();
             form.ShowDialog(this);
-        }
-
-        private void tbUpdateFolder_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void CollectAndUpdate(OLVListItem selectedItem, string html = null, Movie movie = null)
-        {
-            var information = new CollectInformation { MovieController = new MovieBrowserController(), MovieNode = selectedItem, Html = html, ParsedMovie = movie };
-            var thread = new Thread(information.Collect);
-            thread.Start();
         }
 
         private void rsUserRating_RatingValueChanged(object sender, RatingControl.RatingChangedEventArgs e)
@@ -712,14 +665,7 @@ namespace MovieBrowser.Forms
 
         private void treeListView1_DoubleClick(object sender, EventArgs e)
         {
-            if (treeView1.SelectedObject == null) return;
-
-            var movie = (Movie)treeView1.SelectedObject;
-
-            if (movie.IsValidMovie || movie.IsFolder)
-                _controller.SearchMovieTree(MovieBrowserController.ImdbSearch, (OLVListItem)treeView1.SelectedItem);
-            else
-                _controller.Open(movie.FilePath);
+            MovieSearch();
         }
 
         private void refreshFolderToolStripMenuItem_Click(object sender, EventArgs e)
@@ -760,34 +706,14 @@ namespace MovieBrowser.Forms
             }
         }
 
-
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            CollectAndUpdate((OLVListItem)dataListView1.SelectedItem);
-        }
-
         private void tbAddToDb_Click(object sender, EventArgs e)
         {
             CollectAndUpdate(null, webBrowser1.DocumentText);
-
-
         }
-
-        private void btnRefreshTree_Click(object sender, EventArgs e)
-        {
-            ReloadTreeRoot();
-        }
-
-        private void btnReloadDbList_Click(object sender, EventArgs e)
-        {
-            dataListView1.DataSource = _controller.Movies;
-        }
-
 
         private void pbUpdateTree_Click(object sender, EventArgs e)
         {
-            if (treeView1.SelectedItem != null)
-                _controller.UpdateMovie((OLVListItem)treeView1.SelectedItem);
+            UpdateTreeNode();
         }
 
         private void pbAddTreeItemToDb_Click(object sender, EventArgs e)
@@ -796,14 +722,12 @@ namespace MovieBrowser.Forms
                 CollectAndUpdate((OLVListItem)treeView1.SelectedItem);
         }
 
-
-
         private void tbSendTo_Click(object sender, EventArgs e)
         {
             if (comboPendrives.SelectedItem != null)
             {
                 var movies = treeView1.CheckedObjects.Cast<Movie>().Where(movie => movie.IsFolder).ToList();
-                _controller.SendTo(movies, comboPendrives);
+                MovieBrowserController.SendTo(movies, comboPendrives);
             }
         }
 
@@ -883,6 +807,19 @@ namespace MovieBrowser.Forms
             }
         }
 
+        private void tbRateIt_Click(object sender, EventArgs e)
+        {
+            foreach (Movie movie in dataListView1.SelectedObjects)
+            {
+                if (IsAuthorized)
+                {
+                    double rating = 0.0;
+                    double.TryParse(txtUserRating.Text, out rating);
+                    _controller.RateIt(_loggedInUser, movie, rating);
+                }
+            }
+        }
+
         private void tbUserManagement_Click(object sender, EventArgs e)
         {
             Form form = new UsersForm(_controller.Db);
@@ -897,16 +834,6 @@ namespace MovieBrowser.Forms
                 new MovieListForm(_loggedInUser, _controller.Db).ShowDialog(this);
 
                 LoadUserList();
-            }
-        }
-
-        private void LoadUserList()
-        {
-            comboUserList.Items.Clear();
-
-            foreach (UserList movieUserList in _controller.Db.UserLists.Where(o => o.User.Id == _loggedInUser.Id))
-            {
-                comboUserList.Items.Add(movieUserList.ListName);
             }
         }
 
@@ -947,6 +874,59 @@ namespace MovieBrowser.Forms
         {
             CollectAndUpdate(null, webBrowser1.DocumentText);
         }
+
+        private void treeView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                MovieSearch();
+            }
+        }
+
+        private void tbUpdateTreeNode_Click(object sender, EventArgs e)
+        {
+
+            UpdateTreeNode();
+        }
+        private class CollectInformation
+        {
+            public OLVListItem MovieNode { private get; set; }
+            public Movie ParsedMovie { get; set; }
+            public MovieBrowserController MovieController { private get; set; }
+            public string Html { private get; set; }
+
+            public void Collect()
+            {
+                try
+                {
+
+                    if (MovieNode != null)
+                    {
+                        ParsedMovie = (Movie)MovieNode.RowObject;
+                    }
+
+                    var movie = MovieController.CollectAndAddMovieToDb(ParsedMovie, Html);
+                    if (MovieNode != null && movie != null)
+                    {
+                        MovieController.UpdateMovieNode(MovieNode, movie);
+                    }
+
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(@"Problem Collecting Information.", exception.Message);
+                }
+            }
+
+        }
+
+
+
+
+
+
+
+
     }
 
     public class SendToThread
@@ -969,6 +949,5 @@ namespace MovieBrowser.Forms
         }
 
     }
-
 
 }
