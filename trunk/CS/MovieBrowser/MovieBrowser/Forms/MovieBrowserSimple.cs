@@ -468,8 +468,13 @@ namespace MovieBrowser.Forms
             dataListView1.UseTranslucentHotItem = true;
             dataListView1.DataSource = _controller.Movies;
 
-            var paths = (from object a in Properties.Settings.Default.Paths select (string)a).ToList();
-            LoadTree(paths);
+            try
+            {
+                var paths = (from object a in Properties.Settings.Default.Paths select (string)a).ToList();
+                LoadTree(paths);
+            }
+            catch (Exception exception)
+            { }
             LoadUserList();
         }
 

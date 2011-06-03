@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieBrowser", "MovieBrowser\MovieBrowser.csproj", "{7CE369FC-D45F-4D56-ACAD-165E94103AF2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{12B5E1B4-7B96-45A3-9051-DC0E27787CF3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{12B5E1B4-7B96-45A3-9051-DC0E27787CF3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{CB202BCC-3271-46C0-B665-08999EF96815}"
 EndProject
@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		MovieBrowser.vsmdi = MovieBrowser.vsmdi
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MBInstaller", "MBInstaller\MBInstaller.vdproj", "{FDD8135B-4B32-4FDE-922E-4747A758676D}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -83,6 +85,12 @@ Global
 		{A6A7E2C2-CC86-4DBB-A415-78F23037BB85}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A6A7E2C2-CC86-4DBB-A415-78F23037BB85}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A6A7E2C2-CC86-4DBB-A415-78F23037BB85}.Release|x86.ActiveCfg = Release|Any CPU
+		{FDD8135B-4B32-4FDE-922E-4747A758676D}.Debug|Any CPU.ActiveCfg = Debug
+		{FDD8135B-4B32-4FDE-922E-4747A758676D}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{FDD8135B-4B32-4FDE-922E-4747A758676D}.Debug|x86.ActiveCfg = Debug
+		{FDD8135B-4B32-4FDE-922E-4747A758676D}.Release|Any CPU.ActiveCfg = Release
+		{FDD8135B-4B32-4FDE-922E-4747A758676D}.Release|Mixed Platforms.ActiveCfg = Release
+		{FDD8135B-4B32-4FDE-922E-4747A758676D}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,7 +98,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7CE369FC-D45F-4D56-ACAD-165E94103AF2} = {3D1B9483-50EC-44EF-8D1F-8D4212193D7C}
 		{A6A7E2C2-CC86-4DBB-A415-78F23037BB85} = {3D1B9483-50EC-44EF-8D1F-8D4212193D7C}
-		{C3ABB3E2-C7A5-4E6F-BFD0-D246ED83E1BC} = {B480761A-8E67-43D0-ABFF-77897149A8D0}
+		{FDD8135B-4B32-4FDE-922E-4747A758676D} = {12B5E1B4-7B96-45A3-9051-DC0E27787CF3}
 		{773B1EF8-E5F0-45CA-96E8-20AE06716026} = {B480761A-8E67-43D0-ABFF-77897149A8D0}
+		{C3ABB3E2-C7A5-4E6F-BFD0-D246ED83E1BC} = {B480761A-8E67-43D0-ABFF-77897149A8D0}
 	EndGlobalSection
 EndGlobal

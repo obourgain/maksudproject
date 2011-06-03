@@ -129,7 +129,9 @@ namespace MovieBrowser.Controller
         {
             var newdir = original.FilePath.Substring(0, original.FilePath.LastIndexOf("\\") + 1);
             newdir += original.FolderName.CleanFileName();
-            Directory.Move(original.FilePath, newdir);
+
+            if (original.FilePath != newdir)
+                Directory.Move(original.FilePath, newdir);
 
             return newdir;
         }
