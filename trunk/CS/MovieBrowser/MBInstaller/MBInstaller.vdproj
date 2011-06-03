@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_17895F986734A9866189A495D83904A1"
+        "MsmKey" = "8:_4CB7416BF6B1D9C2040518418C7800D3"
         "OwnerKey" = "8:_F7E7F733E70B4AD6B88DCF27C51FD7D1"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -39,25 +39,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_93D2B2E6A4F5FC689FB848B52F5E985C"
-        "OwnerKey" = "8:_AA3534EA39291EC234394B056BE5D27B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_93D2B2E6A4F5FC689FB848B52F5E985C"
-        "OwnerKey" = "8:_F7E7F733E70B4AD6B88DCF27C51FD7D1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_A8BABDD41F2DAAC1A64932E1B5E704BB"
-        "OwnerKey" = "8:_F7E7F733E70B4AD6B88DCF27C51FD7D1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AA3534EA39291EC234394B056BE5D27B"
         "OwnerKey" = "8:_F7E7F733E70B4AD6B88DCF27C51FD7D1"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -70,6 +52,24 @@
         "Entry"
         {
         "MsmKey" = "8:_B5923712781659553A4A241190E32E50"
+        "OwnerKey" = "8:_F7E7F733E70B4AD6B88DCF27C51FD7D1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DF6ABB394AAEDE7296B37DE798024E5A"
+        "OwnerKey" = "8:_4CB7416BF6B1D9C2040518418C7800D3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DF6ABB394AAEDE7296B37DE798024E5A"
+        "OwnerKey" = "8:_F7E7F733E70B4AD6B88DCF27C51FD7D1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E9FD7107064B8EEBDD783820B69C312D"
         "OwnerKey" = "8:_F7E7F733E70B4AD6B88DCF27C51FD7D1"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -100,7 +100,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_17895F986734A9866189A495D83904A1"
+        "OwnerKey" = "8:_E9FD7107064B8EEBDD783820B69C312D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -130,13 +130,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AA3534EA39291EC234394B056BE5D27B"
+        "OwnerKey" = "8:_4CB7416BF6B1D9C2040518418C7800D3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_93D2B2E6A4F5FC689FB848B52F5E985C"
+        "OwnerKey" = "8:_DF6ABB394AAEDE7296B37DE798024E5A"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -272,20 +272,20 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_17895F986734A9866189A495D83904A1"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4CB7416BF6B1D9C2040518418C7800D3"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ShellLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:CommonUtilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_17895F986734A9866189A495D83904A1"
+                    "_4CB7416BF6B1D9C2040518418C7800D3"
                     {
-                    "Name" = "8:ShellLib.dll"
+                    "Name" = "8:CommonUtilities.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:ShellLib.dll"
+            "SourcePath" = "8:CommonUtilities.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_4CF8589C58D0459D98C064B527DA4441"
@@ -385,37 +385,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_93D2B2E6A4F5FC689FB848B52F5E985C"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_93D2B2E6A4F5FC689FB848B52F5E985C"
-                    {
-                    "Name" = "8:log4net.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:log4net.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_4CF8589C58D0459D98C064B527DA4441"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A8BABDD41F2DAAC1A64932E1B5E704BB"
             {
             "AssemblyRegister" = "3:1"
@@ -430,37 +399,6 @@
                     }
                 }
             "SourcePath" = "8:WindowsFormsAero.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_4CF8589C58D0459D98C064B527DA4441"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AA3534EA39291EC234394B056BE5D27B"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:CommonUtilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_AA3534EA39291EC234394B056BE5D27B"
-                    {
-                    "Name" = "8:CommonUtilities.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:CommonUtilities.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_4CF8589C58D0459D98C064B527DA4441"
@@ -540,6 +478,68 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DF6ABB394AAEDE7296B37DE798024E5A"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_DF6ABB394AAEDE7296B37DE798024E5A"
+                    {
+                    "Name" = "8:log4net.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:log4net.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_4CF8589C58D0459D98C064B527DA4441"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E9FD7107064B8EEBDD783820B69C312D"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:ShellLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_E9FD7107064B8EEBDD783820B69C312D"
+                    {
+                    "Name" = "8:ShellLib.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:ShellLib.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_4CF8589C58D0459D98C064B527DA4441"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FD3625E0E0BF475992827402B9E12EB8"
             {
             "SourcePath" = "8:..\\MovieBrowser\\Database\\MovieDb.sqlite"
@@ -598,6 +598,17 @@
             "Property" = "8:ProgramMenuFolder"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_1FEE2425AD804066A1CDFF9E4EB14BCA"
+                    {
+                    "Name" = "8:Movie Browser"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_B30527AAB4C8460B9B4B0EA5F09EE5AE"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_E4EC063F0C2044EE9BF65F5AEB6B3862"
@@ -650,7 +661,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Movie Browser"
         "ProductCode" = "8:{18D07C74-9E64-47F1-A073-685BF0EDC639}"
-        "PackageCode" = "8:{3B26A974-4AE5-4AB0-986E-EE38805AC2BE}"
+        "PackageCode" = "8:{AF6AD948-F857-4352-9369-5B8767F729DD}"
         "UpgradeCode" = "8:{1FC498C2-3B9F-4A68-857A-14B0F20E5C3D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -770,6 +781,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_9934432792C7495F85D2F91D28528DDD"
+            {
+            "Name" = "8:Movie Browser"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:3"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_F7E7F733E70B4AD6B88DCF27C51FD7D1"
+            "Folder" = "8:_1FEE2425AD804066A1CDFF9E4EB14BCA"
+            "WorkingFolder" = "8:_4CF8589C58D0459D98C064B527DA4441"
+            "Icon" = "8:_826F8249260141B79F6A8AE6D4BE9327"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -1171,7 +1196,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F7E7F733E70B4AD6B88DCF27C51FD7D1"
             {
-            "SourcePath" = "8:..\\MovieBrowser\\obj\\x86\\Debug\\MovieBrowser.exe"
+            "SourcePath" = "8:..\\MovieBrowser\\obj\\x86\\Release\\MovieBrowser.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_4CF8589C58D0459D98C064B527DA4441"
