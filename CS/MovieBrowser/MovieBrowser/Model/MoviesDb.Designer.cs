@@ -24,12 +24,16 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("MovieDbModel", "FK_MovieLanguage_1", "Movie", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MovieBrowser.Model.Movie), "MovieLanguage", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MovieBrowser.Model.MovieLanguage))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("MovieDbModel", "FK_MoviePersonalNote_0", "Movie", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MovieBrowser.Model.Movie), "MoviePersonalNote", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MovieBrowser.Model.MoviePersonalNote))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("MovieDbModel", "FK_MovieUserList_0", "Movie", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MovieBrowser.Model.Movie), "MovieUserList", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MovieBrowser.Model.MovieUserList))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("MovieDbModel", "FK_Star_1", "Movie", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MovieBrowser.Model.Movie), "Star", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MovieBrowser.Model.Star))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("MovieDbModel", "FK_Writer_1", "Movie", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MovieBrowser.Model.Movie), "Writer", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MovieBrowser.Model.Writer))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("MovieDbModel", "FK_MoviePersonalNote_1", "User", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MovieBrowser.Model.User), "MoviePersonalNote", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MovieBrowser.Model.MoviePersonalNote))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("MovieDbModel", "FK_MovieUserList_1", "UserList", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MovieBrowser.Model.UserList), "MovieUserList", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MovieBrowser.Model.MovieUserList))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("MovieDbModel", "FK_Star_0", "Person", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MovieBrowser.Model.Person), "Star", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MovieBrowser.Model.Star))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("MovieDbModel", "FK_Writer_0", "Person", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MovieBrowser.Model.Person), "Writer", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MovieBrowser.Model.Writer))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("MovieDbModel", "FK_UserList_0", "User", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MovieBrowser.Model.User), "UserList", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MovieBrowser.Model.UserList))]
 
 // Original file name:
-// Generation date: 5/29/2011 10:00:52 PM
+// Generation date: 6/3/2011 10:38:14 AM
 namespace MovieBrowser.Model
 {
     
@@ -319,6 +323,23 @@ namespace MovieBrowser.Model
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         private global::System.Data.Objects.ObjectQuery<Person> _People;
         /// <summary>
+        /// There are no comments for Stars in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.Data.Objects.ObjectQuery<Star> Stars
+        {
+            get
+            {
+                if ((this._Stars == null))
+                {
+                    this._Stars = base.CreateQuery<Star>("[Stars]");
+                }
+                return this._Stars;
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.Data.Objects.ObjectQuery<Star> _Stars;
+        /// <summary>
         /// There are no comments for Users in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
@@ -352,6 +373,23 @@ namespace MovieBrowser.Model
         }
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         private global::System.Data.Objects.ObjectQuery<UserList> _UserLists;
+        /// <summary>
+        /// There are no comments for Writers in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.Data.Objects.ObjectQuery<Writer> Writers
+        {
+            get
+            {
+                if ((this._Writers == null))
+                {
+                    this._Writers = base.CreateQuery<Writer>("[Writers]");
+                }
+                return this._Writers;
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.Data.Objects.ObjectQuery<Writer> _Writers;
         /// <summary>
         /// There are no comments for Actors in the schema.
         /// </summary>
@@ -473,6 +511,14 @@ namespace MovieBrowser.Model
             base.AddObject("People", person);
         }
         /// <summary>
+        /// There are no comments for Stars in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public void AddToStars(Star star)
+        {
+            base.AddObject("Stars", star);
+        }
+        /// <summary>
         /// There are no comments for Users in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
@@ -487,6 +533,14 @@ namespace MovieBrowser.Model
         public void AddToUserLists(UserList userList)
         {
             base.AddObject("UserLists", userList);
+        }
+        /// <summary>
+        /// There are no comments for Writers in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public void AddToWriters(Writer writer)
+        {
+            base.AddObject("Writers", writer);
         }
     }
     /// <summary>
@@ -1848,6 +1902,50 @@ namespace MovieBrowser.Model
                 }
             }
         }
+        /// <summary>
+        /// There are no comments for Stars in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("MovieDbModel", "FK_Star_1", "Star")]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityCollection<Star> Stars
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Star>("MovieDbModel.FK_Star_1", "Star");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Star>("MovieDbModel.FK_Star_1", "Star", value);
+                }
+            }
+        }
+        /// <summary>
+        /// There are no comments for Writers in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("MovieDbModel", "FK_Writer_1", "Writer")]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityCollection<Writer> Writers
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Writer>("MovieDbModel.FK_Writer_1", "Writer");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Writer>("MovieDbModel.FK_Writer_1", "Writer", value);
+                }
+            }
+        }
     }
     /// <summary>
     /// There are no comments for MovieDbModel.MovieCountry in the schema.
@@ -3060,6 +3158,178 @@ namespace MovieBrowser.Model
                 }
             }
         }
+        /// <summary>
+        /// There are no comments for Stars in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("MovieDbModel", "FK_Star_0", "Star")]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityCollection<Star> Stars
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Star>("MovieDbModel.FK_Star_0", "Star");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Star>("MovieDbModel.FK_Star_0", "Star", value);
+                }
+            }
+        }
+        /// <summary>
+        /// There are no comments for Writers in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("MovieDbModel", "FK_Writer_0", "Writer")]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityCollection<Writer> Writers
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Writer>("MovieDbModel.FK_Writer_0", "Writer");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Writer>("MovieDbModel.FK_Writer_0", "Writer", value);
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// There are no comments for MovieDbModel.Star in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// Id
+    /// </KeyProperties>
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="MovieDbModel", Name="Star")]
+    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
+    [global::System.Serializable()]
+    public partial class Star : global::System.Data.Objects.DataClasses.EntityObject
+    {
+        /// <summary>
+        /// Create a new Star object.
+        /// </summary>
+        /// <param name="id">Initial value of Id.</param>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public static Star CreateStar(long id)
+        {
+            Star star = new Star();
+            star.Id = id;
+            return star;
+        }
+        /// <summary>
+        /// There are no comments for property Id in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public long Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                this.OnIdChanging(value);
+                this.ReportPropertyChanging("Id");
+                this._Id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Id");
+                this.OnIdChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private long _Id;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnIdChanging(long value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnIdChanged();
+        /// <summary>
+        /// There are no comments for Movie in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("MovieDbModel", "FK_Star_1", "Movie")]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public Movie Movie
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Movie>("MovieDbModel.FK_Star_1", "Movie").Value;
+            }
+            set
+            {
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Movie>("MovieDbModel.FK_Star_1", "Movie").Value = value;
+            }
+        }
+        /// <summary>
+        /// There are no comments for Movie in the schema.
+        /// </summary>
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityReference<Movie> MovieReference
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Movie>("MovieDbModel.FK_Star_1", "Movie");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<Movie>("MovieDbModel.FK_Star_1", "Movie", value);
+                }
+            }
+        }
+        /// <summary>
+        /// There are no comments for Person in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("MovieDbModel", "FK_Star_0", "Person")]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public Person Person
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Person>("MovieDbModel.FK_Star_0", "Person").Value;
+            }
+            set
+            {
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Person>("MovieDbModel.FK_Star_0", "Person").Value = value;
+            }
+        }
+        /// <summary>
+        /// There are no comments for Person in the schema.
+        /// </summary>
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityReference<Person> PersonReference
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Person>("MovieDbModel.FK_Star_0", "Person");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<Person>("MovieDbModel.FK_Star_0", "Person", value);
+                }
+            }
+        }
     }
     /// <summary>
     /// There are no comments for MovieDbModel.User in the schema.
@@ -3349,6 +3619,134 @@ namespace MovieBrowser.Model
                 if ((value != null))
                 {
                     ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<User>("MovieDbModel.FK_UserList_0", "User", value);
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// There are no comments for MovieDbModel.Writer in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// Id
+    /// </KeyProperties>
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="MovieDbModel", Name="Writer")]
+    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
+    [global::System.Serializable()]
+    public partial class Writer : global::System.Data.Objects.DataClasses.EntityObject
+    {
+        /// <summary>
+        /// Create a new Writer object.
+        /// </summary>
+        /// <param name="id">Initial value of Id.</param>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public static Writer CreateWriter(long id)
+        {
+            Writer writer = new Writer();
+            writer.Id = id;
+            return writer;
+        }
+        /// <summary>
+        /// There are no comments for property Id in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public long Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                this.OnIdChanging(value);
+                this.ReportPropertyChanging("Id");
+                this._Id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Id");
+                this.OnIdChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private long _Id;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnIdChanging(long value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnIdChanged();
+        /// <summary>
+        /// There are no comments for Movie in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("MovieDbModel", "FK_Writer_1", "Movie")]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public Movie Movie
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Movie>("MovieDbModel.FK_Writer_1", "Movie").Value;
+            }
+            set
+            {
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Movie>("MovieDbModel.FK_Writer_1", "Movie").Value = value;
+            }
+        }
+        /// <summary>
+        /// There are no comments for Movie in the schema.
+        /// </summary>
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityReference<Movie> MovieReference
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Movie>("MovieDbModel.FK_Writer_1", "Movie");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<Movie>("MovieDbModel.FK_Writer_1", "Movie", value);
+                }
+            }
+        }
+        /// <summary>
+        /// There are no comments for Person in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("MovieDbModel", "FK_Writer_0", "Person")]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public Person Person
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Person>("MovieDbModel.FK_Writer_0", "Person").Value;
+            }
+            set
+            {
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Person>("MovieDbModel.FK_Writer_0", "Person").Value = value;
+            }
+        }
+        /// <summary>
+        /// There are no comments for Person in the schema.
+        /// </summary>
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityReference<Person> PersonReference
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Person>("MovieDbModel.FK_Writer_0", "Person");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<Person>("MovieDbModel.FK_Writer_0", "Person", value);
                 }
             }
         }

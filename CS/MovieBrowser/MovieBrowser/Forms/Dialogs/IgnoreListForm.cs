@@ -23,7 +23,7 @@ namespace MovieBrowser.Forms.Dialogs
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.IgnoreWords = _controller.UpdateIgnoreWords();
+            Properties.Settings.Default.IgnoreWords = MovieBrowserController.UpdateIgnoreWords();
             Properties.Settings.Default.Save();
             this.Hide();
         }
