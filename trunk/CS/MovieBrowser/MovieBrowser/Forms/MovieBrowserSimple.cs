@@ -24,6 +24,10 @@ namespace MovieBrowser.Forms
     public partial class MovieBrowserSimple : Form
     {
         #region Fields
+
+        readonly SaveFileDialog _saveFileDialog = new SaveFileDialog();
+        readonly OpenFileDialog _openFileDialog = new OpenFileDialog();
+        readonly FolderBrowserDialog _dialog = new FolderBrowserDialog();
         private SearchForm _searchForm;
         private User _loggedInUser = null;
         private Movie _movie = null;
@@ -52,6 +56,7 @@ namespace MovieBrowser.Forms
             _controller.IntelligentSearch = intelligentTrackerToolStripMenuItem.Checked;
 
             InitializeTree();
+            InitializeVirtualTree();
 
             _searchForm = new SearchForm(_controller);
 
@@ -91,7 +96,7 @@ namespace MovieBrowser.Forms
         #region Methods
         private void ReloadTreeRoot()
         {
-            var strs = (from object root in treeView1.Roots select ((Movie)root).FilePath).ToList();
+            var strs = (from object root in treeListFileSystem.Roots select ((Movie)root).FilePath).ToList();
             LoadTree(strs);
         }
         private void Login()
@@ -110,12 +115,12 @@ namespace MovieBrowser.Forms
         }
         void InitializeTree()
         {
-            this.treeView1.CanExpandGetter = delegate(object x)
+            this.treeListFileSystem.CanExpandGetter = delegate(object x)
             {
-                return ((Movie)x).IsFolder;
+                return ((Movie)x).IsFilesystemFolder;
             };
 
-            this.treeView1.ChildrenGetter = delegate(object x)
+            this.treeListFileSystem.ChildrenGetter = delegate(object x)
             {
                 var movie = (Movie)x;
                 try
@@ -140,7 +145,7 @@ namespace MovieBrowser.Forms
             {
                 var m = (Movie)x;
 
-                if (!m.IsFolder)
+                if (!m.IsFilesystemFolder)
                 {
 
                     try
@@ -209,7 +214,7 @@ namespace MovieBrowser.Forms
                 var movie = Movie.FromFolderName(root);
                 roots.Add(movie);
             }
-            treeView1.Roots = roots;
+            treeListFileSystem.Roots = roots;
         }
 
         static string FormatFileSize(long size)
@@ -414,12 +419,12 @@ namespace MovieBrowser.Forms
 
         private void MovieSearch()
         {
-            if (treeView1.SelectedObject == null) return;
+            if (treeListFileSystem.SelectedObject == null) return;
 
-            var movie = (Movie)treeView1.SelectedObject;
+            var movie = (Movie)treeListFileSystem.SelectedObject;
 
-            if (movie.IsValidMovie || movie.IsFolder)
-                _controller.SearchMovieTree(MovieBrowserController.ImdbSearch, (OLVListItem)treeView1.SelectedItem);
+            if (movie.IsValidMovie || movie.IsFilesystemFolder)
+                _controller.SearchMovieTree(MovieBrowserController.ImdbSearch, (OLVListItem)treeListFileSystem.SelectedItem);
             else
                 MovieBrowserController.Open(movie.FilePath);
         }
@@ -436,18 +441,18 @@ namespace MovieBrowser.Forms
                 }
             }
         }
-        private static void CollectAndUpdate(OLVListItem selectedItem, string html = null, Movie movie = null)
+        private static void CollectAndUpdate(OLVListItem selectedItem, string html = null, Movie movie = null, bool fetchKeywords = true)
         {
-            var information = new CollectInformation { MovieController = new MovieBrowserController(), MovieNode = selectedItem, Html = html, ParsedMovie = movie };
+            var information = new CollectInformation { MovieController = new MovieBrowserController(), MovieNode = selectedItem, Html = html, ParsedMovie = movie, FetchKeyword = fetchKeywords };
             var thread = new Thread(information.Collect);
             thread.Start();
         }
 
         private void UpdateTreeNode()
         {
-            if (treeView1.SelectedItem != null)
+            if (treeListFileSystem.SelectedItem != null)
             {
-                CollectAndUpdate((OLVListItem)treeView1.SelectedItem, webBrowser1.DocumentText);
+                CollectAndUpdate((OLVListItem)treeListFileSystem.SelectedItem, webBrowser1.DocumentText, null, false);
                 //_controller.UpdateMovie((OLVListItem) treeView1.SelectedItem);
             }
         }
@@ -456,7 +461,7 @@ namespace MovieBrowser.Forms
 
         private void MovieBrowserSimpleFormClosing(object sender, FormClosingEventArgs e)
         {
-            MovieBrowserController.SaveFolderListTree((ArrayList)treeView1.Roots);
+            MovieBrowserController.SaveFolderListTree((ArrayList)treeListFileSystem.Roots);
         }
 
         private void MovieBrowserSimpleLoad(object sender, EventArgs e)
@@ -465,8 +470,8 @@ namespace MovieBrowser.Forms
 
             MovieBrowserController.LoadPenDrives(comboPendrives);
 
-            dataListView1.UseTranslucentHotItem = true;
-            dataListView1.DataSource = _controller.Movies;
+            dataListMoviesDatabase.UseTranslucentHotItem = true;
+            dataListMoviesDatabase.DataSource = _controller.Movies;
 
             try
             {
@@ -482,7 +487,7 @@ namespace MovieBrowser.Forms
         {
             if (keyData == (Keys.Control | Keys.M))
             {
-                CollectAndUpdate((OLVListItem)treeView1.SelectedItem);
+                CollectAndUpdate((OLVListItem)treeListFileSystem.SelectedItem);
                 return true;
             }
 
@@ -525,7 +530,7 @@ namespace MovieBrowser.Forms
 
         private void updateMovieInformationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var movies = ((Movie)treeView1.SelectedObject).Children;
+            var movies = ((Movie)treeListFileSystem.SelectedObject).Children;
             new UpdateMovieInformation(movies).Show();
         }
 
@@ -533,7 +538,7 @@ namespace MovieBrowser.Forms
         {
             try
             {
-                var movie = (Movie)(dataListView1.SelectedObject);
+                var movie = (Movie)(dataListMoviesDatabase.SelectedObject);
                 LoadImdbInfo(movie);
 
                 LoadDbInfo(movie);
@@ -546,7 +551,7 @@ namespace MovieBrowser.Forms
         {
             try
             {
-                var movie = (Movie)(dataListView1.SelectedObject);
+                var movie = (Movie)(dataListMoviesDatabase.SelectedObject);
                 _controller.SearchMovie(MovieBrowserController.ImdbSearch, movie);
             }
             catch
@@ -562,43 +567,43 @@ namespace MovieBrowser.Forms
 
         private void searchTextBox1_SearchStarted(object sender, EventArgs e)
         {
-            ComponentUtility.TimedFilter(this.treeView1, searchTextBox1.Text);
+            ComponentUtility.TimedFilter(this.treeListFileSystem, searchTextBox1.Text);
         }
 
         private void searchTextBox1_SearchCancelled(object sender, EventArgs e)
         {
-            ComponentUtility.TimedFilter(this.treeView1, "");
+            ComponentUtility.TimedFilter(this.treeListFileSystem, "");
         }
 
         private void searchTextBox2_SearchStarted(object sender, EventArgs e)
         {
-            ComponentUtility.TimedFilter(this.dataListView1, searchTextBox2.Text);
+            ComponentUtility.TimedFilter(this.dataListMoviesDatabase, searchTextBox2.Text);
         }
 
         private void searchTextBox2_SearchCancelled(object sender, EventArgs e)
         {
-            ComponentUtility.TimedFilter(this.dataListView1, "");
+            ComponentUtility.TimedFilter(this.dataListMoviesDatabase, "");
         }
 
         private void treeListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (treeView1.SelectedObject != null)
-                LoadImdbInfo((Movie)treeView1.SelectedObject);
+            if (treeListFileSystem.SelectedObject != null)
+                LoadImdbInfo((Movie)treeListFileSystem.SelectedObject);
         }
 
         /****************************************************************/
         private void tbBrowseFolders_Click(object sender, EventArgs e)
         {
-            VistaUIApi.Dialog.FolderBrowserDialog dialog = new FolderBrowserDialog();
-            if (dialog.ShowDialog(this) == DialogResult.OK)
+
+            if (_dialog.ShowDialog(this) == DialogResult.OK)
             {
-                treeView1.AddObject(Movie.FromFolderName(dialog.SelectedPath));
+                treeListFileSystem.AddObject(Movie.FromFolderName(_dialog.SelectedPath));
             }
         }
 
         private void tbSaveFolders_Click(object sender, EventArgs e)
         {
-            MovieBrowserController.SaveFolderListTree((ArrayList)treeView1.Roots);
+            MovieBrowserController.SaveFolderListTree((ArrayList)treeListFileSystem.Roots);
         }
 
         private void tbLoadPendrives_Click(object sender, EventArgs e)
@@ -608,13 +613,13 @@ namespace MovieBrowser.Forms
 
         private void tbOpenExplorer_Click(object sender, EventArgs e)
         {
-            if (treeView1.SelectedItem != null)
-                MovieBrowserController.Open(((Movie)treeView1.SelectedObject).FilePath);
+            if (treeListFileSystem.SelectedItem != null)
+                MovieBrowserController.Open(((Movie)treeListFileSystem.SelectedObject).FilePath);
         }
 
         private void tbSearchImdb_Click(object sender, EventArgs e)
         {
-            _controller.SearchMovie(Controller.MovieBrowserController.ImdbSearch, (Movie)treeView1.SelectedObject);
+            _controller.SearchMovie(Controller.MovieBrowserController.ImdbSearch, (Movie)treeListFileSystem.SelectedObject);
         }
 
         private void tbIgnoreList_Click(object sender, EventArgs e)
@@ -643,9 +648,9 @@ namespace MovieBrowser.Forms
 
         private void tbRemoveFolders_Click(object sender, EventArgs e)
         {
-            foreach (Movie item in treeView1.SelectedObjects)
+            foreach (Movie item in treeListFileSystem.SelectedObjects)
             {
-                treeView1.RemoveObject(item);
+                treeListFileSystem.RemoveObject(item);
             }
 
         }
@@ -657,7 +662,7 @@ namespace MovieBrowser.Forms
 
         private void tbSearchGoogle_Click(object sender, EventArgs e)
         {
-            _controller.SearchMovie(Controller.MovieBrowserController.GoogleSearch, (Movie)treeView1.SelectedObject);
+            _controller.SearchMovie(Controller.MovieBrowserController.GoogleSearch, (Movie)treeListFileSystem.SelectedObject);
         }
 
         private void treeListView1_DoubleClick(object sender, EventArgs e)
@@ -715,34 +720,34 @@ namespace MovieBrowser.Forms
 
         private void pbAddTreeItemToDb_Click(object sender, EventArgs e)
         {
-            if (treeView1.SelectedItem != null)
-                CollectAndUpdate((OLVListItem)treeView1.SelectedItem);
+            if (treeListFileSystem.SelectedItem != null)
+                CollectAndUpdate((OLVListItem)treeListFileSystem.SelectedItem);
         }
 
         private void tbSendTo_Click(object sender, EventArgs e)
         {
             if (comboPendrives.SelectedItem != null)
             {
-                var movies = treeView1.CheckedObjects.Cast<Movie>().Where(movie => movie.IsFolder).ToList();
+                var movies = treeListFileSystem.CheckedObjects.Cast<Movie>().Where(movie => movie.IsFilesystemFolder).ToList();
                 MovieBrowserController.SendTo(movies, comboPendrives);
             }
         }
 
         private void tbDeleteFromDb_Click(object sender, EventArgs e)
         {
-            if (dataListView1.SelectedObject != null)
-                _controller.RemoveMovie(((Movie)dataListView1.SelectedObject).ImdbId);
+            if (dataListMoviesDatabase.SelectedObject != null)
+                _controller.RemoveMovie(((Movie)dataListMoviesDatabase.SelectedObject).ImdbId);
         }
 
         private void tbRefreshDb_Click(object sender, EventArgs e)
         {
-            dataListView1.DataSource = _controller.Movies;
+            dataListMoviesDatabase.DataSource = _controller.Movies;
         }
 
         private void tbWantToWatch_Click(object sender, EventArgs e)
         {
             tbWantToWatch.Checked = !tbWantToWatch.Checked;
-            foreach (Movie movie in dataListView1.SelectedObjects)
+            foreach (Movie movie in dataListMoviesDatabase.SelectedObjects)
             {
                 if (IsAuthorized)
                 {
@@ -755,7 +760,7 @@ namespace MovieBrowser.Forms
         private void tbLikeIt_Click(object sender, EventArgs e)
         {
             tbLikeIt.Checked = !tbLikeIt.Checked;
-            foreach (Movie movie in dataListView1.SelectedObjects)
+            foreach (Movie movie in dataListMoviesDatabase.SelectedObjects)
             {
                 if (IsAuthorized)
                 {
@@ -768,7 +773,7 @@ namespace MovieBrowser.Forms
         private void tbDislikeIt_Click(object sender, EventArgs e)
         {
             tbDislikeIt.Checked = !tbDislikeIt.Checked;
-            foreach (Movie movie in dataListView1.SelectedObjects)
+            foreach (Movie movie in dataListMoviesDatabase.SelectedObjects)
             {
                 if (IsAuthorized)
                 {
@@ -781,7 +786,7 @@ namespace MovieBrowser.Forms
         private void tbSeenIt_Click(object sender, EventArgs e)
         {
             tbSeenIt.Checked = !tbSeenIt.Checked;
-            foreach (Movie movie in dataListView1.SelectedObjects)
+            foreach (Movie movie in dataListMoviesDatabase.SelectedObjects)
             {
                 if (IsAuthorized)
                 {
@@ -794,7 +799,7 @@ namespace MovieBrowser.Forms
         private void tbHaveIt_Click(object sender, EventArgs e)
         {
             tbHaveIt.Checked = !tbHaveIt.Checked;
-            foreach (Movie movie in dataListView1.SelectedObjects)
+            foreach (Movie movie in dataListMoviesDatabase.SelectedObjects)
             {
                 if (IsAuthorized)
                 {
@@ -806,7 +811,7 @@ namespace MovieBrowser.Forms
 
         private void tbRateIt_Click(object sender, EventArgs e)
         {
-            foreach (Movie movie in dataListView1.SelectedObjects)
+            foreach (Movie movie in dataListMoviesDatabase.SelectedObjects)
             {
                 if (IsAuthorized)
                 {
@@ -863,8 +868,8 @@ namespace MovieBrowser.Forms
 
         private void tbUpdateDb_Click(object sender, EventArgs e)
         {
-            if (dataListView1.SelectedObject != null)
-                CollectAndUpdate(null, null, (Movie)dataListView1.SelectedObject);
+            if (dataListMoviesDatabase.SelectedObject != null)
+                CollectAndUpdate(null, null, (Movie)dataListMoviesDatabase.SelectedObject);
         }
 
         private void tbAddToDbFromBrowser_Click(object sender, EventArgs e)
@@ -891,6 +896,7 @@ namespace MovieBrowser.Forms
             public Movie ParsedMovie { get; set; }
             public MovieBrowserController MovieController { private get; set; }
             public string Html { private get; set; }
+            public bool FetchKeyword { get; set; }
 
             public void Collect()
             {
@@ -902,7 +908,7 @@ namespace MovieBrowser.Forms
                         ParsedMovie = (Movie)MovieNode.RowObject;
                     }
 
-                    var movie = MovieController.CollectAndAddMovieToDb(ParsedMovie, Html);
+                    var movie = MovieController.CollectAndAddMovieToDb(ParsedMovie, Html, FetchKeyword);
                     if (MovieNode != null && movie != null)
                     {
                         MovieController.UpdateMovieNode(MovieNode, movie);
@@ -920,7 +926,7 @@ namespace MovieBrowser.Forms
         private void tbUpdated_Click(object sender, EventArgs e)
         {
             tbUpdated.Checked = !tbUpdated.Checked;
-            foreach (Movie movie in dataListView1.SelectedObjects)
+            foreach (Movie movie in dataListMoviesDatabase.SelectedObjects)
             {
                 var m = _controller.Db.Movies.Where(o => o.ImdbId == movie.ImdbId).FirstOrDefault();
                 if (m == null) continue;
@@ -960,6 +966,86 @@ namespace MovieBrowser.Forms
             if (e.KeyCode != Keys.Enter) return;
             if (datalistResult.SelectedObject != null)
                 _controller.SearchMovie(MovieBrowserController.ImdbSearch, (Movie)datalistResult.SelectedObject);
+        }
+
+        private void tbGenerateXML_Click(object sender, EventArgs e)
+        {
+
+            if (_saveFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                var serializer = new VirtualMovieFolderSerializer();
+                serializer.SerializeTreeView(Properties.Settings.Default.Paths, _saveFileDialog.FileName);
+            }
+        }
+
+        private void tbLoadVirtualFolders_Click(object sender, EventArgs e)
+        {
+            LoadVirtualTree();
+        }
+
+
+        void InitializeVirtualTree()
+        {
+            this.treeListVirtualFolders.CanExpandGetter = delegate(object x)
+            {
+                return ((Movie)x).IsFolder;
+            };
+
+            this.treeListVirtualFolders.ChildrenGetter = delegate(object x)
+            {
+                var movie = (Movie)x;
+                try
+                {
+                    return movie.Children;
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    MessageBox.Show(this, ex.Message, "ObjectListViewDemo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return new ArrayList();
+                }
+            };
+
+        }
+
+        private void LoadVirtualTree()
+        {
+
+            if (_openFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                var roots = new ArrayList();
+                var serializer = new VirtualMovieFolderSerializer();
+                var movie = serializer.DeserializeTreeView(_openFileDialog.FileName);
+                foreach (var m in movie.Children)
+                    roots.Add(m);
+                treeListVirtualFolders.Roots = roots;
+            }
+
+
+        }
+
+        private void searchVirtualFolders_SearchStarted(object sender, EventArgs e)
+        {
+            ComponentUtility.TimedFilter(this.treeListVirtualFolders, searchVirtualFolders.Text);
+        }
+
+        private void searchVirtualFolders_SearchCancelled(object sender, EventArgs e)
+        {
+            ComponentUtility.TimedFilter(this.treeListVirtualFolders, "");
+        }
+
+        private void treeListVirtualFolders_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void treeListVirtualFolders_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void treeListVirtualFolders_KeyDown(object sender, KeyEventArgs e)
+        {
+
         }
     }
 

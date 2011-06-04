@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\TextEventArgs.cs" />
+    <Compile Include="Controller\VirtualMovieFolderSerializer.cs" />
     <Compile Include="Forms\Db\MovieListForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,7 +136,6 @@
     <Compile Include="Forms\UpdateMovieInformation.Designer.cs">
       <DependentUpon>UpdateMovieInformation.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\MovieListViewItem.cs" />
     <Compile Include="Model\Movie.cs" />
     <Compile Include="Forms\MovieBrowserSimple.cs">
       <SubType>Form</SubType>
@@ -144,7 +144,6 @@
       <DependentUpon>MovieBrowserSimple.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\MovieComparer.cs" />
-    <Compile Include="Model\MovieNode.cs" />
     <Compile Include="Model\MoviesDb.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -250,6 +249,7 @@
     <None Include="Images\modify.png" />
     <None Include="Images\refresh16.png" />
     <None Include="Images\intel.png" />
+    <Content Include="Images\mb.ico" />
     <Content Include="Library\System.Data.SQLite.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
