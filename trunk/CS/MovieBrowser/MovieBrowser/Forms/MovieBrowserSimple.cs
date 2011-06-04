@@ -417,14 +417,14 @@ namespace MovieBrowser.Forms
 
         }
 
-        private void MovieSearch()
+        private void MovieSearch(OLVListItem item)
         {
-            if (treeListFileSystem.SelectedObject == null) return;
+            if (item == null) return;
 
-            var movie = (Movie)treeListFileSystem.SelectedObject;
+            var movie = (Movie)item.RowObject;
 
-            if (movie.IsValidMovie || movie.IsFilesystemFolder)
-                _controller.SearchMovieTree(MovieBrowserController.ImdbSearch, (OLVListItem)treeListFileSystem.SelectedItem);
+            if (movie.IsVirtual || movie.IsFolder || movie.IsFilesystemFolder)
+                _controller.SearchMovieTree(MovieBrowserController.ImdbSearch, item);
             else
                 MovieBrowserController.Open(movie.FilePath);
         }
@@ -450,12 +450,25 @@ namespace MovieBrowser.Forms
 
         private void UpdateTreeNode()
         {
-            if (treeListFileSystem.SelectedItem != null)
+            if (tabMovies.SelectedTab == tpMoviesTree)
             {
-                CollectAndUpdate((OLVListItem)treeListFileSystem.SelectedItem, webBrowser1.DocumentText, null, false);
+                UpdateTreeNode(treeListFileSystem);
+            }
+            else if (tabMovies.SelectedTab == tpVirtualFolders)
+            {
+                UpdateTreeNode(treeListVirtualFolders);
+            }
+        }
+
+        private void UpdateTreeNode(TreeListView treeList)
+        {
+            if (treeList.SelectedItem != null)
+            {
+                CollectAndUpdate((OLVListItem)treeList.SelectedItem, webBrowser1.DocumentText, null, false);
                 //_controller.UpdateMovie((OLVListItem) treeView1.SelectedItem);
             }
         }
+
 
         #endregion
 
@@ -667,7 +680,7 @@ namespace MovieBrowser.Forms
 
         private void treeListView1_DoubleClick(object sender, EventArgs e)
         {
-            MovieSearch();
+            MovieSearch(treeListFileSystem.SelectedItem as OLVListItem);
         }
 
         private void refreshFolderToolStripMenuItem_Click(object sender, EventArgs e)
@@ -881,13 +894,12 @@ namespace MovieBrowser.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                MovieSearch();
+                MovieSearch(treeListFileSystem.SelectedItem as OLVListItem);
             }
         }
 
         private void tbUpdateTreeNode_Click(object sender, EventArgs e)
         {
-
             UpdateTreeNode();
         }
         private class CollectInformation
@@ -1035,17 +1047,41 @@ namespace MovieBrowser.Forms
 
         private void treeListVirtualFolders_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (treeListVirtualFolders.SelectedObject != null)
+                LoadImdbInfo((Movie)treeListVirtualFolders.SelectedObject);
         }
 
         private void treeListVirtualFolders_DoubleClick(object sender, EventArgs e)
         {
-
+            MovieSearch(treeListVirtualFolders.SelectedItem as OLVListItem);
         }
 
         private void treeListVirtualFolders_KeyDown(object sender, KeyEventArgs e)
         {
+            MovieSearch(treeListVirtualFolders.SelectedItem as OLVListItem);
+        }
 
+        private void updateItemsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var movies = ((Movie)treeListVirtualFolders.SelectedObject).Children;
+            new UpdateMovieInformation(movies).Show();
+        }
+
+        private void tbSaveVirtualTree_Click(object sender, EventArgs e)
+        {
+            if (_saveFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                var roots = (ArrayList)treeListVirtualFolders.Roots;
+                var movies = new List<Movie>();
+
+                foreach (Movie movie in roots)
+                {
+                    movies.Add(movie);
+                }
+
+                var serializer = new VirtualMovieFolderSerializer();
+                serializer.SerializeTreeView(movies, _saveFileDialog.FileName);
+            }
         }
     }
 

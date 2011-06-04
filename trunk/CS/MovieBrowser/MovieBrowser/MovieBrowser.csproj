@@ -249,7 +249,9 @@
     <None Include="Images\modify.png" />
     <None Include="Images\refresh16.png" />
     <None Include="Images\intel.png" />
+    <Content Include="Images\list.png" />
     <Content Include="Images\mb.ico" />
+    <Content Include="Images\xml.png" />
     <Content Include="Library\System.Data.SQLite.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

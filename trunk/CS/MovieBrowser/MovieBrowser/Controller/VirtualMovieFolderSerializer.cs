@@ -47,6 +47,7 @@ namespace MovieBrowser.Controller
                         if (reader.Name == XmlMovieTag)
                         {
                             var newMovie = new Movie();
+                            newMovie.IsVirtual = true;
                             bool isEmptyElement = reader.IsEmptyElement;
 
                             // loading node attributes
@@ -104,7 +105,6 @@ namespace MovieBrowser.Controller
 
             return root;
         }
-
 
 
         private static void SetAttributeValue(Movie node, string propertyName, string value)
@@ -233,6 +233,8 @@ namespace MovieBrowser.Controller
             xmlTextWriter.Close();
         }
 
+
+
         private static void SaveNodes(DirectoryInfo nodesCollection, XmlTextWriter textWriter)
         {
             Movie dirMovie = Movie.FromFolderName(nodesCollection.FullName);
@@ -245,7 +247,7 @@ namespace MovieBrowser.Controller
             textWriter.WriteAttributeString(XmlMovieRating, dirMovie.Rating.ToString());
             textWriter.WriteAttributeString(XmlMovieTitle, dirMovie.Title);
             textWriter.WriteAttributeString(XmlMovieYear, dirMovie.Year.ToString());
-            
+
             foreach (DirectoryInfo node in nodesCollection.GetDirectories())
             {
                 // add other node properties to serialize here
@@ -269,5 +271,52 @@ namespace MovieBrowser.Controller
             }
             textWriter.WriteEndElement();
         }
+
+        public void SerializeTreeView(List<Movie> rootPaths, string fileName)
+        {
+            var xmlTextWriter = new XmlTextWriter(fileName, Encoding.Unicode);
+
+            // Format the xml automatically to a tree structure
+            xmlTextWriter.Formatting = Formatting.Indented;
+
+            xmlTextWriter.Indentation = 4;
+            // writing the xml declaration tag
+            xmlTextWriter.WriteStartDocument();
+            //textWriter.WriteRaw("\r\n");
+            // writing the main tag that encloses all node tags
+            xmlTextWriter.WriteStartElement("Movies");
+
+            foreach (var rootPath in rootPaths)
+            {
+                SaveNodes(rootPath, xmlTextWriter);
+            }
+            xmlTextWriter.WriteEndElement();
+            xmlTextWriter.Close();
+        }
+
+
+
+        private static void SaveNodes(Movie dirMovie, XmlTextWriter textWriter)
+        {
+           
+            textWriter.WriteStartElement(XmlMovieTag);
+            textWriter.WriteAttributeString(XmlMovieFilename, dirMovie.FilePath);
+            textWriter.WriteAttributeString(XmlMovieImageIndex, dirMovie.ImageIndex.ToString());
+            textWriter.WriteAttributeString(XmlMovieImdb, dirMovie.ImdbId);
+            textWriter.WriteAttributeString(XmlMovieIsValid, dirMovie.IsValidMovie.ToString());
+            textWriter.WriteAttributeString(XmlMovieIsFolder, dirMovie.IsFolder.ToString());
+            textWriter.WriteAttributeString(XmlMovieRating, dirMovie.Rating.ToString());
+            textWriter.WriteAttributeString(XmlMovieTitle, dirMovie.Title);
+            textWriter.WriteAttributeString(XmlMovieYear, dirMovie.Year.ToString());
+
+            foreach (var node in dirMovie.Children)
+            {
+                // add other node properties to serialize here
+                SaveNodes(node, textWriter);
+            }
+            textWriter.WriteEndElement();
+        }
+
+
     }
 }

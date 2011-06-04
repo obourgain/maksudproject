@@ -36,24 +36,6 @@ namespace MovieBrowser.Forms
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabMovies = new System.Windows.Forms.TabControl();
-            this.tpVirtualFolders = new System.Windows.Forms.TabPage();
-            this.treeListVirtualFolders = new BrightIdeasSoftware.TreeListView();
-            this.olvColumn11 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn12 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn13 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.searchVirtualFolders = new WindowsFormsAero.SearchTextBox();
-            this.toolStrip5 = new System.Windows.Forms.ToolStrip();
-            this.tbLoadVirtualFolders = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.tpMoviesTree = new System.Windows.Forms.TabPage();
             this.treeListFileSystem = new BrightIdeasSoftware.TreeListView();
             this.treeColumnTitle = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -69,7 +51,7 @@ namespace MovieBrowser.Forms
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.searchTextBox1 = new WindowsFormsAero.SearchTextBox();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripMoviesFilesystem = new System.Windows.Forms.ToolStrip();
             this.tbBrowseFolders = new System.Windows.Forms.ToolStripButton();
             this.tbRemoveFolders = new System.Windows.Forms.ToolStripButton();
             this.tbRefreshFolders = new System.Windows.Forms.ToolStripButton();
@@ -96,7 +78,7 @@ namespace MovieBrowser.Forms
             this.olvYear = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.panel1 = new System.Windows.Forms.Panel();
             this.searchTextBox2 = new WindowsFormsAero.SearchTextBox();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripMovies = new System.Windows.Forms.ToolStrip();
             this.tbUpdateDb = new System.Windows.Forms.ToolStripButton();
             this.tbAddToDb = new System.Windows.Forms.ToolStripButton();
             this.tbRefreshDb = new System.Windows.Forms.ToolStripButton();
@@ -111,6 +93,26 @@ namespace MovieBrowser.Forms
             this.txtUserRating = new System.Windows.Forms.ToolStripTextBox();
             this.tbRateIt = new System.Windows.Forms.ToolStripButton();
             this.tbUpdated = new System.Windows.Forms.ToolStripButton();
+            this.tpVirtualFolders = new System.Windows.Forms.TabPage();
+            this.treeListVirtualFolders = new BrightIdeasSoftware.TreeListView();
+            this.olvColumn11 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn12 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn13 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.updateItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.searchVirtualFolders = new WindowsFormsAero.SearchTextBox();
+            this.toolStripVirtualFolders = new System.Windows.Forms.ToolStrip();
+            this.tbLoadVirtualFolders = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.tbSaveVirtualTree = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.tpSearch = new System.Windows.Forms.TabPage();
             this.horizontalPanel3 = new WindowsFormsAero.HorizontalPanel();
             this.datalistResult = new BrightIdeasSoftware.DataListView();
@@ -125,7 +127,7 @@ namespace MovieBrowser.Forms
             this.tabInformation = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.toolStrip4 = new System.Windows.Forms.ToolStrip();
+            this.toolStripBrowser = new System.Windows.Forms.ToolStrip();
             this.tbIntelligent = new System.Windows.Forms.ToolStripButton();
             this.tbAddToDbFromBrowser = new System.Windows.Forms.ToolStripButton();
             this.tbUpdateTreeNode = new System.Windows.Forms.ToolStripButton();
@@ -185,7 +187,7 @@ namespace MovieBrowser.Forms
             this.pbWanted = new System.Windows.Forms.PictureBox();
             this.rsUserRating = new RatingControl.RatingStar();
             this.label9 = new System.Windows.Forms.Label();
-            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.toolStripMain = new System.Windows.Forms.ToolStrip();
             this.tbUserManagement = new System.Windows.Forms.ToolStripButton();
             this.tbKeywordManagement = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
@@ -204,19 +206,20 @@ namespace MovieBrowser.Forms
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabMovies.SuspendLayout();
-            this.tpVirtualFolders.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeListVirtualFolders)).BeginInit();
-            this.panel4.SuspendLayout();
-            this.toolStrip5.SuspendLayout();
             this.tpMoviesTree.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListFileSystem)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
+            this.toolStripMoviesFilesystem.SuspendLayout();
             this.tpMovies2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataListMoviesDatabase)).BeginInit();
             this.panel1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.toolStripMovies.SuspendLayout();
+            this.tpVirtualFolders.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeListVirtualFolders)).BeginInit();
+            this.contextMenuStrip2.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.toolStripVirtualFolders.SuspendLayout();
             this.tpSearch.SuspendLayout();
             this.horizontalPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datalistResult)).BeginInit();
@@ -225,7 +228,7 @@ namespace MovieBrowser.Forms
             this.toolStripContainer2.SuspendLayout();
             this.tabInformation.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.toolStrip4.SuspendLayout();
+            this.toolStripBrowser.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tpInformation.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -245,7 +248,7 @@ namespace MovieBrowser.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pbDislike)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLike)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWanted)).BeginInit();
-            this.toolStrip3.SuspendLayout();
+            this.toolStripMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -265,7 +268,7 @@ namespace MovieBrowser.Forms
             // 
             // toolStripContainer1.TopToolStripPanel
             // 
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip3);
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStripMain);
             // 
             // splitContainer1
             // 
@@ -286,9 +289,9 @@ namespace MovieBrowser.Forms
             // 
             // tabMovies
             // 
-            this.tabMovies.Controls.Add(this.tpVirtualFolders);
             this.tabMovies.Controls.Add(this.tpMoviesTree);
             this.tabMovies.Controls.Add(this.tpMovies2);
+            this.tabMovies.Controls.Add(this.tpVirtualFolders);
             this.tabMovies.Controls.Add(this.tpSearch);
             this.tabMovies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabMovies.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -297,191 +300,6 @@ namespace MovieBrowser.Forms
             this.tabMovies.SelectedIndex = 0;
             this.tabMovies.Size = new System.Drawing.Size(411, 322);
             this.tabMovies.TabIndex = 0;
-            // 
-            // tpVirtualFolders
-            // 
-            this.tpVirtualFolders.Controls.Add(this.treeListVirtualFolders);
-            this.tpVirtualFolders.Controls.Add(this.panel4);
-            this.tpVirtualFolders.Location = new System.Drawing.Point(4, 26);
-            this.tpVirtualFolders.Name = "tpVirtualFolders";
-            this.tpVirtualFolders.Padding = new System.Windows.Forms.Padding(3);
-            this.tpVirtualFolders.Size = new System.Drawing.Size(403, 292);
-            this.tpVirtualFolders.TabIndex = 5;
-            this.tpVirtualFolders.Text = "Virtual Folders";
-            this.tpVirtualFolders.UseVisualStyleBackColor = true;
-            // 
-            // treeListVirtualFolders
-            // 
-            this.treeListVirtualFolders.AllColumns.Add(this.olvColumn11);
-            this.treeListVirtualFolders.AllColumns.Add(this.olvColumn12);
-            this.treeListVirtualFolders.AllColumns.Add(this.olvColumn13);
-            this.treeListVirtualFolders.AllowColumnReorder = true;
-            this.treeListVirtualFolders.CheckBoxes = true;
-            this.treeListVirtualFolders.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumn11,
-            this.olvColumn12,
-            this.olvColumn13});
-            this.treeListVirtualFolders.Cursor = System.Windows.Forms.Cursors.Default;
-            this.treeListVirtualFolders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeListVirtualFolders.EmptyListMsg = "Please add folder!";
-            this.treeListVirtualFolders.FullRowSelect = true;
-            this.treeListVirtualFolders.GridLines = true;
-            this.treeListVirtualFolders.HideSelection = false;
-            this.treeListVirtualFolders.Location = new System.Drawing.Point(3, 55);
-            this.treeListVirtualFolders.Name = "treeListVirtualFolders";
-            this.treeListVirtualFolders.OwnerDraw = true;
-            this.treeListVirtualFolders.ShowGroups = false;
-            this.treeListVirtualFolders.ShowImagesOnSubItems = true;
-            this.treeListVirtualFolders.ShowItemToolTips = true;
-            this.treeListVirtualFolders.Size = new System.Drawing.Size(397, 234);
-            this.treeListVirtualFolders.TabIndex = 3;
-            this.treeListVirtualFolders.UseCompatibleStateImageBehavior = false;
-            this.treeListVirtualFolders.UseFiltering = true;
-            this.treeListVirtualFolders.View = System.Windows.Forms.View.Details;
-            this.treeListVirtualFolders.VirtualMode = true;
-            this.treeListVirtualFolders.SelectedIndexChanged += new System.EventHandler(this.treeListVirtualFolders_SelectedIndexChanged);
-            this.treeListVirtualFolders.DoubleClick += new System.EventHandler(this.treeListVirtualFolders_DoubleClick);
-            this.treeListVirtualFolders.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeListVirtualFolders_KeyDown);
-            // 
-            // olvColumn11
-            // 
-            this.olvColumn11.AspectName = "Title";
-            this.olvColumn11.Text = "Title";
-            this.olvColumn11.Width = 300;
-            // 
-            // olvColumn12
-            // 
-            this.olvColumn12.AspectName = "Rating";
-            this.olvColumn12.Text = "Rating";
-            // 
-            // olvColumn13
-            // 
-            this.olvColumn13.AspectName = "Year";
-            this.olvColumn13.Text = "Year";
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.searchVirtualFolders);
-            this.panel4.Controls.Add(this.toolStrip5);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(3, 3);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(397, 52);
-            this.panel4.TabIndex = 2;
-            // 
-            // searchVirtualFolders
-            // 
-            this.searchVirtualFolders.ActiveFont = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.searchVirtualFolders.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.searchVirtualFolders.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.searchVirtualFolders.Dock = System.Windows.Forms.DockStyle.Top;
-            this.searchVirtualFolders.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.searchVirtualFolders.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.searchVirtualFolders.Location = new System.Drawing.Point(0, 25);
-            this.searchVirtualFolders.Name = "searchVirtualFolders";
-            this.searchVirtualFolders.Size = new System.Drawing.Size(397, 24);
-            this.searchVirtualFolders.TabIndex = 7;
-            this.searchVirtualFolders.SearchStarted += new System.EventHandler(this.searchVirtualFolders_SearchStarted);
-            this.searchVirtualFolders.SearchCancelled += new System.EventHandler(this.searchVirtualFolders_SearchCancelled);
-            // 
-            // toolStrip5
-            // 
-            this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tbLoadVirtualFolders,
-            this.toolStripButton3,
-            this.toolStripButton4,
-            this.toolStripButton5,
-            this.toolStripSeparator3,
-            this.toolStripButton7,
-            this.toolStripSeparator8,
-            this.toolStripButton8,
-            this.toolStripButton9,
-            this.toolStripSeparator9});
-            this.toolStrip5.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip5.Name = "toolStrip5";
-            this.toolStrip5.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip5.Size = new System.Drawing.Size(397, 25);
-            this.toolStrip5.TabIndex = 6;
-            this.toolStrip5.Text = "toolStrip5";
-            // 
-            // tbLoadVirtualFolders
-            // 
-            this.tbLoadVirtualFolders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbLoadVirtualFolders.Image = global::MovieBrowser.Properties.Resources.folder_add;
-            this.tbLoadVirtualFolders.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbLoadVirtualFolders.Name = "tbLoadVirtualFolders";
-            this.tbLoadVirtualFolders.Size = new System.Drawing.Size(23, 22);
-            this.tbLoadVirtualFolders.Text = "Browse";
-            this.tbLoadVirtualFolders.Click += new System.EventHandler(this.tbLoadVirtualFolders_Click);
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = global::MovieBrowser.Properties.Resources.delete;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton3.Text = "Remove Selected Folder";
-            // 
-            // toolStripButton4
-            // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton4.Image = global::MovieBrowser.Properties.Resources.refresh;
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton4.Text = "Refresh Folders";
-            // 
-            // toolStripButton5
-            // 
-            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton5.Image = global::MovieBrowser.Properties.Resources.save;
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton5.Text = "Save";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton7
-            // 
-            this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton7.Image = global::MovieBrowser.Properties.Resources.pb_movie;
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton7.Text = "Collect && Add to Database";
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton8
-            // 
-            this.toolStripButton8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton8.Image = global::MovieBrowser.Properties.Resources.imdb;
-            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton8.Text = "Imdb Search";
-            // 
-            // toolStripButton9
-            // 
-            this.toolStripButton9.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton9.Image = global::MovieBrowser.Properties.Resources.google;
-            this.toolStripButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton9.Name = "toolStripButton9";
-            this.toolStripButton9.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton9.Text = "Search Google";
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(6, 25);
             // 
             // tpMoviesTree
             // 
@@ -602,406 +420,11 @@ namespace MovieBrowser.Forms
             this.imageList1.Images.SetKeyName(2, "movie_file.png");
             this.imageList1.Images.SetKeyName(3, "subtitle.png");
             this.imageList1.Images.SetKeyName(4, "file.png");
-            this.imageList1.Images.SetKeyName(5, "");
-            this.imageList1.Images.SetKeyName(6, "");
-            this.imageList1.Images.SetKeyName(7, "");
-            this.imageList1.Images.SetKeyName(8, "");
-            this.imageList1.Images.SetKeyName(9, "");
-            this.imageList1.Images.SetKeyName(10, "");
-            this.imageList1.Images.SetKeyName(11, "");
-            this.imageList1.Images.SetKeyName(12, "");
-            this.imageList1.Images.SetKeyName(13, "");
-            this.imageList1.Images.SetKeyName(14, "");
-            this.imageList1.Images.SetKeyName(15, "");
-            this.imageList1.Images.SetKeyName(16, "");
-            this.imageList1.Images.SetKeyName(17, "");
-            this.imageList1.Images.SetKeyName(18, "");
-            this.imageList1.Images.SetKeyName(19, "");
-            this.imageList1.Images.SetKeyName(20, "");
-            this.imageList1.Images.SetKeyName(21, "");
-            this.imageList1.Images.SetKeyName(22, "");
-            this.imageList1.Images.SetKeyName(23, "");
-            this.imageList1.Images.SetKeyName(24, "");
-            this.imageList1.Images.SetKeyName(25, "");
-            this.imageList1.Images.SetKeyName(26, "");
-            this.imageList1.Images.SetKeyName(27, "");
-            this.imageList1.Images.SetKeyName(28, "");
-            this.imageList1.Images.SetKeyName(29, "");
-            this.imageList1.Images.SetKeyName(30, "");
-            this.imageList1.Images.SetKeyName(31, "");
-            this.imageList1.Images.SetKeyName(32, "");
-            this.imageList1.Images.SetKeyName(33, "");
-            this.imageList1.Images.SetKeyName(34, "");
-            this.imageList1.Images.SetKeyName(35, "");
-            this.imageList1.Images.SetKeyName(36, "");
-            this.imageList1.Images.SetKeyName(37, "");
-            this.imageList1.Images.SetKeyName(38, "");
-            this.imageList1.Images.SetKeyName(39, "");
-            this.imageList1.Images.SetKeyName(40, "");
-            this.imageList1.Images.SetKeyName(41, "");
-            this.imageList1.Images.SetKeyName(42, "");
-            this.imageList1.Images.SetKeyName(43, "");
-            this.imageList1.Images.SetKeyName(44, "");
-            this.imageList1.Images.SetKeyName(45, "");
-            this.imageList1.Images.SetKeyName(46, "");
-            this.imageList1.Images.SetKeyName(47, "");
-            this.imageList1.Images.SetKeyName(48, "");
-            this.imageList1.Images.SetKeyName(49, "");
-            this.imageList1.Images.SetKeyName(50, "");
-            this.imageList1.Images.SetKeyName(51, "");
-            this.imageList1.Images.SetKeyName(52, "");
-            this.imageList1.Images.SetKeyName(53, "");
-            this.imageList1.Images.SetKeyName(54, "");
-            this.imageList1.Images.SetKeyName(55, "");
-            this.imageList1.Images.SetKeyName(56, "");
-            this.imageList1.Images.SetKeyName(57, "");
-            this.imageList1.Images.SetKeyName(58, "");
-            this.imageList1.Images.SetKeyName(59, "");
-            this.imageList1.Images.SetKeyName(60, "");
-            this.imageList1.Images.SetKeyName(61, "");
-            this.imageList1.Images.SetKeyName(62, "");
-            this.imageList1.Images.SetKeyName(63, "");
-            this.imageList1.Images.SetKeyName(64, "");
-            this.imageList1.Images.SetKeyName(65, "");
-            this.imageList1.Images.SetKeyName(66, "");
-            this.imageList1.Images.SetKeyName(67, "");
-            this.imageList1.Images.SetKeyName(68, "");
-            this.imageList1.Images.SetKeyName(69, "");
-            this.imageList1.Images.SetKeyName(70, "");
-            this.imageList1.Images.SetKeyName(71, "");
-            this.imageList1.Images.SetKeyName(72, "");
-            this.imageList1.Images.SetKeyName(73, "");
-            this.imageList1.Images.SetKeyName(74, "");
-            this.imageList1.Images.SetKeyName(75, "");
-            this.imageList1.Images.SetKeyName(76, "");
-            this.imageList1.Images.SetKeyName(77, "");
-            this.imageList1.Images.SetKeyName(78, "");
-            this.imageList1.Images.SetKeyName(79, "");
-            this.imageList1.Images.SetKeyName(80, "");
-            this.imageList1.Images.SetKeyName(81, "");
-            this.imageList1.Images.SetKeyName(82, "");
-            this.imageList1.Images.SetKeyName(83, "");
-            this.imageList1.Images.SetKeyName(84, "");
-            this.imageList1.Images.SetKeyName(85, "");
-            this.imageList1.Images.SetKeyName(86, "");
-            this.imageList1.Images.SetKeyName(87, "");
-            this.imageList1.Images.SetKeyName(88, "");
-            this.imageList1.Images.SetKeyName(89, "");
-            this.imageList1.Images.SetKeyName(90, "");
-            this.imageList1.Images.SetKeyName(91, "");
-            this.imageList1.Images.SetKeyName(92, "");
-            this.imageList1.Images.SetKeyName(93, "");
-            this.imageList1.Images.SetKeyName(94, "");
-            this.imageList1.Images.SetKeyName(95, "");
-            this.imageList1.Images.SetKeyName(96, "");
-            this.imageList1.Images.SetKeyName(97, "");
-            this.imageList1.Images.SetKeyName(98, "");
-            this.imageList1.Images.SetKeyName(99, "");
-            this.imageList1.Images.SetKeyName(100, "");
-            this.imageList1.Images.SetKeyName(101, "");
-            this.imageList1.Images.SetKeyName(102, "");
-            this.imageList1.Images.SetKeyName(103, "");
-            this.imageList1.Images.SetKeyName(104, "");
-            this.imageList1.Images.SetKeyName(105, "");
-            this.imageList1.Images.SetKeyName(106, "");
-            this.imageList1.Images.SetKeyName(107, "");
-            this.imageList1.Images.SetKeyName(108, "");
-            this.imageList1.Images.SetKeyName(109, "");
-            this.imageList1.Images.SetKeyName(110, "");
-            this.imageList1.Images.SetKeyName(111, "");
-            this.imageList1.Images.SetKeyName(112, "");
-            this.imageList1.Images.SetKeyName(113, "");
-            this.imageList1.Images.SetKeyName(114, "");
-            this.imageList1.Images.SetKeyName(115, "");
-            this.imageList1.Images.SetKeyName(116, "");
-            this.imageList1.Images.SetKeyName(117, "");
-            this.imageList1.Images.SetKeyName(118, "");
-            this.imageList1.Images.SetKeyName(119, "");
-            this.imageList1.Images.SetKeyName(120, "");
-            this.imageList1.Images.SetKeyName(121, "");
-            this.imageList1.Images.SetKeyName(122, "");
-            this.imageList1.Images.SetKeyName(123, "");
-            this.imageList1.Images.SetKeyName(124, "");
-            this.imageList1.Images.SetKeyName(125, "");
-            this.imageList1.Images.SetKeyName(126, "");
-            this.imageList1.Images.SetKeyName(127, "");
-            this.imageList1.Images.SetKeyName(128, "");
-            this.imageList1.Images.SetKeyName(129, "");
-            this.imageList1.Images.SetKeyName(130, "");
-            this.imageList1.Images.SetKeyName(131, "");
-            this.imageList1.Images.SetKeyName(132, "");
-            this.imageList1.Images.SetKeyName(133, "");
-            this.imageList1.Images.SetKeyName(134, "");
-            this.imageList1.Images.SetKeyName(135, "");
-            this.imageList1.Images.SetKeyName(136, "");
-            this.imageList1.Images.SetKeyName(137, "");
-            this.imageList1.Images.SetKeyName(138, "");
-            this.imageList1.Images.SetKeyName(139, "");
-            this.imageList1.Images.SetKeyName(140, "");
-            this.imageList1.Images.SetKeyName(141, "");
-            this.imageList1.Images.SetKeyName(142, "");
-            this.imageList1.Images.SetKeyName(143, "");
-            this.imageList1.Images.SetKeyName(144, "");
-            this.imageList1.Images.SetKeyName(145, "");
-            this.imageList1.Images.SetKeyName(146, "");
-            this.imageList1.Images.SetKeyName(147, "");
-            this.imageList1.Images.SetKeyName(148, "");
-            this.imageList1.Images.SetKeyName(149, "");
-            this.imageList1.Images.SetKeyName(150, "");
-            this.imageList1.Images.SetKeyName(151, "");
-            this.imageList1.Images.SetKeyName(152, "");
-            this.imageList1.Images.SetKeyName(153, "");
-            this.imageList1.Images.SetKeyName(154, "");
-            this.imageList1.Images.SetKeyName(155, "");
-            this.imageList1.Images.SetKeyName(156, "");
-            this.imageList1.Images.SetKeyName(157, "");
-            this.imageList1.Images.SetKeyName(158, "");
-            this.imageList1.Images.SetKeyName(159, "");
-            this.imageList1.Images.SetKeyName(160, "");
-            this.imageList1.Images.SetKeyName(161, "");
-            this.imageList1.Images.SetKeyName(162, "");
-            this.imageList1.Images.SetKeyName(163, "");
-            this.imageList1.Images.SetKeyName(164, "");
-            this.imageList1.Images.SetKeyName(165, "");
-            this.imageList1.Images.SetKeyName(166, "");
-            this.imageList1.Images.SetKeyName(167, "");
-            this.imageList1.Images.SetKeyName(168, "");
-            this.imageList1.Images.SetKeyName(169, "");
-            this.imageList1.Images.SetKeyName(170, "");
-            this.imageList1.Images.SetKeyName(171, "");
-            this.imageList1.Images.SetKeyName(172, "");
-            this.imageList1.Images.SetKeyName(173, "");
-            this.imageList1.Images.SetKeyName(174, "");
-            this.imageList1.Images.SetKeyName(175, "");
-            this.imageList1.Images.SetKeyName(176, "");
-            this.imageList1.Images.SetKeyName(177, "");
-            this.imageList1.Images.SetKeyName(178, "");
-            this.imageList1.Images.SetKeyName(179, "");
-            this.imageList1.Images.SetKeyName(180, "");
-            this.imageList1.Images.SetKeyName(181, "");
-            this.imageList1.Images.SetKeyName(182, "");
-            this.imageList1.Images.SetKeyName(183, "");
-            this.imageList1.Images.SetKeyName(184, "");
-            this.imageList1.Images.SetKeyName(185, "");
-            this.imageList1.Images.SetKeyName(186, "");
-            this.imageList1.Images.SetKeyName(187, "");
-            this.imageList1.Images.SetKeyName(188, "");
-            this.imageList1.Images.SetKeyName(189, "");
-            this.imageList1.Images.SetKeyName(190, "");
-            this.imageList1.Images.SetKeyName(191, "");
-            this.imageList1.Images.SetKeyName(192, "");
-            this.imageList1.Images.SetKeyName(193, "");
-            this.imageList1.Images.SetKeyName(194, "");
-            this.imageList1.Images.SetKeyName(195, "");
-            this.imageList1.Images.SetKeyName(196, "");
-            this.imageList1.Images.SetKeyName(197, "");
-            this.imageList1.Images.SetKeyName(198, "");
-            this.imageList1.Images.SetKeyName(199, "");
-            this.imageList1.Images.SetKeyName(200, "");
-            this.imageList1.Images.SetKeyName(201, "");
-            this.imageList1.Images.SetKeyName(202, "");
-            this.imageList1.Images.SetKeyName(203, "");
-            this.imageList1.Images.SetKeyName(204, "");
-            this.imageList1.Images.SetKeyName(205, "");
-            this.imageList1.Images.SetKeyName(206, "");
-            this.imageList1.Images.SetKeyName(207, "");
-            this.imageList1.Images.SetKeyName(208, "");
-            this.imageList1.Images.SetKeyName(209, "");
-            this.imageList1.Images.SetKeyName(210, "");
-            this.imageList1.Images.SetKeyName(211, "");
-            this.imageList1.Images.SetKeyName(212, "");
-            this.imageList1.Images.SetKeyName(213, "");
-            this.imageList1.Images.SetKeyName(214, "");
-            this.imageList1.Images.SetKeyName(215, "");
-            this.imageList1.Images.SetKeyName(216, "");
-            this.imageList1.Images.SetKeyName(217, "");
-            this.imageList1.Images.SetKeyName(218, "");
-            this.imageList1.Images.SetKeyName(219, "");
-            this.imageList1.Images.SetKeyName(220, "");
-            this.imageList1.Images.SetKeyName(221, "");
-            this.imageList1.Images.SetKeyName(222, "");
-            this.imageList1.Images.SetKeyName(223, "");
-            this.imageList1.Images.SetKeyName(224, "");
-            this.imageList1.Images.SetKeyName(225, "");
-            this.imageList1.Images.SetKeyName(226, "");
-            this.imageList1.Images.SetKeyName(227, "");
-            this.imageList1.Images.SetKeyName(228, "");
-            this.imageList1.Images.SetKeyName(229, "");
-            this.imageList1.Images.SetKeyName(230, "");
-            this.imageList1.Images.SetKeyName(231, "");
-            this.imageList1.Images.SetKeyName(232, "");
-            this.imageList1.Images.SetKeyName(233, "");
-            this.imageList1.Images.SetKeyName(234, "");
-            this.imageList1.Images.SetKeyName(235, "");
-            this.imageList1.Images.SetKeyName(236, "");
-            this.imageList1.Images.SetKeyName(237, "");
-            this.imageList1.Images.SetKeyName(238, "");
-            this.imageList1.Images.SetKeyName(239, "");
-            this.imageList1.Images.SetKeyName(240, "");
-            this.imageList1.Images.SetKeyName(241, "");
-            this.imageList1.Images.SetKeyName(242, "");
-            this.imageList1.Images.SetKeyName(243, "");
-            this.imageList1.Images.SetKeyName(244, "");
-            this.imageList1.Images.SetKeyName(245, "");
-            this.imageList1.Images.SetKeyName(246, "");
-            this.imageList1.Images.SetKeyName(247, "");
-            this.imageList1.Images.SetKeyName(248, "");
-            this.imageList1.Images.SetKeyName(249, "");
-            this.imageList1.Images.SetKeyName(250, "");
-            this.imageList1.Images.SetKeyName(251, "");
-            this.imageList1.Images.SetKeyName(252, "");
-            this.imageList1.Images.SetKeyName(253, "");
-            this.imageList1.Images.SetKeyName(254, "");
-            this.imageList1.Images.SetKeyName(255, "");
-            this.imageList1.Images.SetKeyName(256, "");
-            this.imageList1.Images.SetKeyName(257, "");
-            this.imageList1.Images.SetKeyName(258, "");
-            this.imageList1.Images.SetKeyName(259, "");
-            this.imageList1.Images.SetKeyName(260, "");
-            this.imageList1.Images.SetKeyName(261, "");
-            this.imageList1.Images.SetKeyName(262, "");
-            this.imageList1.Images.SetKeyName(263, "");
-            this.imageList1.Images.SetKeyName(264, "");
-            this.imageList1.Images.SetKeyName(265, "");
-            this.imageList1.Images.SetKeyName(266, "");
-            this.imageList1.Images.SetKeyName(267, "");
-            this.imageList1.Images.SetKeyName(268, "");
-            this.imageList1.Images.SetKeyName(269, "");
-            this.imageList1.Images.SetKeyName(270, "");
-            this.imageList1.Images.SetKeyName(271, "");
-            this.imageList1.Images.SetKeyName(272, "");
-            this.imageList1.Images.SetKeyName(273, "");
-            this.imageList1.Images.SetKeyName(274, "");
-            this.imageList1.Images.SetKeyName(275, "");
-            this.imageList1.Images.SetKeyName(276, "");
-            this.imageList1.Images.SetKeyName(277, "");
-            this.imageList1.Images.SetKeyName(278, "");
-            this.imageList1.Images.SetKeyName(279, "");
-            this.imageList1.Images.SetKeyName(280, "");
-            this.imageList1.Images.SetKeyName(281, "");
-            this.imageList1.Images.SetKeyName(282, "");
-            this.imageList1.Images.SetKeyName(283, "");
-            this.imageList1.Images.SetKeyName(284, "");
-            this.imageList1.Images.SetKeyName(285, "");
-            this.imageList1.Images.SetKeyName(286, "");
-            this.imageList1.Images.SetKeyName(287, "");
-            this.imageList1.Images.SetKeyName(288, "");
-            this.imageList1.Images.SetKeyName(289, "");
-            this.imageList1.Images.SetKeyName(290, "");
-            this.imageList1.Images.SetKeyName(291, "");
-            this.imageList1.Images.SetKeyName(292, "");
-            this.imageList1.Images.SetKeyName(293, "");
-            this.imageList1.Images.SetKeyName(294, "");
-            this.imageList1.Images.SetKeyName(295, "");
-            this.imageList1.Images.SetKeyName(296, "");
-            this.imageList1.Images.SetKeyName(297, "");
-            this.imageList1.Images.SetKeyName(298, "");
-            this.imageList1.Images.SetKeyName(299, "");
-            this.imageList1.Images.SetKeyName(300, "");
-            this.imageList1.Images.SetKeyName(301, "");
-            this.imageList1.Images.SetKeyName(302, "");
-            this.imageList1.Images.SetKeyName(303, "");
-            this.imageList1.Images.SetKeyName(304, "");
-            this.imageList1.Images.SetKeyName(305, "");
-            this.imageList1.Images.SetKeyName(306, "");
-            this.imageList1.Images.SetKeyName(307, "");
-            this.imageList1.Images.SetKeyName(308, "");
-            this.imageList1.Images.SetKeyName(309, "");
-            this.imageList1.Images.SetKeyName(310, "");
-            this.imageList1.Images.SetKeyName(311, "");
-            this.imageList1.Images.SetKeyName(312, "");
-            this.imageList1.Images.SetKeyName(313, "");
-            this.imageList1.Images.SetKeyName(314, "");
-            this.imageList1.Images.SetKeyName(315, "");
-            this.imageList1.Images.SetKeyName(316, "");
-            this.imageList1.Images.SetKeyName(317, "");
-            this.imageList1.Images.SetKeyName(318, "");
-            this.imageList1.Images.SetKeyName(319, "");
-            this.imageList1.Images.SetKeyName(320, "");
-            this.imageList1.Images.SetKeyName(321, "");
-            this.imageList1.Images.SetKeyName(322, "");
-            this.imageList1.Images.SetKeyName(323, "");
-            this.imageList1.Images.SetKeyName(324, "");
-            this.imageList1.Images.SetKeyName(325, "");
-            this.imageList1.Images.SetKeyName(326, "");
-            this.imageList1.Images.SetKeyName(327, "");
-            this.imageList1.Images.SetKeyName(328, "");
-            this.imageList1.Images.SetKeyName(329, "");
-            this.imageList1.Images.SetKeyName(330, "");
-            this.imageList1.Images.SetKeyName(331, "");
-            this.imageList1.Images.SetKeyName(332, "");
-            this.imageList1.Images.SetKeyName(333, "");
-            this.imageList1.Images.SetKeyName(334, "");
-            this.imageList1.Images.SetKeyName(335, "");
-            this.imageList1.Images.SetKeyName(336, "");
-            this.imageList1.Images.SetKeyName(337, "");
-            this.imageList1.Images.SetKeyName(338, "");
-            this.imageList1.Images.SetKeyName(339, "");
-            this.imageList1.Images.SetKeyName(340, "");
-            this.imageList1.Images.SetKeyName(341, "");
-            this.imageList1.Images.SetKeyName(342, "");
-            this.imageList1.Images.SetKeyName(343, "");
-            this.imageList1.Images.SetKeyName(344, "");
-            this.imageList1.Images.SetKeyName(345, "");
-            this.imageList1.Images.SetKeyName(346, "");
-            this.imageList1.Images.SetKeyName(347, "");
-            this.imageList1.Images.SetKeyName(348, "");
-            this.imageList1.Images.SetKeyName(349, "");
-            this.imageList1.Images.SetKeyName(350, "");
-            this.imageList1.Images.SetKeyName(351, "");
-            this.imageList1.Images.SetKeyName(352, "");
-            this.imageList1.Images.SetKeyName(353, "");
-            this.imageList1.Images.SetKeyName(354, "");
-            this.imageList1.Images.SetKeyName(355, "");
-            this.imageList1.Images.SetKeyName(356, "");
-            this.imageList1.Images.SetKeyName(357, "");
-            this.imageList1.Images.SetKeyName(358, "");
-            this.imageList1.Images.SetKeyName(359, "");
-            this.imageList1.Images.SetKeyName(360, "");
-            this.imageList1.Images.SetKeyName(361, "");
-            this.imageList1.Images.SetKeyName(362, "");
-            this.imageList1.Images.SetKeyName(363, "");
-            this.imageList1.Images.SetKeyName(364, "");
-            this.imageList1.Images.SetKeyName(365, "");
-            this.imageList1.Images.SetKeyName(366, "");
-            this.imageList1.Images.SetKeyName(367, "");
-            this.imageList1.Images.SetKeyName(368, "");
-            this.imageList1.Images.SetKeyName(369, "");
-            this.imageList1.Images.SetKeyName(370, "");
-            this.imageList1.Images.SetKeyName(371, "");
-            this.imageList1.Images.SetKeyName(372, "");
-            this.imageList1.Images.SetKeyName(373, "");
-            this.imageList1.Images.SetKeyName(374, "");
-            this.imageList1.Images.SetKeyName(375, "");
-            this.imageList1.Images.SetKeyName(376, "");
-            this.imageList1.Images.SetKeyName(377, "");
-            this.imageList1.Images.SetKeyName(378, "");
-            this.imageList1.Images.SetKeyName(379, "");
-            this.imageList1.Images.SetKeyName(380, "");
-            this.imageList1.Images.SetKeyName(381, "");
-            this.imageList1.Images.SetKeyName(382, "");
-            this.imageList1.Images.SetKeyName(383, "");
-            this.imageList1.Images.SetKeyName(384, "");
-            this.imageList1.Images.SetKeyName(385, "");
-            this.imageList1.Images.SetKeyName(386, "");
-            this.imageList1.Images.SetKeyName(387, "");
-            this.imageList1.Images.SetKeyName(388, "");
-            this.imageList1.Images.SetKeyName(389, "");
-            this.imageList1.Images.SetKeyName(390, "");
-            this.imageList1.Images.SetKeyName(391, "");
-            this.imageList1.Images.SetKeyName(392, "");
-            this.imageList1.Images.SetKeyName(393, "");
-            this.imageList1.Images.SetKeyName(394, "");
-            this.imageList1.Images.SetKeyName(395, "");
-            this.imageList1.Images.SetKeyName(396, "");
-            this.imageList1.Images.SetKeyName(397, "");
-            this.imageList1.Images.SetKeyName(398, "");
-            this.imageList1.Images.SetKeyName(399, "");
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.searchTextBox1);
-            this.panel2.Controls.Add(this.toolStrip2);
+            this.panel2.Controls.Add(this.toolStripMoviesFilesystem);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
@@ -1023,9 +446,9 @@ namespace MovieBrowser.Forms
             this.searchTextBox1.SearchStarted += new System.EventHandler(this.searchTextBox1_SearchStarted);
             this.searchTextBox1.SearchCancelled += new System.EventHandler(this.searchTextBox1_SearchCancelled);
             // 
-            // toolStrip2
+            // toolStripMoviesFilesystem
             // 
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMoviesFilesystem.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbBrowseFolders,
             this.tbRemoveFolders,
             this.tbRefreshFolders,
@@ -1044,12 +467,12 @@ namespace MovieBrowser.Forms
             this.comboPendrives,
             this.tbLoadPendrives,
             this.tbSendTo});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip2.Size = new System.Drawing.Size(397, 25);
-            this.toolStrip2.TabIndex = 6;
-            this.toolStrip2.Text = "toolStrip2";
+            this.toolStripMoviesFilesystem.Location = new System.Drawing.Point(0, 0);
+            this.toolStripMoviesFilesystem.Name = "toolStripMoviesFilesystem";
+            this.toolStripMoviesFilesystem.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.toolStripMoviesFilesystem.Size = new System.Drawing.Size(397, 25);
+            this.toolStripMoviesFilesystem.TabIndex = 6;
+            this.toolStripMoviesFilesystem.Text = "toolStrip2";
             // 
             // tbBrowseFolders
             // 
@@ -1094,7 +517,7 @@ namespace MovieBrowser.Forms
             // tbGenerateXML
             // 
             this.tbGenerateXML.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbGenerateXML.Image = global::MovieBrowser.Properties.Resources.list;
+            this.tbGenerateXML.Image = ((System.Drawing.Image)(resources.GetObject("tbGenerateXML.Image")));
             this.tbGenerateXML.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbGenerateXML.Name = "tbGenerateXML";
             this.tbGenerateXML.Size = new System.Drawing.Size(23, 22);
@@ -1281,7 +704,7 @@ namespace MovieBrowser.Forms
             // panel1
             // 
             this.panel1.Controls.Add(this.searchTextBox2);
-            this.panel1.Controls.Add(this.toolStrip1);
+            this.panel1.Controls.Add(this.toolStripMovies);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
@@ -1303,9 +726,9 @@ namespace MovieBrowser.Forms
             this.searchTextBox2.SearchStarted += new System.EventHandler(this.searchTextBox2_SearchStarted);
             this.searchTextBox2.SearchCancelled += new System.EventHandler(this.searchTextBox2_SearchCancelled);
             // 
-            // toolStrip1
+            // toolStripMovies
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMovies.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbUpdateDb,
             this.tbAddToDb,
             this.tbRefreshDb,
@@ -1320,10 +743,10 @@ namespace MovieBrowser.Forms
             this.txtUserRating,
             this.tbRateIt,
             this.tbUpdated});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(397, 25);
-            this.toolStrip1.TabIndex = 5;
+            this.toolStripMovies.Location = new System.Drawing.Point(0, 0);
+            this.toolStripMovies.Name = "toolStripMovies";
+            this.toolStripMovies.Size = new System.Drawing.Size(397, 25);
+            this.toolStripMovies.TabIndex = 5;
             // 
             // tbUpdateDb
             // 
@@ -1450,6 +873,205 @@ namespace MovieBrowser.Forms
             this.tbUpdated.Size = new System.Drawing.Size(56, 22);
             this.tbUpdated.Text = "Updated";
             this.tbUpdated.Click += new System.EventHandler(this.tbUpdated_Click);
+            // 
+            // tpVirtualFolders
+            // 
+            this.tpVirtualFolders.Controls.Add(this.treeListVirtualFolders);
+            this.tpVirtualFolders.Controls.Add(this.panel4);
+            this.tpVirtualFolders.Location = new System.Drawing.Point(4, 26);
+            this.tpVirtualFolders.Name = "tpVirtualFolders";
+            this.tpVirtualFolders.Padding = new System.Windows.Forms.Padding(3);
+            this.tpVirtualFolders.Size = new System.Drawing.Size(403, 292);
+            this.tpVirtualFolders.TabIndex = 5;
+            this.tpVirtualFolders.Text = "Virtual Folders";
+            this.tpVirtualFolders.UseVisualStyleBackColor = true;
+            // 
+            // treeListVirtualFolders
+            // 
+            this.treeListVirtualFolders.AllColumns.Add(this.olvColumn11);
+            this.treeListVirtualFolders.AllColumns.Add(this.olvColumn12);
+            this.treeListVirtualFolders.AllColumns.Add(this.olvColumn13);
+            this.treeListVirtualFolders.AllowColumnReorder = true;
+            this.treeListVirtualFolders.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn11,
+            this.olvColumn12,
+            this.olvColumn13});
+            this.treeListVirtualFolders.ContextMenuStrip = this.contextMenuStrip2;
+            this.treeListVirtualFolders.Cursor = System.Windows.Forms.Cursors.Default;
+            this.treeListVirtualFolders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeListVirtualFolders.EmptyListMsg = "Please add folder!";
+            this.treeListVirtualFolders.FullRowSelect = true;
+            this.treeListVirtualFolders.GridLines = true;
+            this.treeListVirtualFolders.HideSelection = false;
+            this.treeListVirtualFolders.Location = new System.Drawing.Point(3, 55);
+            this.treeListVirtualFolders.Name = "treeListVirtualFolders";
+            this.treeListVirtualFolders.OwnerDraw = true;
+            this.treeListVirtualFolders.ShowGroups = false;
+            this.treeListVirtualFolders.ShowImagesOnSubItems = true;
+            this.treeListVirtualFolders.ShowItemToolTips = true;
+            this.treeListVirtualFolders.Size = new System.Drawing.Size(397, 234);
+            this.treeListVirtualFolders.TabIndex = 3;
+            this.treeListVirtualFolders.UseCompatibleStateImageBehavior = false;
+            this.treeListVirtualFolders.UseFiltering = true;
+            this.treeListVirtualFolders.View = System.Windows.Forms.View.Details;
+            this.treeListVirtualFolders.SelectedIndexChanged += new System.EventHandler(this.treeListVirtualFolders_SelectedIndexChanged);
+            this.treeListVirtualFolders.DoubleClick += new System.EventHandler(this.treeListVirtualFolders_DoubleClick);
+            this.treeListVirtualFolders.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeListVirtualFolders_KeyDown);
+            // 
+            // olvColumn11
+            // 
+            this.olvColumn11.AspectName = "Title";
+            this.olvColumn11.Text = "Title";
+            this.olvColumn11.Width = 300;
+            // 
+            // olvColumn12
+            // 
+            this.olvColumn12.AspectName = "Rating";
+            this.olvColumn12.Text = "Rating";
+            // 
+            // olvColumn13
+            // 
+            this.olvColumn13.AspectName = "Year";
+            this.olvColumn13.Text = "Year";
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.updateItemsToolStripMenuItem});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(145, 26);
+            // 
+            // updateItemsToolStripMenuItem
+            // 
+            this.updateItemsToolStripMenuItem.Name = "updateItemsToolStripMenuItem";
+            this.updateItemsToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.updateItemsToolStripMenuItem.Text = "Update Items";
+            this.updateItemsToolStripMenuItem.Click += new System.EventHandler(this.updateItemsToolStripMenuItem_Click);
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.searchVirtualFolders);
+            this.panel4.Controls.Add(this.toolStripVirtualFolders);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(3, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(397, 52);
+            this.panel4.TabIndex = 2;
+            // 
+            // searchVirtualFolders
+            // 
+            this.searchVirtualFolders.ActiveFont = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchVirtualFolders.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.searchVirtualFolders.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.searchVirtualFolders.Dock = System.Windows.Forms.DockStyle.Top;
+            this.searchVirtualFolders.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchVirtualFolders.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.searchVirtualFolders.Location = new System.Drawing.Point(0, 25);
+            this.searchVirtualFolders.Name = "searchVirtualFolders";
+            this.searchVirtualFolders.Size = new System.Drawing.Size(397, 24);
+            this.searchVirtualFolders.TabIndex = 7;
+            this.searchVirtualFolders.SearchStarted += new System.EventHandler(this.searchVirtualFolders_SearchStarted);
+            this.searchVirtualFolders.SearchCancelled += new System.EventHandler(this.searchVirtualFolders_SearchCancelled);
+            // 
+            // toolStripVirtualFolders
+            // 
+            this.toolStripVirtualFolders.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbLoadVirtualFolders,
+            this.toolStripButton3,
+            this.toolStripButton4,
+            this.tbSaveVirtualTree,
+            this.toolStripSeparator3,
+            this.toolStripButton7,
+            this.toolStripSeparator8,
+            this.toolStripButton8,
+            this.toolStripButton9,
+            this.toolStripSeparator9});
+            this.toolStripVirtualFolders.Location = new System.Drawing.Point(0, 0);
+            this.toolStripVirtualFolders.Name = "toolStripVirtualFolders";
+            this.toolStripVirtualFolders.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.toolStripVirtualFolders.Size = new System.Drawing.Size(397, 25);
+            this.toolStripVirtualFolders.TabIndex = 6;
+            this.toolStripVirtualFolders.Text = "Tool Virtual";
+            // 
+            // tbLoadVirtualFolders
+            // 
+            this.tbLoadVirtualFolders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbLoadVirtualFolders.Image = global::MovieBrowser.Properties.Resources.folder_add;
+            this.tbLoadVirtualFolders.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbLoadVirtualFolders.Name = "tbLoadVirtualFolders";
+            this.tbLoadVirtualFolders.Size = new System.Drawing.Size(23, 22);
+            this.tbLoadVirtualFolders.Text = "Browse";
+            this.tbLoadVirtualFolders.Click += new System.EventHandler(this.tbLoadVirtualFolders_Click);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = global::MovieBrowser.Properties.Resources.delete;
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton3.Text = "Remove Selected Folder";
+            // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton4.Image = global::MovieBrowser.Properties.Resources.refresh;
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton4.Text = "Refresh Folders";
+            // 
+            // tbSaveVirtualTree
+            // 
+            this.tbSaveVirtualTree.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbSaveVirtualTree.Image = global::MovieBrowser.Properties.Resources.save;
+            this.tbSaveVirtualTree.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbSaveVirtualTree.Name = "tbSaveVirtualTree";
+            this.tbSaveVirtualTree.Size = new System.Drawing.Size(23, 22);
+            this.tbSaveVirtualTree.Text = "Save";
+            this.tbSaveVirtualTree.Click += new System.EventHandler(this.tbSaveVirtualTree_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton7
+            // 
+            this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton7.Image = global::MovieBrowser.Properties.Resources.pb_movie;
+            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton7.Name = "toolStripButton7";
+            this.toolStripButton7.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton7.Text = "Collect && Add to Database";
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton8
+            // 
+            this.toolStripButton8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton8.Image = global::MovieBrowser.Properties.Resources.imdb;
+            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton8.Name = "toolStripButton8";
+            this.toolStripButton8.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton8.Text = "Imdb Search";
+            // 
+            // toolStripButton9
+            // 
+            this.toolStripButton9.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton9.Image = global::MovieBrowser.Properties.Resources.google;
+            this.toolStripButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton9.Name = "toolStripButton9";
+            this.toolStripButton9.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton9.Text = "Search Google";
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(6, 25);
             // 
             // tpSearch
             // 
@@ -1600,7 +1222,7 @@ namespace MovieBrowser.Forms
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.webBrowser1);
-            this.tabPage2.Controls.Add(this.toolStrip4);
+            this.tabPage2.Controls.Add(this.toolStripBrowser);
             this.tabPage2.Location = new System.Drawing.Point(4, 26);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -1621,17 +1243,17 @@ namespace MovieBrowser.Forms
             this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WebBrowser1DocumentCompleted);
             this.webBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WebBrowser1Navigated);
             // 
-            // toolStrip4
+            // toolStripBrowser
             // 
-            this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripBrowser.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbIntelligent,
             this.tbAddToDbFromBrowser,
             this.tbUpdateTreeNode});
-            this.toolStrip4.Location = new System.Drawing.Point(3, 3);
-            this.toolStrip4.Name = "toolStrip4";
-            this.toolStrip4.Size = new System.Drawing.Size(579, 25);
-            this.toolStrip4.TabIndex = 1;
-            this.toolStrip4.Text = "toolStrip4";
+            this.toolStripBrowser.Location = new System.Drawing.Point(3, 3);
+            this.toolStripBrowser.Name = "toolStripBrowser";
+            this.toolStripBrowser.Size = new System.Drawing.Size(579, 25);
+            this.toolStripBrowser.TabIndex = 1;
+            this.toolStripBrowser.Text = "toolStrip4";
             // 
             // tbIntelligent
             // 
@@ -2322,16 +1944,16 @@ namespace MovieBrowser.Forms
             this.label9.TabIndex = 27;
             this.label9.Text = "User Rating:";
             // 
-            // toolStrip3
+            // toolStripMain
             // 
-            this.toolStrip3.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMain.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbUserManagement,
             this.tbKeywordManagement});
-            this.toolStrip3.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(113, 25);
-            this.toolStrip3.TabIndex = 0;
+            this.toolStripMain.Location = new System.Drawing.Point(3, 0);
+            this.toolStripMain.Name = "toolStripMain";
+            this.toolStripMain.Size = new System.Drawing.Size(113, 25);
+            this.toolStripMain.TabIndex = 0;
             // 
             // tbUserManagement
             // 
@@ -2439,25 +2061,26 @@ namespace MovieBrowser.Forms
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
             this.tabMovies.ResumeLayout(false);
-            this.tpVirtualFolders.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.treeListVirtualFolders)).EndInit();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            this.toolStrip5.ResumeLayout(false);
-            this.toolStrip5.PerformLayout();
             this.tpMoviesTree.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListFileSystem)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
+            this.toolStripMoviesFilesystem.ResumeLayout(false);
+            this.toolStripMoviesFilesystem.PerformLayout();
             this.tpMovies2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataListMoviesDatabase)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolStripMovies.ResumeLayout(false);
+            this.toolStripMovies.PerformLayout();
+            this.tpVirtualFolders.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeListVirtualFolders)).EndInit();
+            this.contextMenuStrip2.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            this.toolStripVirtualFolders.ResumeLayout(false);
+            this.toolStripVirtualFolders.PerformLayout();
             this.tpSearch.ResumeLayout(false);
             this.horizontalPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.datalistResult)).EndInit();
@@ -2468,8 +2091,8 @@ namespace MovieBrowser.Forms
             this.tabInformation.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            this.toolStrip4.ResumeLayout(false);
-            this.toolStrip4.PerformLayout();
+            this.toolStripBrowser.ResumeLayout(false);
+            this.toolStripBrowser.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tpInformation.ResumeLayout(false);
@@ -2495,8 +2118,8 @@ namespace MovieBrowser.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pbDislike)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLike)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWanted)).EndInit();
-            this.toolStrip3.ResumeLayout(false);
-            this.toolStrip3.PerformLayout();
+            this.toolStripMain.ResumeLayout(false);
+            this.toolStripMain.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2574,7 +2197,7 @@ namespace MovieBrowser.Forms
         private System.Windows.Forms.Button buttonModifyList;
         private System.Windows.Forms.Button buttonAddToList;
         private WindowsFormsAero.SearchTextBox searchTextBox1;
-        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStrip toolStripMoviesFilesystem;
         private System.Windows.Forms.ToolStripButton pbUpdateTree;
         private System.Windows.Forms.ToolStripButton pbAddTreeItemToDb;
         private System.Windows.Forms.ToolStripButton tbBrowseFolders;
@@ -2593,7 +2216,7 @@ namespace MovieBrowser.Forms
         private System.Windows.Forms.ToolStripButton tbLoadPendrives;
         private System.Windows.Forms.ToolStripButton tbSendTo;
         private WindowsFormsAero.SearchTextBox searchTextBox2;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip toolStripMovies;
         private System.Windows.Forms.ToolStripButton tbAddToDb;
         private System.Windows.Forms.ToolStripButton tbRefreshDb;
         private System.Windows.Forms.ToolStripButton tbDeleteFromDb;
@@ -2606,7 +2229,7 @@ namespace MovieBrowser.Forms
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripTextBox txtUserRating;
         private System.Windows.Forms.ToolStripButton tbRateIt;
-        private System.Windows.Forms.ToolStrip toolStrip3;
+        private System.Windows.Forms.ToolStrip toolStripMain;
         private System.Windows.Forms.ToolStripButton tbUserManagement;
         private System.Windows.Forms.ToolStripButton tbKeywordManagement;
         private DataListView listKeywords;
@@ -2614,7 +2237,7 @@ namespace MovieBrowser.Forms
         private OLVColumn olvColKeywordRated;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.ToolStrip toolStrip4;
+        private System.Windows.Forms.ToolStrip toolStripBrowser;
         private System.Windows.Forms.ToolStripButton tbIntelligent;
         private System.Windows.Forms.ToolStripButton tbUpdateDb;
         private System.Windows.Forms.ToolStripButton tbAddToDbFromBrowser;
@@ -2655,11 +2278,11 @@ namespace MovieBrowser.Forms
         private OLVColumn olvColumn13;
         private System.Windows.Forms.Panel panel4;
         private WindowsFormsAero.SearchTextBox searchVirtualFolders;
-        private System.Windows.Forms.ToolStrip toolStrip5;
+        private System.Windows.Forms.ToolStrip toolStripVirtualFolders;
         private System.Windows.Forms.ToolStripButton tbLoadVirtualFolders;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private System.Windows.Forms.ToolStripButton tbSaveVirtualTree;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton toolStripButton7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
@@ -2667,6 +2290,8 @@ namespace MovieBrowser.Forms
         private System.Windows.Forms.ToolStripButton toolStripButton9;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripButton tbGenerateXML;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem updateItemsToolStripMenuItem;
     }
 }
 
