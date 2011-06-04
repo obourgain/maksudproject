@@ -468,6 +468,7 @@ namespace MovieBrowser.Controller
                 movie.PersonWriters = ImdbParser.ParseWriters(html);
                 movie.PersonDirectors = ImdbParser.ParseDirectors(html);
 
+                movie.IsValidMovie = true;
 
                 return movie;
             }

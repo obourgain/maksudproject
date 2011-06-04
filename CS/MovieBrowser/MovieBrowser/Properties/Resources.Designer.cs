@@ -172,6 +172,13 @@ namespace MovieBrowser.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap list {
+            get {
+                object obj = ResourceManager.GetObject("list", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap modify {
             get {
                 object obj = ResourceManager.GetObject("modify", resourceCulture);
@@ -252,6 +259,13 @@ namespace MovieBrowser.Properties {
         public static System.Drawing.Bitmap update {
             get {
                 object obj = ResourceManager.GetObject("update", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap xml {
+            get {
+                object obj = ResourceManager.GetObject("xml", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

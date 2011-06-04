@@ -10,18 +10,22 @@ namespace MovieBrowser.Model
     public partial class Movie
     {
 
+        //Parsing Information
         public List<Genre> Genres { get; set; }
         public List<Country> Countries { get; set; }
         public List<Keyword> Keywords { get; set; }
         public List<Language> Languages { get; set; }
-
-        public static readonly List<string> MovieFiles = new List<string> { "avi", "mkv", "flv", "mp4" };
-        public static readonly List<string> SubtitleFiles = new List<string> { "srt", "sub" };
         public List<Person> PersonWriters { get; set; }
         public List<Person> PersonStars { get; set; }
         public List<Person> PersonDirectors { get; set; }
-        //
+
+        public static readonly List<string> MovieFiles = new List<string> { "avi", "mkv", "flv", "mp4" };
+        public static readonly List<string> SubtitleFiles = new List<string> { "srt", "sub" };
+
+        // Tree Purpose
         public List<Movie> Children { get; set; }
+        public Movie Parent { get; set; }
+        //
 
         public Movie()
         {
@@ -68,14 +72,15 @@ namespace MovieBrowser.Model
             return new Movie() { Title = folderName, FilePath = folderPath, IsValidMovie = false };
         }
 
-        public bool IsFolder
+        public bool IsFilesystemFolder
         {
             get
             {
                 return Directory.Exists(FilePath);
             }
         }
-        public bool IsValidMovie { get; private set; }
+        public bool IsFolder { get; set; }
+        public bool IsValidMovie { get; set; }
         public string FilePath { get; set; }
 
         public string FolderName { get { return string.Format("{0} ({1}), [{2}] [{3}]", Title, Year, Rating, ImdbId); } }
@@ -86,7 +91,7 @@ namespace MovieBrowser.Model
                 if (IsValidMovie)
                     return 0; // Movie
 
-                else if (IsFolder)
+                else if (IsFilesystemFolder)
                     return 1; // Folder
                 else
                 {
@@ -130,6 +135,10 @@ namespace MovieBrowser.Model
             this.Keywords = movie.Keywords;
             //
             this.IsValidMovie = movie.IsValidMovie;
+            //
+            this.Children = movie.Children;
+            this.Parent = movie.Parent;
+            //
             return this;
         }
     }

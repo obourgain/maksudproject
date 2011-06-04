@@ -36,8 +36,26 @@ namespace MovieBrowser.Forms
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabMovies = new System.Windows.Forms.TabControl();
+            this.tpVirtualFolders = new System.Windows.Forms.TabPage();
+            this.treeListVirtualFolders = new BrightIdeasSoftware.TreeListView();
+            this.olvColumn11 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn12 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn13 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.searchVirtualFolders = new WindowsFormsAero.SearchTextBox();
+            this.toolStrip5 = new System.Windows.Forms.ToolStrip();
+            this.tbLoadVirtualFolders = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.tpMoviesTree = new System.Windows.Forms.TabPage();
-            this.treeView1 = new BrightIdeasSoftware.TreeListView();
+            this.treeListFileSystem = new BrightIdeasSoftware.TreeListView();
             this.treeColumnTitle = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.treeColumnRating = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.treeColumnYear = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -56,6 +74,7 @@ namespace MovieBrowser.Forms
             this.tbRemoveFolders = new System.Windows.Forms.ToolStripButton();
             this.tbRefreshFolders = new System.Windows.Forms.ToolStripButton();
             this.tbSaveFolders = new System.Windows.Forms.ToolStripButton();
+            this.tbGenerateXML = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.pbUpdateTree = new System.Windows.Forms.ToolStripButton();
             this.pbAddTreeItemToDb = new System.Windows.Forms.ToolStripButton();
@@ -70,7 +89,7 @@ namespace MovieBrowser.Forms
             this.tbLoadPendrives = new System.Windows.Forms.ToolStripButton();
             this.tbSendTo = new System.Windows.Forms.ToolStripButton();
             this.tpMovies2 = new System.Windows.Forms.TabPage();
-            this.dataListView1 = new BrightIdeasSoftware.DataListView();
+            this.dataListMoviesDatabase = new BrightIdeasSoftware.DataListView();
             this.olvTitle = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvImdbId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvRating = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -92,7 +111,7 @@ namespace MovieBrowser.Forms
             this.txtUserRating = new System.Windows.Forms.ToolStripTextBox();
             this.tbRateIt = new System.Windows.Forms.ToolStripButton();
             this.tbUpdated = new System.Windows.Forms.ToolStripButton();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tpSearch = new System.Windows.Forms.TabPage();
             this.horizontalPanel3 = new WindowsFormsAero.HorizontalPanel();
             this.datalistResult = new BrightIdeasSoftware.DataListView();
             this.olvColumn7 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -185,16 +204,20 @@ namespace MovieBrowser.Forms
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabMovies.SuspendLayout();
+            this.tpVirtualFolders.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeListVirtualFolders)).BeginInit();
+            this.panel4.SuspendLayout();
+            this.toolStrip5.SuspendLayout();
             this.tpMoviesTree.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeListFileSystem)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.toolStrip2.SuspendLayout();
             this.tpMovies2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataListView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataListMoviesDatabase)).BeginInit();
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.tpSearch.SuspendLayout();
             this.horizontalPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datalistResult)).BeginInit();
             this.panel3.SuspendLayout();
@@ -263,20 +286,206 @@ namespace MovieBrowser.Forms
             // 
             // tabMovies
             // 
+            this.tabMovies.Controls.Add(this.tpVirtualFolders);
             this.tabMovies.Controls.Add(this.tpMoviesTree);
             this.tabMovies.Controls.Add(this.tpMovies2);
-            this.tabMovies.Controls.Add(this.tabPage3);
+            this.tabMovies.Controls.Add(this.tpSearch);
             this.tabMovies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabMovies.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabMovies.Location = new System.Drawing.Point(0, 0);
             this.tabMovies.Name = "tabMovies";
             this.tabMovies.SelectedIndex = 0;
             this.tabMovies.Size = new System.Drawing.Size(411, 322);
-            this.tabMovies.TabIndex = 1;
+            this.tabMovies.TabIndex = 0;
+            // 
+            // tpVirtualFolders
+            // 
+            this.tpVirtualFolders.Controls.Add(this.treeListVirtualFolders);
+            this.tpVirtualFolders.Controls.Add(this.panel4);
+            this.tpVirtualFolders.Location = new System.Drawing.Point(4, 26);
+            this.tpVirtualFolders.Name = "tpVirtualFolders";
+            this.tpVirtualFolders.Padding = new System.Windows.Forms.Padding(3);
+            this.tpVirtualFolders.Size = new System.Drawing.Size(403, 292);
+            this.tpVirtualFolders.TabIndex = 5;
+            this.tpVirtualFolders.Text = "Virtual Folders";
+            this.tpVirtualFolders.UseVisualStyleBackColor = true;
+            // 
+            // treeListVirtualFolders
+            // 
+            this.treeListVirtualFolders.AllColumns.Add(this.olvColumn11);
+            this.treeListVirtualFolders.AllColumns.Add(this.olvColumn12);
+            this.treeListVirtualFolders.AllColumns.Add(this.olvColumn13);
+            this.treeListVirtualFolders.AllowColumnReorder = true;
+            this.treeListVirtualFolders.CheckBoxes = true;
+            this.treeListVirtualFolders.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn11,
+            this.olvColumn12,
+            this.olvColumn13});
+            this.treeListVirtualFolders.Cursor = System.Windows.Forms.Cursors.Default;
+            this.treeListVirtualFolders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeListVirtualFolders.EmptyListMsg = "Please add folder!";
+            this.treeListVirtualFolders.FullRowSelect = true;
+            this.treeListVirtualFolders.GridLines = true;
+            this.treeListVirtualFolders.HideSelection = false;
+            this.treeListVirtualFolders.Location = new System.Drawing.Point(3, 55);
+            this.treeListVirtualFolders.Name = "treeListVirtualFolders";
+            this.treeListVirtualFolders.OwnerDraw = true;
+            this.treeListVirtualFolders.ShowGroups = false;
+            this.treeListVirtualFolders.ShowImagesOnSubItems = true;
+            this.treeListVirtualFolders.ShowItemToolTips = true;
+            this.treeListVirtualFolders.Size = new System.Drawing.Size(397, 234);
+            this.treeListVirtualFolders.TabIndex = 3;
+            this.treeListVirtualFolders.UseCompatibleStateImageBehavior = false;
+            this.treeListVirtualFolders.UseFiltering = true;
+            this.treeListVirtualFolders.View = System.Windows.Forms.View.Details;
+            this.treeListVirtualFolders.VirtualMode = true;
+            this.treeListVirtualFolders.SelectedIndexChanged += new System.EventHandler(this.treeListVirtualFolders_SelectedIndexChanged);
+            this.treeListVirtualFolders.DoubleClick += new System.EventHandler(this.treeListVirtualFolders_DoubleClick);
+            this.treeListVirtualFolders.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeListVirtualFolders_KeyDown);
+            // 
+            // olvColumn11
+            // 
+            this.olvColumn11.AspectName = "Title";
+            this.olvColumn11.Text = "Title";
+            this.olvColumn11.Width = 300;
+            // 
+            // olvColumn12
+            // 
+            this.olvColumn12.AspectName = "Rating";
+            this.olvColumn12.Text = "Rating";
+            // 
+            // olvColumn13
+            // 
+            this.olvColumn13.AspectName = "Year";
+            this.olvColumn13.Text = "Year";
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.searchVirtualFolders);
+            this.panel4.Controls.Add(this.toolStrip5);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(3, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(397, 52);
+            this.panel4.TabIndex = 2;
+            // 
+            // searchVirtualFolders
+            // 
+            this.searchVirtualFolders.ActiveFont = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchVirtualFolders.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.searchVirtualFolders.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.searchVirtualFolders.Dock = System.Windows.Forms.DockStyle.Top;
+            this.searchVirtualFolders.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchVirtualFolders.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.searchVirtualFolders.Location = new System.Drawing.Point(0, 25);
+            this.searchVirtualFolders.Name = "searchVirtualFolders";
+            this.searchVirtualFolders.Size = new System.Drawing.Size(397, 24);
+            this.searchVirtualFolders.TabIndex = 7;
+            this.searchVirtualFolders.SearchStarted += new System.EventHandler(this.searchVirtualFolders_SearchStarted);
+            this.searchVirtualFolders.SearchCancelled += new System.EventHandler(this.searchVirtualFolders_SearchCancelled);
+            // 
+            // toolStrip5
+            // 
+            this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbLoadVirtualFolders,
+            this.toolStripButton3,
+            this.toolStripButton4,
+            this.toolStripButton5,
+            this.toolStripSeparator3,
+            this.toolStripButton7,
+            this.toolStripSeparator8,
+            this.toolStripButton8,
+            this.toolStripButton9,
+            this.toolStripSeparator9});
+            this.toolStrip5.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip5.Name = "toolStrip5";
+            this.toolStrip5.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.toolStrip5.Size = new System.Drawing.Size(397, 25);
+            this.toolStrip5.TabIndex = 6;
+            this.toolStrip5.Text = "toolStrip5";
+            // 
+            // tbLoadVirtualFolders
+            // 
+            this.tbLoadVirtualFolders.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbLoadVirtualFolders.Image = global::MovieBrowser.Properties.Resources.folder_add;
+            this.tbLoadVirtualFolders.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbLoadVirtualFolders.Name = "tbLoadVirtualFolders";
+            this.tbLoadVirtualFolders.Size = new System.Drawing.Size(23, 22);
+            this.tbLoadVirtualFolders.Text = "Browse";
+            this.tbLoadVirtualFolders.Click += new System.EventHandler(this.tbLoadVirtualFolders_Click);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = global::MovieBrowser.Properties.Resources.delete;
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton3.Text = "Remove Selected Folder";
+            // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton4.Image = global::MovieBrowser.Properties.Resources.refresh;
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton4.Text = "Refresh Folders";
+            // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton5.Image = global::MovieBrowser.Properties.Resources.save;
+            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton5.Text = "Save";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton7
+            // 
+            this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton7.Image = global::MovieBrowser.Properties.Resources.pb_movie;
+            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton7.Name = "toolStripButton7";
+            this.toolStripButton7.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton7.Text = "Collect && Add to Database";
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton8
+            // 
+            this.toolStripButton8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton8.Image = global::MovieBrowser.Properties.Resources.imdb;
+            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton8.Name = "toolStripButton8";
+            this.toolStripButton8.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton8.Text = "Imdb Search";
+            // 
+            // toolStripButton9
+            // 
+            this.toolStripButton9.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton9.Image = global::MovieBrowser.Properties.Resources.google;
+            this.toolStripButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton9.Name = "toolStripButton9";
+            this.toolStripButton9.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton9.Text = "Search Google";
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(6, 25);
             // 
             // tpMoviesTree
             // 
-            this.tpMoviesTree.Controls.Add(this.treeView1);
+            this.tpMoviesTree.Controls.Add(this.treeListFileSystem);
             this.tpMoviesTree.Controls.Add(this.panel2);
             this.tpMoviesTree.Location = new System.Drawing.Point(4, 26);
             this.tpMoviesTree.Name = "tpMoviesTree";
@@ -286,44 +495,44 @@ namespace MovieBrowser.Forms
             this.tpMoviesTree.Text = "Movies Folders";
             this.tpMoviesTree.UseVisualStyleBackColor = true;
             // 
-            // treeView1
+            // treeListFileSystem
             // 
-            this.treeView1.AllColumns.Add(this.treeColumnTitle);
-            this.treeView1.AllColumns.Add(this.treeColumnRating);
-            this.treeView1.AllColumns.Add(this.treeColumnYear);
-            this.treeView1.AllColumns.Add(this.treeColumnSize);
-            this.treeView1.AllColumns.Add(this.treeColumnFileType);
-            this.treeView1.AllowColumnReorder = true;
-            this.treeView1.CheckBoxes = true;
-            this.treeView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.treeListFileSystem.AllColumns.Add(this.treeColumnTitle);
+            this.treeListFileSystem.AllColumns.Add(this.treeColumnRating);
+            this.treeListFileSystem.AllColumns.Add(this.treeColumnYear);
+            this.treeListFileSystem.AllColumns.Add(this.treeColumnSize);
+            this.treeListFileSystem.AllColumns.Add(this.treeColumnFileType);
+            this.treeListFileSystem.AllowColumnReorder = true;
+            this.treeListFileSystem.CheckBoxes = true;
+            this.treeListFileSystem.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.treeColumnTitle,
             this.treeColumnRating,
             this.treeColumnYear,
             this.treeColumnSize,
             this.treeColumnFileType});
-            this.treeView1.ContextMenuStrip = this.contextMenuStrip1;
-            this.treeView1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.EmptyListMsg = "Please add folder!";
-            this.treeView1.FullRowSelect = true;
-            this.treeView1.GridLines = true;
-            this.treeView1.HideSelection = false;
-            this.treeView1.Location = new System.Drawing.Point(3, 55);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.OwnerDraw = true;
-            this.treeView1.ShowGroups = false;
-            this.treeView1.ShowImagesOnSubItems = true;
-            this.treeView1.ShowItemToolTips = true;
-            this.treeView1.Size = new System.Drawing.Size(397, 234);
-            this.treeView1.SmallImageList = this.imageList1;
-            this.treeView1.TabIndex = 1;
-            this.treeView1.UseCompatibleStateImageBehavior = false;
-            this.treeView1.UseFiltering = true;
-            this.treeView1.View = System.Windows.Forms.View.Details;
-            this.treeView1.VirtualMode = true;
-            this.treeView1.SelectedIndexChanged += new System.EventHandler(this.treeListView1_SelectedIndexChanged);
-            this.treeView1.DoubleClick += new System.EventHandler(this.treeListView1_DoubleClick);
-            this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyDown);
+            this.treeListFileSystem.ContextMenuStrip = this.contextMenuStrip1;
+            this.treeListFileSystem.Cursor = System.Windows.Forms.Cursors.Default;
+            this.treeListFileSystem.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeListFileSystem.EmptyListMsg = "Please add folder!";
+            this.treeListFileSystem.FullRowSelect = true;
+            this.treeListFileSystem.GridLines = true;
+            this.treeListFileSystem.HideSelection = false;
+            this.treeListFileSystem.Location = new System.Drawing.Point(3, 55);
+            this.treeListFileSystem.Name = "treeListFileSystem";
+            this.treeListFileSystem.OwnerDraw = true;
+            this.treeListFileSystem.ShowGroups = false;
+            this.treeListFileSystem.ShowImagesOnSubItems = true;
+            this.treeListFileSystem.ShowItemToolTips = true;
+            this.treeListFileSystem.Size = new System.Drawing.Size(397, 234);
+            this.treeListFileSystem.SmallImageList = this.imageList1;
+            this.treeListFileSystem.TabIndex = 1;
+            this.treeListFileSystem.UseCompatibleStateImageBehavior = false;
+            this.treeListFileSystem.UseFiltering = true;
+            this.treeListFileSystem.View = System.Windows.Forms.View.Details;
+            this.treeListFileSystem.VirtualMode = true;
+            this.treeListFileSystem.SelectedIndexChanged += new System.EventHandler(this.treeListView1_SelectedIndexChanged);
+            this.treeListFileSystem.DoubleClick += new System.EventHandler(this.treeListView1_DoubleClick);
+            this.treeListFileSystem.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyDown);
             // 
             // treeColumnTitle
             // 
@@ -393,6 +602,401 @@ namespace MovieBrowser.Forms
             this.imageList1.Images.SetKeyName(2, "movie_file.png");
             this.imageList1.Images.SetKeyName(3, "subtitle.png");
             this.imageList1.Images.SetKeyName(4, "file.png");
+            this.imageList1.Images.SetKeyName(5, "");
+            this.imageList1.Images.SetKeyName(6, "");
+            this.imageList1.Images.SetKeyName(7, "");
+            this.imageList1.Images.SetKeyName(8, "");
+            this.imageList1.Images.SetKeyName(9, "");
+            this.imageList1.Images.SetKeyName(10, "");
+            this.imageList1.Images.SetKeyName(11, "");
+            this.imageList1.Images.SetKeyName(12, "");
+            this.imageList1.Images.SetKeyName(13, "");
+            this.imageList1.Images.SetKeyName(14, "");
+            this.imageList1.Images.SetKeyName(15, "");
+            this.imageList1.Images.SetKeyName(16, "");
+            this.imageList1.Images.SetKeyName(17, "");
+            this.imageList1.Images.SetKeyName(18, "");
+            this.imageList1.Images.SetKeyName(19, "");
+            this.imageList1.Images.SetKeyName(20, "");
+            this.imageList1.Images.SetKeyName(21, "");
+            this.imageList1.Images.SetKeyName(22, "");
+            this.imageList1.Images.SetKeyName(23, "");
+            this.imageList1.Images.SetKeyName(24, "");
+            this.imageList1.Images.SetKeyName(25, "");
+            this.imageList1.Images.SetKeyName(26, "");
+            this.imageList1.Images.SetKeyName(27, "");
+            this.imageList1.Images.SetKeyName(28, "");
+            this.imageList1.Images.SetKeyName(29, "");
+            this.imageList1.Images.SetKeyName(30, "");
+            this.imageList1.Images.SetKeyName(31, "");
+            this.imageList1.Images.SetKeyName(32, "");
+            this.imageList1.Images.SetKeyName(33, "");
+            this.imageList1.Images.SetKeyName(34, "");
+            this.imageList1.Images.SetKeyName(35, "");
+            this.imageList1.Images.SetKeyName(36, "");
+            this.imageList1.Images.SetKeyName(37, "");
+            this.imageList1.Images.SetKeyName(38, "");
+            this.imageList1.Images.SetKeyName(39, "");
+            this.imageList1.Images.SetKeyName(40, "");
+            this.imageList1.Images.SetKeyName(41, "");
+            this.imageList1.Images.SetKeyName(42, "");
+            this.imageList1.Images.SetKeyName(43, "");
+            this.imageList1.Images.SetKeyName(44, "");
+            this.imageList1.Images.SetKeyName(45, "");
+            this.imageList1.Images.SetKeyName(46, "");
+            this.imageList1.Images.SetKeyName(47, "");
+            this.imageList1.Images.SetKeyName(48, "");
+            this.imageList1.Images.SetKeyName(49, "");
+            this.imageList1.Images.SetKeyName(50, "");
+            this.imageList1.Images.SetKeyName(51, "");
+            this.imageList1.Images.SetKeyName(52, "");
+            this.imageList1.Images.SetKeyName(53, "");
+            this.imageList1.Images.SetKeyName(54, "");
+            this.imageList1.Images.SetKeyName(55, "");
+            this.imageList1.Images.SetKeyName(56, "");
+            this.imageList1.Images.SetKeyName(57, "");
+            this.imageList1.Images.SetKeyName(58, "");
+            this.imageList1.Images.SetKeyName(59, "");
+            this.imageList1.Images.SetKeyName(60, "");
+            this.imageList1.Images.SetKeyName(61, "");
+            this.imageList1.Images.SetKeyName(62, "");
+            this.imageList1.Images.SetKeyName(63, "");
+            this.imageList1.Images.SetKeyName(64, "");
+            this.imageList1.Images.SetKeyName(65, "");
+            this.imageList1.Images.SetKeyName(66, "");
+            this.imageList1.Images.SetKeyName(67, "");
+            this.imageList1.Images.SetKeyName(68, "");
+            this.imageList1.Images.SetKeyName(69, "");
+            this.imageList1.Images.SetKeyName(70, "");
+            this.imageList1.Images.SetKeyName(71, "");
+            this.imageList1.Images.SetKeyName(72, "");
+            this.imageList1.Images.SetKeyName(73, "");
+            this.imageList1.Images.SetKeyName(74, "");
+            this.imageList1.Images.SetKeyName(75, "");
+            this.imageList1.Images.SetKeyName(76, "");
+            this.imageList1.Images.SetKeyName(77, "");
+            this.imageList1.Images.SetKeyName(78, "");
+            this.imageList1.Images.SetKeyName(79, "");
+            this.imageList1.Images.SetKeyName(80, "");
+            this.imageList1.Images.SetKeyName(81, "");
+            this.imageList1.Images.SetKeyName(82, "");
+            this.imageList1.Images.SetKeyName(83, "");
+            this.imageList1.Images.SetKeyName(84, "");
+            this.imageList1.Images.SetKeyName(85, "");
+            this.imageList1.Images.SetKeyName(86, "");
+            this.imageList1.Images.SetKeyName(87, "");
+            this.imageList1.Images.SetKeyName(88, "");
+            this.imageList1.Images.SetKeyName(89, "");
+            this.imageList1.Images.SetKeyName(90, "");
+            this.imageList1.Images.SetKeyName(91, "");
+            this.imageList1.Images.SetKeyName(92, "");
+            this.imageList1.Images.SetKeyName(93, "");
+            this.imageList1.Images.SetKeyName(94, "");
+            this.imageList1.Images.SetKeyName(95, "");
+            this.imageList1.Images.SetKeyName(96, "");
+            this.imageList1.Images.SetKeyName(97, "");
+            this.imageList1.Images.SetKeyName(98, "");
+            this.imageList1.Images.SetKeyName(99, "");
+            this.imageList1.Images.SetKeyName(100, "");
+            this.imageList1.Images.SetKeyName(101, "");
+            this.imageList1.Images.SetKeyName(102, "");
+            this.imageList1.Images.SetKeyName(103, "");
+            this.imageList1.Images.SetKeyName(104, "");
+            this.imageList1.Images.SetKeyName(105, "");
+            this.imageList1.Images.SetKeyName(106, "");
+            this.imageList1.Images.SetKeyName(107, "");
+            this.imageList1.Images.SetKeyName(108, "");
+            this.imageList1.Images.SetKeyName(109, "");
+            this.imageList1.Images.SetKeyName(110, "");
+            this.imageList1.Images.SetKeyName(111, "");
+            this.imageList1.Images.SetKeyName(112, "");
+            this.imageList1.Images.SetKeyName(113, "");
+            this.imageList1.Images.SetKeyName(114, "");
+            this.imageList1.Images.SetKeyName(115, "");
+            this.imageList1.Images.SetKeyName(116, "");
+            this.imageList1.Images.SetKeyName(117, "");
+            this.imageList1.Images.SetKeyName(118, "");
+            this.imageList1.Images.SetKeyName(119, "");
+            this.imageList1.Images.SetKeyName(120, "");
+            this.imageList1.Images.SetKeyName(121, "");
+            this.imageList1.Images.SetKeyName(122, "");
+            this.imageList1.Images.SetKeyName(123, "");
+            this.imageList1.Images.SetKeyName(124, "");
+            this.imageList1.Images.SetKeyName(125, "");
+            this.imageList1.Images.SetKeyName(126, "");
+            this.imageList1.Images.SetKeyName(127, "");
+            this.imageList1.Images.SetKeyName(128, "");
+            this.imageList1.Images.SetKeyName(129, "");
+            this.imageList1.Images.SetKeyName(130, "");
+            this.imageList1.Images.SetKeyName(131, "");
+            this.imageList1.Images.SetKeyName(132, "");
+            this.imageList1.Images.SetKeyName(133, "");
+            this.imageList1.Images.SetKeyName(134, "");
+            this.imageList1.Images.SetKeyName(135, "");
+            this.imageList1.Images.SetKeyName(136, "");
+            this.imageList1.Images.SetKeyName(137, "");
+            this.imageList1.Images.SetKeyName(138, "");
+            this.imageList1.Images.SetKeyName(139, "");
+            this.imageList1.Images.SetKeyName(140, "");
+            this.imageList1.Images.SetKeyName(141, "");
+            this.imageList1.Images.SetKeyName(142, "");
+            this.imageList1.Images.SetKeyName(143, "");
+            this.imageList1.Images.SetKeyName(144, "");
+            this.imageList1.Images.SetKeyName(145, "");
+            this.imageList1.Images.SetKeyName(146, "");
+            this.imageList1.Images.SetKeyName(147, "");
+            this.imageList1.Images.SetKeyName(148, "");
+            this.imageList1.Images.SetKeyName(149, "");
+            this.imageList1.Images.SetKeyName(150, "");
+            this.imageList1.Images.SetKeyName(151, "");
+            this.imageList1.Images.SetKeyName(152, "");
+            this.imageList1.Images.SetKeyName(153, "");
+            this.imageList1.Images.SetKeyName(154, "");
+            this.imageList1.Images.SetKeyName(155, "");
+            this.imageList1.Images.SetKeyName(156, "");
+            this.imageList1.Images.SetKeyName(157, "");
+            this.imageList1.Images.SetKeyName(158, "");
+            this.imageList1.Images.SetKeyName(159, "");
+            this.imageList1.Images.SetKeyName(160, "");
+            this.imageList1.Images.SetKeyName(161, "");
+            this.imageList1.Images.SetKeyName(162, "");
+            this.imageList1.Images.SetKeyName(163, "");
+            this.imageList1.Images.SetKeyName(164, "");
+            this.imageList1.Images.SetKeyName(165, "");
+            this.imageList1.Images.SetKeyName(166, "");
+            this.imageList1.Images.SetKeyName(167, "");
+            this.imageList1.Images.SetKeyName(168, "");
+            this.imageList1.Images.SetKeyName(169, "");
+            this.imageList1.Images.SetKeyName(170, "");
+            this.imageList1.Images.SetKeyName(171, "");
+            this.imageList1.Images.SetKeyName(172, "");
+            this.imageList1.Images.SetKeyName(173, "");
+            this.imageList1.Images.SetKeyName(174, "");
+            this.imageList1.Images.SetKeyName(175, "");
+            this.imageList1.Images.SetKeyName(176, "");
+            this.imageList1.Images.SetKeyName(177, "");
+            this.imageList1.Images.SetKeyName(178, "");
+            this.imageList1.Images.SetKeyName(179, "");
+            this.imageList1.Images.SetKeyName(180, "");
+            this.imageList1.Images.SetKeyName(181, "");
+            this.imageList1.Images.SetKeyName(182, "");
+            this.imageList1.Images.SetKeyName(183, "");
+            this.imageList1.Images.SetKeyName(184, "");
+            this.imageList1.Images.SetKeyName(185, "");
+            this.imageList1.Images.SetKeyName(186, "");
+            this.imageList1.Images.SetKeyName(187, "");
+            this.imageList1.Images.SetKeyName(188, "");
+            this.imageList1.Images.SetKeyName(189, "");
+            this.imageList1.Images.SetKeyName(190, "");
+            this.imageList1.Images.SetKeyName(191, "");
+            this.imageList1.Images.SetKeyName(192, "");
+            this.imageList1.Images.SetKeyName(193, "");
+            this.imageList1.Images.SetKeyName(194, "");
+            this.imageList1.Images.SetKeyName(195, "");
+            this.imageList1.Images.SetKeyName(196, "");
+            this.imageList1.Images.SetKeyName(197, "");
+            this.imageList1.Images.SetKeyName(198, "");
+            this.imageList1.Images.SetKeyName(199, "");
+            this.imageList1.Images.SetKeyName(200, "");
+            this.imageList1.Images.SetKeyName(201, "");
+            this.imageList1.Images.SetKeyName(202, "");
+            this.imageList1.Images.SetKeyName(203, "");
+            this.imageList1.Images.SetKeyName(204, "");
+            this.imageList1.Images.SetKeyName(205, "");
+            this.imageList1.Images.SetKeyName(206, "");
+            this.imageList1.Images.SetKeyName(207, "");
+            this.imageList1.Images.SetKeyName(208, "");
+            this.imageList1.Images.SetKeyName(209, "");
+            this.imageList1.Images.SetKeyName(210, "");
+            this.imageList1.Images.SetKeyName(211, "");
+            this.imageList1.Images.SetKeyName(212, "");
+            this.imageList1.Images.SetKeyName(213, "");
+            this.imageList1.Images.SetKeyName(214, "");
+            this.imageList1.Images.SetKeyName(215, "");
+            this.imageList1.Images.SetKeyName(216, "");
+            this.imageList1.Images.SetKeyName(217, "");
+            this.imageList1.Images.SetKeyName(218, "");
+            this.imageList1.Images.SetKeyName(219, "");
+            this.imageList1.Images.SetKeyName(220, "");
+            this.imageList1.Images.SetKeyName(221, "");
+            this.imageList1.Images.SetKeyName(222, "");
+            this.imageList1.Images.SetKeyName(223, "");
+            this.imageList1.Images.SetKeyName(224, "");
+            this.imageList1.Images.SetKeyName(225, "");
+            this.imageList1.Images.SetKeyName(226, "");
+            this.imageList1.Images.SetKeyName(227, "");
+            this.imageList1.Images.SetKeyName(228, "");
+            this.imageList1.Images.SetKeyName(229, "");
+            this.imageList1.Images.SetKeyName(230, "");
+            this.imageList1.Images.SetKeyName(231, "");
+            this.imageList1.Images.SetKeyName(232, "");
+            this.imageList1.Images.SetKeyName(233, "");
+            this.imageList1.Images.SetKeyName(234, "");
+            this.imageList1.Images.SetKeyName(235, "");
+            this.imageList1.Images.SetKeyName(236, "");
+            this.imageList1.Images.SetKeyName(237, "");
+            this.imageList1.Images.SetKeyName(238, "");
+            this.imageList1.Images.SetKeyName(239, "");
+            this.imageList1.Images.SetKeyName(240, "");
+            this.imageList1.Images.SetKeyName(241, "");
+            this.imageList1.Images.SetKeyName(242, "");
+            this.imageList1.Images.SetKeyName(243, "");
+            this.imageList1.Images.SetKeyName(244, "");
+            this.imageList1.Images.SetKeyName(245, "");
+            this.imageList1.Images.SetKeyName(246, "");
+            this.imageList1.Images.SetKeyName(247, "");
+            this.imageList1.Images.SetKeyName(248, "");
+            this.imageList1.Images.SetKeyName(249, "");
+            this.imageList1.Images.SetKeyName(250, "");
+            this.imageList1.Images.SetKeyName(251, "");
+            this.imageList1.Images.SetKeyName(252, "");
+            this.imageList1.Images.SetKeyName(253, "");
+            this.imageList1.Images.SetKeyName(254, "");
+            this.imageList1.Images.SetKeyName(255, "");
+            this.imageList1.Images.SetKeyName(256, "");
+            this.imageList1.Images.SetKeyName(257, "");
+            this.imageList1.Images.SetKeyName(258, "");
+            this.imageList1.Images.SetKeyName(259, "");
+            this.imageList1.Images.SetKeyName(260, "");
+            this.imageList1.Images.SetKeyName(261, "");
+            this.imageList1.Images.SetKeyName(262, "");
+            this.imageList1.Images.SetKeyName(263, "");
+            this.imageList1.Images.SetKeyName(264, "");
+            this.imageList1.Images.SetKeyName(265, "");
+            this.imageList1.Images.SetKeyName(266, "");
+            this.imageList1.Images.SetKeyName(267, "");
+            this.imageList1.Images.SetKeyName(268, "");
+            this.imageList1.Images.SetKeyName(269, "");
+            this.imageList1.Images.SetKeyName(270, "");
+            this.imageList1.Images.SetKeyName(271, "");
+            this.imageList1.Images.SetKeyName(272, "");
+            this.imageList1.Images.SetKeyName(273, "");
+            this.imageList1.Images.SetKeyName(274, "");
+            this.imageList1.Images.SetKeyName(275, "");
+            this.imageList1.Images.SetKeyName(276, "");
+            this.imageList1.Images.SetKeyName(277, "");
+            this.imageList1.Images.SetKeyName(278, "");
+            this.imageList1.Images.SetKeyName(279, "");
+            this.imageList1.Images.SetKeyName(280, "");
+            this.imageList1.Images.SetKeyName(281, "");
+            this.imageList1.Images.SetKeyName(282, "");
+            this.imageList1.Images.SetKeyName(283, "");
+            this.imageList1.Images.SetKeyName(284, "");
+            this.imageList1.Images.SetKeyName(285, "");
+            this.imageList1.Images.SetKeyName(286, "");
+            this.imageList1.Images.SetKeyName(287, "");
+            this.imageList1.Images.SetKeyName(288, "");
+            this.imageList1.Images.SetKeyName(289, "");
+            this.imageList1.Images.SetKeyName(290, "");
+            this.imageList1.Images.SetKeyName(291, "");
+            this.imageList1.Images.SetKeyName(292, "");
+            this.imageList1.Images.SetKeyName(293, "");
+            this.imageList1.Images.SetKeyName(294, "");
+            this.imageList1.Images.SetKeyName(295, "");
+            this.imageList1.Images.SetKeyName(296, "");
+            this.imageList1.Images.SetKeyName(297, "");
+            this.imageList1.Images.SetKeyName(298, "");
+            this.imageList1.Images.SetKeyName(299, "");
+            this.imageList1.Images.SetKeyName(300, "");
+            this.imageList1.Images.SetKeyName(301, "");
+            this.imageList1.Images.SetKeyName(302, "");
+            this.imageList1.Images.SetKeyName(303, "");
+            this.imageList1.Images.SetKeyName(304, "");
+            this.imageList1.Images.SetKeyName(305, "");
+            this.imageList1.Images.SetKeyName(306, "");
+            this.imageList1.Images.SetKeyName(307, "");
+            this.imageList1.Images.SetKeyName(308, "");
+            this.imageList1.Images.SetKeyName(309, "");
+            this.imageList1.Images.SetKeyName(310, "");
+            this.imageList1.Images.SetKeyName(311, "");
+            this.imageList1.Images.SetKeyName(312, "");
+            this.imageList1.Images.SetKeyName(313, "");
+            this.imageList1.Images.SetKeyName(314, "");
+            this.imageList1.Images.SetKeyName(315, "");
+            this.imageList1.Images.SetKeyName(316, "");
+            this.imageList1.Images.SetKeyName(317, "");
+            this.imageList1.Images.SetKeyName(318, "");
+            this.imageList1.Images.SetKeyName(319, "");
+            this.imageList1.Images.SetKeyName(320, "");
+            this.imageList1.Images.SetKeyName(321, "");
+            this.imageList1.Images.SetKeyName(322, "");
+            this.imageList1.Images.SetKeyName(323, "");
+            this.imageList1.Images.SetKeyName(324, "");
+            this.imageList1.Images.SetKeyName(325, "");
+            this.imageList1.Images.SetKeyName(326, "");
+            this.imageList1.Images.SetKeyName(327, "");
+            this.imageList1.Images.SetKeyName(328, "");
+            this.imageList1.Images.SetKeyName(329, "");
+            this.imageList1.Images.SetKeyName(330, "");
+            this.imageList1.Images.SetKeyName(331, "");
+            this.imageList1.Images.SetKeyName(332, "");
+            this.imageList1.Images.SetKeyName(333, "");
+            this.imageList1.Images.SetKeyName(334, "");
+            this.imageList1.Images.SetKeyName(335, "");
+            this.imageList1.Images.SetKeyName(336, "");
+            this.imageList1.Images.SetKeyName(337, "");
+            this.imageList1.Images.SetKeyName(338, "");
+            this.imageList1.Images.SetKeyName(339, "");
+            this.imageList1.Images.SetKeyName(340, "");
+            this.imageList1.Images.SetKeyName(341, "");
+            this.imageList1.Images.SetKeyName(342, "");
+            this.imageList1.Images.SetKeyName(343, "");
+            this.imageList1.Images.SetKeyName(344, "");
+            this.imageList1.Images.SetKeyName(345, "");
+            this.imageList1.Images.SetKeyName(346, "");
+            this.imageList1.Images.SetKeyName(347, "");
+            this.imageList1.Images.SetKeyName(348, "");
+            this.imageList1.Images.SetKeyName(349, "");
+            this.imageList1.Images.SetKeyName(350, "");
+            this.imageList1.Images.SetKeyName(351, "");
+            this.imageList1.Images.SetKeyName(352, "");
+            this.imageList1.Images.SetKeyName(353, "");
+            this.imageList1.Images.SetKeyName(354, "");
+            this.imageList1.Images.SetKeyName(355, "");
+            this.imageList1.Images.SetKeyName(356, "");
+            this.imageList1.Images.SetKeyName(357, "");
+            this.imageList1.Images.SetKeyName(358, "");
+            this.imageList1.Images.SetKeyName(359, "");
+            this.imageList1.Images.SetKeyName(360, "");
+            this.imageList1.Images.SetKeyName(361, "");
+            this.imageList1.Images.SetKeyName(362, "");
+            this.imageList1.Images.SetKeyName(363, "");
+            this.imageList1.Images.SetKeyName(364, "");
+            this.imageList1.Images.SetKeyName(365, "");
+            this.imageList1.Images.SetKeyName(366, "");
+            this.imageList1.Images.SetKeyName(367, "");
+            this.imageList1.Images.SetKeyName(368, "");
+            this.imageList1.Images.SetKeyName(369, "");
+            this.imageList1.Images.SetKeyName(370, "");
+            this.imageList1.Images.SetKeyName(371, "");
+            this.imageList1.Images.SetKeyName(372, "");
+            this.imageList1.Images.SetKeyName(373, "");
+            this.imageList1.Images.SetKeyName(374, "");
+            this.imageList1.Images.SetKeyName(375, "");
+            this.imageList1.Images.SetKeyName(376, "");
+            this.imageList1.Images.SetKeyName(377, "");
+            this.imageList1.Images.SetKeyName(378, "");
+            this.imageList1.Images.SetKeyName(379, "");
+            this.imageList1.Images.SetKeyName(380, "");
+            this.imageList1.Images.SetKeyName(381, "");
+            this.imageList1.Images.SetKeyName(382, "");
+            this.imageList1.Images.SetKeyName(383, "");
+            this.imageList1.Images.SetKeyName(384, "");
+            this.imageList1.Images.SetKeyName(385, "");
+            this.imageList1.Images.SetKeyName(386, "");
+            this.imageList1.Images.SetKeyName(387, "");
+            this.imageList1.Images.SetKeyName(388, "");
+            this.imageList1.Images.SetKeyName(389, "");
+            this.imageList1.Images.SetKeyName(390, "");
+            this.imageList1.Images.SetKeyName(391, "");
+            this.imageList1.Images.SetKeyName(392, "");
+            this.imageList1.Images.SetKeyName(393, "");
+            this.imageList1.Images.SetKeyName(394, "");
+            this.imageList1.Images.SetKeyName(395, "");
+            this.imageList1.Images.SetKeyName(396, "");
+            this.imageList1.Images.SetKeyName(397, "");
+            this.imageList1.Images.SetKeyName(398, "");
+            this.imageList1.Images.SetKeyName(399, "");
             // 
             // panel2
             // 
@@ -426,6 +1030,7 @@ namespace MovieBrowser.Forms
             this.tbRemoveFolders,
             this.tbRefreshFolders,
             this.tbSaveFolders,
+            this.tbGenerateXML,
             this.toolStripSeparator6,
             this.pbUpdateTree,
             this.pbAddTreeItemToDb,
@@ -485,6 +1090,16 @@ namespace MovieBrowser.Forms
             this.tbSaveFolders.Size = new System.Drawing.Size(23, 22);
             this.tbSaveFolders.Text = "Save";
             this.tbSaveFolders.Click += new System.EventHandler(this.tbSaveFolders_Click);
+            // 
+            // tbGenerateXML
+            // 
+            this.tbGenerateXML.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbGenerateXML.Image = global::MovieBrowser.Properties.Resources.list;
+            this.tbGenerateXML.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbGenerateXML.Name = "tbGenerateXML";
+            this.tbGenerateXML.Size = new System.Drawing.Size(23, 22);
+            this.tbGenerateXML.Text = "Export XML";
+            this.tbGenerateXML.Click += new System.EventHandler(this.tbGenerateXML_Click);
             // 
             // toolStripSeparator6
             // 
@@ -578,7 +1193,7 @@ namespace MovieBrowser.Forms
             this.tbLoadPendrives.Image = global::MovieBrowser.Properties.Resources.pen_drives;
             this.tbLoadPendrives.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbLoadPendrives.Name = "tbLoadPendrives";
-            this.tbLoadPendrives.Size = new System.Drawing.Size(23, 22);
+            this.tbLoadPendrives.Size = new System.Drawing.Size(23, 20);
             this.tbLoadPendrives.Text = "Load Pen Drives";
             this.tbLoadPendrives.Click += new System.EventHandler(this.tbLoadPendrives_Click);
             // 
@@ -588,13 +1203,13 @@ namespace MovieBrowser.Forms
             this.tbSendTo.Image = global::MovieBrowser.Properties.Resources.send_to;
             this.tbSendTo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbSendTo.Name = "tbSendTo";
-            this.tbSendTo.Size = new System.Drawing.Size(23, 22);
+            this.tbSendTo.Size = new System.Drawing.Size(23, 20);
             this.tbSendTo.Text = "Send To Pendrive";
             this.tbSendTo.Click += new System.EventHandler(this.tbSendTo_Click);
             // 
             // tpMovies2
             // 
-            this.tpMovies2.Controls.Add(this.dataListView1);
+            this.tpMovies2.Controls.Add(this.dataListMoviesDatabase);
             this.tpMovies2.Controls.Add(this.panel1);
             this.tpMovies2.Location = new System.Drawing.Point(4, 26);
             this.tpMovies2.Name = "tpMovies2";
@@ -604,41 +1219,41 @@ namespace MovieBrowser.Forms
             this.tpMovies2.Text = "Movies";
             this.tpMovies2.UseVisualStyleBackColor = true;
             // 
-            // dataListView1
+            // dataListMoviesDatabase
             // 
-            this.dataListView1.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.dataListView1.AllColumns.Add(this.olvTitle);
-            this.dataListView1.AllColumns.Add(this.olvImdbId);
-            this.dataListView1.AllColumns.Add(this.olvRating);
-            this.dataListView1.AllColumns.Add(this.olvYear);
-            this.dataListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.dataListMoviesDatabase.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.dataListMoviesDatabase.AllColumns.Add(this.olvTitle);
+            this.dataListMoviesDatabase.AllColumns.Add(this.olvImdbId);
+            this.dataListMoviesDatabase.AllColumns.Add(this.olvRating);
+            this.dataListMoviesDatabase.AllColumns.Add(this.olvYear);
+            this.dataListMoviesDatabase.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvTitle,
             this.olvImdbId,
             this.olvRating,
             this.olvYear});
-            this.dataListView1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.dataListView1.DataSource = null;
-            this.dataListView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataListView1.FullRowSelect = true;
-            this.dataListView1.GridLines = true;
-            this.dataListView1.HideSelection = false;
-            this.dataListView1.Location = new System.Drawing.Point(3, 56);
-            this.dataListView1.Name = "dataListView1";
-            this.dataListView1.OverlayText.Text = "";
-            this.dataListView1.OwnerDraw = true;
-            this.dataListView1.Size = new System.Drawing.Size(397, 233);
-            this.dataListView1.TabIndex = 2;
-            this.dataListView1.UseAlternatingBackColors = true;
-            this.dataListView1.UseCompatibleStateImageBehavior = false;
-            this.dataListView1.UseExplorerTheme = true;
-            this.dataListView1.UseFiltering = true;
-            this.dataListView1.UseHotItem = true;
-            this.dataListView1.UseOverlays = false;
-            this.dataListView1.UseTranslucentHotItem = true;
-            this.dataListView1.View = System.Windows.Forms.View.Details;
-            this.dataListView1.SelectedIndexChanged += new System.EventHandler(this.DataListView1SelectedIndexChanged);
-            this.dataListView1.DoubleClick += new System.EventHandler(this.DataListView1DoubleClick);
-            this.dataListView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataListView1KeyDown);
+            this.dataListMoviesDatabase.Cursor = System.Windows.Forms.Cursors.Default;
+            this.dataListMoviesDatabase.DataSource = null;
+            this.dataListMoviesDatabase.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataListMoviesDatabase.FullRowSelect = true;
+            this.dataListMoviesDatabase.GridLines = true;
+            this.dataListMoviesDatabase.HideSelection = false;
+            this.dataListMoviesDatabase.Location = new System.Drawing.Point(3, 56);
+            this.dataListMoviesDatabase.Name = "dataListMoviesDatabase";
+            this.dataListMoviesDatabase.OverlayText.Text = "";
+            this.dataListMoviesDatabase.OwnerDraw = true;
+            this.dataListMoviesDatabase.Size = new System.Drawing.Size(397, 233);
+            this.dataListMoviesDatabase.TabIndex = 2;
+            this.dataListMoviesDatabase.UseAlternatingBackColors = true;
+            this.dataListMoviesDatabase.UseCompatibleStateImageBehavior = false;
+            this.dataListMoviesDatabase.UseExplorerTheme = true;
+            this.dataListMoviesDatabase.UseFiltering = true;
+            this.dataListMoviesDatabase.UseHotItem = true;
+            this.dataListMoviesDatabase.UseOverlays = false;
+            this.dataListMoviesDatabase.UseTranslucentHotItem = true;
+            this.dataListMoviesDatabase.View = System.Windows.Forms.View.Details;
+            this.dataListMoviesDatabase.SelectedIndexChanged += new System.EventHandler(this.DataListView1SelectedIndexChanged);
+            this.dataListMoviesDatabase.DoubleClick += new System.EventHandler(this.DataListView1DoubleClick);
+            this.dataListMoviesDatabase.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataListView1KeyDown);
             // 
             // olvTitle
             // 
@@ -836,17 +1451,17 @@ namespace MovieBrowser.Forms
             this.tbUpdated.Text = "Updated";
             this.tbUpdated.Click += new System.EventHandler(this.tbUpdated_Click);
             // 
-            // tabPage3
+            // tpSearch
             // 
-            this.tabPage3.Controls.Add(this.horizontalPanel3);
-            this.tabPage3.Controls.Add(this.panel3);
-            this.tabPage3.Location = new System.Drawing.Point(4, 26);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(403, 292);
-            this.tabPage3.TabIndex = 4;
-            this.tabPage3.Text = "Search";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.tpSearch.Controls.Add(this.horizontalPanel3);
+            this.tpSearch.Controls.Add(this.panel3);
+            this.tpSearch.Location = new System.Drawing.Point(4, 26);
+            this.tpSearch.Name = "tpSearch";
+            this.tpSearch.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSearch.Size = new System.Drawing.Size(403, 292);
+            this.tpSearch.TabIndex = 4;
+            this.tpSearch.Text = "Search";
+            this.tpSearch.UseVisualStyleBackColor = true;
             // 
             // horizontalPanel3
             // 
@@ -1824,20 +2439,26 @@ namespace MovieBrowser.Forms
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
             this.tabMovies.ResumeLayout(false);
+            this.tpVirtualFolders.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeListVirtualFolders)).EndInit();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            this.toolStrip5.ResumeLayout(false);
+            this.toolStrip5.PerformLayout();
             this.tpMoviesTree.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.treeView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeListFileSystem)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
             this.tpMovies2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataListView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataListMoviesDatabase)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
+            this.tpSearch.ResumeLayout(false);
             this.horizontalPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.datalistResult)).EndInit();
             this.panel3.ResumeLayout(false);
@@ -1913,14 +2534,14 @@ namespace MovieBrowser.Forms
         private System.Windows.Forms.Label lblImdbId;
         private System.Windows.Forms.TabPage tpMovies2;
         private System.Windows.Forms.Panel panel1;
-        private BrightIdeasSoftware.DataListView dataListView1;
+        private BrightIdeasSoftware.DataListView dataListMoviesDatabase;
         private BrightIdeasSoftware.OLVColumn olvTitle;
         private BrightIdeasSoftware.OLVColumn olvImdbId;
         private BrightIdeasSoftware.OLVColumn olvRating;
         private BrightIdeasSoftware.OLVColumn olvYear;
         private System.Windows.Forms.TabPage tpMoviesTree;
         private System.Windows.Forms.Panel panel2;
-        private BrightIdeasSoftware.TreeListView treeView1;
+        private BrightIdeasSoftware.TreeListView treeListFileSystem;
         private BrightIdeasSoftware.OLVColumn treeColumnTitle;
         private BrightIdeasSoftware.OLVColumn treeColumnRating;
         private BrightIdeasSoftware.OLVColumn treeColumnYear;
@@ -1949,7 +2570,7 @@ namespace MovieBrowser.Forms
         private System.Windows.Forms.ToolStripMenuItem refreshFolderToolStripMenuItem;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private WindowsFormsAero.ComboBox comboUserList;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tpSearch;
         private System.Windows.Forms.Button buttonModifyList;
         private System.Windows.Forms.Button buttonAddToList;
         private WindowsFormsAero.SearchTextBox searchTextBox1;
@@ -2027,6 +2648,25 @@ namespace MovieBrowser.Forms
         private WindowsFormsAero.SearchTextBox searchTextForSearchResult;
         private WindowsFormsAero.CommandLink clSearch;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.TabPage tpVirtualFolders;
+        private TreeListView treeListVirtualFolders;
+        private OLVColumn olvColumn11;
+        private OLVColumn olvColumn12;
+        private OLVColumn olvColumn13;
+        private System.Windows.Forms.Panel panel4;
+        private WindowsFormsAero.SearchTextBox searchVirtualFolders;
+        private System.Windows.Forms.ToolStrip toolStrip5;
+        private System.Windows.Forms.ToolStripButton tbLoadVirtualFolders;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton toolStripButton7;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripButton toolStripButton8;
+        private System.Windows.Forms.ToolStripButton toolStripButton9;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripButton tbGenerateXML;
     }
 }
 
