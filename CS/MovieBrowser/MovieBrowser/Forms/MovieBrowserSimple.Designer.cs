@@ -894,6 +894,8 @@ namespace MovieBrowser.Forms
             this.datalistResult.UseTranslucentHotItem = true;
             this.datalistResult.View = System.Windows.Forms.View.Details;
             this.datalistResult.SelectedIndexChanged += new System.EventHandler(this.datalistResult_SelectedIndexChanged);
+            this.datalistResult.DoubleClick += new System.EventHandler(this.datalistResult_DoubleClick);
+            this.datalistResult.KeyDown += new System.Windows.Forms.KeyEventHandler(this.datalistResult_KeyDown);
             // 
             // olvColumn7
             // 

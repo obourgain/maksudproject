@@ -560,16 +560,6 @@ namespace MovieBrowser.Forms
                 DataListView1DoubleClick(sender, e);
         }
 
-        private void buttonClean_Click(object sender, EventArgs e)
-        {
-            _controller.RemoveMovie(lblImdbId.Text);
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            _controller.RemoveAllInfo();
-        }
-
         private void searchTextBox1_SearchStarted(object sender, EventArgs e)
         {
             ComponentUtility.TimedFilter(this.treeView1, searchTextBox1.Text);
@@ -959,13 +949,18 @@ namespace MovieBrowser.Forms
             catch { }
         }
 
+        private void datalistResult_DoubleClick(object sender, EventArgs e)
+        {
+            if (datalistResult.SelectedObject != null)
+                _controller.SearchMovie(MovieBrowserController.ImdbSearch, (Movie)datalistResult.SelectedObject);
+        }
 
-
-
-
-
-
-
+        private void datalistResult_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter) return;
+            if (datalistResult.SelectedObject != null)
+                _controller.SearchMovie(MovieBrowserController.ImdbSearch, (Movie)datalistResult.SelectedObject);
+        }
     }
 
     public class SendToThread
