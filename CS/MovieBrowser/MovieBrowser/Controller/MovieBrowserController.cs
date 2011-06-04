@@ -132,7 +132,7 @@ namespace MovieBrowser.Controller
             var newdir = original.FilePath.Substring(0, original.FilePath.LastIndexOf("\\") + 1);
             newdir += original.FolderName.CleanFileName();
 
-            if (original.FilePath != newdir)
+            if (original.FilePath != newdir && Directory.Exists(original.FilePath))
                 Directory.Move(original.FilePath, newdir);
 
             return newdir;
@@ -146,8 +146,12 @@ namespace MovieBrowser.Controller
                 //var movie = CollectAndAddMovieToDb(rowMovie, Browser.DocumentText, false);
                 if (movie == null) return;
 
-                movie.FilePath = rowMovie.FilePath;
-                movie.FilePath = ChangeFolderName(movie);
+                if (!movie.IsVirtual)
+                {
+                    movie.FilePath = rowMovie.FilePath;
+                    movie.FilePath = ChangeFolderName(movie);
+                }
+
                 rowMovie.CopyFromMovie(movie);
                 InvokeOnNotificationFired("Movie: " + rowMovie.Title + " is updated.");
             }

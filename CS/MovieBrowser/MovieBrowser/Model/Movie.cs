@@ -19,8 +19,8 @@ namespace MovieBrowser.Model
         public List<Person> PersonStars { get; set; }
         public List<Person> PersonDirectors { get; set; }
 
-        public static readonly List<string> MovieFiles = new List<string> { "avi", "mkv", "flv", "mp4" };
-        public static readonly List<string> SubtitleFiles = new List<string> { "srt", "sub" };
+        private static readonly List<string> MovieFiles = new List<string> { "avi", "mkv", "flv", "mp4" };
+        private static readonly List<string> SubtitleFiles = new List<string> { "srt", "sub" };
 
         // Tree Purpose
         public List<Movie> Children { get; set; }
@@ -66,10 +66,11 @@ namespace MovieBrowser.Model
                     Rating = double.Parse(match.Groups[3].Value),
                     ImdbId = match.Groups[5].Value,
                     FilePath = folderPath,
-                    IsValidMovie = true
+                    IsValidMovie = true,
+                    IsVirtual = false
                 };
             }
-            return new Movie() { Title = folderName, FilePath = folderPath, IsValidMovie = false };
+            return new Movie() { Title = folderName, FilePath = folderPath, IsValidMovie = false, IsVirtual = false };
         }
 
         public bool IsFilesystemFolder
@@ -80,6 +81,7 @@ namespace MovieBrowser.Model
             }
         }
         public bool IsFolder { get; set; }
+        public bool IsVirtual { get; set; }
         public bool IsValidMovie { get; set; }
         public string FilePath { get; set; }
 
