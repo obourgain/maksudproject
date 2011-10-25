@@ -15,7 +15,10 @@
 
 int main(void) {
 
-	printf("Call Test");
+	printf("Call Tests\n");
+
+	flexsc_wait();
+
 
 	struct syscall_page* page = malloc(sizeof(struct syscall_page));
 	int i;
@@ -23,13 +26,13 @@ int main(void) {
 		page->entries[i].syscall = i;	
 	}
 	flexsc_register2(page);
-	printf("FF Test?");
+	printf("FF Test?\n");
 	page->entries[0].syscall = 1;
-	printf("FF Test SigFault?");
+	printf("FF Test SigFault?\n");
 
-	printf("Test?");
+	printf("Test?\n");
 	page->entries[0].syscall = 1;
-	printf("Test SigFault?");
+	printf("Test SigFault?\n");
 
 	printf("Syscall: syscall=%d\n", page->entries[0].syscall);
 
