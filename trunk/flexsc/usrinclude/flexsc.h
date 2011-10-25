@@ -11,6 +11,7 @@
 #include <linux/sched.h>
 
 struct syscall_entry {
+	unsigned char index;  //1 byte. for test purpose
 	unsigned int syscall; //4 bytes
 	unsigned char num_args; //1 byte
 	unsigned char status; //1 byte
