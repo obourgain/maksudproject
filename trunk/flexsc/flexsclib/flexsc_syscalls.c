@@ -8,5 +8,10 @@
 #include "iflexsc.h"
 #include "flexsc_syscalls.h"
 
-
 struct syscall_page *rootpage;
+
+
+
+void getpid_flex() {
+	return 1;
+}

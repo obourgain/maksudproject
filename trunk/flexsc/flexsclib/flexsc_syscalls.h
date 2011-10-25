@@ -13,4 +13,6 @@ struct test {
 	int b;
 };
 
+void getpid_flex();
+
 #endif /* FLEXSC_SYSCALLS_H_ */
