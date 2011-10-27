@@ -30,6 +30,7 @@ struct syscall_page* flexsc_register() {
 
 void flexsc_register2(struct syscall_page* page) {
 	//	struct syscall_page* page;
+	basepage = page;
 	printf("Calling 2: %d\n", page);
 	page = syscall(sys_flexsc_register2, page);
 	printf("After System Call 2: %d\n", page);
