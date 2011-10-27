@@ -16,6 +16,10 @@
 
 int loop_counter = 1000;
 
+struct task_struct* syscall_threads[2];//64 Syscall Threads.
+struct syscall_page __user* shared_syscall_page = NULL;
+struct syscall_entry __user* shared_entries[64];
+
 //INTERNAL_SYSCALL
 struct file* file_open(const char* path, int flags, int rights) {
 	struct file* filp = NULL;
@@ -56,7 +60,14 @@ int file_write(struct file* file, unsigned long long offset,
 }
 
 int do_flex_system_call(void* data) {
-	struct syscall_entry* e_data = (struct syscall_entry*)data;
+	
+	int i = (int)data;
+	printk("Entry No: %d\n",i);
+
+	struct syscall_entry* e_data = &shared_syscall_page->entries[i];//(struct syscall_entry*)data;
+	printk("User Address: %d\n", e_data);
+	//printk("User Address :) :%d\n", shared_syscall_page->entries[i]);
+	printk("Shared Entries :%d\n", shared_entries[i]);
 
 
 	struct syscall_entry* entry = kmalloc(sizeof(struct syscall_entry), GFP_KERNEL);	
@@ -65,17 +76,32 @@ int do_flex_system_call(void* data) {
 		return;	
 	}
 	while (1) {
+		printk(KERN_INFO "[%d] $$$$$$$$$$$$ In do_flex_system_call Address: %d\n", i, entry);
+
+
 		loop_counter--;// only testing purpose.
 		if(loop_counter<0)
 			break;
-		printk(KERN_INFO "$$$$$$$$$$$$ In do_flex_system_call Address: %d\n", entry);
+
+		/*if(loop_counter>8){
+			printk(KERN_INFO "|+|+|-|||||||ENTRY=======[%d] = %d, [5]=%ld\n", 
+				shared_entries[i]->index, 
+				shared_entries[i]->syscall, 
+				shared_entries[i]->args[5]);
+
+			printk(KERN_INFO "|+|+|-|||||||ENTRY[%d] = %d, [5]=%ld\n", 
+				shared_syscall_page->entries[i].index, 
+				shared_syscall_page->entries[i].syscall, 
+				shared_syscall_page->entries[i].args[5]);
+
+		}*/
 		
-		printk("Checking Memory Access.");
+		
+		printk("Checking Memory Access.\n");
 		if(access_ok(VERIFY_WRITE, e_data, sizeof(struct syscall_entry))) {
 			int ret = copy_from_user(entry, e_data, sizeof(struct syscall_entry));
-			printk("***---+++***%d\n",ret);
+			printk("***---+++*** copy_from_user=%d\n",ret);
 			printk(KERN_INFO "************ENTRY[%d] = %d, [5]=%ld\n", entry->index, entry->syscall, entry->args[5]);
-						
 		}
 		else {
 			printk("Cannot access memory.");	
@@ -84,7 +110,7 @@ int do_flex_system_call(void* data) {
 		
 				
 		if (entry->status == SUBMITTED) {
-			printk("~~~~~~~~~~~~~FOUND~~~~~~~~~~~~~~~~");
+			printk("~~~~~~~~~~~~~FOUND~~~~~~~~~~~~~~~~\n");
 			if(entry->syscall == 2){ // open
 				entry->return_code = file_open((char*) entry->args[0],
 						entry->args[1], entry->args[2]);
@@ -151,12 +177,10 @@ int syscall_thread_run(void* data) {
 }
 */
 
-struct task_struct* syscall_threads[2];//64 Syscall Threads.
-struct syscall_page* shared_syscall_page = NULL;
+asmlinkage void* sys_flexsc_register2(void __user* user_pages) {
 
-asmlinkage void* sys_flexsc_register2(void* user_pages) {
 	printk(KERN_INFO "Syscall Page Address: %d\n", user_pages);
-	shared_syscall_page = (struct syscall_page*) user_pages;
+	shared_syscall_page = (struct syscall_page __user*) user_pages; // Do Share.
 	printk(KERN_INFO "Casting Successfull. Creating syscall threads.\n");
 
 	loop_counter = 1000;
@@ -165,6 +189,8 @@ asmlinkage void* sys_flexsc_register2(void* user_pages) {
 	for (i = 0; i < 2; i++) {
 		//shared_syscall_page->entries[i].status = 0;
 		//shared_syscall_page->entries[i].index = i;
+
+		shared_entries[i] = &shared_syscall_page->entries[i];
 		
 		printk(KERN_INFO "Spawning syscall thread: %d.\n", i);
 		printk(KERN_INFO "Address of Entry %d\n", &shared_syscall_page->entries[i]);
@@ -175,14 +201,15 @@ asmlinkage void* sys_flexsc_register2(void* user_pages) {
 				shared_syscall_page->entries[i].status, 
 				shared_syscall_page->entries[i].args[5]);
 
-		if(access_ok(VERIFY_WRITE, &shared_syscall_page->entries[i], sizeof(struct syscall_entry))) {
-			printk("Accessible memory.");					
-		}
-		else {
-			printk("Cannot access memory.");		
-		}
+		shared_syscall_page->entries[i].args[4] = 2005;//Testing, check this value on the user program.
+		//if(access_ok(VERIFY_WRITE, &shared_syscall_page->entries[i], sizeof(struct syscall_entry))) {
+		//	printk("Accessible memory.");					
+		//}
+		//else {
+		//	printk("Cannot access memory.");		
+		//}
 
-		syscall_threads[i] = kthread_run(do_flex_system_call, &shared_syscall_page->entries[i], "flexapp");//Spawn a thread with a entry
+		syscall_threads[i] = kthread_run(do_flex_system_call, i, "flexapp");//Spawn a thread with a entry
 	}
 	return NULL;
 }
