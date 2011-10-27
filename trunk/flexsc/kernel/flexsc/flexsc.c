@@ -22,14 +22,18 @@ struct file* file_open(const char* path, int flags, int rights) {
 	mm_segment_t oldfs;
 	int err = 0;
 
+	printk("%s, %d, %d\n", path, flags, rights);
+
 	oldfs = get_fs();
 	set_fs(get_ds());
 	filp = filp_open(path, flags, rights);
 	set_fs(oldfs);
 	if (IS_ERR(filp)) {
 		err = PTR_ERR(filp);
+		printk("Problem Opening %d\n", err);
 		return NULL;
 	}
+	printk("Open File Successful: File Pointer: %d\n", filp);
 	return filp;
 }
 
@@ -52,30 +56,33 @@ int file_write(struct file* file, unsigned long long offset,
 }
 
 int do_flex_system_call(void* data) {
-	struct syscall_entry* entry = (struct syscall_entry*)data;
+	struct syscall_entry* e_data = (struct syscall_entry*)data;
 
 
-	struct syscall_entry* tmp = kmalloc(sizeof(struct syscall_entry), GFP_KERNEL);	
-	if(!tmp){
+	struct syscall_entry* entry = kmalloc(sizeof(struct syscall_entry), GFP_KERNEL);	
+	if(!entry){
 		printk(">>>>>>>>>>>kmalloc Failed!");
 		return;	
 	}
 	while (1) {
-		loop_counter--;
+		loop_counter--;// only testing purpose.
 		if(loop_counter<0)
 			break;
 		printk(KERN_INFO "$$$$$$$$$$$$ In do_flex_system_call Address: %d\n", entry);
 		
 		printk("Checking Memory Access.");
-		if(access_ok(VERIFY_WRITE, entry, sizeof(struct syscall_entry))) {
-			copy_from_user(tmp, entry, sizeof(struct syscall_entry));			
-			printk(KERN_INFO "************ENTRY[%d] = %d, [5]=%ld\n", tmp->index, tmp->syscall, tmp->args[5]);			
+		if(access_ok(VERIFY_WRITE, e_data, sizeof(struct syscall_entry))) {
+			int ret = copy_from_user(entry, e_data, sizeof(struct syscall_entry));
+			printk("***---+++***%d\n",ret);
+			printk(KERN_INFO "************ENTRY[%d] = %d, [5]=%ld\n", entry->index, entry->syscall, entry->args[5]);
+						
 		}
 		else {
-			printk("Cannot access memory.");		
+			printk("Cannot access memory.");	
+			break;	
 		}
 		
-		/*		
+				
 		if (entry->status == SUBMITTED) {
 			printk("~~~~~~~~~~~~~FOUND~~~~~~~~~~~~~~~~");
 			if(entry->syscall == 2){ // open
@@ -91,13 +98,14 @@ int do_flex_system_call(void* data) {
 				file_close((struct file*) entry->args[0]);
 			}
 			entry->status = DONE;
-		}*/
+			copy_to_user(e_data, entry, sizeof(struct syscall_entry));
+		}
 		if (kthread_should_stop())
 			break;		
 		printk("@@@@@@@@@ Going to Sleep.");
 		msleep(200);// Just sleep the kernel thread.
 	}
-	do_exit();
+	//do_exit();
 	printk("///////////////////////////////Bye Bye While 1");
 	return 0;	
 }
@@ -160,7 +168,12 @@ asmlinkage void* sys_flexsc_register2(void* user_pages) {
 		
 		printk(KERN_INFO "Spawning syscall thread: %d.\n", i);
 		printk(KERN_INFO "Address of Entry %d\n", &shared_syscall_page->entries[i]);
-		printk(KERN_INFO "[%d] = %d, [5]=%ld\n", shared_syscall_page->entries[i].index, shared_syscall_page->entries[i].status, shared_syscall_page->entries[i].args[5]);
+		printk(KERN_INFO "+++++++++++++++++[%d] = S: %d, #: %d, St: %d, Args[5]=%ld\n", 
+				shared_syscall_page->entries[i].index, 
+				shared_syscall_page->entries[i].syscall,
+				shared_syscall_page->entries[i].num_args,  				
+				shared_syscall_page->entries[i].status, 
+				shared_syscall_page->entries[i].args[5]);
 
 		if(access_ok(VERIFY_WRITE, &shared_syscall_page->entries[i], sizeof(struct syscall_entry))) {
 			printk("Accessible memory.");					
