@@ -76,8 +76,8 @@ int do_flex_system_call(void* data) {
 		return;	
 	}
 	while (1) {
-		printk(KERN_INFO "[%d] $$$$$$$$$$$$ In do_flex_system_call Address: %d\n", i, entry);
-
+		printk(KERN_INFO "[%d]=PID=%d $$$$$$$$$$$$ In do_flex_system_call Address: %d\n", i, current->pid, entry);
+		
 
 		loop_counter--;// only testing purpose.
 		if(loop_counter<0)
@@ -179,6 +179,8 @@ int syscall_thread_run(void* data) {
 
 asmlinkage void* sys_flexsc_register2(void __user* user_pages) {
 
+	printk("SysPID: PID = %d\n", current->pid);
+
 	printk(KERN_INFO "Syscall Page Address: %d\n", user_pages);
 	shared_syscall_page = (struct syscall_page __user*) user_pages; // Do Share.
 	printk(KERN_INFO "Casting Successfull. Creating syscall threads.\n");
@@ -209,6 +211,7 @@ asmlinkage void* sys_flexsc_register2(void __user* user_pages) {
 		//	printk("Cannot access memory.");		
 		//}
 
+		
 		syscall_threads[i] = kthread_run(do_flex_system_call, i, "flexapp");//Spawn a thread with a entry
 	}
 	return NULL;
