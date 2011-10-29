@@ -835,7 +835,7 @@ asmlinkage long sys_old_mmap(struct mmap_arg_struct __user *arg);
 
 asmlinkage void* sys_flexsc_register();
 asmlinkage long sys_flexsc_wait();
-asmlinkage void* sys_flexsc_register2(void* syscall_page);
+asmlinkage void* sys_flexsc_register2(void __user* syscall_page);
 
 
 #endif
