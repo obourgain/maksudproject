@@ -27,7 +27,7 @@ struct file* file_open(const char* path, int flags, int rights) {
 		printk("Problem Opening %d\n", err);
 		return NULL;
 	}
-	printk("Open File Successful: File Pointer: %p\n", filp);
+	printk("Open File Successful: File Pointer: %d\n", filp);
 	return filp;
 }
 
