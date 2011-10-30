@@ -16,17 +16,18 @@
 #include <linux/mman.h>
 #include <fcntl.h>
 
-int main(void) {
+int main(void)
+{
 
-	int fd = open("/dev/zero", O_RDWR);
-	struct syscall_entry* p = mmap(0, sizeof(struct syscall_entry), PROT_READ
-			| PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-	close(fd);
-	p->index = 10;
-	printf("%d,%d", p,p->index);
+	//	int fd = open("/dev/zero", O_RDWR);
+	//	struct syscall_entry* p = mmap(0, sizeof(struct syscall_entry), PROT_READ
+	//			| PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+	//	close(fd);
+	//	p->index = 10;
+	//	printf("%d,%d", p,p->index);
 
 
-	return 0;
+	//	return 0;
 
 	//	long long test = 123;
 	//	struct syscall_page* page2 = test;
@@ -70,38 +71,46 @@ int main(void) {
 
 	struct syscall_page* page = malloc(sizeof(struct syscall_page));
 	int i;
-	for (i = 0; i < 64; i++) {
+	for (i = 0; i < 64; i++)
+	{
 		page->entries[i].index = i;
-		page->entries[i].status = 0;
-		page->entries[i].args[5] = 100;
+		page->entries[i].status = FREE;
+		page->entries[i].args[5] = 200 + i;
 		printf("Entry[%d]=Address: %d\n", &page->entries[i]);
 	}
+
+	//	flexsc_prereg(page);
 	flexsc_register2(page);
 
-	/// Call System Calls Now.
-	//getpid_flex();
 	const char fname[] = "/home/maksud/testfile4";
 	int i1 = 33345, i2 = 438;
 	flexsc_open(fname, i1, i2);
-	//	flexsc_open(fname, i1, i2);
 
-	printf("FF Test?\n");
-	page->entries[0].syscall = 1;
-	printf("FF Test SigFault?\n");
-
-	printf("Test?\n");
-	page->entries[0].syscall = 1;
-	printf("Test SigFault?\n");
-
-	printf("Syscall: syscall=%d\n", page->entries[0].syscall);
+	const char fname2[] = "/home/maksud/testfile";
+	flexsc_open(fname2, i1, i2);
 
 	flexsc_wait();
 
+	/// Call System Calls Now.
+	//getpid_flex();
+
+	//	flexsc_open(fname, i1, i2);
+
+	//	printf("FF Test?\n");
+	//	page->entries[0].syscall = 1;
+	//	printf("FF Test SigFault?\n");
+
+	//	printf("Test?\n");
+	//	page->entries[0].syscall = 1;
+	//	printf("Test SigFault?\n");
+
+
 	int i22 = 0;
-
 	scanf("%d", &i22);
-
 	struct test a;
+
+	printf("Syscall: Args[0][4]=%d\n", page->entries[0].args[4]);
+	printf("Syscall: Args[1][4]=%d\n", page->entries[0].args[4]);
 
 	puts("!!!Hello World!!!"); /* prints !!!Hello World!!! */
 	return EXIT_SUCCESS;
