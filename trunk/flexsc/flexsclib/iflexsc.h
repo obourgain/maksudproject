@@ -7,23 +7,19 @@
 
 #ifndef IFLEXSC_H_
 #define IFLEXSC_H_
+#include <flexsc/flexsc.h>
 
 #define sys_flexsc_register 303
 #define sys_flexsc_wait 304
 #define sys_flexsc_register2 305
 
-#define FREE 0
-#define SUBMITTED 1
-#define DONE 2
-
-#include <flexsc/flexsc.h>
-
 //Explicit System Calls
 struct syscall_page* flexsc_register();
-void flexsc_wait();
-struct syscall_page* allocate_register();
 
+//FlexSC Helpers
+//void flexsc_prereg(struct syscall_page* page);
+struct syscall_page* flexsc_register2();
 struct syscall_entry* free_syscall_entry();
-
+void flexsc_wait();
 
 #endif /* IFLEXSC_H_ */
