@@ -10,8 +10,10 @@
 #include <flexsc/flex_syscalls.h>
 #include <flexsc/flexsc.h>
 
+
 //INTERNAL_SYSCALL
-struct file* file_open(const char* path, int flags, int rights) {
+struct file* file_open(const char* path, int flags, int rights)
+{
 	struct file* filp = NULL;
 	mm_segment_t oldfs;
 	int err = 0;
@@ -20,9 +22,10 @@ struct file* file_open(const char* path, int flags, int rights) {
 
 	oldfs = get_fs();
 	set_fs(get_ds());
-	filp = filp_open(path, flags, rights);
+	filp = filp_open(path, O_WRONLY | O_CREAT, 0644);
 	set_fs(oldfs);
-	if (IS_ERR(filp)) {
+	if (IS_ERR(filp))
+	{
 		err = PTR_ERR(filp);
 		printk("Problem Opening %d\n", err);
 		return NULL;
@@ -31,12 +34,14 @@ struct file* file_open(const char* path, int flags, int rights) {
 	return filp;
 }
 
-void file_close(struct file* file) {
+void file_close(struct file* file)
+{
 	filp_close(file, NULL);
+	printk("Close File Successful: File Pointer: %d\n", file);
 }
 
-int file_write(struct file* file, unsigned long long offset,
-		unsigned char* data, unsigned int size) {
+int file_write(struct file* file, unsigned long long offset, unsigned char* data, unsigned int size)
+{
 	mm_segment_t oldfs;
 	int ret;
 
