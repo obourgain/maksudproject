@@ -46,32 +46,8 @@ void printstack()
 
 struct syscall_page* flexsc_register()
 {
-	//	int fd;
-	//	void* kadr;
-	//
 	syscall(sys_flexsc_register);
-	//
-	//	int len = NPAGES * getpagesize();
-	//
-	//	if ((fd = open("node", O_RDWR | O_SYNC)) < 0)
-	//	{
-	//		perror("open");
-	//		exit(-1);
-	//	}
-	//	kadr = mmap(0, len, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_LOCKED, fd, len);
-	//	if (kadr == MAP_FAILED)
-	//	{
-	//		perror("mmap");
-	//		exit(-1);
-	//	}
-	//	close(fd);
-	//
-	//	basepage = kadr;
-	//
-	//	printf("Basepage: %d\n", basepage);
-
 	return NULL;
-	//return (struct syscall_page*) syscall(sys_flexsc_register);
 }
 
 //void flexsc_prereg(struct syscall_page* page)
@@ -82,12 +58,6 @@ struct syscall_page* flexsc_register()
 
 struct syscall_page* flexsc_register2()
 {
-	//	struct syscall_page* page = malloc(sizeof(struct syscall_page));
-	//	if (!page)
-	//	{
-	//		printf("Problem allocating memory.");
-	//		return NULL;
-	//	}
 	int fd;
 	unsigned char* kadr;
 
@@ -115,11 +85,11 @@ struct syscall_page* flexsc_register2()
 	printf("Basepage: %d\n", basepage);
 
 	int i = 0;
-	for (i = 0; i < 64 * 72; i++)
-	{
-		printf("%d ", kadr[i]);
-	}
-	printstack();
+	//	for (i = 0; i < 64 * 72; i++)
+	//	{
+	//		printf("%d ", kadr[i]);
+	//	}
+	//	printstack();
 	return (struct syscall_page*) kadr;
 }
 
@@ -127,10 +97,6 @@ void flexsc_wait()
 {
 	long pid = (long) getpid();
 	printf("getpid returned: %ld\n", pid);
-	//	pid = syscall(304);
-	//	printf("syscall(304) returned: %d\n", pid);
-	//	pid = syscall(39);
-	//	printf("syscall(39) returned: %d\n", pid);
 	long ret = syscall(sys_flexsc_wait);
 	printf("flexsc_wait returned: %ld\n", ret);
 }
@@ -138,6 +104,14 @@ void flexsc_wait()
 struct syscall_page* allocate_register()
 {
 	return malloc(sizeof(struct syscall_page));
+}
+
+int last_used = 0;
+
+struct syscall_entry* free_syscall_entry_i(int i)
+{
+	printf("Test %d\n", i);
+	return &basepage->entries[i];
 }
 
 struct syscall_entry* free_syscall_entry()
