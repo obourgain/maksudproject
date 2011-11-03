@@ -15,93 +15,222 @@
 #include <gnu/libc-version.h>
 #include <linux/mman.h>
 #include <fcntl.h>
+#include <pthread.h>
+#include<time.h>
+
+#define wait_write(i) \
+fd[i] = wait_and_return(entries[i]); \
+entries[i] = flexsc_write(fd[i], 0, a, 4);
+
+typedef struct str_thdata
+{
+	int i;
+} thdata;
+
+void print_message_function(void *ptr);
+
+long long wait_and_return(struct syscall_entry* entry)
+{
+	//Can not proceed while status is not DONE
+	while (entry->status != DONE)
+	{
+		//		printf("WAITING... for entry 1 return_code=%d, status=%d\n", entry1->return_code);
+		//Nothing to Do.
+	}
+	long long fd1 = entry->return_code; //flexsc_open returns file descriptor.
+	entry->status = FREE;
+	return fd1;
+}
+
+#include <sys/time.h>
+long long timeval_diff(struct timeval *difference, struct timeval *end_time, struct timeval *start_time)
+{
+	struct timeval temp_diff;
+
+	//	printf("\n%ld,%ld,%ld,%ld\n", end_time->tv_sec, end_time->tv_usec, start_time->tv_sec, start_time->tv_usec);
+
+	if (difference == NULL)
+	{
+		difference = &temp_diff;
+	}
+
+	difference->tv_sec = end_time->tv_sec - start_time->tv_sec;
+	difference->tv_usec = end_time->tv_usec - start_time->tv_usec;
+
+	/* Using while instead of if below makes the code slightly more robust. */
+
+	while (difference->tv_usec < 0)
+	{
+		difference->tv_usec += 1000000;
+		difference->tv_sec -= 1;
+	}
+
+	return 1000000LL * difference->tv_sec + difference->tv_usec;
+
+} /* timeval_diff() */
+
+int a = 'A';
 
 int main(void)
 {
+	long long elapsed;
+	struct timeval start, end, interval;
+//	clock_t start_c, end_c;
 
-	int a = ('D' << 32) & ('A' << 24) & ('B' << 16) & ('C' << 8);
+	a = a << 8 | 'B';
+	a = a << 8 | 'C';
+	a = a << 8 | 'D';
+	a = a << 8 | 'B';
+	a = a << 8 | 'C';
+	a = a << 8 | 'D';
+	a = a << 8 | 'B';
+	a = a << 8 | 'C';
+	a = a << 8 | 'D';
 
-	printf("Call Tests\n");
-	printf("%d, %d, %d\n", FREE, SUBMITTED, DONE);
-
-	//	flexsc_register();
-	//	return -1;
-
+	if (gettimeofday(&start, NULL))
+	{
+		perror("error gettimeofday() #1");
+		exit(1);
+	}
 	struct syscall_page* page = flexsc_register2();
 
-	printf("Syscall: Args[0][4]=%lld\n", page->entries[0].args[4]);
-	printf("Syscall: Args[1][4]=%lld\n", page->entries[0].args[4]);
-
-	//	const char fname[] = "/home/maksud/testfile4";
-	int i1 = 33345, i2 = 438;
-	struct syscall_entry* entry1 = flexsc_open(1, i1, i2);
-
-	//	const char fname2[] = "/home/maksud/testfile";
-	struct syscall_entry* entry2 = flexsc_open(0, i1, i2);
-
-	//Can not proceed while status is not DONE
-	while (entry1->status != DONE)
+	if (gettimeofday(&end, NULL))
 	{
-		printf("WAITING... for entry 1 return_code=%d, status=%d\n", entry1->return_code);
-		//Nothing to Do.
+		perror("error gettimeofday() #2");
+		exit(1);
 	}
-	long long fd1 = entry1->return_code; //flexsc_open returns file descriptor.
-	entry1->status = FREE;
+	elapsed = timeval_diff(&interval, &end, &start);
+	printf("\nTime for initialization is %lld microseconds\n", elapsed); // output format: # microseconds
 
-	while (entry2->status != DONE)
+
+	int i1 = O_WRONLY | O_CREAT, i2 = 0644;
+
+	struct syscall_entry* entries[64];
+	long long fd[64];
+
+	int i;
+
+	if (gettimeofday(&start, NULL))
 	{
-		printf("WAITING... for entry 2\n");
-		//Nothing to Do.
+		perror("error gettimeofday() #1");
+		exit(1);
 	}
-	long long fd2 = entry2->return_code; //flexsc_open returns file descriptor.
-	entry2->status = FREE;
 
-	entry1 = flexsc_write(fd1, 0, a, 4);
-	entry2 = flexsc_write(fd2, 0, "ABCD", 4);
+//	start_c = clock(); // put start of clock
 
-	//Can not proceed while status is not DONE
-	while (entry1->status != DONE)
+
+	//Open System Call
+	for (i = 0; i < 64; i++)
 	{
-		printf("WAITING... for entry 1 return_code=%d, status=%d\n", entry1->return_code);
-		//Nothing to Do.
+		entries[i] = flexsc_open(i, i1, i2);
 	}
-	entry1->status = FREE;
 
-	//Can not proceed while status is not DONE
-	while (entry2->status != DONE)
+	//Sync Point FlexSC-open
+	for (i = 0; i < 64; i++)
 	{
-		printf("WAITING... for entry 2 return_code=%d, status=%d\n", entry2->return_code);
-		//Nothing to Do.
+		fd[i] = wait_and_return(entries[i]);
 	}
-	entry2->status = FREE;
 
-	entry1 = flexsc_close(fd1);
-	entry2 = flexsc_close(fd2);
-
-	//Can not proceed while status is not DONE
-	while (entry1->status != DONE)
+	//Write System Call
+	for (i = 0; i < 64; i++)
 	{
-		printf("WAITING... for close entry 1\n");
-		printstack();
-		//Nothing to Do.
+		entries[i] = flexsc_write(fd[i], 0, a, 4);
 	}
-	entry1->status = FREE;
 
-	while (entry2->status != DONE)
+	//Sync Point FlexSC-write
+	for (i = 0; i < 64; i++)
 	{
-		printf("WAITING... for close entry 2\n");
-		printstack();
-		//Nothing to Do.
+		wait_and_return(entries[i]);
 	}
-	entry2->status = FREE;
-	///
+
+	//Close System Call
+	for (i = 0; i < 64; i++)
+	{
+		entries[i] = flexsc_close(fd[i]);
+	}
+
+	//Sync Point FlexSC-close
+	for (i = 0; i < 64; i++)
+	{
+		wait_and_return(entries[i]);
+	}
+
+	if (gettimeofday(&end, NULL))
+	{
+		perror("error gettimeofday() #2");
+		exit(1);
+	}
+
+//	end = clock(); // put end of clock
+
+	elapsed = timeval_diff(&interval, &end, &start);
+	printf("\nTime for syscall tasks and synchronization is %lld microseconds\n\n", elapsed); // output format: # microseconds
+//	printf("\n\nClock: %lf seconds\n",((double)end_c - start_c)/CLOCKS_PER_SEC);
+
+//	pthread_t thread[64]; /* thread variables */
+//	thdata data[64]; /* structs to be passed to threads */
+//
+//	//
+//	if (gettimeofday(&start, NULL))
+//	{
+//		perror("error gettimeofday() #1");
+//		exit(1);
+//	}
+//	for (i = 0; i < 64; i++)
+//	{
+//		data[i].i = i;
+//		pthread_create(&thread[i], NULL, (void *) &print_message_function, (void *) &data[i]);
+//	}
+//
+//	for (i = 0; i < 64; i++)
+//	{
+//		pthread_join(thread[i], NULL);
+//	}
+//	if (gettimeofday(&end, NULL))
+//	{
+//		perror("error gettimeofday() #2");
+//		exit(1);
+//	}
+//	elapsed = timeval_diff(&interval, &end, &start);
+//	printf("\nTime for Threading Approach is %lld microseconds\n", elapsed); // output format: # microseconds
+
 
 	int i22 = 0;
-	printf("Waiting For and entry.");
+	printf("Done Doing FlexSC. Enter any no:\n");
 	scanf("%d", &i22);
 
 	flexsc_register();
 
-	puts("!!!Hello World!!!"); /* prints !!!Hello World!!! */
+	puts("!!!DONE!!!"); /* prints !!!Hello World!!! */
 	return EXIT_SUCCESS;
 }
+//
+void do_something(int i)
+{
+	printf("Thread %d \n", i);
+
+	long long fd = 0;
+	struct syscall_entry* entry;
+
+		int i1 = O_WRONLY | O_CREAT, i2 = 0644;
+	//
+//	entry = flexsc_open_i(i + 100, i1, i2, i);
+	if (entry == NULL)
+		printf("NULL%d\n", i);
+	//	fd = wait_and_return(entry);
+	//
+	//	flexsc_write_i(fd, 0, a, 4, i);
+	//	wait_and_return(entry);
+	//
+	//	flexsc_close_i(fd, i);
+	//	wait_and_return(entry);
+}
+//
+void print_message_function(void *ptr)
+{
+	thdata *data;
+	data = (thdata *) ptr; /* type cast to a pointer to thdata */
+	do_something(data->i);
+
+	pthread_exit(0); /* exit */
+} /* print_message_function ( void *ptr ) */
