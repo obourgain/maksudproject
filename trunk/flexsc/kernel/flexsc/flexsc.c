@@ -35,6 +35,8 @@ my_work_t flex_work_data[64];
 my_work_t* flex_work[64];
 
 //int loop_counter = 100;
+int kprint_true = 0;
+int sleep_count = 0;
 
 struct task_struct* syscall_threads[64];//64 Syscall Threads.
 //
@@ -44,42 +46,45 @@ struct syscall_entry* shared_entries[64];
 //struct syscall_entry kernel_entries_data[64];
 //struct syscall_entry* kernel_entries[64];
 
-const char* file1 = "/home/maksud/file1.txt";
-const char* file2 = "/home/maksud/file2.txt";
+//const char* file1 = "/home/maksud/file1.txt";
 
 char fw_buff[4];
+char filename[256] =
+{ 0 };
 
 int perform_flex_system_call(struct syscall_entry* entry)
 {
 	if (entry->status == SUBMITTED)
 	{
-		printk("~~~~~~~~~~~~~FOUND~~~~~~~~~~~~~~~~\n");
-		printk("##ENTRY From Worker Thread. [%d] = %d, [0]=%ld, [1]=%ld, [2]=%ld\n", entry->index, entry->syscall, entry->args[0], entry->args[1], entry->args[2]);
+		kprint_true ? printk("~~~~~~~~~~~~~FOUND~~~~~~~~~~~~~~~~\n") : 1;
+		kprint_true ? printk("##ENTRY From Worker Thread. [%d] = %d, [0]=%ld, [1]=%ld, [2]=%ld\n", entry->index, entry->syscall, entry->args[0], entry->args[1], entry->args[2]) : 1;
 		if (entry->syscall == 2)
 		{ // open
-			printk("Filename%d\n", entry->args[0]);
+			kprint_true ? printk("Filename: %d\n", entry->args[0]) : 1;
+
+			sprintf(filename, "/home/maksud/file%d.txt", entry->args[0]);
 
 			if (entry->args[5])
 			{
-				if (entry->args[0])
-					entry->return_code = file_open(file1, entry->args[1], entry->args[2]);
-				else
-					entry->return_code = file_open(file2, entry->args[1], entry->args[2]);
+				//				if (entry->args[0])
+				entry->return_code = file_open(filename, entry->args[1], entry->args[2]);
+				//				else
+				//					entry->return_code = file_open(file2, entry->args[1], entry->args[2]);
 			}
-			printk("file_open returned= %d\n");
+			kprint_true ? printk("file_open returned= %d\n") : 1;
 		}
 		else if (entry->syscall == 1)
 		{ // write
 			if (entry->args[5])
 			{
-				printk("Buffer", entry->args[0]);
-				fw_buff[0] = (entry->args[2] >> 8) && 0xFFFF;
-				fw_buff[1] = (entry->args[2] >> 16) && 0xFFFF;
-				fw_buff[2] = (entry->args[2] >> 24) && 0xFFFF;
-				fw_buff[3] = (entry->args[2] >> 32) && 0xFFFF;
+				kprint_true ? printk("Buffer", entry->args[0]) : 1;
+				fw_buff[0] = (entry->args[2]) & 0xFF;
+				fw_buff[1] = (entry->args[2] >> 8) & 0xFF;
+				fw_buff[2] = (entry->args[2] >> 16) & 0xFF;
+				fw_buff[3] = (entry->args[2] >> 24) & 0xFF;
 
 				entry->return_code = file_write((struct file*) entry->args[0], entry->args[1], fw_buff, 4);
-				printk("file_open returned= %d\n");
+				kprint_true ? printk("file_open returned= %d\n") : 1;
 			}
 		}
 		else if (entry->syscall == 3)
@@ -88,11 +93,11 @@ int perform_flex_system_call(struct syscall_entry* entry)
 			{
 				entry->return_code = 0;
 				file_close((struct file*) entry->args[0]);
-				printk("file_open returned= %d\n");
+				kprint_true ? printk("file_open returned= %d\n") : 1;
 			}
 		}
 		entry->status = DONE;
-		printk("ENTRY %d:%d\n", entry->status, entry->return_code);
+		kprint_true ? printk("ENTRY %d:%d\n", entry->status, entry->return_code) : 1;
 	}
 	return 0;
 }
@@ -108,40 +113,34 @@ static void my_wq_function(struct work_struct *work)
 
 	struct syscall_entry* entry = &shared_syscall_page->entries[j]; //User
 
-	//	printk("PID->%d\n", current->pid);
-	//	printk("Worker: %d\n", my_work->x);
-
-	//	printk("##ENTRY From Worker Thread. [%d] = %d, [5]=%ld\n", entry->index, entry->syscall, entry->args[5]);
 	perform_flex_system_call(entry);
 
-	msleep(100);
-
-	//printk("Queue Work\n");
-	//Queue this again.
+	if (sleep_count > 0)
+		msleep(sleep_count);
 
 	if (valid_wq)
 		queue_work(my_wq, (struct work_struct *) work);
 
-	counter_i = (counter_i + 1) % 1000;
-
-	if (counter_i == 999)
-	{
-		for (i = 0; i < 64; i++)
-		{
-
-			printk("%d ", shared_syscall_page->entries[i].index);
-			printk("%d ", shared_syscall_page->entries[i].syscall);
-			printk("%d ", shared_syscall_page->entries[i].status);
-			printk("%d ", shared_syscall_page->entries[i].num_args);
-			printk("%d ", shared_syscall_page->entries[i].return_code);
-			printk("%d ", shared_syscall_page->entries[i].args[0]);
-			printk("%d ", shared_syscall_page->entries[i].args[1]);
-			printk("%d ", shared_syscall_page->entries[i].args[2]);
-			printk("%d ", shared_syscall_page->entries[i].args[3]);
-			printk("%d ", shared_syscall_page->entries[i].args[4]);
-			printk("%d \n", shared_syscall_page->entries[i].args[5]);
-		}
-	}
+	//	counter_i = (counter_i + 1) % 1000;
+	//
+	//	if (counter_i == 999 && kprint_true)
+	//	{
+	//		for (i = 0; i < 64; i++)
+	//		{
+	//
+	//			printk("%d ", shared_syscall_page->entries[i].index);
+	//			printk("%d ", shared_syscall_page->entries[i].syscall);
+	//			printk("%d ", shared_syscall_page->entries[i].status);
+	//			printk("%d ", shared_syscall_page->entries[i].num_args);
+	//			printk("%d ", shared_syscall_page->entries[i].return_code);
+	//			printk("%d ", shared_syscall_page->entries[i].args[0]);
+	//			printk("%d ", shared_syscall_page->entries[i].args[1]);
+	//			printk("%d ", shared_syscall_page->entries[i].args[2]);
+	//			printk("%d ", shared_syscall_page->entries[i].args[3]);
+	//			printk("%d ", shared_syscall_page->entries[i].args[4]);
+	//			printk("%d \n", shared_syscall_page->entries[i].args[5]);
+	//		}
+	//	}
 
 	//	kfree((void *) work);
 	return;
@@ -216,7 +215,11 @@ static int mmap_mmap(struct file *filp, struct vm_area_struct *vma)
 
 asmlinkage void* sys_flexsc_register2(void* user_pages)
 {
-	printk("SysPID: PID = %d\n", current->pid);
+
+	kprint_true = ((int) user_pages) % 10 != NULL;
+	sleep_count = ((int) user_pages) / 10;
+
+	kprint_true ? printk("SysPID: PID = %d\n", current->pid) : 1;
 
 	int i, j, ret;
 
@@ -302,7 +305,7 @@ asmlinkage void* sys_flexsc_register2(void* user_pages)
 	//Creaing Works
 	if (my_wq)
 	{
-		for (i = 0; i < 2; i++)
+		for (i = 0; i < 64; i++)
 		{
 			printk("Allocating necessary memories: %d\n", i);
 			printk("+++++++++++++++++[%d] = S: %d, #: %d, St: %d, Args[5]=%ld\n", shared_syscall_page->entries[i].index, shared_syscall_page->entries[i].syscall, shared_syscall_page->entries[i].num_args, shared_syscall_page->entries[i].status,
@@ -352,18 +355,8 @@ asmlinkage long sys_flexsc_wait()
 //Not using it.
 asmlinkage void* sys_flexsc_register()
 {
-	//	struct syscall_page *page;
-	//
-	//	page = kmalloc(sizeof(struct syscall_page), GFP_USER);
-	//	if (!page)
-	//	{
-	//		printk("Memory Allocation Failed.\n");
-	//		return (void *) NULL;
-	//	}
-	//	printk("Memory Allocation Successfull.\n");
-	//	printk("init_module() called\n");
-	//	//ts_kth = kthread_run(mma_thread, NULL, "kthread");
 	int i;
+	valid_wq = 0;
 
 	/* remove the character deivce */
 	cdev_del(&mmap_cdev);

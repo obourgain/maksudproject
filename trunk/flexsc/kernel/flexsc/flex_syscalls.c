@@ -18,11 +18,12 @@ struct file* file_open(const char* path, int flags, int rights)
 	mm_segment_t oldfs;
 	int err = 0;
 
-	printk("%s, %d, %d\n", path, flags, rights);
+//	printk("%s, %d, %d\n", path, flags, rights);
 
 	oldfs = get_fs();
 	set_fs(get_ds());
-	filp = filp_open(path, O_WRONLY | O_CREAT, 0644);
+	//filp = filp_open(path, O_WRONLY | O_CREAT, 0644);
+	filp = filp_open(path, flags, rights);
 	set_fs(oldfs);
 	if (IS_ERR(filp))
 	{
@@ -30,14 +31,14 @@ struct file* file_open(const char* path, int flags, int rights)
 		printk("Problem Opening %d\n", err);
 		return NULL;
 	}
-	printk("Open File Successful: File Pointer: %d\n", filp);
+//	printk("Open File Successful: File Pointer: %d\n", filp);
 	return filp;
 }
 
 void file_close(struct file* file)
 {
 	filp_close(file, NULL);
-	printk("Close File Successful: File Pointer: %d\n", file);
+//	printk("Close File Successful: File Pointer: %d\n", file);
 }
 
 int file_write(struct file* file, unsigned long long offset, unsigned char* data, unsigned int size)
