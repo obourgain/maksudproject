@@ -9,6 +9,9 @@
 #include "flexsc_syscalls.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <semaphore.h>  /* Semaphore */
+
+extern pthread_mutex_t mutex;
 
 struct syscall_entry* flexsc_getpid()
 {
@@ -94,18 +97,21 @@ struct syscall_entry* flexsc_write(long long fileid, unsigned long long offset, 
 struct syscall_entry* flexsc_open_i(const char* filename, int mode, int rights, int i)
 {
 	printf("Searching Entry!%d,\n", i);
-
 	struct syscall_entry* entry = free_syscall_entry_i(i);
+	printf("Found Entry!%ld,\n", entry);
+
 	if (entry != NULL)
 	{
-		//		printf("Selected Entry: %d\n", entry->index);
+		sem_wait(&mutex);
+		printf("Selected Entry: %d\n", entry->index);
 		entry->syscall = 2;
 		entry->num_args = 3;
 		entry->args[0] = (long long) filename;
 		entry->args[1] = mode;
 		entry->args[2] = rights;
 		entry->status = SUBMITTED;
-		//		printf("Submitted Entry: %d\n", entry->index);
+		printf("Submitted Entry: %d\n", entry->index);
+		sem_post(&mutex);
 		return entry;
 	}
 	else
@@ -113,6 +119,7 @@ struct syscall_entry* flexsc_open_i(const char* filename, int mode, int rights, 
 		//		printf("No Free Entry");
 		return NULL;
 	}
+
 }
 
 struct syscall_entry* flexsc_close_i(long long fileid, int i)
@@ -135,6 +142,7 @@ struct syscall_entry* flexsc_close_i(long long fileid, int i)
 }
 struct syscall_entry* flexsc_write_i(long long fileid, unsigned long long offset, unsigned char* data, unsigned int size, int i)
 {
+
 	struct syscall_entry* entry = free_syscall_entry_i(i);
 	if (entry != NULL)
 	{
@@ -153,4 +161,5 @@ struct syscall_entry* flexsc_write_i(long long fileid, unsigned long long offset
 		//		printf("No Free Entry");
 		return NULL;
 	}
+	sem_post(&mutex);
 }
