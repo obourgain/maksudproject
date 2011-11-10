@@ -18,10 +18,14 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <semaphore.h>  /* Semaphore */
 
 #define NPAGES 16
 
 struct syscall_page* basepage;
+struct syscall_entry* entries[64];
+
+sem_t mutex;
 
 void printstack()
 {
@@ -56,8 +60,19 @@ struct syscall_page* flexsc_register()
 //	basepage = page;
 //}
 
+struct syscall_page* flexsc_register4()
+{
+	basepage = (struct syscall_page*) malloc(sizeof(struct syscall_page));
+	int i;
+	for (i = 0; i < 64; i++)
+	{
+		entries[i] = &basepage->entries[i];
+	}
+	return NULL;
+}
 struct syscall_page* flexsc_register2()
 {
+	sem_init(&mutex, 0, 1);
 	int fd;
 	unsigned char* kadr;
 
@@ -82,9 +97,14 @@ struct syscall_page* flexsc_register2()
 
 	basepage = kadr;
 
-	printf("Basepage: %d\n", basepage);
+	printf("Basepage: %ld\n", basepage);
+	int i;
+	for (i = 0; i < 64; i++)
+	{
+		entries[i] = &basepage->entries[i];
+	}
 
-	int i = 0;
+	//	int i = 0;
 	//	for (i = 0; i < 64 * 72; i++)
 	//	{
 	//		printf("%d ", kadr[i]);
@@ -110,8 +130,11 @@ int last_used = 0;
 
 struct syscall_entry* free_syscall_entry_i(int i)
 {
-	printf("Test %d\n", i);
-	return &basepage->entries[i];
+	printf("Test23 %d\n", i);
+	printf("Basepage: %ld\n", basepage);
+	struct syscall_entry* ret = entries[i];
+	printf("Ret %d\n", i);
+	return ret;
 }
 
 struct syscall_entry* free_syscall_entry()

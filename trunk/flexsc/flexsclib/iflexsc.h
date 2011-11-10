@@ -19,6 +19,7 @@ struct syscall_page* flexsc_register();
 //FlexSC Helpers
 //void flexsc_prereg(struct syscall_page* page);
 struct syscall_page* flexsc_register2();
+struct syscall_page* flexsc_register4();
 struct syscall_entry* free_syscall_entry();
 void flexsc_wait();
 
