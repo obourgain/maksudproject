@@ -343,3 +343,8 @@ ENTRY(sys_call_table)
 	.long sys_flexsc_register	/* flexsc_register */
 	.long sys_flexsc_wait		/* flexsc_wait */
 	.long sys_flexsc_register2	/* flexsc_register2 */
+	.long sys_flexsc_sc1		/* few dummy syscalls*/
+	.long sys_flexsc_sc2		/* few dummy syscalls*/
+	.long sys_flexsc_sc3		/* few dummy syscalls*/
+	.long sys_flexsc_sc4		/* few dummy syscalls*/
+	.long sys_flexsc_sc5		/* few dummy syscalls*/
