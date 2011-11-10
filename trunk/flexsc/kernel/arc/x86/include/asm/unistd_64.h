@@ -675,6 +675,16 @@ __SYSCALL(__NR_flexsc_register, sys_flexsc_register)
 __SYSCALL(__NR_flexsc_wait, sys_flexsc_wait)
 #define __NR_flexsc_register2			305
 __SYSCALL(__NR_flexsc_register2, sys_flexsc_register2)
+#define __NR_flexsc_sc1			306
+__SYSCALL(__NR_flexsc_sc1, sys_flexsc_sc1)
+#define __NR_flexsc_sc2			307
+__SYSCALL(__NR_flexsc_sc2, sys_flexsc_sc2)
+#define __NR_flexsc_sc3			308
+__SYSCALL(__NR_flexsc_sc3, sys_flexsc_sc3)
+#define __NR_flexsc_sc4			309
+__SYSCALL(__NR_flexsc_sc4, sys_flexsc_sc4)
+#define __NR_flexsc_sc5			310
+__SYSCALL(__NR_flexsc_sc5, sys_flexsc_sc5)
 
 #ifndef __NO_STUBS
 #define __ARCH_WANT_OLD_READDIR

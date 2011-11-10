@@ -349,10 +349,16 @@
 #define __NR_flexsc_register	341
 #define __NR_flexsc_wait 	342
 #define __NR_flexsc_register2 	343
+#define __NR_flexsc_sc1 	344
+#define __NR_flexsc_sc2 	345
+#define __NR_flexsc_sc3 	346
+#define __NR_flexsc_sc4 	347
+#define __NR_flexsc_sc4 	348
+
 
 #ifdef __KERNEL__
 
-#define NR_syscalls 344
+#define NR_syscalls 349
 
 #define __ARCH_WANT_IPC_PARSE_VERSION
 #define __ARCH_WANT_OLD_READDIR
