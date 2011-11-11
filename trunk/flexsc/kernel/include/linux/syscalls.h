@@ -837,5 +837,10 @@ asmlinkage void* sys_flexsc_register();
 asmlinkage long sys_flexsc_wait();
 asmlinkage void* sys_flexsc_register2(void __user* syscall_page);
 
+asmlinkage void* sys_flexsc_sc1(void __user* p);
+asmlinkage void* sys_flexsc_sc2(void __user* p);
+asmlinkage void* sys_flexsc_sc3(void __user* p);
+asmlinkage void* sys_flexsc_sc4(void __user* p);
+asmlinkage void* sys_flexsc_sc5(void __user* p);
 
 #endif
