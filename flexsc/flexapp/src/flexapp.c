@@ -19,23 +19,23 @@ char a[20];
 
 int main(void)
 {
-	struct syscall_page* page = flexsc_register2();
+//	struct syscall_page* page = flexsc_register2();
 
 	//	flexapp_single();
 
-	flexapp_threaded();
+//	flexapp_threaded();
 
-//	a[0] = 1;
-//	a[1] = 2;
+	a[0] = 1;
+	a[1] = 2;
 //
-//	long ret = syscall(306, a);
-//	printf("flexsc_wait returned: %ld\n", ret);
+	long ret = syscall(307, a);
+	printf("flexsc_wait returned: %ld\n", ret);
 //
-//	sleep(1);
-//	a[0]=5;
-//	a[1]=10;
+	sleep(1);
+	a[0]=5;
+	a[1]=10;
 //
-//	sleep(10);
+	sleep(10);
 
 
 
