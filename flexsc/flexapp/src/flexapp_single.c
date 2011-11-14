@@ -19,8 +19,6 @@
 fd[i] = wait_and_return(entries[i]); \
 entries[i] = flexsc_write(fd[i], 0, a, 4);
 
-
-
 void print_message_function(void *ptr);
 
 long long wait_and_return(struct syscall_entry* entry)
@@ -63,8 +61,6 @@ long long timeval_diff(struct timeval *difference, struct timeval *end_time, str
 
 } /* timeval_diff() */
 
-
-
 void flexapp_single()
 {
 	long long elapsed;
@@ -86,7 +82,6 @@ void flexapp_single()
 		perror("error gettimeofday() #1");
 		exit(1);
 	}
-
 
 	if (gettimeofday(&end, NULL))
 	{
@@ -160,7 +155,6 @@ void flexapp_single()
 	elapsed = timeval_diff(&interval, &end, &start);
 	printf("\nTime for syscall tasks and synchronization is %lld microseconds\n\n", elapsed); // output format: # microseconds
 	//	printf("\n\nClock: %lf seconds\n",((double)end_c - start_c)/CLOCKS_PER_SEC);
-
 
 
 	int i22 = 0;
