@@ -24,9 +24,27 @@ typedef struct str_thdata
 
 int jj = 100000;
 
-void do_something(int i)
+long long wait_and_return2(struct syscall_entry* entry)
 {
-	printf("Thread21 %d \n", i);
+	//Can not proceed while status is not DONE
+	while (entry->status != DONE)
+	{
+		//		printf("WAITING... for entry 1 return_code=%d, status=%d\n", entry1->return_code);
+		//Nothing to Do.
+	}
+	long long fd1 = entry->return_code; //flexsc_open returns file descriptor.
+	entry->status = FREE;
+	return fd1;
+}
+
+//
+void print_message_function(void *ptr)
+{
+	thdata *data;
+	data = (thdata *) ptr; /* type cast to a pointer to thdata */
+
+	int i = data->i;
+
 	int a = 'A';
 	a = a << 8 | 'B';
 	a = a << 8 | 'C';
@@ -43,31 +61,15 @@ void do_something(int i)
 
 	int i1 = O_WRONLY | O_CREAT, i2 = 0644;
 
-	jj--;
-
-//	sleep(1);
-
-	//	//
-		entry = flexsc_open_i(i + 100, i1, i2, i);
-		if (entry == NULL)
-			printf("NULL%d\n", i);
-//		fd = wait_and_return(entry);
-	//	//
-//		flexsc_write_i(fd, 0, a, 4, i);
-//		wait_and_return(entry);
-	//	//
-//		flexsc_close_i(fd, i);
-//		wait_and_return(entry);
-}
-//
-void print_message_function(void *ptr)
-{
-	printf("Testing Testing!\n");
-//	sleep(1);
-	thdata *data;
-	data = (thdata *) ptr; /* type cast to a pointer to thdata */
-	printf("%d\n", data->i);
-	do_something(data->i);
+	//
+	entry = flexsc_open_i(i + 100, i1, i2, i);
+	fd = wait_and_return2(entry);
+	//
+	flexsc_write_i(fd, 0, a, 4, i);
+	wait_and_return2(entry);
+	//
+	flexsc_close_i(fd, i);
+	wait_and_return2(entry);
 
 	pthread_exit(0); /* exit */
 } /* print_message_function ( void *ptr ) */
@@ -98,12 +100,16 @@ void flexapp_threaded()
 		pthread_join(thread[i], NULL);
 	}
 
-	printf("Last Action!");
-
 	if (gettimeofday(&end, NULL))
 	{
 		perror("error gettimeofday() #2");
 		exit(1);
 	}
+
+	elapsed = timeval_diff(&interval, &end, &start);
+	printf("\nTime for syscall tasks and synchronization is %lld microseconds\n\n", elapsed); // output format: # microseconds
+
+
+	printf("Last Action!\n");
 
 }
