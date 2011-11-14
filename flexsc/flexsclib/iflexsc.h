@@ -21,6 +21,7 @@ struct syscall_page* flexsc_register();
 struct syscall_page* flexsc_register2();
 struct syscall_page* flexsc_register4();
 struct syscall_entry* free_syscall_entry();
+struct syscall_entry* free_syscall_entry_i(int i);
 void flexsc_wait();
 
 #endif /* IFLEXSC_H_ */

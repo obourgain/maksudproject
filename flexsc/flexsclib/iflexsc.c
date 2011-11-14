@@ -25,8 +25,6 @@
 struct syscall_page* basepage;
 struct syscall_entry* entries[64];
 
-sem_t mutex;
-
 void printstack()
 {
 	int i = 0;
@@ -72,7 +70,6 @@ struct syscall_page* flexsc_register4()
 }
 struct syscall_page* flexsc_register2()
 {
-	sem_init(&mutex, 0, 1);
 	int fd;
 	unsigned char* kadr;
 
@@ -116,9 +113,7 @@ struct syscall_page* flexsc_register2()
 void flexsc_wait()
 {
 	long pid = (long) getpid();
-	printf("getpid returned: %ld\n", pid);
 	long ret = syscall(sys_flexsc_wait);
-	printf("flexsc_wait returned: %ld\n", ret);
 }
 
 struct syscall_page* allocate_register()
@@ -130,11 +125,7 @@ int last_used = 0;
 
 struct syscall_entry* free_syscall_entry_i(int i)
 {
-	printf("Test23 %d\n", i);
-	printf("Basepage: %ld\n", basepage);
-	struct syscall_entry* ret = entries[i];
-	printf("Ret %d\n", i);
-	return ret;
+	return &basepage->entries[i];
 }
 
 struct syscall_entry* free_syscall_entry()
