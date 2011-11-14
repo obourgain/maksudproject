@@ -1,0 +1,1 @@
+cmd_/home/maksud/workspace/flexsc_as_module/flexsc_module_all.ko := ld -r -m elf_x86_64 -T /home/maksud/ubuntu/natty/linux-2.6.38/scripts/module-common.lds --build-id  -o /home/maksud/workspace/flexsc_as_module/flexsc_module_all.ko /home/maksud/workspace/flexsc_as_module/flexsc_module_all.o /home/maksud/workspace/flexsc_as_module/flexsc_module_all.mod.o
