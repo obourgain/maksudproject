@@ -1,6 +1,6 @@
 obj-m += flexsc_module_all.o
 
-flexsc_module_all-objs := mod/flexsc_module.o mod/flexsc/mod_flexsc_syscalls.o mod/flexsc/mod_flexsc_helper.o mod/flexsc/mod_flexsc.o
+flexsc_module_all-objs := mod/flexsc_module.o mod/flexsc/flexsc_syscalls.o mod/flexsc/flexsc_helper.o mod/flexsc/flexsc.o
 
 
 all:
