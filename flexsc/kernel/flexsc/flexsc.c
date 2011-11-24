@@ -21,29 +21,50 @@
 #include <flexsc/flexsc.h>
 #include <flexsc/flex_syscalls.h>
 
-#define MAX_SYSCALL_THREAD 64
-
+#define MAX_SYSCALL_THREAD 128
+#define FLEX_DEV_MAJOR_NO	240
 typedef struct
 {
 	struct work_struct my_work;
-	int x;
+	int index;
+	int status;
 } my_work_t;
 
-int valid_wq = 0;
+static int ACTIVE_THREADS = 0;
+
+/*
+ * Workqueue structures.
+ * */
+static int valid_wq = 0;
 static struct workqueue_struct *my_wq = NULL;
-my_work_t flex_work_data[MAX_SYSCALL_THREAD];
-my_work_t* flex_work[MAX_SYSCALL_THREAD];
+static my_work_t flex_work_data[MAX_SYSCALL_THREAD];
 
-//int kprint_true = 0;
-//int sleep_count = 0;
+/*
+ * kthread structures.
+ * */
+static struct task_struct* syscall_threads[MAX_SYSCALL_THREAD] =
+{ 0 };
+static my_work_t flex_work_data[MAX_SYSCALL_THREAD];
 
-struct task_struct* syscall_threads[MAX_SYSCALL_THREAD] =
-{ 0 };//64 Syscall Threads.
+static struct syscall_page* shared_syscall_page = NULL;
+static struct task_struct* registered_process = NULL;
 
-struct syscall_page* shared_syscall_page = NULL;
-struct syscall_entry* shared_entries[MAX_SYSCALL_THREAD];
+static int flexsc_device_created = 0;
 
-//File Write Buffer. Currently Only write some prefixed code.
+void print_entry(int i)
+{
+	int j = i / 64;
+	int index = i % 64;
+	printk("%d %d %d %ld %ld %ld %ld %ld %ld %ld\n", i, //
+			shared_syscall_page[j].entries[index].status, //
+			shared_syscall_page[j].entries[index].return_code, //
+			shared_syscall_page[j].entries[index].args[0], //
+			shared_syscall_page[j].entries[index].args[1], //
+			shared_syscall_page[j].entries[index].args[2], //
+			shared_syscall_page[j].entries[index].args[3], //
+			shared_syscall_page[j].entries[index].args[4], //
+			shared_syscall_page[j].entries[index].args[5]);
+}
 
 int perform_flex_system_call(struct syscall_entry* entry)
 {
@@ -56,7 +77,7 @@ int perform_flex_system_call(struct syscall_entry* entry)
 			//			kprint_true ? printk("Filename: %d\n", entry->args[0]) : 1;
 			char filename[256] =
 			{ 0 };
-			sprintf(filename, "/home/maksud/file%lld.txt", entry->args[0]);
+			sprintf(filename, "/home/maksud/file%ld.txt", entry->args[0]);
 
 			if (entry->args[5])
 			{
@@ -68,7 +89,7 @@ int perform_flex_system_call(struct syscall_entry* entry)
 			//kprint_true ? printk("file_open returned= %d\n") : 1;
 		}
 		else if (entry->syscall == 1)
-		{ 
+		{
 			char fw_buff[4];
 			// write
 			fw_buff[0] = (entry->args[2]) & 0xFF;
@@ -79,7 +100,7 @@ int perform_flex_system_call(struct syscall_entry* entry)
 			if (entry->args[5])
 			{
 				//kprint_true ? printk("Buffer", entry->args[0]) : 1;
-				entry->return_code = (long long)file_write((struct file*) entry->args[0], entry->args[1], fw_buff, 4);
+				entry->return_code = (long long) file_write((struct file*) entry->args[0], entry->args[1], fw_buff, 4);
 				//kprint_true ? printk("file_open returned= %d\n") : 1;
 			}
 		}
@@ -98,64 +119,51 @@ int perform_flex_system_call(struct syscall_entry* entry)
 	return 0;
 }
 
-unsigned long MAX_I = 1000;
-int counter_i = 0;
-
 static void my_wq_function(struct work_struct *work)
 {
 	my_work_t *my_work = (my_work_t *) work;
+	int index = my_work->index;
+	int status = my_work->status;
+	int j = index / 64;
+	int i = index % 64;
 
-	int j = my_work->x, ret = 0;
+	struct syscall_entry* entry = &shared_syscall_page[j].entries[i]; //User
 
-	struct syscall_entry* entry = &shared_syscall_page->entries[j]; //User
 
-	perform_flex_system_call(entry);
-
+	if (entry->status == SUBMITTED)
+	{
+		//		print_entry(j);
+		perform_flex_system_call(entry);
+	}
 	//if (sleep_count > 0)
 	//	msleep(sleep_count);
 
-	if (valid_wq)
+	if (valid_wq && status == 1)
 		queue_work(my_wq, (struct work_struct *) work);
 
-	//	counter_i = (counter_i + 1) % 1000;
-	//
-	//	if (counter_i == 999 && kprint_true)
-	//	{
-	//		for (i = 0; i < 64; i++)
-	//		{
-	//
-	//			printk("%d ", shared_syscall_page->entries[i].index);
-	//			printk("%d ", shared_syscall_page->entries[i].syscall);
-	//			printk("%d ", shared_syscall_page->entries[i].status);
-	//			printk("%d ", shared_syscall_page->entries[i].num_args);
-	//			printk("%d ", shared_syscall_page->entries[i].return_code);
-	//			printk("%d ", shared_syscall_page->entries[i].args[0]);
-	//			printk("%d ", shared_syscall_page->entries[i].args[1]);
-	//			printk("%d ", shared_syscall_page->entries[i].args[2]);
-	//			printk("%d ", shared_syscall_page->entries[i].args[3]);
-	//			printk("%d ", shared_syscall_page->entries[i].args[4]);
-	//			printk("%d \n", shared_syscall_page->entries[i].args[5]);
-	//		}
-	//	}
-
-	//	kfree((void *) work);
 	return;
 }
 
-int syscall_thread_run(void *p)
+int syscall_thread_run(void *work)
 {
-	int j = (int) p;
+	my_work_t* my_work = (my_work_t *) work;
+	int index = my_work->index;
+	int j = index / 64;
+	int i = index % 64;
 
-	struct syscall_entry* entry = &shared_syscall_page->entries[j]; //User
+	struct syscall_entry* entry = &shared_syscall_page[j].entries[i]; //User
+
 
 	while (1)
 	{
+		//
 		if (entry->status == SUBMITTED)
 		{
+			//			print_entry(j);
 			perform_flex_system_call(entry);
 		}
 
-		msleep(10);
+		msleep(1);
 
 		if (kthread_should_stop())
 			break;
@@ -184,9 +192,9 @@ static struct file_operations mmap_fops =
 // length of the two memory areas
 #define NPAGES 16
 // pointer to the kmalloc'd area, rounded up to a page boundary
-static struct syscall_page *kmalloc_area;
+static struct syscall_page *kmalloc_area = NULL;
 // original pointer for kmalloc'd area as returned by kmalloc
-static void *kmalloc_ptr;
+static void *kmalloc_ptr = NULL;
 
 /* character device open method */
 static int mmap_open(struct inode *inode, struct file *filp)
@@ -224,7 +232,7 @@ static int mmap_mmap(struct file *filp, struct vm_area_struct *vma)
 	return -EIO;
 }
 
-void stop_syscall_threads()
+void stop_syscall_threads(void)
 {
 	int i;
 	for (i = 0; i < MAX_SYSCALL_THREAD; i++)
@@ -237,132 +245,190 @@ void stop_syscall_threads()
 	}
 }
 
-asmlinkage void* sys_flexsc_register2(void* user_pages)
+void register_kthread_version(void)
 {
-	//	kprint_true = ((int) user_pages) % 10 != NULL;
-	//	sleep_count = ((int) user_pages) / 10;
-	//sleep_count = 0; // No Sleep
+	int i;
 
-	printk("Registering Process: PID = %d\n", current->pid);
-
-	int i, j, ret;
-
-	//Allocate Memory
-	/* allocate a memory area with kmalloc. Will be rounded up to a page boundary */
-	if ((kmalloc_ptr = kmalloc((NPAGES + 2) * PAGE_SIZE, GFP_KERNEL)) == NULL)
-	{
-		ret = -ENOMEM;
-		goto out;
-	}
-
-	/* round it up to the page bondary */
-	kmalloc_area = (struct syscall_page *) ((((unsigned long) kmalloc_ptr) + PAGE_SIZE - 1) & PAGE_MASK);
-
-	//We implemented a character device called mmap
-	/* get the major number of the character device */
-	if ((ret = alloc_chrdev_region(&mmap_dev, 0, 1, "flexsc")) < 0)
-	{
-		printk("could not allocate major number for mmap\n");
-		goto out_kfree;
-	}
-
-	/* initialize the device structure and register the device with the kernel */
-	cdev_init(&mmap_cdev, &mmap_fops);
-	if ((ret = cdev_add(&mmap_cdev, mmap_dev, 1)) < 0)
-	{
-		printk("could not allocate chrdev for mmap\n");
-		goto out_unalloc_region;
-	}
-
-	/* mark the pages reserved */
-	for (i = 0; i < NPAGES * PAGE_SIZE; i += PAGE_SIZE)
-	{
-		SetPageReserved(virt_to_page(((unsigned long) kmalloc_area) + i));
-	}
-	//Finished Allocating memories.
-
-	for (i = 0; i < MAX_SYSCALL_THREAD; i++)
-	{
-		kmalloc_area->entries[i].index = i;
-		kmalloc_area->entries[i].status = FREE;
-		kmalloc_area->entries[i].syscall = 0;
-		kmalloc_area->entries[i].num_args = 0;
-		kmalloc_area->entries[i].return_code = 0;
-		kmalloc_area->entries[i].args[0] = 0;
-		kmalloc_area->entries[i].args[1] = 0;
-		kmalloc_area->entries[i].args[2] = 0;
-		kmalloc_area->entries[i].args[3] = 0;
-		kmalloc_area->entries[i].args[4] = 0;
-		kmalloc_area->entries[i].args[5] = 200 + i;
-	}
-
-	unsigned char *alld = (unsigned char*) kmalloc_area;
-
-	struct syscall_page* pp = (struct syscall_page*) alld;
-	for (i = 0; i < MAX_SYSCALL_THREAD; i++)
-	{
-		printk("%d ", pp->entries[i].index);
-		printk("%d ", pp->entries[i].status);
-		printk("%d ", pp->entries[i].syscall);
-		printk("%d ", pp->entries[i].return_code);
-		printk("%d ", pp->entries[i].args[0]);
-		printk("%d ", pp->entries[i].args[1]);
-		printk("%d ", pp->entries[i].args[2]);
-		printk("%d ", pp->entries[i].args[3]);
-		printk("%d ", pp->entries[i].args[4]);
-		printk("%d \n", pp->entries[i].args[5]);
-	}
-
-	// Work Queue Implementation
-	//	if (my_wq != NULL)
-	//	{
-	//		valid_wq = 0;
-	//		printk("Destroy Previous Work Queue");
-	//		destroy_workqueue(my_wq);
-	//	}
-
-	//	valid_wq = 1;
-	//	printk("Creating Work Queue\n");
-	//	my_wq = create_workqueue("flexsc_queue");
-
-	shared_syscall_page = kmalloc_area; // kmalloced area is the actual area.
-
-	//Creaing Works
-	//	if (my_wq)
-	//	{
-	//		for (i = 0; i < 64; i++)
-	//		{
-	//			printk("Allocating necessary memories: %d\n", i);
-	//			printk("+++++++++++++++++[%d] = S: %d, #: %d, St: %d, Args[5]=%ld\n", shared_syscall_page->entries[i].index, shared_syscall_page->entries[i].syscall, shared_syscall_page->entries[i].num_args, shared_syscall_page->entries[i].status,	shared_syscall_page->entries[i].args[5]);
-	//
-	//			shared_entries[i] = &shared_syscall_page->entries[i];
-	//			flex_work[i] = &flex_work_data[i];
-	//
-	//			printk("Creating Works:%d\n", i);
-	//			if (flex_work[i])
-	//			{
-	//				INIT_WORK((struct work_struct *) flex_work[i], my_wq_function);
-	//				flex_work[i]->x = i;
-	//				ret = queue_work(my_wq, (struct work_struct *) flex_work[i]);
-	//			}
-	//		}
-	//	}
-	//	else
-	//	{
-	//		printk("Problem Creating Work Queue\n");
-	//	}
-
-	// KThread Implementation
 	stop_syscall_threads();
 
-	for (i = 0; i < MAX_SYSCALL_THREAD; i++)
+	for (i = 0; i < ACTIVE_THREADS; i++)
 	{
-		syscall_threads[i] = kthread_run(syscall_thread_run, (void *) i, "syscall_thread");
+		flex_work_data[i].index = i;
+		syscall_threads[i] = kthread_run(syscall_thread_run, (void *) &flex_work_data[i], "syscall_thread");
+	}
+}
+
+/*
+ * Work Queue Implementation of syscall thread.
+ *
+ * */
+
+void register_workqueue_version(void)
+{
+	int i, j, index, ret;
+
+	if (my_wq != NULL)
+	{
+		//		valid_wq = 0;
+		printk("Previous Work Queue Found!\n");
+		//		destroy_workqueue(my_wq);
+		//Initialize All the Works
+		for (i = 0; i < MAX_SYSCALL_THREAD; i++)
+		{
+			// Activate deactivated threads.
+			if (i < ACTIVE_THREADS && flex_work_data[i].status == 0)
+			{
+				printk("Activate a deactivated thread: %d!\n", i);
+				flex_work_data[i].status = 1;
+				ret = queue_work(my_wq, (struct work_struct *) &flex_work_data[i]);
+			}
+
+			//Stop the rest threads
+			if (i >= ACTIVE_THREADS)
+			{
+				flex_work_data[i].status = 0;
+			}
+		}
+	}
+	else
+	{
+		printk("Creating Work Queue\n");
+		my_wq = create_workqueue("flexsc_queue");
+		valid_wq = 1;
+
+		if (my_wq == NULL)
+		{
+			printk("Problem Creating Work Queue\n");
+			return;
+		}
+
+		//Initialize All the Works
+		for (index = 0; index < MAX_SYSCALL_THREAD; index++)
+		{
+			j = index / 64;
+			i = index % 64;
+			//printk("Allocating necessary memories: %d\n", i);
+			printk("+++++++++++++++++[%d] = S: %d, #: %d, St: %d, Args[5]=%ld\n", index, //
+					shared_syscall_page[j].entries[i].syscall, //
+					shared_syscall_page[j].entries[i].num_args, //
+					shared_syscall_page[j].entries[i].status, //
+					shared_syscall_page[j].entries[i].args[5]);
+			//
+			printk("*****************Creating Works:%d\n", index);
+			INIT_WORK((struct work_struct *) &flex_work_data[index], my_wq_function);
+			flex_work_data[index].index = index;
+			flex_work_data[index].status = 0;
+		}
+
+		//Queue only active threads
+		for (i = 0; i < ACTIVE_THREADS; i++)
+		{
+			flex_work_data[i].status = 1;
+			ret = queue_work(my_wq, (struct work_struct *) &flex_work_data[i]);
+		}
+
+	}
+}
+
+asmlinkage void* sys_flexsc_register2(void* user_pages)
+{
+	int i, j, index, ret;
+	long params = (long) user_pages;
+	//
+	ACTIVE_THREADS = params / 128;
+	int thread_type = params % 128;
+
+	//	struct syscall_page* pp;
+	printk("Registering Process: PID = %d\n", current->pid);
+	registered_process = current;
+
+	printk("Number of Threads=%d\n", ACTIVE_THREADS);
+	printk("Register: %p\n", kmalloc_ptr);
+
+	/**
+	 * If already allocated, not allocate again. Use previous memory.
+	 */
+	if (kmalloc_ptr == NULL)
+	{
+		/* allocate a memory area with kmalloc. Will be rounded up to a page boundary */
+		if ((kmalloc_ptr = kmalloc((NPAGES + 2) * PAGE_SIZE, GFP_KERNEL)) == NULL)
+		{
+			ret = -ENOMEM;
+			goto out;
+		}
+
+		/* round it up to the page bondary */
+		kmalloc_area = (struct syscall_page *) ((((unsigned long) kmalloc_ptr) + PAGE_SIZE - 1) & PAGE_MASK);
+
+		/* mark the pages reserved */
+		for (i = 0; i < NPAGES * PAGE_SIZE; i += PAGE_SIZE)
+		{
+			SetPageReserved(virt_to_page(((unsigned long) kmalloc_area) + i));
+		}
+
+		for (index = 0; index < MAX_SYSCALL_THREAD; index++)
+		{
+			j = index / 64;
+			i = index % 64;
+			//
+			kmalloc_area[j].entries[i].status = FREE;
+			kmalloc_area[j].entries[i].syscall = 0;
+			kmalloc_area[j].entries[i].num_args = 0;
+			kmalloc_area[j].entries[i].return_code = 0;
+			kmalloc_area[j].entries[i].args[0] = 0;
+			kmalloc_area[j].entries[i].args[1] = 0;
+			kmalloc_area[j].entries[i].args[2] = 0;
+			kmalloc_area[j].entries[i].args[3] = 0;
+			kmalloc_area[j].entries[i].args[4] = 0;
+			kmalloc_area[j].entries[i].args[5] = 10000 + i;
+		}
+
+		shared_syscall_page = (struct syscall_page*) kmalloc_area; // kmalloced area is the actual area.
+		printk("Allocated Memory!\n");
 	}
 
-	printk("Page: %d\n", (NPAGES + 2) * PAGE_SIZE);
-	//ts = kthread_run(thread, NULL, "kthread");
+	for (i = 0; i < MAX_SYSCALL_THREAD; i++)
+	{
+		print_entry(i);
+	}
 
+	/*
+	 * Create Character Device
+	 * */
+
+	if (flexsc_device_created == 0)
+	{
+		//We implemented a character device called mmap
+		/* get the major number of the character device */
+		if ((ret = alloc_chrdev_region(&mmap_dev, 0, 1, "flexsc")) < 0)
+		{
+			printk("could not allocate major number for mmap\n");
+			goto out_kfree;
+		}
+
+		/* initialize the device structure and register the device with the kernel */
+		cdev_init(&mmap_cdev, &mmap_fops);
+		if ((ret = cdev_add(&mmap_cdev, mmap_dev, 1)) < 0)
+		{
+			printk("could not allocate chrdev for mmap\n");
+			goto out_unalloc_region;
+		}
+
+		flexsc_device_created = 1;
+	}
+
+	// KThread Implementation
+	if (thread_type)//Non Zero== Kthread
+	{
+		printk("Using kthread as syscall thread\n");
+		register_kthread_version();
+	}
+	else
+	{
+		printk("Using workqueue as syscall thread\n");
+		stop_syscall_threads();
+		register_workqueue_version();
+	}
 	printk("flexsc_registration Complete.\n");
 	return NULL;
 
@@ -375,33 +441,35 @@ asmlinkage void* sys_flexsc_register2(void* user_pages)
 	kfree(kmalloc_ptr);
 	//
 	out: printk("out\n");
-	return ret;
+	return NULL;
 
 }
 
-asmlinkage long sys_flexsc_wait()
+asmlinkage long sys_flexsc_wait(void)
 {
 	return current->pid;
 }
 
-//Not using it.
-asmlinkage void* sys_flexsc_register()
+/*
+ * Using it as an unregister option.
+ * */
+asmlinkage void* sys_flexsc_register(void)
 {
-	int i;
+	//	int i;
 	//	valid_wq = 0;
 
 	/* remove the character deivce */
-	cdev_del(&mmap_cdev);
-	unregister_chrdev_region(mmap_dev, 1);
+	//	cdev_del(&mmap_cdev);
+	//	unregister_chrdev_region(mmap_dev, 1);
 
-	/* unreserve the pages */
-	for (i = 0; i < NPAGES * PAGE_SIZE; i += PAGE_SIZE)
-	{
-		ClearPageReserved(virt_to_page(((unsigned long) kmalloc_area) + i));
-	}
-	/* free the memory areas */
-	kfree(kmalloc_ptr);
-
+	//	/* unreserve the pages */
+	//	for (i = 0; i < NPAGES * PAGE_SIZE; i += PAGE_SIZE)
+	//	{
+	//		ClearPageReserved(virt_to_page(((unsigned long) kmalloc_area) + i));
+	//	}
+	//	/* free the memory areas */
+	//	kfree(kmalloc_ptr);
+	//
 	stop_syscall_threads();
 
 	return NULL;
