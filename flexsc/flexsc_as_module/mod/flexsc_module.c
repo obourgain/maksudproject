@@ -7,7 +7,7 @@
 
 #include <linux/module.h>
 #include <linux/kernel.h>
-#include <mod/flexsc/mod_flexsc.h>
+#include "mod/flexsc/flexsc.h"
 
 #define DRIVER_AUTHOR "Maksudul Alam <maksud@vt.edu>"
 #define DRIVER_DESC   "FlexSC Kernel Module"
