@@ -27,9 +27,9 @@
 struct task_struct *flexsc_registered = NULL;
 struct mm_struct *flexsc_registered_mm = NULL;
 
-char my_kernel_buf[4096*2];
-int my_loop = 0;
-struct page **my_pages;
+static char my_kernel_buf[4096*2];
+static int my_loop = 0;
+static struct page **my_pages;
 
 int kt_func(void *p)
 {

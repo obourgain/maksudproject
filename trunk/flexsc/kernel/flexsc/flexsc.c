@@ -19,7 +19,7 @@
 #include <linux/fs.h>      // Needed by filp
 #include <asm/uaccess.h>   // Needed by segment descriptors
 #include <flexsc/flexsc.h>
-#include <flexsc/flex_syscalls.h>
+#include <flexsc/flexsc_syscalls.h>
 
 #define MAX_SYSCALL_THREAD 128
 #define FLEX_DEV_MAJOR_NO	240
@@ -44,7 +44,7 @@ static my_work_t flex_work_data[MAX_SYSCALL_THREAD];
  * */
 static struct task_struct* syscall_threads[MAX_SYSCALL_THREAD] =
 { 0 };
-static my_work_t flex_work_data[MAX_SYSCALL_THREAD];
+
 
 static struct syscall_page* shared_syscall_page = NULL;
 static struct task_struct* registered_process = NULL;
