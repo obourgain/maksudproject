@@ -7,7 +7,7 @@
 #include <linux/slab.h>
 #include <linux/fs.h>      // Needed by filp
 #include <asm/uaccess.h>   // Needed by segment descriptors
-#include <flexsc/flex_syscalls.h>
+#include <flexsc/flexsc_syscalls.h>
 #include <flexsc/flexsc.h>
 
 

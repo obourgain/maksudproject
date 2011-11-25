@@ -1,3 +1,3 @@
 #####Makefile Start#####
-obj-y := flex_syscalls.o flexsc.o flexsc_helper.o
+obj-y := flexsc_syscalls.o flexsc.o flexsc_helper.o
 #####Makefile End#######
