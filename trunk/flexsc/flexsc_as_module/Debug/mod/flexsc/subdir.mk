@@ -4,24 +4,24 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 O_SRCS += \
-../mod/flexsc/mod_flexsc.o \
-../mod/flexsc/mod_flexsc_helper.o \
-../mod/flexsc/mod_flexsc_syscalls.o 
+../mod/flexsc/flexsc.o \
+../mod/flexsc/flexsc_helper.o \
+../mod/flexsc/flexsc_syscalls.o 
 
 C_SRCS += \
-../mod/flexsc/mod_flexsc.c \
-../mod/flexsc/mod_flexsc_helper.c \
-../mod/flexsc/mod_flexsc_syscalls.c 
+../mod/flexsc/flexsc.c \
+../mod/flexsc/flexsc_helper.c \
+../mod/flexsc/flexsc_syscalls.c 
 
 OBJS += \
-./mod/flexsc/mod_flexsc.o \
-./mod/flexsc/mod_flexsc_helper.o \
-./mod/flexsc/mod_flexsc_syscalls.o 
+./mod/flexsc/flexsc.o \
+./mod/flexsc/flexsc_helper.o \
+./mod/flexsc/flexsc_syscalls.o 
 
 C_DEPS += \
-./mod/flexsc/mod_flexsc.d \
-./mod/flexsc/mod_flexsc_helper.d \
-./mod/flexsc/mod_flexsc_syscalls.d 
+./mod/flexsc/flexsc.d \
+./mod/flexsc/flexsc_helper.d \
+./mod/flexsc/flexsc_syscalls.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
