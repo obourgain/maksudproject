@@ -29,7 +29,7 @@ all: flexapp
 flexapp: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -L"/home/maksud/workspace/flexsc/Debug" -o"flexapp" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc  -o"flexapp" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

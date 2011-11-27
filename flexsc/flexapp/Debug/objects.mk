@@ -4,4 +4,4 @@
 
 USER_OBJS :=
 
-LIBS := -lflexsc -lpthread
+LIBS := -lpthread
