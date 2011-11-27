@@ -12,7 +12,7 @@
 
 
 //INTERNAL_SYSCALL
-struct file* file_open(const char* path, int flags, int rights)
+struct file* __flexsc_file_open(const char* path, int flags, int rights)
 {
 	struct file* filp = NULL;
 	mm_segment_t oldfs;
@@ -35,13 +35,26 @@ struct file* file_open(const char* path, int flags, int rights)
 	return filp;
 }
 
-void file_close(struct file* file)
+void __flexsc_file_close(struct file* file)
 {
 	filp_close(file, NULL);
 //	printk("Close File Successful: File Pointer: %d\n", file);
 }
 
-int file_write(struct file* file, unsigned long long offset, unsigned char* data, unsigned int size)
+int __flexsc_file_read(struct file* file, unsigned long offset, unsigned char* data, unsigned int size) {
+    mm_segment_t oldfs;
+    int ret;
+
+    oldfs = get_fs();
+    set_fs(get_ds());
+
+    ret = vfs_read(file, data, size, &offset);
+
+    set_fs(oldfs);
+    return ret;
+}
+
+int __flexsc_file_write(struct file* file, unsigned long offset, unsigned char* data, unsigned int size)
 {
 	mm_segment_t oldfs;
 	int ret;
