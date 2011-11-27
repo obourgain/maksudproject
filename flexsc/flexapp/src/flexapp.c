@@ -19,9 +19,11 @@ char a[20];
 
 int main(void)
 {
-	struct syscall_page* page = flexsc_register2();
+	struct syscall_page* page = flexsc_register();
 
 	//	flexapp_single();
+
+	printf("Sizeof syscall page is: %d", sizeof(struct syscall_page));
 
 	flexapp_threaded();
 
