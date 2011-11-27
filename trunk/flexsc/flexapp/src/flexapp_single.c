@@ -61,7 +61,7 @@ long long timeval_diff(struct timeval *difference, struct timeval *end_time, str
 
 } /* timeval_diff() */
 
-void flexapp_single()
+void flexapp_single(void)
 {
 	long long elapsed;
 	struct timeval start, end, interval;
