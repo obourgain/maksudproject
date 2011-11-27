@@ -13,13 +13,17 @@
 #include <fcntl.h>
 #include <sys/time.h>
 #include<time.h>
-#include <fcntl.h>
 #include <pthread.h>
+
+#define NUM_THREADS 128
 
 typedef struct str_thdata
 {
 	int i;
 } thdata;
+
+pthread_t thread[NUM_THREADS]; /* thread variables */
+thdata data[NUM_THREADS]; /* structs to be passed to threads */
 
 long long timeval_diff(struct timeval *difference, struct timeval *end_time, struct timeval *start_time)
 {
@@ -62,30 +66,30 @@ void print_message_function(void *ptr)
 	a = a << 8 | 'B';
 	a = a << 8 | 'C';
 	a = a << 8 | 'D';
-	a = a << 8 | 'B';
-	a = a << 8 | 'C';
-	a = a << 8 | 'D';
-	a = a << 8 | 'B';
-	a = a << 8 | 'C';
-	a = a << 8 | 'D';
+	//	a = a << 8 | 'B';
+	//	a = a << 8 | 'C';
+	//	a = a << 8 | 'D';
+	//	a = a << 8 | 'B';
+	//	a = a << 8 | 'C';
+	//	a = a << 8 | 'D';
 
 	long long fd = 0;
 	struct syscall_entry* entry;
 
 	int i1 = O_WRONLY | O_CREAT, i2 = 0644;
+	int j;
 
-	sprintf(filename, "/home/maksud/file%d.txt", i);
-	fd = open(filename, i1, i2);
-//	write(fd, buf, 4);
-//	close(fd);
+	for (j = 0; j < 2; j++)
+	{
+		sprintf(filename, "/home/maksud/no_flex%d.txt", i);
+		FILE* fp = fopen(filename, "a+");
+		fwrite(buf, 1, 4, fp);
+		fclose(fp);
+	}
 
 	pthread_exit(0);
 }
 
-#define MAX_T 64
-
-pthread_t thread[MAX_T]; /* thread variables */
-thdata data[MAX_T]; /* structs to be passed to threads */
 int main(void)
 {
 
@@ -99,13 +103,14 @@ int main(void)
 		perror("error gettimeofday() #1");
 		exit(1);
 	}
-	for (i = 0; i < MAX_T; i++)
+
+	for (i = 0; i < NUM_THREADS; i++)
 	{
 		data[i].i = i;
 		pthread_create(&thread[i], NULL, (void *) &print_message_function, (void *) &data[i]);
 	}
 
-	for (i = 0; i < MAX_T; i++)
+	for (i = 0; i < NUM_THREADS; i++)
 	{
 		pthread_join(thread[i], NULL);
 	}
@@ -125,65 +130,65 @@ int main(void)
 	return 0;
 }
 
-int main2(void)
-{
-	clock_t start_c, end_c;
-
-	char buf[4] =
-	{ 'A', 'B', 'C', 'D' };
-
-	char filename[64] =
-	{ 0 };
-
-	long long fd[64];
-
-	int i;
-	int i1 = O_WRONLY | O_CREAT, i2 = 0644;
-
-	struct timeval start, end, interval;
-	if (gettimeofday(&start, NULL))
-	{
-		perror("error gettimeofday() #1");
-		exit(1);
-	}
-
-	start_c = clock();
-	////
-	//Open System Call
-	for (i = 0; i < 64; i++)
-	{
-		sprintf(filename, "/home/maksud/file%d.txt", i);
-		fd[i] = open(filename, i1, i2);
-		write(fd[i], buf, 4);
-		close(fd[i]);
-	}
-	//
-	//	//Write System Call
-	//	for (i = 0; i < 64; i++)
-	//	{
-	//	}
-	//
-	//	//Write System Call
-	//	for (i = 0; i < 64; i++)
-	//	{
-	//
-	//	}
-	end_c = clock();
-
-	if (gettimeofday(&end, NULL))
-	{
-		perror("error gettimeofday() #2");
-		exit(1);
-	}
-
-	long long elapsed = timeval_diff(&interval, &end, &start);
-
-	printf("\nElapsed time is %lld microseconds\n", elapsed); // output format: # microseconds
-	//	printf("\n\nClock: %lf seconds\n", ((double) end_c - start_c));
-
-	int i22 = 0;
-	printf("\nDone System Calls.\n");
-	scanf("%d", &i22);
-
-	return EXIT_SUCCESS;
-}
+//int main2(void)
+//{
+//	clock_t start_c, end_c;
+//
+//	char buf[4] =
+//	{ 'A', 'B', 'C', 'D' };
+//
+//	char filename[64] =
+//	{ 0 };
+//
+//	long long fd[64];
+//
+//	int i;
+//	int i1 = O_WRONLY | O_CREAT, i2 = 0644;
+//
+//	struct timeval start, end, interval;
+//	if (gettimeofday(&start, NULL))
+//	{
+//		perror("error gettimeofday() #1");
+//		exit(1);
+//	}
+//
+//	start_c = clock();
+//	////
+//	//Open System Call
+//	for (i = 0; i < 64; i++)
+//	{
+//		sprintf(filename, "/home/maksud/file%d.txt", i);
+//		fd[i] = open(filename, i1, i2);
+//		write(fd[i], buf, 4);
+//		close(fd[i]);
+//	}
+//	//
+//	//	//Write System Call
+//	//	for (i = 0; i < 64; i++)
+//	//	{
+//	//	}
+//	//
+//	//	//Write System Call
+//	//	for (i = 0; i < 64; i++)
+//	//	{
+//	//
+//	//	}
+//	end_c = clock();
+//
+//	if (gettimeofday(&end, NULL))
+//	{
+//		perror("error gettimeofday() #2");
+//		exit(1);
+//	}
+//
+//	long long elapsed = timeval_diff(&interval, &end, &start);
+//
+//	printf("\nElapsed time is %lld microseconds\n", elapsed); // output format: # microseconds
+//	//	printf("\n\nClock: %lf seconds\n", ((double) end_c - start_c));
+//
+//	int i22 = 0;
+//	printf("\nDone System Calls.\n");
+//	scanf("%d", &i22);
+//
+//	return EXIT_SUCCESS;
+//}
