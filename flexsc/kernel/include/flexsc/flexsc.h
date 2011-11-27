@@ -19,8 +19,9 @@ struct syscall_entry {
 	long return_code; //8 byte
 };
 
+
 struct syscall_page {
-	struct task_struct* threads[64];
+//	struct task_struct* threads[64];
 	struct syscall_entry entries[64];
 };
 
