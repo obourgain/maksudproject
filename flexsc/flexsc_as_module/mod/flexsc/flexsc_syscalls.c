@@ -10,15 +10,14 @@
 #include "mod/flexsc/flexsc_syscalls.h"
 #include <flexsc/flexsc.h>
 
-
 //INTERNAL_SYSCALL
-struct file* flexsc_mod_file_open(const char* path, int flags, int rights)
+struct file* __mod_file_open(const char* path, int flags, int rights)
 {
 	struct file* filp = NULL;
 	mm_segment_t oldfs;
 	int err = 0;
 
-//	printk("%s, %d, %d\n", path, flags, rights);
+	//	printk("%s, %d, %d\n", path, flags, rights);
 
 	oldfs = get_fs();
 	set_fs(get_ds());
@@ -31,17 +30,31 @@ struct file* flexsc_mod_file_open(const char* path, int flags, int rights)
 		printk("Problem Opening %d\n", err);
 		return NULL;
 	}
-//	printk("Open File Successful: File Pointer: %d\n", filp);
+	//	printk("Open File Successful: File Pointer: %d\n", filp);
 	return filp;
 }
 
-void flexsc_mod_file_close(struct file* file)
+void __mod_file_close(struct file* file)
 {
 	filp_close(file, NULL);
-//	printk("Close File Successful: File Pointer: %d\n", file);
+	//	printk("Close File Successful: File Pointer: %d\n", file);
 }
 
-int flexsc_mod_file_write(struct file* file, unsigned long long offset, unsigned char* data, unsigned int size)
+int __mod_file_read(struct file* file, unsigned long long offset, unsigned char* data, unsigned int size)
+{
+	mm_segment_t oldfs;
+	int ret;
+
+	oldfs = get_fs();
+	set_fs(get_ds());
+
+	ret = vfs_read(file, data, size, &offset);
+
+	set_fs(oldfs);
+	return ret;
+}
+
+int __mod_file_write(struct file* file, unsigned long long offset, unsigned char* data, unsigned int size)
 {
 	mm_segment_t oldfs;
 	int ret;
