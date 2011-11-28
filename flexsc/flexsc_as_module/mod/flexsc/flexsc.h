@@ -11,9 +11,11 @@
 void* __mod_unregister(void);
 void* __mod_register(void* user_pages);
 
-struct syscall_buffer
+#define FLEXSC_BUFFER_SIZE 384
+
+struct flexsc_buffer
 {
-	char buffer[384];
+	char data[FLEXSC_BUFFER_SIZE];
 };
 
 #endif /* _FLEXSC_MOD_FLEXSC_H_ */

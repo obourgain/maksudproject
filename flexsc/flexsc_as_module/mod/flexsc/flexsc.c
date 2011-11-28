@@ -89,19 +89,15 @@ int __mod_perform_flex_system_call(struct syscall_entry* entry)
 	{
 		//		kprint_true ? printk("~~~~~~~~~~~~~FOUND~~~~~~~~~~~~~~~~\n") : 1;
 		//		kprint_true ? printk("##ENTRY From Worker Thread. [%d] = %d, [0]=%ld, [1]=%ld, [2]=%ld\n", entry->index, entry->syscall, entry->args[0], entry->args[1], entry->args[2]) : 1;
-
 		switch (entry->syscall)
 		{
 		case _FLEX_SYSCALL_OPEN:
-
 			buffer = __mod_syscall_buffers + entry->args[0];
-			printk("Filename: %ld+%ld=%ld, %s\n", __mod_syscall_buffers, entry->args[0], buffer, buffer);
 			entry->return_code = __mod_file_open(buffer, entry->args[1], entry->args[2]);
 			break;
 
 		case _FLEX_SYSCALL_WRITE:
 			buffer = __mod_syscall_buffers + entry->args[2];
-			printk("Filename: %ld+%ld=%ld, %s\n", __mod_syscall_buffers, entry->args[2], buffer, buffer);
 			entry->return_code = __mod_file_write((struct file*) entry->args[0], entry->args[1], buffer, entry->args[3]);
 			break;
 
@@ -112,7 +108,6 @@ int __mod_perform_flex_system_call(struct syscall_entry* entry)
 
 		case _FLEX_SYSCALL_READ:
 			buffer = __mod_syscall_buffers + entry->args[2];
-			printk("Filename: %ld+%ld=%ld, %s\n", __mod_syscall_buffers, entry->args[2], buffer, buffer);
 			entry->return_code = __mod_file_read((struct file*) entry->args[0], entry->args[1], buffer, entry->args[3]);
 			break;
 		}
@@ -137,7 +132,7 @@ static void __mod_my_wq_function(struct work_struct *work)
 		__mod_perform_flex_system_call(entry);
 	}
 
-	msleep(1);
+//	msleep(1);
 
 	if (__mod_valid_wq && status == 1)
 		queue_work(__mod_my_wq, (struct work_struct *) work);
@@ -153,7 +148,6 @@ int __mod_syscall_thread_run(void *work)
 	int i = index % 64;
 
 	struct syscall_entry* entry = &__mod_shared_syscall_page[j].entries[i]; //User
-
 
 	while (1)
 	{
@@ -200,7 +194,7 @@ static int __mod_mmap_release(struct inode *inode, struct file *filp)
 /* character device mmap method */
 static int __mod_mmap_mmap(struct file *filp, struct vm_area_struct *vma)
 {
-	/* at offset NPAGES we map the fkmalloc'd area */
+	/* at offset NPAGES we map the kmalloc'd area */
 	if (vma->vm_pgoff == NPAGES)
 	{
 		int ret;
@@ -315,7 +309,6 @@ void __mod_register_workqueue_version(void)
 			__mod_flex_work_data[i].status = 1;
 			ret = queue_work(__mod_my_wq, (struct work_struct *) &__mod_flex_work_data[i]);
 		}
-
 	}
 }
 
@@ -349,20 +342,20 @@ void* __mod_register(void* user_pages)
 			goto out;
 		}
 
-		printk("__kmalloc_ptr: %ld, %p\n", __mod_kmalloc_ptr, __mod_kmalloc_ptr);
+		//printk("__kmalloc_ptr: %ld, %p\n", __mod_kmalloc_ptr, __mod_kmalloc_ptr);
 		/* round it up to the page bondary */
 		__mod_kmalloc_area = (char *) ((((unsigned long) __mod_kmalloc_ptr) + PAGE_SIZE - 1) & PAGE_MASK);
-		printk("__mod_kmalloc_area: %ld, %p\n", __mod_kmalloc_area, __mod_kmalloc_area);
+		//printk("__mod_kmalloc_area: %ld, %p\n", __mod_kmalloc_area, __mod_kmalloc_area);
 
 		/* mark the pages reserved */
 		for (i = 0; i < NPAGES * PAGE_SIZE; i += PAGE_SIZE)
 		{
 			SetPageReserved(virt_to_page(((unsigned long) __mod_kmalloc_area) + i));
 		}
-
+		//
 		__mod_shared_syscall_page = (struct syscall_page*) __mod_kmalloc_area; // kmalloced area is the actual area.
 		__mod_syscall_buffers = (char*) (__mod_kmalloc_area + 4 * 64 * 64);
-
+		//
 		for (index = 0; index < MAX_SYSCALL_THREAD; index++)
 		{
 			j = index / 64;
