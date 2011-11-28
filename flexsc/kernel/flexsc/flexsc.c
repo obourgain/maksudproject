@@ -132,7 +132,7 @@ static void __flexsc_my_wq_function(struct work_struct *work)
 		__flexsc_perform_flex_system_call(entry);
 	}
 
-	msleep(1);
+	//msleep(1);
 
 	if (__flexsc_valid_wq && status == 1)
 		queue_work(__flexsc_my_wq, (struct work_struct *) work);
