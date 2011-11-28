@@ -41,8 +41,6 @@ int main(void)
 //
 //	sleep(10);
 
-
-
 	//	elapsed = timeval_diff(&interval, &end, &start);
 	//	printf("\nTime for Threading Approach is %lld microseconds\n", elapsed); // output format: # microseconds
 

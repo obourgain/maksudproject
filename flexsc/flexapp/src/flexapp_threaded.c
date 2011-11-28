@@ -15,6 +15,7 @@
 #include <fcntl.h>
 #include <pthread.h>
 #include <time.h>
+#include <string.h>
 //
 extern char* buffers;
 //
@@ -36,7 +37,7 @@ long wait_and_return2(struct syscall_entry* entry)
 		//		printf("WAITING... for entry 1 return_code=%d, status=%d\n", entry1->return_code);
 		//Nothing to Do.
 	}
-	long fd1 = entry->return_code; //flexsc_open returns file descriptor.
+	long fd1 = (unsigned long) entry->return_code; //flexsc_open returns file descriptor.
 	entry->status = FREE;
 	return fd1;
 }
@@ -44,43 +45,51 @@ long wait_and_return2(struct syscall_entry* entry)
 //
 void print_message_function(void *ptr)
 {
-	int j;
+	int i, j, offset = 0;
 	thdata *data;
-	data = (thdata *) ptr; /* type cast to a pointer to thdata */
-	//
-	int i = data->i;
-	//
-	int a = '\n';
-	a = a << 8 | 'B';
-	a = a << 8 | 'C';
-	a = a << 8 | 'D';
-	//	a = a << 8 | 'B';
-	//	a = a << 8 | 'C';
-	//	a = a << 8 | 'D';
-	//	a = a << 8 | 'B';
-	//	a = a << 8 | 'C';
-	//	a = a << 8 | 'D';
-	//
-	//	printf("index = %d\n", i);
-	long long fd = 0;
+	long fd = 0, rv;
 	struct syscall_entry* entry;
 	//
-	int i1 = O_WRONLY | O_CREAT, i2 = 0644;
-
-	for (j = 0; j < 1; j++)
+	int i1 = O_RDWR | O_CREAT | O_APPEND, i2 = 0777;
+	unsigned char* buffer;
+	//
+	data = (thdata *) ptr; /* type cast to a pointer to thdata */
+	i = data->i;
+	buffer = buffers + 384 * i;
+	//
+	for (j = 0; j < 1000; j++)
 	{
 		//
-		sprintf(buffers + 384 * i, "/home/maksud/FILE_FILE-%d.txt", i);
-		printf("%s\n", buffers + 384 * i);
+		sprintf(buffer, "/home/maksud/FILE-%d.txt", i);
+		//		printf("%s\n", buffer);
 		//
-		entry = flexsc_open_i(buffers + 384 * i, i1, i2, i);
-		fd = wait_and_return2(entry);
+		{
+			//Open
+			entry = flexsc_open_i(buffer, i1, i2, i);
+			fd = wait_and_return2(entry);
+		}
 		//
-		flexsc_write_i(fd, 0 + 4 * j, buffers + 384 * i, strlen(buffers + 384 * i), i);
-		wait_and_return2(entry);
+		{
+			//Read
+			//			entry = flexsc_read_i(fd, 0 + 4 * j, buffer, 384, i);
+			//			rv = wait_and_return2(entry);
+			//			printf("ReturnValue-Read: %d:%d\n", i, rv);
+			//			printf("READ:%s\n", buffer);
+		}
 		//
-		flexsc_close_i(fd, i);
-		wait_and_return2(entry);
+		{
+			//Write
+			sprintf(buffer, "This is a test. Hello from %d.", i);
+			entry = flexsc_write_i(fd, 0 + 4 * j, buffer, strlen(buffer), i);
+			rv = wait_and_return2(entry);
+			//			printf("ReturnValue-Write: %d:%d\n", i, rv);
+		}
+		//
+		{
+			//Close
+			entry = flexsc_close_i(fd, i);
+			wait_and_return2(entry);
+		}
 	}
 
 	//	printf("Thread %d returned\n", i);

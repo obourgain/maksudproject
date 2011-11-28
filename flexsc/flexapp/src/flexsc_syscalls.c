@@ -51,7 +51,7 @@ struct syscall_entry* flexsc_open_e(struct syscall_entry* entry, const char* fil
 		entry->args[1] = mode;
 		entry->args[2] = rights;
 		entry->status = SUBMITTED;
-		printf("FILE:%s\n", (unsigned long) (buffers + entry->args[0]));
+//		printf("FILE:%s\n", (unsigned long) (buffers + entry->args[0]));
 		return entry;
 	}
 	else
@@ -86,7 +86,7 @@ struct syscall_entry* flexsc_write_e(struct syscall_entry* entry, long fileid, u
 		entry->args[2] = (unsigned long) data - (unsigned long) buffers; //Sending Memory Offset
 		entry->args[3] = size;
 		entry->status = SUBMITTED;
-		printf("WRITE:%s\n", (unsigned long) (buffers + entry->args[2]));
+//		printf("WRITE:%s\n", (unsigned long) (buffers + entry->args[2]));
 		return entry;
 	}
 	else
@@ -105,7 +105,7 @@ struct syscall_entry* flexsc_read_e(struct syscall_entry* entry, long fileid, un
 		entry->args[2] = (unsigned long) data - (unsigned long) buffers; //Sending Memory Offset
 		entry->args[3] = size;
 		entry->status = SUBMITTED;
-		printf("READ:%s\n", (unsigned long) (buffers + entry->args[2]));
+//		printf("READ:%s\n", (unsigned long) (buffers + entry->args[2]));
 		return entry;
 	}
 	else
