@@ -26,7 +26,7 @@ struct syscall_page* basepage; // 4 * 64 = 256 Threads
 char* buffers; // 256 / 4 = 64
 //
 struct syscall_entry* entries[NUM_THREADS];
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static int last_index = 0;
 
@@ -125,49 +125,45 @@ int last_used = 0;
 
 struct syscall_entry* free_syscall_entry_i(int i)
 {
-
-	//	free_syscall_entry();
-
-	return &basepage[i / 64].entries[i % 64];
-	//
-	//	pthread_mutex_lock(&mutex);
-	//	struct syscall_entry* e = free_syscall_entry();
-	//	pthread_mutex_unlock(&mutex);
-	//
-	//	while (e == NULL)
-	//	{
-	//		printf("Found! Try Again\n");
-	//		sleep(1);
-	//
-	//		pthread_mutex_lock(&mutex);
-	//		e = free_syscall_entry();
-	//		pthread_mutex_unlock(&mutex);
-	//	}
-	//	return e;
+//	return &basepage[i / 64].entries[i % 64];
+	return free_syscall_entry();
 }
 
 struct syscall_entry* free_syscall_entry(void)
 {
 	int i, j, index, rc;
-	printf("Try to Access.\n");
+	//	printf("Try to Access.\n");
 	struct syscall_entry* entry = NULL;
 
 	for (index = 0; index < NUM_THREADS; index++)
 	{
-		last_index = (last_index + 1) % NUM_THREADS;
-
+		//
+		pthread_mutex_lock(&mutex);
 		j = last_index / 64;
 		i = last_index % 64;
+		last_index = (last_index + 1) % NUM_THREADS;
 
 		if (basepage[j].entries[i].status == FREE)
 		{
-			printf("Found! %d, %d\n", j, i);
+			//			printf("Found! %d, %d\n", j, i);
 			basepage[j].entries[i].status = 100; // RESERVED
 			entry = &basepage[j].entries[i];
+			pthread_mutex_unlock(&mutex);
 			break;
 		}
+		pthread_mutex_unlock(&mutex);
 	}
-	//		if (entry == NULL)
+
+	if (entry == NULL)
+	{
+		//		printf("Could not find a Empty Entry, NULL\n");
+		for (index = 0; index < NUM_THREADS; index++)
+		{
+			j = index / 64;
+			i = index % 64;
+			//			printf("Index[%d]=%d\n", index, basepage[j].entries[i].status);
+		}
+	}
 	//		return free_syscall_entry();
 	//	printf("Got Access?\n: %p", entry);
 	return entry; // Sorry, No Free Entry.
