@@ -24,13 +24,13 @@ void print_message_function(void *ptr);
 long long wait_and_return(struct syscall_entry* entry)
 {
 	//Can not proceed while status is not DONE
-	while (entry->status != DONE)
+	while (entry->status != _FLEX_DONE)
 	{
 		//		printf("WAITING... for entry 1 return_code=%d, status=%d\n", entry1->return_code);
 		//Nothing to Do.
 	}
 	long long fd1 = entry->return_code; //flexsc_open returns file descriptor.
-	entry->status = FREE;
+	entry->status = _FLEX_FREE;
 	return fd1;
 }
 

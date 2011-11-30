@@ -82,14 +82,14 @@ struct syscall_page* flexsc_register(void)
 	}
 	close(fd);
 
-	basepage = kadr;
-	buffers = kadr + 4 * 64 * 64;
+	basepage = (struct syscall_page*) kadr;
+	buffers = (char*) (kadr + 4 * 64 * 64);
 	for (index = 0; index < 12 * 4096; index++)
 	{
 		buffers[index] = 0;
 	}
 
-	printf("Basepage: %ld, %p\n", basepage, basepage);
+	printf("Basepage: %ld, %p\n", (long)basepage, basepage);
 	for (index = 0; index < NUM_THREADS; index++)
 	{
 		j = index / 64;
@@ -114,6 +114,7 @@ void flexsc_wait(void)
 {
 	long pid = (long) getpid();
 	long ret = syscall(sys_flexsc_wait);
+	printf("%ld %ld\n", pid, ret);
 }
 
 struct syscall_page* allocate_register(void)
@@ -125,13 +126,13 @@ int last_used = 0;
 
 struct syscall_entry* free_syscall_entry_i(int i)
 {
-//	return &basepage[i / 64].entries[i % 64];
+	//	return &basepage[i / 64].entries[i % 64];
 	return free_syscall_entry();
 }
 
 struct syscall_entry* free_syscall_entry(void)
 {
-	int i, j, index, rc;
+	int i, j, index;
 	//	printf("Try to Access.\n");
 	struct syscall_entry* entry = NULL;
 
@@ -143,7 +144,7 @@ struct syscall_entry* free_syscall_entry(void)
 		i = last_index % 64;
 		last_index = (last_index + 1) % NUM_THREADS;
 
-		if (basepage[j].entries[i].status == FREE)
+		if (basepage[j].entries[i].status == _FLEX_FREE)
 		{
 			//			printf("Found! %d, %d\n", j, i);
 			basepage[j].entries[i].status = 100; // RESERVED

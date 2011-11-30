@@ -20,7 +20,7 @@ struct syscall_entry* flexsc_getpid(void)
 	{
 		entry->syscall = 39;
 		entry->num_args = 0;
-		entry->status = SUBMITTED;
+		entry->status = _FLEX_SUBMITTED;
 		return entry;
 	}
 	else
@@ -36,7 +36,6 @@ void printn(char* p, int n)
 	for (i = 0; i < n; i++)
 	{
 		printf("%d", p[i]);
-
 	}
 	printf("\n");
 }
@@ -50,8 +49,8 @@ struct syscall_entry* flexsc_open_e(struct syscall_entry* entry, const char* fil
 		entry->args[0] = (unsigned long) filename - (unsigned long) buffers; //Sending Memory Offset
 		entry->args[1] = mode;
 		entry->args[2] = rights;
-		entry->status = SUBMITTED;
-//		printf("FILE:%s\n", (unsigned long) (buffers + entry->args[0]));
+		entry->status = _FLEX_SUBMITTED;
+		//		printf("FILE:%s\n", (unsigned long) (buffers + entry->args[0]));
 		return entry;
 	}
 	else
@@ -67,7 +66,7 @@ struct syscall_entry* flexsc_close_e(struct syscall_entry* entry, long fileid)
 		entry->syscall = _FLEX_SYSCALL_CLOSE;
 		entry->num_args = 1;
 		entry->args[0] = fileid;
-		entry->status = SUBMITTED;
+		entry->status = _FLEX_SUBMITTED;
 		return entry;
 	}
 	else
@@ -75,18 +74,19 @@ struct syscall_entry* flexsc_close_e(struct syscall_entry* entry, long fileid)
 		return NULL;
 	}
 }
-struct syscall_entry* flexsc_write_e(struct syscall_entry* entry, long fileid, unsigned long offset, unsigned char* data, unsigned int size)
+
+struct syscall_entry* flexsc_write_e(struct syscall_entry* entry, long fileid, const void* data, size_t size, off_t offset)
 {
 	if (entry != NULL)
 	{
 		entry->syscall = _FLEX_SYSCALL_WRITE;
 		entry->num_args = 4;
 		entry->args[0] = fileid;
-		entry->args[1] = offset;
-		entry->args[2] = (unsigned long) data - (unsigned long) buffers; //Sending Memory Offset
-		entry->args[3] = size;
-		entry->status = SUBMITTED;
-//		printf("WRITE:%s\n", (unsigned long) (buffers + entry->args[2]));
+		entry->args[1] = (unsigned long) data - (unsigned long) buffers; //Sending Memory Offset
+		entry->args[2] = size;
+		entry->args[3] = offset;
+		entry->status = _FLEX_SUBMITTED;
+		//		printf("WRITE:%s\n", (unsigned long) (buffers + entry->args[2]));
 		return entry;
 	}
 	else
@@ -94,18 +94,19 @@ struct syscall_entry* flexsc_write_e(struct syscall_entry* entry, long fileid, u
 		return NULL;
 	}
 }
-struct syscall_entry* flexsc_read_e(struct syscall_entry* entry, long fileid, unsigned long offset, unsigned char* data, unsigned int size)
+
+struct syscall_entry* flexsc_read_e(struct syscall_entry* entry, long fileid, void* data, size_t size, off_t offset)
 {
 	if (entry != NULL)
 	{
 		entry->syscall = _FLEX_SYSCALL_READ;
 		entry->num_args = 4;
 		entry->args[0] = fileid;
-		entry->args[1] = offset;
-		entry->args[2] = (unsigned long) data - (unsigned long) buffers; //Sending Memory Offset
-		entry->args[3] = size;
-		entry->status = SUBMITTED;
-//		printf("READ:%s\n", (unsigned long) (buffers + entry->args[2]));
+		entry->args[1] = (unsigned long) data - (unsigned long) buffers; //Sending Memory Offset
+		entry->args[2] = size;
+		entry->args[3] = offset;
+		entry->status = _FLEX_SUBMITTED;
+		//		printf("READ:%s\n", (unsigned long) (buffers + entry->args[2]));
 		return entry;
 	}
 	else
@@ -125,16 +126,19 @@ struct syscall_entry* flexsc_close(long fileid)
 	struct syscall_entry* entry = free_syscall_entry();
 	return flexsc_close_e(entry, fileid);
 }
-struct syscall_entry* flexsc_write(long fileid, unsigned long offset, unsigned char* data, unsigned int size)
+
+struct syscall_entry* flexsc_write(long fileid, const void* data, size_t size, off_t offset)
 {
 	struct syscall_entry* entry = free_syscall_entry();
-	return flexsc_write_e(entry, fileid, offset, data, size);
+	return flexsc_write_e(entry, fileid, data, size, offset);
 }
-struct syscall_entry* flexsc_read(long fileid, unsigned long offset, unsigned char* data, unsigned int size)
+
+struct syscall_entry* flexsc_read(long fileid, void* data, size_t size, off_t offset)
 {
 	struct syscall_entry* entry = free_syscall_entry();
-	return flexsc_read_e(entry, fileid, offset, data, size);
+	return flexsc_read_e(entry, fileid, data, size, offset);
 }
+
 //////////////////////////////////////////
 struct syscall_entry* flexsc_open_i(const char* filename, int mode, int rights, int i)
 {
@@ -147,14 +151,16 @@ struct syscall_entry* flexsc_close_i(long fileid, int i)
 	struct syscall_entry* entry = free_syscall_entry_i(i);
 	return flexsc_close_e(entry, fileid);
 }
-struct syscall_entry* flexsc_write_i(long fileid, unsigned long offset, unsigned char* data, unsigned int size, int i)
+
+struct syscall_entry* flexsc_write_i(long fileid, const void* data, size_t size, off_t offset, int i)
 {
 	struct syscall_entry* entry = free_syscall_entry_i(i);
-	return flexsc_write_e(entry, fileid, offset, data, size);
+	return flexsc_write_e(entry, fileid, data, size, offset);
 }
-struct syscall_entry* flexsc_read_i(long fileid, unsigned long offset, unsigned char* data, unsigned int size, int i)
+
+struct syscall_entry* flexsc_read_i(long fileid, void* data, size_t size, off_t offset, int i)
 {
 	struct syscall_entry* entry = free_syscall_entry_i(i);
-	return flexsc_read_e(entry, fileid, offset, data, size);
+	return flexsc_read_e(entry, fileid, data, size, offset);
 }
 
