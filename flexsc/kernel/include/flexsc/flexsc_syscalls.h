@@ -13,7 +13,7 @@
 
 struct file* __flexsc_file_open(const char* path, int flags, int rights);
 void __flexsc_file_close(struct file* file);
-int __flexsc_file_write(struct file* file, unsigned long offset, unsigned char* data, unsigned int size);
-int __flexsc_file_read(struct file* file, unsigned long offset, unsigned char* data, unsigned int size);
+ssize_t __flexsc_file_pread(struct file* file, void* data, size_t size, loff_t offset);
+ssize_t __flexsc_file_pwrite(struct file* file, const void* data, size_t size, loff_t offset);
 
 #endif /* _FLEXSC_FLEXSC_SYSCALLS_H_ */
