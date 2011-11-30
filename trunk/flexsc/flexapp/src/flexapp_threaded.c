@@ -32,13 +32,13 @@ thdata data[NUM_THREADS]; /* structs to be passed to threads */
 long wait_and_return2(struct syscall_entry* entry)
 {
 	//Can not proceed while status is not DONE
-	while (entry->status != DONE)
+	while (entry->status != _FLEX_DONE)
 	{
 		//		printf("WAITING... for entry 1 return_code=%d, status=%d\n", entry1->return_code);
 		//Nothing to Do.
 	}
 	long fd1 = (unsigned long) entry->return_code; //flexsc_open returns file descriptor.
-	entry->status = FREE;
+	entry->status = _FLEX_FREE;
 	return fd1;
 }
 
@@ -57,11 +57,11 @@ void print_message_function(void *ptr)
 	i = data->i;
 	buffer = buffers + 384 * i;
 	//
-	for (j = 0; j < 1000; j++)
+	for (j = 0; j < 2; j++)
 	{
 		//
 		sprintf(buffer, "/home/maksud/FILE-%d.txt", i);
-		//		printf("%s\n", buffer);
+//		printf("%s\n", buffer);
 		//
 		{
 			//Open
@@ -71,7 +71,7 @@ void print_message_function(void *ptr)
 		//
 		{
 			//Read
-			//			entry = flexsc_read_i(fd, 0 + 4 * j, buffer, 384, i);
+			//			entry = flexsc_read_i(fd, buffer, 384, 0 + 4 * j, i);
 			//			rv = wait_and_return2(entry);
 			//			printf("ReturnValue-Read: %d:%d\n", i, rv);
 			//			printf("READ:%s\n", buffer);
@@ -80,7 +80,7 @@ void print_message_function(void *ptr)
 		{
 			//Write
 			sprintf(buffer, "This is a test. Hello from %d.", i);
-			entry = flexsc_write_i(fd, 0 + 4 * j, buffer, strlen(buffer), i);
+			entry = flexsc_write_i(fd, buffer, strlen(buffer), 0, i);
 			rv = wait_and_return2(entry);
 			//			printf("ReturnValue-Write: %d:%d\n", i, rv);
 		}
