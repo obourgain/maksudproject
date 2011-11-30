@@ -25,8 +25,16 @@ struct syscall_page {
 	struct syscall_entry entries[64];
 };
 
-#define FREE 0
-#define SUBMITTED 1
-#define DONE 2
+#define _FLEX_FREE 0
+#define _FLEX_SUBMITTED 1
+#define _FLEX_DONE 2
+#define _FLEX_RESERVED 4
+
+#define _FLEX_SYSCALL_WRITE 1
+#define _FLEX_SYSCALL_READ 0
+#define _FLEX_SYSCALL_OPEN 2
+#define _FLEX_SYSCALL_CLOSE 3
+#define _FLEX_SYSCALL_PREAD 17
+#define _FLEX_SYSCALL_PWRITE 18
 
 #endif /* _FLEXSC_FLEXSC_H_ */
