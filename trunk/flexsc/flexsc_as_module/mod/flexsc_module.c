@@ -62,9 +62,9 @@ static void read_file(char *filename)
 int init_module(void)
 {
 	//	printk("Hello World!");
-//	read_file("/home/maksud/FILE-0.txt");
+	//	read_file("/home/maksud/FILE-0.txt");
 	//	printk("Sizeof syscall page is: %d", sizeof(struct syscall_page));
-	__mod_register(64 * 128);
+	__mod_register(64 * 128 + 1);
 
 	return 0;// Non zero means modules can not be loaded.
 }
