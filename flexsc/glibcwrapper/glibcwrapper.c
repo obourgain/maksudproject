@@ -19,20 +19,18 @@
 #include <fcntl.h>
 
 static void* (*real_malloc)( size_t) = NULL;
-//static int (*orig_printf)(const char *format, ...) = NULL;
 static void init(void) __attribute__ ((constructor));
 int (*real_open)(__const char *name, int flags, ...);
-struct dirent *(*real_readdir)(DIR *dir);
 int (*real_close)(int fd);
-
 static ssize_t (*real_read)(int fd, void *buf, size_t len);
 static ssize_t (*real_write)(int fd, const void *buf, size_t len);
 static ssize_t (*real_pread)(int, void *, size_t, off_t);
 static ssize_t (*real_pwrite)(int, const void *, size_t, off_t);
+struct dirent *(*real_readdir)(DIR *dir);
+
 
 static void __mtrace_init(void)
 {
-
 	real_malloc = dlsym(RTLD_NEXT, "malloc");
 	if (NULL == real_malloc)
 	{
@@ -43,7 +41,6 @@ static void __mtrace_init(void)
 
 void *malloc(size_t size)
 {
-
 	if (real_malloc == NULL)
 		__mtrace_init();
 
@@ -68,19 +65,10 @@ static void init(void)
 	real_pread = dlsym(RTLD_NEXT, "pread");
 	real_pwrite = dlsym(RTLD_NEXT, "pwrite");
 }
-//int open(const char *pathname, int flags, mode_t mode)
-//{
-//        printf("open called \n");
-//        return(real_open(pathname,flags,mode));
-//}
-
 
 int open(const char *path, int flags, ...)
 {
-	//	int (*real_open)(const char*, int, ...);
-
 	printf("entering open(): %s\n", path);
-	real_open = dlsym(RTLD_NEXT, "open");
 
 	if (dlerror())
 		return -1;
