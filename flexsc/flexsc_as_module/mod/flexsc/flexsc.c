@@ -21,11 +21,6 @@
 #include <flexsc/flexsc.h>
 #include <mod/flexsc/flexsc_syscalls.h>
 
-#define _FLEX_SYSCALL_WRITE 1
-#define _FLEX_SYSCALL_READ 0
-#define _FLEX_SYSCALL_OPEN 2
-#define _FLEX_SYSCALL_CLOSE 3
-
 #define MAX_SYSCALL_THREAD 128
 
 static int ACTIVE_THREADS = 0;
@@ -85,7 +80,7 @@ void __mod_print_entry(int i)
 int __mod_perform_flex_system_call(struct syscall_entry* entry)
 {
 	char* buffer;
-	if (entry->status == SUBMITTED)
+	if (entry->status == _FLEX_SUBMITTED)
 	{
 		//		kprint_true ? printk("~~~~~~~~~~~~~FOUND~~~~~~~~~~~~~~~~\n") : 1;
 		//		kprint_true ? printk("##ENTRY From Worker Thread. [%d] = %d, [0]=%ld, [1]=%ld, [2]=%ld\n", entry->index, entry->syscall, entry->args[0], entry->args[1], entry->args[2]) : 1;
@@ -97,8 +92,8 @@ int __mod_perform_flex_system_call(struct syscall_entry* entry)
 			break;
 
 		case _FLEX_SYSCALL_WRITE:
-			buffer = __mod_syscall_buffers + entry->args[2];
-			entry->return_code = __mod_file_write((struct file*) entry->args[0], entry->args[1], buffer, entry->args[3]);
+			buffer = __mod_syscall_buffers + entry->args[1];
+			entry->return_code = __mod_file_pwrite((struct file*) entry->args[0], buffer, entry->args[2], entry->args[3]);
 			break;
 
 		case _FLEX_SYSCALL_CLOSE:
@@ -107,11 +102,11 @@ int __mod_perform_flex_system_call(struct syscall_entry* entry)
 			break;
 
 		case _FLEX_SYSCALL_READ:
-			buffer = __mod_syscall_buffers + entry->args[2];
-			entry->return_code = __mod_file_read((struct file*) entry->args[0], entry->args[1], buffer, entry->args[3]);
+			buffer = __mod_syscall_buffers + entry->args[1];
+			entry->return_code = __mod_file_pread((struct file*) entry->args[0], buffer, entry->args[2], entry->args[3]);
 			break;
 		}
-		entry->status = DONE;
+		entry->status = _FLEX_DONE;
 	}
 	return 0;
 }
@@ -126,13 +121,13 @@ static void __mod_my_wq_function(struct work_struct *work)
 
 	struct syscall_entry* entry = &__mod_shared_syscall_page[j].entries[i]; //User
 
-	if (entry->status == SUBMITTED)
+	if (entry->status == _FLEX_SUBMITTED)
 	{
 		//print_entry(j);
 		__mod_perform_flex_system_call(entry);
 	}
 
-//	msleep(1);
+	//	msleep(1);
 
 	if (__mod_valid_wq && status == 1)
 		queue_work(__mod_my_wq, (struct work_struct *) work);
@@ -152,7 +147,7 @@ int __mod_syscall_thread_run(void *work)
 	while (1)
 	{
 		//
-		if (entry->status == SUBMITTED)
+		if (entry->status == _FLEX_SUBMITTED)
 		{
 			//print_entry(j);
 			__mod_perform_flex_system_call(entry);
@@ -361,7 +356,7 @@ void* __mod_register(void* user_pages)
 			j = index / 64;
 			i = index % 64;
 			//
-			__mod_shared_syscall_page[j].entries[i].status = FREE;
+			__mod_shared_syscall_page[j].entries[i].status = _FLEX_FREE;
 			__mod_shared_syscall_page[j].entries[i].syscall = 0;
 			__mod_shared_syscall_page[j].entries[i].num_args = 0;
 			__mod_shared_syscall_page[j].entries[i].return_code = 0;

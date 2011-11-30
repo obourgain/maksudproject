@@ -40,7 +40,7 @@ void __mod_file_close(struct file* file)
 	//	printk("Close File Successful: File Pointer: %d\n", file);
 }
 
-int __mod_file_read(struct file* file, unsigned long offset, unsigned char* data, unsigned int size)
+ssize_t __mod_file_pread(struct file* file, void* data, size_t size, off_t offset)
 {
 	mm_segment_t oldfs;
 	int ret;
@@ -54,7 +54,7 @@ int __mod_file_read(struct file* file, unsigned long offset, unsigned char* data
 	return ret;
 }
 
-int __mod_file_write(struct file* file, unsigned long offset, unsigned char* data, unsigned int size)
+ssize_t __mod_file_pwrite(struct file* file, const void* data, size_t size, off_t offset)
 {
 	mm_segment_t oldfs;
 	int ret;
