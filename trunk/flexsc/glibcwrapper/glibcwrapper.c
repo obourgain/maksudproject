@@ -18,39 +18,85 @@
 #include <stdarg.h>
 #include <fcntl.h>
 
-static void* (*real_malloc)( size_t) = NULL;
+//static void* (*real_malloc)( size_t) = NULL;
 static void init(void) __attribute__ ((constructor));
+//
+static FILE* (*real_fopen)(const char *path, const char *mode);
+static int (*real_fclose)(FILE *__stream);
+static size_t (*real_fread)(void* __ptr, size_t size, size_t n, FILE* stream);
+static size_t (*real_fwrite)(const void* __ptr, size_t size, size_t n, FILE* stream);
+static int (*real_fseek)(FILE *__stream, long int __off, int __whence);
+
+//RAW
 int (*real_open)(__const char *name, int flags, ...);
 int (*real_close)(int fd);
 static ssize_t (*real_read)(int fd, void *buf, size_t len);
 static ssize_t (*real_write)(int fd, const void *buf, size_t len);
 static ssize_t (*real_pread)(int, void *, size_t, off_t);
 static ssize_t (*real_pwrite)(int, const void *, size_t, off_t);
+static off_t (*real_lseek)(int, off_t, int);
 struct dirent *(*real_readdir)(DIR *dir);
 
+//static void __mtrace_init(void)
+//{
+//	real_malloc = dlsym(RTLD_NEXT, "malloc");
+//	if (NULL == real_malloc)
+//	{
+//		fprintf(stderr, "Error in `dlsym`: %s\n", dlerror());
+//		return;
+//	}
+//}
+//
+//void *malloc(size_t size)
+//{
+//	if (real_malloc == NULL)
+//		__mtrace_init();
+//
+//	void *p = NULL;
+//	fprintf(stderr, "malloc(%d) = ", size);
+//	p = real_malloc(size);
+//	fprintf(stderr, "%p\n", p);
+//	//
+//	printf("Maksud\n");
+//	return p;
+//}
 
-static void __mtrace_init(void)
+
+FILE* fopen(const char *path, const char *mode)
 {
-	real_malloc = dlsym(RTLD_NEXT, "malloc");
-	if (NULL == real_malloc)
-	{
-		fprintf(stderr, "Error in `dlsym`: %s\n", dlerror());
-		return;
-	}
+	printf("fopen(%s, %s)\n", path, mode);
+	FILE* fp = real_fopen(path, mode);
+	printf("fd=%d\n", fp);
+
+	return fp;
 }
 
-void *malloc(size_t size)
+int fclose(FILE *stream)
 {
-	if (real_malloc == NULL)
-		__mtrace_init();
+	printf("fread(%p)\n", stream);
+	int ret = real_fclose(stream);
+	return ret;
+}
 
-	void *p = NULL;
-	fprintf(stderr, "malloc(%d) = ", size);
-	p = real_malloc(size);
-	fprintf(stderr, "%p\n", p);
-	//
-	printf("Maksud\n");
-	return p;
+size_t fread(void* ptr, size_t size, size_t n, FILE* stream)
+{
+	printf("fread(%p, %d, %d, %p)\n", ptr, size, n, stream);
+	size_t ret = real_fread(ptr, size, n, stream);
+	return ret;
+}
+
+size_t fwrite(const void* ptr, size_t size, size_t n, FILE* stream)
+{
+	printf("fwrite(%p, %d, %d, %p)\n", ptr, size, n, stream);
+	size_t ret = real_fwrite(ptr, size, n, stream);
+	return ret;
+}
+
+int fseek(FILE* stream, long int off, int whence)
+{
+	printf("fseek(%p, %d, %d)\n", stream, off, whence);
+	int ret = real_fseek(stream, off, whence);
+	return ret;
 }
 
 static void init(void)
@@ -64,64 +110,84 @@ static void init(void)
 	real_write = dlsym(RTLD_NEXT, "write");
 	real_pread = dlsym(RTLD_NEXT, "pread");
 	real_pwrite = dlsym(RTLD_NEXT, "pwrite");
+	real_lseek = dlsym(RTLD_NEXT, "lseek");
+
+	real_fopen = dlsym(RTLD_NEXT, "fopen");
+	real_fclose = dlsym(RTLD_NEXT, "fclose");
+	real_fread = dlsym(RTLD_NEXT, "fread");
+	real_fwrite = dlsym(RTLD_NEXT, "fwrite");
+	real_fseek = dlsym(RTLD_NEXT, "fseek");
+
+	//	real_pwrite = dlsym(RTLD_NEXT, "pwrite");
 }
-
-int open(const char *path, int flags, ...)
-{
-	printf("entering open(): %s\n", path);
-
-	if (dlerror())
-		return -1;
-
-	if (flags & O_CREAT)
-	{
-		va_list arg_list;
-		mode_t mode;
-
-		va_start(arg_list, flags);
-		mode = va_arg(arg_list, mode_t);
-		va_end(arg_list);
-
-		return real_open(path, flags, mode);
-	}
-	else
-	{
-		return real_open(path, flags);
-	}
-}
-
-int close(int fd)
-{
-	printf("close called \n");
-	return (real_close(fd));
-}
-
-ssize_t read(int fd, void *buf, size_t len)
-{
-	printf("read called \n");
-	return (*real_read)(fd, buf, len);
-}
-
-ssize_t write(int fd, const void *buf, size_t len)
-{
-	printf("write called \n");
-	return (*real_write)(fd, buf, len);
-}
-
-ssize_t pread(int fd, void *buf, size_t len, off_t off)
-{
-	printf("pread called \n");
-	return (*real_pread)(fd, buf, len, off);
-}
-
-ssize_t pwrite(int fd, const void *buf, size_t len, off_t off)
-{
-	printf("pwrite called \n");
-	return (*real_pwrite)(fd, buf, len, off);
-}
-
-struct dirent *readdir(DIR *dir)
-{
-	printf("readdir called");
-	return (real_readdir(dir));
-}
+//
+//int open(const char *path, int flags, ...)
+//{
+//	int fd;
+//	//	printf("entering open(): %s\n", path);
+//
+//	if (dlerror())
+//		return -1;
+//
+//	if (flags & O_CREAT)
+//	{
+//		va_list arg_list;
+//		mode_t mode;
+//
+//		va_start(arg_list, flags);
+//		mode = va_arg(arg_list, mode_t);
+//		va_end(arg_list);
+//
+//		fd = real_open(path, flags, mode);
+//		printf("fd=%d: open called for %s\n", fd, path);
+//		return fd;
+//	}
+//	else
+//	{
+//		fd = real_open(path, flags);
+//		printf("fd=%d: open called for %s\n", fd, path);
+//		return fd;
+//	}
+//}
+//
+//int close(int fd)
+//{
+//	printf("fd=%d: close called \n", fd);
+//	return (real_close(fd));
+//}
+//
+//ssize_t read(int fd, void *buf, size_t len)
+//{
+//	ssize_t n = (*real_read)(fd, buf, len);
+//	printf("fd=%d: read (%d) = %d\n", fd, len, n);
+//	return n;
+//}
+//
+//ssize_t write(int fd, const void *buf, size_t len)
+//{
+//	ssize_t n = (*real_write)(fd, buf, len);
+//	printf("fd=%d: write (%d) = %d\n", fd, len, n);
+//	return n;
+//}
+//
+//ssize_t pread(int fd, void *buf, size_t len, off_t off)
+//{
+//	printf("fd=%d: pread (%d -> n=%d) \n", fd, len, off);
+//	return (*real_pread)(fd, buf, len, off);
+//}
+//
+//ssize_t pwrite(int fd, const void *buf, size_t len, off_t off)
+//{
+//	printf("fd=%d: pwrite (%d -> n=%d) \n", fd, len, off);
+//	return (*real_pwrite)(fd, buf, len, off);
+//}
+//off_t lseek(int fd, off_t off, int whence)
+//{
+//	printf("fd=%d: lseek called \n", fd);
+//	return (*real_lseek)(fd, off, whence);
+//}
+//struct dirent *readdir(DIR *dir)
+//{
+//	printf("readdir called\n");
+//	return (real_readdir(dir));
+//}
