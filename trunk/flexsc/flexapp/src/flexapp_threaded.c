@@ -17,7 +17,8 @@
 #include <time.h>
 #include <string.h>
 //
-extern char* buffers;
+//extern char* buffers;
+extern struct syscall_buffer* base_buffers;
 //
 typedef struct str_thdata
 {
@@ -50,46 +51,56 @@ void print_message_function(void *ptr)
 	long fd = 0, rv;
 	struct syscall_entry* entry;
 	//
-	int i1 = O_RDWR | O_CREAT | O_APPEND, i2 = 0777;
+	int i1 = O_RDWR | O_CREAT, i2 = 0777;
 	unsigned char* buffer;
 	//
 	data = (thdata *) ptr; /* type cast to a pointer to thdata */
 	i = data->i;
-	buffer = buffers + 384 * i;
+	buffer = base_buffers[i].buffer;
 	//
-	for (j = 0; j < 2; j++)
 	{
 		//
 		sprintf(buffer, "/home/maksud/FILE-%d.txt", i);
-//		printf("%s\n", buffer);
+		//Open
+		entry = flexsc_open_i(buffer, i1, i2, i);
+		fd = wait_and_return2(entry);
+	}
+	for (j = 0; j < 100; j++)
+	{
+
+		//		printf("%s\n", buffer);
 		//
-		{
-			//Open
-			entry = flexsc_open_i(buffer, i1, i2, i);
-			fd = wait_and_return2(entry);
-		}
+
 		//
 		{
 			//Read
-			//			entry = flexsc_read_i(fd, buffer, 384, 0 + 4 * j, i);
-			//			rv = wait_and_return2(entry);
-			//			printf("ReturnValue-Read: %d:%d\n", i, rv);
-			//			printf("READ:%s\n", buffer);
+
+						entry = flexsc_read_i(fd, buffer, 382, 0, i);
+						rv = wait_and_return2(entry);
+
+						while (rv > 0)
+						{
+							buffer[rv - 1] = 0;
+//							printf("READ:%s\n", buffer);
+							printf("ReturnValue-Read: %d:%d\n", i, rv);
+							entry = flexsc_read_i(fd, buffer, 382, 0, i);
+							rv = wait_and_return2(entry);
+						}
 		}
 		//
 		{
 			//Write
-			sprintf(buffer, "This is a test. Hello from %d.", i);
-			entry = flexsc_write_i(fd, buffer, strlen(buffer), 0, i);
-			rv = wait_and_return2(entry);
-			//			printf("ReturnValue-Write: %d:%d\n", i, rv);
+//			sprintf(buffer, "This is a test. Hello from %d.", i);
+//			entry = flexsc_write_i(fd, buffer, strlen(buffer), 0, i);
+//			rv = wait_and_return2(entry);
+//			printf("ReturnValue-Write: %d:%d\n", i, rv);
 		}
 		//
-		{
-			//Close
-			entry = flexsc_close_i(fd, i);
-			wait_and_return2(entry);
-		}
+	}
+	{
+		//Close
+		entry = flexsc_close_i(fd, i);
+		wait_and_return2(entry);
 	}
 
 	//	printf("Thread %d returned\n", i);
@@ -118,13 +129,6 @@ void flexapp_threaded(void)
 	{
 		pthread_join(thread[i], NULL);
 	}
-
-	//	for (i = 0; i < 64; i++)
-	//	{
-	//		for (j = 0; j < 384; j++)
-	//			printf("%d ", buffers[i * 384 + j]);
-	//		printf("\n");
-	//	}
 
 	if (gettimeofday(&end, NULL))
 	{
