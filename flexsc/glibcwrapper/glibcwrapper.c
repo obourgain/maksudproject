@@ -26,10 +26,13 @@ static int (*real_fclose)(FILE *__stream);
 static size_t (*real_fread)(void* __ptr, size_t size, size_t n, FILE* stream);
 static size_t (*real_fwrite)(const void* __ptr, size_t size, size_t n, FILE* stream);
 static int (*real_fseek)(FILE *__stream, long int __off, int __whence);
+static FILE* (*real_freopen)(const char* filename, const char* modes, FILE* stream);
+static int (*real_fputs)(const char *str, FILE *stream);
+static char* (*real_fgets)(char * __s, int __n, FILE* __stream);
 
 //RAW
-int (*real_open)(__const char *name, int flags, ...);
-int (*real_close)(int fd);
+static int (*real_open)(__const char *name, int flags, ...);
+static int (*real_close)(int fd);
 static ssize_t (*real_read)(int fd, void *buf, size_t len);
 static ssize_t (*real_write)(int fd, const void *buf, size_t len);
 static ssize_t (*real_pread)(int, void *, size_t, off_t);
@@ -62,42 +65,25 @@ struct dirent *(*real_readdir)(DIR *dir);
 //}
 
 
-FILE* fopen(const char *path, const char *mode)
-{
-	printf("fopen(%s, %s)\n", path, mode);
-	FILE* fp = real_fopen(path, mode);
-	printf("fd=%d\n", fp);
 
-	return fp;
-}
 
-int fclose(FILE *stream)
-{
-	printf("fread(%p)\n", stream);
-	int ret = real_fclose(stream);
-	return ret;
-}
 
-size_t fread(void* ptr, size_t size, size_t n, FILE* stream)
-{
-	printf("fread(%p, %d, %d, %p)\n", ptr, size, n, stream);
-	size_t ret = real_fread(ptr, size, n, stream);
-	return ret;
-}
 
-size_t fwrite(const void* ptr, size_t size, size_t n, FILE* stream)
-{
-	printf("fwrite(%p, %d, %d, %p)\n", ptr, size, n, stream);
-	size_t ret = real_fwrite(ptr, size, n, stream);
-	return ret;
-}
+//char *fgets(char *str, int count, FILE *stream)
+//{
+//	printf("fgets(%d, %d, %d)\n", str, count, stream);
+//	real_fgets(str, count, stream);
+//	return str;
+//}
+//
+//int fputs(const char *str, FILE *stream)
+//{
+//	printf("fputs(%d, %d)\n", str, stream);
+//	size_t ret = real_fputs(str, stream);
+//	return str;
+//}
 
-int fseek(FILE* stream, long int off, int whence)
-{
-	printf("fseek(%p, %d, %d)\n", stream, off, whence);
-	int ret = real_fseek(stream, off, whence);
-	return ret;
-}
+
 
 static void init(void)
 {
@@ -113,8 +99,11 @@ static void init(void)
 	real_lseek = dlsym(RTLD_NEXT, "lseek");
 
 	real_fopen = dlsym(RTLD_NEXT, "fopen");
+	real_freopen = dlsym(RTLD_NEXT, "freopen");
 	real_fclose = dlsym(RTLD_NEXT, "fclose");
 	real_fread = dlsym(RTLD_NEXT, "fread");
+	real_fputs = dlsym(RTLD_NEXT, "fputs");
+	real_fgets = dlsym(RTLD_NEXT, "fgets");
 	real_fwrite = dlsym(RTLD_NEXT, "fwrite");
 	real_fseek = dlsym(RTLD_NEXT, "fseek");
 
@@ -191,3 +180,49 @@ static void init(void)
 //	printf("readdir called\n");
 //	return (real_readdir(dir));
 //}
+FILE* fopen(const char *path, const char *mode)
+{
+	printf("fopen(%s, %s)\n", path, mode);
+	FILE* fp = real_fopen(path, mode);
+	printf("fd=%d\n", fp);
+
+	return fp;
+}
+
+FILE* freopen(const char* path, const char* mode, FILE* stream)
+{
+	printf("freopen(%s, %s)\n", path, mode);
+	FILE* fp = real_freopen(path, mode, stream);
+	printf("fd=%d\n", fp);
+
+	return fp;
+}
+
+int fclose(FILE *stream)
+{
+	printf("fclose(%d)\n", stream);
+	int ret = real_fclose(stream);
+	return ret;
+}
+
+size_t fread(void* ptr, size_t size, size_t n, FILE* stream)
+{
+	printf("fread(%d, %d, %d, %d)\n", ptr, size, n, stream);
+	size_t ret = real_fread(ptr, size, n, stream);
+	return ret;
+}
+
+size_t fwrite(const void* ptr, size_t size, size_t n, FILE* stream)
+{
+	printf("fwrite(%d, %d, %d, %d)\n", ptr, size, n, stream);
+	size_t ret = real_fwrite(ptr, size, n, stream);
+	return ret;
+}
+//
+
+int fseek(FILE* stream, long int off, int whence)
+{
+	printf("fseek(%d, %d, %d)\n", stream, off, whence);
+	int ret = real_fseek(stream, off, whence);
+	return ret;
+}
