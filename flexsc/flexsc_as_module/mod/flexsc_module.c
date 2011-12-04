@@ -33,36 +33,87 @@ MODULE_AUTHOR(DRIVER_AUTHOR);
 MODULE_DESCRIPTION(DRIVER_DESC);
 MODULE_SUPPORTED_DEVICE("flexscdevice");
 
-static void read_file(char *filename)
+static void read_file1(char *filename, const char* line)
 {
 	//	int fd;
-	char buf[1024];
-	int ret;
-	struct file* fd = __mod_file_open(filename, O_RDWR | O_CREAT | O_APPEND, 0777);
+	char buf[256];
+	int ret, off = 0, block = 16;
+	//	struct file* fd = __mod_file_open(filename, O_RDWR | O_CREAT | O_APPEND, 0777);
+	struct file* fd = __mod_file_open(filename, O_RDWR | O_CREAT, 0777);
 	if (fd == NULL)
 		return;
-	int off = 0;
-	do
 	{
-		ret = __mod_file_read(fd, off, buf, 384);
-		off++;
+		ret = __mod_file_read(fd, buf, block);
+		if (ret > 0)
+		{
+			printk("n=%d:0=%c -- 7=%c\n", ret, buf[0], buf[ret - 1]);
+			printk("%s\n", buf);
+		}
+	}
+	{
+		ret = __mod_file_read(fd, buf, block);
+		if (ret > 0)
+		{
+			printk("n=%d:0=%c -- 7=%c\n", ret, buf[0], buf[ret - 1]);
+			printk("%s\n", buf);
+		}
+	}
+	{
+		ret = __mod_file_read(fd, buf, block);
+		if (ret > 0)
+		{
+			printk("n=%d:0=%c -- 7=%c\n", ret, buf[0], buf[ret - 1]);
+			printk("%s\n", buf);
+		}
+	}
+	{
+		ret = __mod_file_read(fd, buf, block);
+		if (ret > 0)
+		{
+			printk("n=%d:0=%c -- 7=%c\n", ret, buf[0], buf[ret - 1]);
+			printk("%s\n", buf);
+		}
+	}
+	//		{
+	//		ret = __mod_file_read(fd, buf, block);
+	//		if (ret > 0)
+	//		{
+	//			printk("%s\n", buf);
+	//			printk("n=%d:0=%c -- 7=%c\n", ret, buf[0], buf[ret - 1]);
+	//		}
+	//	}
+	{
+		ret = __mod_file_write(fd, line, 4);
+		if (ret > 0)
+		{
+			printk("%s\n", line);
+			printk("Write: n=%d:0=%c -- 7=%c\n", ret, buf[0], buf[ret - 1]);
+		}
+	}
 
-		printk("#%d\n", ret);
+	__mod_file_close(fd);
 
-		if (ret != 1)
-			break;
-
-		printk("::%c\n", buf[0]);
-
-		if (off > 100)
-			break;
-	} while (1);
+	//	do
+	//	{
+	//		ret = __mod_file_pread(fd, buf, 384, off);
+	//		off++;
+	//
+	//		printk("#%d\n", ret);
+	//
+	//		if (ret != 1)
+	//			break;
+	//
+	//		printk("::%c\n", buf[0]);
+	//
+	//		if (off > 100)
+	//			break;
+	//	} while (1);
 }
 
 int init_module(void)
 {
-	//	printk("Hello World!");
-	//	read_file("/home/maksud/FILE-0.txt");
+	printk("Hello World!\n");
+	//	read_file1("/home/maksud/FILE-0.txt", "TEST");
 	//	printk("Sizeof syscall page is: %d", sizeof(struct syscall_page));
 	__mod_register(64 * 128 + 1);
 
@@ -71,7 +122,7 @@ int init_module(void)
 
 void cleanup_module(void)
 {
-	//	printk("Bye, World!");
+	printk("Bye, World!\n");
 	__mod_unregister();
 }
 
