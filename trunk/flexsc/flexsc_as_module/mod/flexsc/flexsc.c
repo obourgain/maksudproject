@@ -8,7 +8,7 @@
 #include <linux/version.h>
 #include <linux/init.h>
 #include <linux/module.h>
-#include <linux/fs.h>
+#include <linux/fs.h>		// Needed by filp
 #include <linux/cdev.h>
 #include <linux/mm.h>
 #include <linux/kthread.h>
@@ -16,10 +16,11 @@
 #  include <linux/modversions.h>
 #endif
 #include <asm/io.h>
-#include <linux/fs.h>      // Needed by filp
 #include <asm/uaccess.h>   // Needed by segment descriptors
 #include <flexsc/flexsc.h>
 #include <mod/flexsc/flexsc_syscalls.h>
+
+#define _FLEX_SYSCALL_SEEK 100
 
 #define MAX_SYSCALL_THREAD 128
 
@@ -88,24 +89,54 @@ int __mod_perform_flex_system_call(struct syscall_entry* entry)
 		{
 		case _FLEX_SYSCALL_OPEN:
 			buffer = __mod_syscall_buffers + entry->args[0];
+			printk("open(%s, %ld, %ld)\n", buffer, entry->args[1], entry->args[2]);
 			entry->return_code = __mod_file_open(buffer, entry->args[1], entry->args[2]);
+			//			entry->return_code = __mod_open_fd(buffer, entry->args[1], entry->args[2]);
 			break;
 
-		case _FLEX_SYSCALL_WRITE:
+		case _FLEX_SYSCALL_CLOSE:
+			printk("close(%ld)\n", entry->args[0]);
+			entry->return_code = 0;
+			__mod_file_close((struct file*) entry->args[0]);
+			//			entry->return_code = __mod_close_fd(entry->args[0]);
+			break;
+
+		case _FLEX_SYSCALL_PREAD:
+			printk("pread(%ld, %ld, %ld, %ld)\n", entry->args[0], entry->args[1], entry->args[2], entry->args[3]);
+			buffer = __mod_syscall_buffers + entry->args[1];
+			entry->return_code = __mod_file_pread((struct file*) entry->args[0], buffer, entry->args[2], entry->args[3]);
+			break;
+
+		case _FLEX_SYSCALL_PWRITE:
+			printk("pwrite(%ld, %ld, %ld, %ld)\n", entry->args[0], entry->args[1], entry->args[2], entry->args[3]);
 			buffer = __mod_syscall_buffers + entry->args[1];
 			entry->return_code = __mod_file_pwrite((struct file*) entry->args[0], buffer, entry->args[2], entry->args[3]);
 			break;
 
-		case _FLEX_SYSCALL_CLOSE:
-			entry->return_code = 0;
-			__mod_file_close((struct file*) entry->args[0]);
+		case _FLEX_SYSCALL_READ:
+			printk("read(%ld, %ld, %ld)\n", entry->args[0], entry->args[1], entry->args[2]);
+			buffer = __mod_syscall_buffers + entry->args[1];
+			entry->return_code = __mod_file_read((struct file*) entry->args[0], buffer, entry->args[2]);
+			//			entry->return_code = __mod_read_fd(entry->args[0], buffer, entry->args[2]);
 			break;
 
-		case _FLEX_SYSCALL_READ:
+		case _FLEX_SYSCALL_WRITE:
+			printk("write(%ld, %ld, %ld)\n", entry->args[0], entry->args[1], entry->args[2]);
 			buffer = __mod_syscall_buffers + entry->args[1];
-			entry->return_code = __mod_file_pread((struct file*) entry->args[0], buffer, entry->args[2], entry->args[3]);
+			entry->return_code = __mod_file_write((struct file*) entry->args[0], buffer, entry->args[2]);
+			//			entry->return_code = __mod_write_fd(entry->args[0], buffer, entry->args[2]);
 			break;
+
+		case _FLEX_SYSCALL_SEEK:
+			printk("seek(%ld, %ld, %ld)\n", entry->args[0], entry->args[1], entry->args[2]);
+			//			buffer = __mod_syscall_buffers + entry->args[1];
+			entry->return_code = __mod_file_seek((struct file*) entry->args[0], entry->args[1], entry->args[2]);
+			//			entry->return_code = __mod_seek_fd(entry->args[0],  entry->args[1], entry->args[2]);
+			entry->return_code = 0;
+			break;
+
 		}
+		printk("return_code = %ld\n", entry->return_code);
 		entry->status = _FLEX_DONE;
 	}
 	return 0;
