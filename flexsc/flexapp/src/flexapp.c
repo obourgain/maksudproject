@@ -19,7 +19,7 @@ char a[20];
 
 int main(void)
 {
-	struct syscall_page* page = flexsc_register();
+	flexsc_register();
 
 	//	flexapp_single();
 
@@ -27,19 +27,19 @@ int main(void)
 
 	flexapp_threaded();
 
-//	a[0] = 1;
-//	a[1] = 2;
-//
+	//	a[0] = 1;
+	//	a[1] = 2;
+	//
 
 
-//	long ret = syscall(309, a);
-//	printf("flexsc_wait returned: %ld\n", ret);
-//
-//	sleep(1);
-//	a[0]=5;
-//	a[1]=10;
-//
-//	sleep(10);
+	//	long ret = syscall(309, a);
+	//	printf("flexsc_wait returned: %ld\n", ret);
+	//
+	//	sleep(1);
+	//	a[0]=5;
+	//	a[1]=10;
+	//
+	//	sleep(10);
 
 	//	elapsed = timeval_diff(&interval, &end, &start);
 	//	printf("\nTime for Threading Approach is %lld microseconds\n", elapsed); // output format: # microseconds

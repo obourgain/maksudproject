@@ -23,9 +23,10 @@
 #define NPAGES 16
 
 struct syscall_page* basepage; // 4 * 64 = 256 Threads
-char* buffers; // 256 / 4 = 64
+//char* buffers; // 256 / 4 = 64
+struct syscall_buffer* base_buffers;
 //
-struct syscall_entry* entries[NUM_THREADS];
+//struct syscall_entry* entries[NUM_THREADS];
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static int last_index = 0;
@@ -60,7 +61,7 @@ struct syscall_page* flexsc_register_old(void)
 	return NULL;
 }
 
-struct syscall_page* flexsc_register(void)
+void flexsc_register(void)
 {
 	int index, i, j;
 	int fd;
@@ -82,20 +83,17 @@ struct syscall_page* flexsc_register(void)
 	}
 	close(fd);
 
-	basepage = (struct syscall_page*) kadr;
-	buffers = (char*) (kadr + 4 * 64 * 64);
-	for (index = 0; index < 12 * 4096; index++)
-	{
-		buffers[index] = 0;
-	}
+	basepage = (struct syscall_page*) kadr; //First 4 * 4096 are reserved for 256 syscall threads
+	base_buffers = (struct syscall_buffer*) (kadr + 4 * 64 * 64); //Rest 12 * 4096 / 128 = 384 bytes per thread buffer.
+	//
 
-	printf("Basepage: %ld, %p\n", (long)basepage, basepage);
+	printf("Basepage: %ld, %p\n", (long) basepage, basepage);
 	for (index = 0; index < NUM_THREADS; index++)
 	{
 		j = index / 64;
 		i = index % 64;
 		//
-		entries[i] = &basepage[j].entries[i];
+		
 		basepage[j].entries[i].args[0] = 0;
 		basepage[j].entries[i].args[1] = 0;
 		basepage[j].entries[i].args[2] = 0;
@@ -107,7 +105,6 @@ struct syscall_page* flexsc_register(void)
 		basepage[j].entries[i].num_args = 0;
 		basepage[j].entries[i].return_code = 0;
 	}
-	return (struct syscall_page*) kadr;
 }
 
 void flexsc_wait(void)
@@ -136,33 +133,33 @@ struct syscall_entry* free_syscall_entry(void)
 	//	printf("Try to Access.\n");
 	struct syscall_entry* entry = NULL;
 
+	pthread_mutex_lock(&mutex);
 	for (index = 0; index < NUM_THREADS; index++)
 	{
 		//
-		pthread_mutex_lock(&mutex);
+		last_index = (last_index + 1) % NUM_THREADS;
 		j = last_index / 64;
 		i = last_index % 64;
-		last_index = (last_index + 1) % NUM_THREADS;
 
 		if (basepage[j].entries[i].status == _FLEX_FREE)
 		{
 			//			printf("Found! %d, %d\n", j, i);
-			basepage[j].entries[i].status = 100; // RESERVED
+			basepage[j].entries[i].status = _FLEX_RESERVED; // RESERVED
 			entry = &basepage[j].entries[i];
-			pthread_mutex_unlock(&mutex);
 			break;
 		}
-		pthread_mutex_unlock(&mutex);
 	}
+	pthread_mutex_unlock(&mutex);
+
 
 	if (entry == NULL)
 	{
-		//		printf("Could not find a Empty Entry, NULL\n");
+		printf("Could not find a Empty Entry, NULL\n");
 		for (index = 0; index < NUM_THREADS; index++)
 		{
 			j = index / 64;
 			i = index % 64;
-			//			printf("Index[%d]=%d\n", index, basepage[j].entries[i].status);
+			printf("Index[%d]=%d\n", index, basepage[j].entries[i].status);
 		}
 	}
 	//		return free_syscall_entry();

@@ -11,11 +11,10 @@
 #include <stdio.h>
 #include <semaphore.h>  /* Semaphore */
 //
-extern char* buffers;
+extern struct syscall_buffer* base_buffers;
 //
-struct syscall_entry* flexsc_getpid(void)
+struct syscall_entry* flexsc_getpid(struct syscall_entry* entry)
 {
-	struct syscall_entry* entry = free_syscall_entry();
 	if (entry != NULL)
 	{
 		entry->syscall = 39;
@@ -46,7 +45,7 @@ struct syscall_entry* flexsc_open_e(struct syscall_entry* entry, const char* fil
 	{
 		entry->syscall = _FLEX_SYSCALL_OPEN;
 		entry->num_args = 3;
-		entry->args[0] = (unsigned long) filename - (unsigned long) buffers; //Sending Memory Offset
+		entry->args[0] = (unsigned long) filename - (unsigned long) base_buffers; //Sending Memory Offset
 		entry->args[1] = mode;
 		entry->args[2] = rights;
 		entry->status = _FLEX_SUBMITTED;
@@ -82,7 +81,7 @@ struct syscall_entry* flexsc_write_e(struct syscall_entry* entry, long fileid, c
 		entry->syscall = _FLEX_SYSCALL_WRITE;
 		entry->num_args = 4;
 		entry->args[0] = fileid;
-		entry->args[1] = (unsigned long) data - (unsigned long) buffers; //Sending Memory Offset
+		entry->args[1] = (unsigned long) data - (unsigned long) base_buffers; //Sending Memory Offset
 		entry->args[2] = size;
 		entry->args[3] = offset;
 		entry->status = _FLEX_SUBMITTED;
@@ -102,7 +101,7 @@ struct syscall_entry* flexsc_read_e(struct syscall_entry* entry, long fileid, vo
 		entry->syscall = _FLEX_SYSCALL_READ;
 		entry->num_args = 4;
 		entry->args[0] = fileid;
-		entry->args[1] = (unsigned long) data - (unsigned long) buffers; //Sending Memory Offset
+		entry->args[1] = (unsigned long) data - (unsigned long) base_buffers; //Sending Memory Offset
 		entry->args[2] = size;
 		entry->args[3] = offset;
 		entry->status = _FLEX_SUBMITTED;

@@ -10,7 +10,7 @@
 
 #include <stdlib.h>
 
-struct syscall_entry* flexsc_getpid(void);
+struct syscall_entry* flexsc_getpid(struct syscall_entry* entry);
 
 struct syscall_entry* flexsc_open_e(struct syscall_entry* entry, const char* filename, int mode, int rights);
 struct syscall_entry* flexsc_close_e(struct syscall_entry* entry, long fileid);
