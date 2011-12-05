@@ -132,7 +132,7 @@ int __mod_perform_flex_system_call(struct syscall_entry* entry)
 			//			buffer = __mod_syscall_buffers + entry->args[1];
 			entry->return_code = __mod_file_seek((struct file*) entry->args[0], entry->args[1], entry->args[2]);
 			//			entry->return_code = __mod_seek_fd(entry->args[0],  entry->args[1], entry->args[2]);
-			entry->return_code = 0;
+			//entry->return_code = 0;
 			break;
 
 		}
