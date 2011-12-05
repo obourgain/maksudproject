@@ -9,7 +9,7 @@
 #define IFLEXSC_H_
 #include <flexsc/flexsc.h>
 
-#define NUM_THREADS 64
+#define NUM_THREADS 2
 
 #define sys_flexsc_register 303
 #define sys_flexsc_wait 304

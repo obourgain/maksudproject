@@ -68,7 +68,7 @@ void flexsc_register(void)
 	unsigned char* kadr;
 	int len = NPAGES * getpagesize();
 
-	//	syscall(sys_flexsc_register2, (void*) (NUM_THREADS * 128));
+	syscall(sys_flexsc_register2, (void*) (NUM_THREADS * 128));
 
 	if ((fd = open("node2", O_RDWR | O_SYNC)) < 0)
 	{
@@ -93,7 +93,7 @@ void flexsc_register(void)
 		j = index / 64;
 		i = index % 64;
 		//
-		
+
 		basepage[j].entries[i].args[0] = 0;
 		basepage[j].entries[i].args[1] = 0;
 		basepage[j].entries[i].args[2] = 0;
@@ -150,7 +150,6 @@ struct syscall_entry* free_syscall_entry(void)
 		}
 	}
 	pthread_mutex_unlock(&mutex);
-
 
 	if (entry == NULL)
 	{

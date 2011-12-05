@@ -25,11 +25,9 @@ typedef struct str_thdata
 	int i;
 } thdata;
 //
-
-int jj = 100000;
 pthread_t thread[NUM_THREADS]; /* thread variables */
 thdata data[NUM_THREADS]; /* structs to be passed to threads */
-
+//
 long wait_and_return2(struct syscall_entry* entry)
 {
 	//Can not proceed while status is not DONE
@@ -46,61 +44,56 @@ long wait_and_return2(struct syscall_entry* entry)
 //
 void print_message_function(void *ptr)
 {
-	int i, j, offset = 0;
+	int i, j;
 	thdata *data;
 	long fd = 0, rv;
 	struct syscall_entry* entry;
 	//
-	int i1 = O_RDWR | O_CREAT, i2 = 0777;
-	unsigned char* buffer;
+	int oFlags = O_RDWR | O_CREAT | O_APPEND, oModes = 0777;
+	char* buffer;
 	//
 	data = (thdata *) ptr; /* type cast to a pointer to thdata */
 	i = data->i;
 	buffer = base_buffers[i].buffer;
 	//
-	{
-		//
-		sprintf(buffer, "/home/maksud/FILE-%d.txt", i);
-		//Open
-		entry = flexsc_open_i(buffer, i1, i2, i);
-		fd = wait_and_return2(entry);
-	}
-	for (j = 0; j < 100; j++)
-	{
 
-		//		printf("%s\n", buffer);
-		//
-
+	for (j = 0; j < 1000; j++)
+	{
+		{
+			//Open
+			sprintf(buffer, "/home/maksud/FILE-%d.txt", i);
+			entry = flexsc_open_i(buffer, oFlags, oModes, i);
+			fd = wait_and_return2(entry);
+		}
 		//
 		{
 			//Read
-
-						entry = flexsc_read_i(fd, buffer, 382, 0, i);
-						rv = wait_and_return2(entry);
-
-						while (rv > 0)
-						{
-							buffer[rv - 1] = 0;
-//							printf("READ:%s\n", buffer);
-							printf("ReturnValue-Read: %d:%d\n", i, rv);
-							entry = flexsc_read_i(fd, buffer, 382, 0, i);
-							rv = wait_and_return2(entry);
-						}
+			entry = flexsc_read_i(fd, buffer, 190, 0, i);
+			rv = wait_and_return2(entry);
+			//
+//			while (rv > 0)
+//			{
+//				buffer[rv - 1] = 0;
+//				//printf("READ:%s\n", buffer);
+//				//printf("ReturnValue-Read: %d:%d\n", i, rv);
+//				entry = flexsc_read_i(fd, buffer, 192, 0, i);
+//				rv = wait_and_return2(entry);
+//			}
 		}
 		//
 		{
 			//Write
-//			sprintf(buffer, "This is a test. Hello from %d.", i);
-//			entry = flexsc_write_i(fd, buffer, strlen(buffer), 0, i);
-//			rv = wait_and_return2(entry);
-//			printf("ReturnValue-Write: %d:%d\n", i, rv);
+			sprintf(buffer, "This is a test. Hello from %d.\n", i);
+			entry = flexsc_write_i(fd, buffer, strlen(buffer), 0, i);
+			rv = wait_and_return2(entry);
+			//			printf("ReturnValue-Write: %d:%d\n", i, rv);
 		}
 		//
-	}
-	{
-		//Close
-		entry = flexsc_close_i(fd, i);
-		wait_and_return2(entry);
+		{
+			//Close
+			entry = flexsc_close_i(fd, i);
+			wait_and_return2(entry);
+		}
 	}
 
 	//	printf("Thread %d returned\n", i);
@@ -111,7 +104,7 @@ void flexapp_threaded(void)
 {
 	long long elapsed;
 	struct timeval start, end, interval;
-	int i, j;
+	int i;
 
 	//
 	if (gettimeofday(&start, NULL))
@@ -119,6 +112,7 @@ void flexapp_threaded(void)
 		perror("error gettimeofday() #1");
 		exit(1);
 	}
+
 	for (i = 0; i < NUM_THREADS; i++)
 	{
 		data[i].i = i;
