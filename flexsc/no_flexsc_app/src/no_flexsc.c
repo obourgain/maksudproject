@@ -12,10 +12,11 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <sys/time.h>
-#include<time.h>
+#include <time.h>
 #include <pthread.h>
-
-#define NUM_THREADS 64
+//
+#define NUM_THREADS 2
+//
 typedef struct str_thdata
 {
 	int i;
@@ -50,26 +51,24 @@ long long timeval_diff(struct timeval *difference, struct timeval *end_time, str
 
 void print_message_function(void *ptr)
 {
-	int i, j, offset = 0;
+	int i, j;
 	thdata *data;
-	long fd = 0, rv;
-	struct syscall_entry* entry;
-	//
-	int i1 = O_RDWR | O_CREAT | O_APPEND, i2 = 0777;
+		//
+	int oFlags = O_RDWR | O_CREAT | O_APPEND, oModes = 0777;
 	char buffer[384];
 	//
 	data = (thdata *) ptr; /* type cast to a pointer to thdata */
 	i = data->i;
 
-	for (j = 0; j < 2; j++)
+	for (j = 0; j < 1000; j++)
 	{
 		sprintf(buffer, "/home/maksud/no_flex%d.txt", i);
 		FILE* fp = fopen(buffer, "a+");
+		fread(buffer, 1, 190, fp);
 		sprintf(buffer, "This is a test. Hello from %d.\n", i);
-		entry = fwrite(buffer, 1, strlen(buffer), fp);
+		fwrite(buffer, 1, strlen(buffer), fp);
 		fclose(fp);
 	}
-
 	pthread_exit(0);
 }
 
