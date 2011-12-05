@@ -99,7 +99,7 @@ static void init(void)
 	real_lseek = dlsym(RTLD_NEXT, "lseek");
 
 	real_fopen = dlsym(RTLD_NEXT, "fopen");
-	real_freopen = dlsym(RTLD_NEXT, "freopen");
+//	real_freopen = dlsym(RTLD_NEXT, "freopen");
 	real_fclose = dlsym(RTLD_NEXT, "fclose");
 	real_fread = dlsym(RTLD_NEXT, "fread");
 	real_fputs = dlsym(RTLD_NEXT, "fputs");
